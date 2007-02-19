@@ -1,0 +1,36 @@
+#summary Proposed microprocessor layout for control/feedback and other notes from the initial meeting.
+
+= Proposed microprocessor layout for control/feedback =
+
+On Saturday Feb 17 2007 we met to discuss various issues for the design of this helicopter.
+
+
+= Details =
+
+We decided a good approach is to use a central CPU (possibly [http://www.toradex.com/e/Factsheet_Colibri_Intel_Marvell_XScale_PXA_Computer_Modules.php#Colibri_PXA320 this] Intel PXA module) for the high level processing, and several low end PICs for specialized tasks.
+
+Jobs done by the main CPU:
+  * Communication with base station
+  * assigning tasks to the specialized MCUs
+  * non-flight control sensing: battery level, GPS, etc.
+  * photography
+  * collision detection
+
+Specialized MCUs:
+  * Pitch/Roll MCU
+    * Controls 2 servos connected to main rotor
+    * requires feedback from gyroscopes, level sensor
+  * Yaw MCU
+    * Controls servo connected to rear rotor
+    * requires feedback from compass, gyroscope
+
+
+
+ 
+
+
+
+
+
+
+
