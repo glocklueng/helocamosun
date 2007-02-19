@@ -17,6 +17,8 @@ Jobs done by the main CPU:
   * collision detection
 
 Specialized MCUs (12fxx or 16fxx PIC):
+
+In the meeting we discussed using specialized MCUs to control flight stability.  
   * Pitch/Roll MCU
     * Controls 2 servos connected to main rotor
     * requires feedback from gyroscopes, level sensor
@@ -32,7 +34,6 @@ Specialized MCUs (12fxx or 16fxx PIC):
 
 
  
-
 
 
 
