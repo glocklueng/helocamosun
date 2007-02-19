@@ -16,18 +16,22 @@ Jobs done by the main CPU:
   * photography
   * collision detection
 
-Specialized MCUs:
+Specialized MCUs (12fxx or 16fxx PIC):
   * Pitch/Roll MCU
     * Controls 2 servos connected to main rotor
     * requires feedback from gyroscopes, level sensor
   * Yaw MCU
     * Controls servo connected to rear rotor
     * requires feedback from compass, gyroscope
+  * Motor Control / Elevation MCU
+    * Controls motor power
+    * requires feedback from GPS, elevation sensors, possibly motor RPM
+  * Base Station MCU
+    * A radio to Laptop bridge
 
 
 
  
-
 
 
 
