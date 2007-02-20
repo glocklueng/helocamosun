@@ -18,7 +18,7 @@ Jobs done by the main CPU:
 
 Specialized MCUs (12fxx or 16fxx PIC):
 
-In the meeting we discussed using specialized MCUs to control flight stability.  
+In the meeting we discussed using specialized MCUs to control flight stability. We will need to address the issue of in-circuit programming for these MCUs. 
   * Pitch/Roll MCU
     * Controls 2 servos connected to main rotor
     * requires feedback from gyroscopes, level sensor
@@ -34,7 +34,6 @@ In the meeting we discussed using specialized MCUs to control flight stability.
 
 
  
-
 
 
 
