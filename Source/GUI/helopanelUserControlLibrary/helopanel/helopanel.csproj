@@ -35,6 +35,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CenterDial.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Gauge.cs">
       <SubType>UserControl</SubType>
     </Compile>
