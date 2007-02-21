@@ -49,9 +49,9 @@ namespace helopanel
         private void DrawGuageSurface(Graphics myGraphics, Pen myPen)
         {
             myPen.Color = GaugeSurfaceColor;
-            UpperLeftCornerX = 20 + _DialOutlineWidth / 2 * this.Size.Height / 150;
-            UpperLeftCornerY = 20 + _DialOutlineWidth / 2 * this.Size.Height / 150;
-            GaugeWidth = this.Size.Width - (40 + _DialOutlineWidth * this.Size.Height / 150);
+            UpperLeftCornerX = this.Size.Height/10 + _DialOutlineWidth / 2 * this.Size.Height / 150;
+            UpperLeftCornerY = this.Size.Height / 10 + _DialOutlineWidth / 2 * this.Size.Height / 150;
+            GaugeWidth = this.Size.Width - (this.Size.Height / 5 + _DialOutlineWidth * this.Size.Height / 150);
             GaugeHeight = GaugeWidth;
 
             myGraphics.FillEllipse(myPen.Brush, UpperLeftCornerX, UpperLeftCornerY, GaugeWidth, GaugeHeight);
@@ -112,16 +112,26 @@ namespace helopanel
         private int min;
         private int max;
 
-        private int value = 10;
+        private int value = 100;
 
-        private Color tickColor = Color.White;
+        private Color tickColor = Color.YellowGreen;
         private Color NeedleColor = Color.Orange;
+
+        private bool RotationDirection = true; //clockwise
+        public CenterDial()
+        {
+            this.MajorTickDegrees = 30;
+            this.MinorTickDegrees = 5;
+            this.min = 0;
+            this.max = 200;
+        }
         public CenterDial(int max, int min, int MajorTickDegrees, int MinorTickDegrees, int ZeroAngle, bool RotationDirection)
         {
             this.MajorTickDegrees = MajorTickDegrees;
             this.MinorTickDegrees = MinorTickDegrees;
             this.min = min;
             this.max = max;
+            this.RotationDirection = RotationDirection;
         }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -133,6 +143,8 @@ namespace helopanel
             DrawMajorTicks(myGraphics, myPen);
             DrawMinorTicks(myGraphics, myPen);
             DrawNeedle(GetAngleFromValue(value), myGraphics, myPen);
+
+            myPen.Dispose();
         }
         private void DrawMajorTicks(Graphics myGraphics, Pen myPen)
         {
@@ -145,13 +157,13 @@ namespace helopanel
                                             Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
                 Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.5 * MajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
                                             Convert.ToInt32((Diameter / 2 - 0.5*MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
-                Point RotatedPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.8 * MajorTickLength) * Math.Cos((CurrentAngle-MajorTickDegrees/2) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - 0.8 * MajorTickLength) * Math.Sin((CurrentAngle - MajorTickDegrees / 2) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                Point RotatedPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.8 * MajorTickLength) * Math.Cos((CurrentAngle-MajorTickDegrees/3) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                            Convert.ToInt32((Diameter / 2 - 0.8 * MajorTickLength) * Math.Sin((CurrentAngle - MajorTickDegrees / 3) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
                 myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
                 StringFormat stringFormat = new StringFormat();
                 stringFormat.Alignment = StringAlignment.Center;
                 stringFormat.LineAlignment = StringAlignment.Center;
-                myGraphics.DrawString(CurrentAngle.ToString(), new Font(FontFamily.GenericSansSerif, 5f * this.Size.Width / 150, FontStyle.Regular), myPen.Brush,RotatedPoint.X,RotatedPoint.Y, stringFormat);
+                myGraphics.DrawString(GetValueFromAngle(CurrentAngle).ToString(), new Font(FontFamily.GenericSansSerif, 5f * this.Size.Width / 150, FontStyle.Regular), myPen.Brush,RotatedPoint.X,RotatedPoint.Y, stringFormat);
             }
         }
         private void DrawMinorTicks(Graphics myGraphics, Pen myPen)
@@ -163,6 +175,7 @@ namespace helopanel
                 myPen.Width = 1.0f;
                 Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
                                             Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+
                 Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
                                             Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
                 myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
@@ -178,13 +191,38 @@ namespace helopanel
                                             Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Sin(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
             myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
         }
-        public int GetAngleFromValue(int value)
+        private int GetAngleFromValue(int value)
         {
+            int angle = 0;
+            if (RotationDirection)
+            {
+                angle = (int)(((float)360/ (float)(max - min)) * (float)value + (float)180);
+
+            }
+            else
+            {
+                angle = -(int)(((float)360 / (float)(max - min)) * (float)value + (float)180);
+
+            }
+            return angle;
+        }
+        private int GetValueFromAngle(int angle)
+        {
+            int value = 0;
+            if (RotationDirection)
+            {
+                value = (int)(((float)angle - (float)180) * (float)(max - min) / (float)360);
+            }
+            else
+            {
+                value = -(int)(((float)angle - (float)180) * (float)(max - min) / (float)360);
+            }
             return value;
         }
         public void SetValue(int value)
         {
             this.value = value;
+            this.Invalidate();
 
         }
     }
