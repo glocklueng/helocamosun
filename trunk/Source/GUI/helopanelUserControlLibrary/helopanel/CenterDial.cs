@@ -10,136 +10,259 @@ namespace helopanel
 {
     public class CenterDial : Gauge
     {
-        private int MajorTickDegrees;
-        private int MinorTickDegrees;
-        private int MajorTickLength;
-        private int MinorTickLength;
+        /// <summary>
+        /// Number of degrees between major ticks.
+        /// </summary>
+        public int MajorTickDegrees = 30;
+        /// <summary>
+        /// Number of degrees between minor ticks.
+        /// </summary>
+        public int MinorTickDegrees = 6;
+        /// <summary>
+        /// Length, in pixels of major ticks, at the default control size.
+        /// </summary>
+        public int MajorTickLength = 10;
+        private int ScaledMajorTickLength;
+        /// <summary>
+        /// Length, in pixels of minor ticks, at the default control size.
+        /// </summary>
+        public int MinorTickLength = 5;
+        private int ScaledMinorTickLength;
+        /// <summary>
+        /// Minumum value supported by the dial
+        /// </summary>
+        public int min = -360;
+        /// <summary>
+        /// Maximum value supported by the dial
+        /// </summary>
+        public int max = 360;
+        /// <summary>
+        /// Large label above the center of the dial gauge
+        /// </summary>
+        public string MajorLabel = "Temperature";
+        /// <summary>
+        /// Small label under the MajorLabel
+        /// </summary>
+        public string MinorLabel = "deg C";
+        /// <summary>
+        /// Angle where the lowest value is shown.
+        /// </summary>
+        public int LowestValueAngle
+        {
+            set { LowAngle = value + 180; }
+            get { return LowAngle -180; }
+        }
+        private int LowAngle = 0;
+        private float value = 5.7f;
+        /// <summary>
+        /// Value after which no ticks or tick labels will be drawn.
+        /// </summary>
+        public int MaxDisplayedValue = 360;
+        /// <summary>
+        /// Value before which no ticks or tick labels will be drawn.
+        /// </summary>
+        public int MinDisplayedValue = -250;
+        /// <summary>
+        /// Value after which the ticks and tick lables will be drawn in the RedLineColor.
+        /// </summary>
+        public int RedLineThreshold = 180;
+        /// <summary>
+        /// Color of the major ticks
+        /// </summary>
+        public Color MajorTickColor = Color.White;
+        /// <summary>
+        /// Color of the minor ticks
+        /// </summary>
+        public Color MinorTickColor = Color.Green;
+        /// <summary>
+        /// color of the needle
+        /// </summary>
+        public Color NeedleColor = Color.Orange;
+        /// <summary>
+        /// Color of the dial's label
+        /// </summary>
+        public Color LabelColor = Color.Yellow;
+        /// <summary>
+        /// Color of the ticks after the red-line threshold
+        /// </summary>
+        public Color RedLineColor = Color.Red;
+        /// <summary>
+        /// Color of the tick base arc
+        /// </summary>
+        public Color TickBaseArcColor = Color.Green;     
+        /// <summary>
+        /// If true the dial values increase in the counter-clockwise direction, otherwise clockwise.
+        /// </summary>
+        public bool CounterClockWise = true;
 
-        private int min;
-        private int max;
-
-        private int ZeroAngle;
-
-        private int value = 100;
-
-        private Color tickColor = Color.YellowGreen;
-        private Color NeedleColor = Color.Orange;
-
-        private bool RotationDirection = true; //clockwise
         public CenterDial()
         {
-            this.MajorTickDegrees = 30;
-            this.MinorTickDegrees = 5;
-            this.min = 0;
-            this.max = 120;
-            this.ZeroAngle = 180;
-        }
-        public CenterDial(int max, int min, int MajorTickDegrees, int MinorTickDegrees, int ZeroAngle, bool RotationDirection)
-        {
-            this.MajorTickDegrees = MajorTickDegrees;
-            this.MinorTickDegrees = MinorTickDegrees;
-            this.min = min;
-            this.max = max;
-            this.RotationDirection = RotationDirection;
-            this.ZeroAngle = ZeroAngle;
         }
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            MinorTickLength = 5 * this.Size.Width / 150;
-            MajorTickLength = 10 * this.Size.Width / 150;
+            ScaledMinorTickLength = MinorTickLength * this.Size.Width / 150;
+            ScaledMajorTickLength = MajorTickLength * this.Size.Width / 150;
             Graphics myGraphics = e.Graphics;
             Pen myPen = new Pen(DialOutlineColor, 1.0f);
-            DrawMajorTicks(myGraphics, myPen);
+           // DrawTickBaseArc(myGraphics, myPen);
             DrawMinorTicks(myGraphics, myPen);
+            DrawMajorTicks(myGraphics, myPen);
+            DrawLabels(myGraphics, myPen);
             DrawNeedle(GetAngleFromValue(value), myGraphics, myPen);
 
+
             myPen.Dispose();
+        }
+        private void DrawLabels(Graphics myGraphics, Pen myPen)
+        {
+            myPen.Color = LabelColor;
+            //draw the major label
+            StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+            myGraphics.DrawString(MajorLabel, new Font(FontFamily.GenericSansSerif, 6f * this.Size.Width / 150, FontStyle.Bold), myPen.Brush, UpperLeftCornerY + GaugeWidth / 2, UpperLeftCornerY + GaugeWidth / 3, stringFormat);
+
+            //draw the minor label
+            stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+            myGraphics.DrawString(MinorLabel, new Font(FontFamily.GenericSansSerif, 5f * this.Size.Width / 150, FontStyle.Bold), myPen.Brush, UpperLeftCornerY + GaugeWidth / 2, UpperLeftCornerY + GaugeWidth / 2.5f, stringFormat);
+
+        }
+        private void DrawTickBaseArc(Graphics myGraphics, Pen myPen)
+        {
+            myPen.Color = TickBaseArcColor;
+            myPen.Width = 1f;
+            myGraphics.DrawArc(myPen, UpperLeftCornerX + ScaledMajorTickLength*2, UpperLeftCornerY + ScaledMajorTickLength*2, GaugeWidth - 4*ScaledMajorTickLength, GaugeWidth - 4*ScaledMajorTickLength, 90f, 180f);
+
         }
         private void DrawMajorTicks(Graphics myGraphics, Pen myPen)
         {
             float Diameter = GaugeWidth;//assumes circle
-            for (int CurrentAngle = ZeroAngle; CurrentAngle < 360 + ZeroAngle; CurrentAngle += MajorTickDegrees)
+            for (int CurrentAngle = LowAngle; CurrentAngle <= 360 + LowAngle; CurrentAngle += MajorTickDegrees)
             {
-                myPen.Color = tickColor;
-                myPen.Width = 2.0f;
-                Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
-                Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.5 * MajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - 0.5 * MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
-                Point RotatedPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.8 * MajorTickLength) * Math.Cos((CurrentAngle - MajorTickDegrees / 3) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - 0.8 * MajorTickLength) * Math.Sin((CurrentAngle - MajorTickDegrees / 3) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
-                myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+                float Value = GetValueFromAngle(CurrentAngle);
+                if (Value <= MaxDisplayedValue && Value >= MinDisplayedValue)
+                {
 
+                    string sValue;
+                    if (Math.Abs(Value % 1) >= 0.05)
+                    {
+                        sValue = string.Format("{0:0.0}", Value);
+                    }
+                    else
+                    {
+                        sValue = string.Format("{0:0}", Value);
+                    }
+                    if (Value >= RedLineThreshold)
+                    {
+                        myPen.Color = RedLineColor;
+                        myPen.Width = 2.0f;
 
-                //draw the labels on the major ticks
-                StringFormat stringFormat = new StringFormat();
-                stringFormat.Alignment = StringAlignment.Center;
-                stringFormat.LineAlignment = StringAlignment.Center;
-                myGraphics.DrawString(GetValueFromAngle(CurrentAngle).ToString(), new Font(FontFamily.GenericSansSerif, 5f * this.Size.Width / 150, FontStyle.Regular), myPen.Brush, RotatedPoint.X, RotatedPoint.Y, stringFormat);
+                    }
+                    else
+                    {
+                        myPen.Color = MajorTickColor;
+                        myPen.Width = 2.0f;
+                    }
 
+                    Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                                Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                    Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.5 * ScaledMajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                                Convert.ToInt32((Diameter / 2 - 0.5 * ScaledMajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                    Point RotatedPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.8 * ScaledMajorTickLength) * Math.Cos((CurrentAngle - MajorTickDegrees / 3) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                                Convert.ToInt32((Diameter / 2 - 0.8 * ScaledMajorTickLength) * Math.Sin((CurrentAngle - MajorTickDegrees / 3) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                    myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+
+                    //draw the labels on the major ticks
+                    StringFormat stringFormat = new StringFormat();
+                    stringFormat.Alignment = StringAlignment.Center;
+                    stringFormat.LineAlignment = StringAlignment.Center;
+                    myGraphics.DrawString(sValue, new Font(FontFamily.GenericSansSerif, 5f * this.Size.Width / 150, FontStyle.Regular), myPen.Brush, RotatedPoint.X, RotatedPoint.Y, stringFormat);
+                }
             }
+
         }
         private void DrawMinorTicks(Graphics myGraphics, Pen myPen)
         {
             float Diameter = GaugeWidth;//assumes circle
-            for (int CurrentAngle = 0; CurrentAngle < 360; CurrentAngle += MinorTickDegrees)
+            for (int CurrentAngle = LowAngle; CurrentAngle < 360 + LowAngle; CurrentAngle += MinorTickDegrees)
             {
-                myPen.Color = tickColor;
-                myPen.Width = 1.0f;
-                Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                float Value = GetValueFromAngle(CurrentAngle);
+                if (Value <= MaxDisplayedValue && Value >= MinDisplayedValue)
+                {
+                    if (Value >= RedLineThreshold)
+                    {
+                        myPen.Color = RedLineColor;
+                        myPen.Width = 1.0f;
 
-                Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
-                myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+                    }
+                    else
+                    {
+                        myPen.Color = MinorTickColor;
+                        myPen.Width = 1.0f;
+                    }
+
+                    Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                                Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+
+                    Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                                Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                    myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+                }
             }
         }
-        private void DrawNeedle(int angle, Graphics myGraphics, Pen myPen)
+        private void DrawNeedle(float angle, Graphics myGraphics, Pen myPen)
         {
             myPen.Color = NeedleColor;
             myPen.Width = 3.0f;
             float Diameter = GaugeWidth;
             Point InnerPoint = new Point(Convert.ToInt32(UpperLeftCornerX + Diameter / 2), Convert.ToInt32(UpperLeftCornerY + Diameter / 2));//centre
-            Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Cos(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Sin(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+            Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Cos(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                            Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Sin(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
             myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
         }
-        private int GetAngleFromValue(int value)
+        private float GetAngleFromValue(float value)
         {
-            int angle = 0;
-            float intercept = (float)360 - (float)360 / (float)(max - min) * (float)max + (float)ZeroAngle;
-            if (RotationDirection)
+            float angle = 0;
+            float intercept = (float)360 - (float)360 / (float)(max - min) * (float)max + (float)LowAngle;
+            if (CounterClockWise)
             {
-                angle = (int)(((float)360 / (float)(max - min)) * (float)value + intercept);
+                angle = ((float)360 / (float)(max - min)) * (float)value + intercept;
 
             }
             else
             {
-                angle = 360-(int)(((float)360 / (float)(max - min)) * (float)value + intercept);
+                angle = -((float)360 / (float)(max - min)) * (float)value + intercept;
 
             }
             return angle;
         }
-        private int GetValueFromAngle(int angle)
+        private float GetValueFromAngle(int angle)
         {
-            int value = 0;
-            float intercept = (float)360 - (float)360 / (float)(max - min) * (float)max + (float)ZeroAngle;
-            if (RotationDirection)
+            float value = 0;
+            float intercept = (float)360 - (float)360 / (float)(max - min) * (float)max + (float)LowAngle;
+            if (CounterClockWise)
             {
-                value = (int)(((float)angle - intercept) * (float)(max - min) / (float)360);
+                value = ((float)angle - intercept) * (float)(max - min) / (float)360;
             }
             else
             {
-                value = max-(int)(((float)angle - intercept) * (float)(max - min) / (float)360);
+                value = -((float)angle - intercept) * (float)(max - min) / (float)360;
+
             }
+
             return value;
         }
-        public void SetValue(int value)
+        /// <summary>
+        /// Set the current value that the needle points to
+        /// </summary>
+        /// <param name="value">Value to set the needle to</param>
+        public void SetValue(float value)
         {
             this.value = value;
             this.Invalidate();
-
         }
     }
 }
