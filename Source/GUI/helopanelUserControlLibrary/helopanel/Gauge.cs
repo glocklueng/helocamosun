@@ -16,7 +16,7 @@ namespace helopanel
         public Color ScrewColor = Color.Black;
         public Color GaugeSurfaceColor = Color.Black;
         
-        private float _DialOutlineWidth = 5F;
+        private float _DialOutlineWidth = 10F;
 
         //Gauge surface dimensions
         protected float UpperLeftCornerX;
@@ -49,9 +49,9 @@ namespace helopanel
         private void DrawGuageSurface(Graphics myGraphics, Pen myPen)
         {
             myPen.Color = GaugeSurfaceColor;
-            UpperLeftCornerX = 10 + _DialOutlineWidth / 2 * this.Size.Height / 150;
-            UpperLeftCornerY = 10 + _DialOutlineWidth / 2 * this.Size.Height / 150;
-            GaugeWidth = this.Size.Width - (20 + _DialOutlineWidth * this.Size.Height / 150);
+            UpperLeftCornerX = 15 + _DialOutlineWidth / 2 * this.Size.Height / 150;
+            UpperLeftCornerY = 15 + _DialOutlineWidth / 2 * this.Size.Height / 150;
+            GaugeWidth = this.Size.Width - (30 + _DialOutlineWidth * this.Size.Height / 150);
             GaugeHeight = GaugeWidth;
 
             myGraphics.FillEllipse(myPen.Brush, UpperLeftCornerX, UpperLeftCornerY, GaugeWidth, GaugeHeight);
@@ -106,21 +106,23 @@ namespace helopanel
     {
         private int MajorTickDegrees;
         private int MinorTickDegrees;
-        private int MajorTickLength = 10;
-        private int MinorTickLength = 5;
+        private int MajorTickLength;
+        private int MinorTickLength;
         private Color tickColor = Color.White;
         public CenterDial(int max, int min, int MajorTickDegrees, int MinorTickDegrees)
         {
             this.MajorTickDegrees = MajorTickDegrees;
             this.MinorTickDegrees = MinorTickDegrees;
+
         }
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-           
+            MinorTickLength = 5 * this.Size.Width / 150;
+            MajorTickLength = 10 * this.Size.Width / 150;
             Graphics myGraphics = e.Graphics;
             Pen myPen = new Pen(DialOutlineColor,1.0f);
-            DrawMajorTicks(myGraphics,myPen);
+            DrawMajorTicks(myGraphics, myPen);
             DrawMinorTicks(myGraphics, myPen);
         }
         private void DrawMajorTicks(Graphics myGraphics, Pen myPen)
@@ -130,11 +132,17 @@ namespace helopanel
             {
                 myPen.Color = tickColor;
                 myPen.Width = 2.0f;
-                Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - MajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
-                Point OuterPoint = new Point(-Convert.ToInt32(Diameter / 2 * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32(Diameter / 2 * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                            Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.5 * MajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                            Convert.ToInt32((Diameter / 2 - 0.5*MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                Point RotatedPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.8 * MajorTickLength) * Math.Cos((CurrentAngle-MajorTickDegrees/2) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                            Convert.ToInt32((Diameter / 2 - 0.8 * MajorTickLength) * Math.Sin((CurrentAngle - MajorTickDegrees / 2) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
                 myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+                StringFormat stringFormat = new StringFormat();
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Center;
+                myGraphics.DrawString(CurrentAngle.ToString(), new Font(FontFamily.GenericSansSerif, 5f * this.Size.Width / 150, FontStyle.Regular), myPen.Brush,RotatedPoint.X,RotatedPoint.Y, stringFormat);
             }
         }
         private void DrawMinorTicks(Graphics myGraphics, Pen myPen)
@@ -144,10 +152,10 @@ namespace helopanel
             {
                 myPen.Color = tickColor;
                 myPen.Width = 1.0f;
-                Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - MajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
-                Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - MajorTickLength + MinorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - MajorTickLength + MinorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                            Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                            Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
                 myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
             }
         }
