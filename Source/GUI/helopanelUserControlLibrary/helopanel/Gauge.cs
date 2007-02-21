@@ -94,13 +94,5 @@ namespace helopanel
                 ScrewHeight);//lower left corner screw
         }
     }
-    public class BCDIndicator : Gauge
-    {
-        public BCDIndicator()
-        {
-
-        }
-
-    }
     
 }
