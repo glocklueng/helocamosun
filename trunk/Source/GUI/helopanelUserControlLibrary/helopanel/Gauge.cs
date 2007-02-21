@@ -12,7 +12,7 @@ namespace helopanel
     public partial class Gauge : UserControl
     {
         public Color BGColor = Color.Silver;
-        public Color DialOutlineColor = Color.Blue;
+        public Color DialOutlineColor = Color.DarkGray;
         public Color ScrewColor = Color.Black;
         public Color GaugeSurfaceColor = Color.Black;
         
@@ -49,9 +49,9 @@ namespace helopanel
         private void DrawGuageSurface(Graphics myGraphics, Pen myPen)
         {
             myPen.Color = GaugeSurfaceColor;
-            UpperLeftCornerX = 15 + _DialOutlineWidth / 2 * this.Size.Height / 150;
-            UpperLeftCornerY = 15 + _DialOutlineWidth / 2 * this.Size.Height / 150;
-            GaugeWidth = this.Size.Width - (30 + _DialOutlineWidth * this.Size.Height / 150);
+            UpperLeftCornerX = 20 + _DialOutlineWidth / 2 * this.Size.Height / 150;
+            UpperLeftCornerY = 20 + _DialOutlineWidth / 2 * this.Size.Height / 150;
+            GaugeWidth = this.Size.Width - (40 + _DialOutlineWidth * this.Size.Height / 150);
             GaugeHeight = GaugeWidth;
 
             myGraphics.FillEllipse(myPen.Brush, UpperLeftCornerX, UpperLeftCornerY, GaugeWidth, GaugeHeight);
@@ -108,12 +108,20 @@ namespace helopanel
         private int MinorTickDegrees;
         private int MajorTickLength;
         private int MinorTickLength;
+
+        private int min;
+        private int max;
+
+        private int value = 10;
+
         private Color tickColor = Color.White;
-        public CenterDial(int max, int min, int MajorTickDegrees, int MinorTickDegrees)
+        private Color NeedleColor = Color.Orange;
+        public CenterDial(int max, int min, int MajorTickDegrees, int MinorTickDegrees, int ZeroAngle, bool RotationDirection)
         {
             this.MajorTickDegrees = MajorTickDegrees;
             this.MinorTickDegrees = MinorTickDegrees;
-
+            this.min = min;
+            this.max = max;
         }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -124,6 +132,7 @@ namespace helopanel
             Pen myPen = new Pen(DialOutlineColor,1.0f);
             DrawMajorTicks(myGraphics, myPen);
             DrawMinorTicks(myGraphics, myPen);
+            DrawNeedle(GetAngleFromValue(value), myGraphics, myPen);
         }
         private void DrawMajorTicks(Graphics myGraphics, Pen myPen)
         {
@@ -158,6 +167,25 @@ namespace helopanel
                                             Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
                 myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
             }
+        }
+        private void DrawNeedle(int angle, Graphics myGraphics, Pen myPen)
+        {
+            myPen.Color = NeedleColor;
+            myPen.Width = 3.0f;
+            float Diameter = GaugeWidth;
+            Point InnerPoint = new Point(Convert.ToInt32(UpperLeftCornerX + Diameter / 2),Convert.ToInt32(UpperLeftCornerY + Diameter / 2));//centre
+            Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Cos(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                            Convert.ToInt32((Diameter / 2 - 2 * MajorTickLength + MinorTickLength) * Math.Sin(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+            myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+        }
+        public int GetAngleFromValue(int value)
+        {
+            return value;
+        }
+        public void SetValue(int value)
+        {
+            this.value = value;
+
         }
     }
 }
