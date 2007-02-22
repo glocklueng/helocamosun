@@ -244,8 +244,7 @@ namespace helopanel
             }
             else
             {
-                //////fix this formula
-                angle = -(((float)360 / (float)(max - min)) * (float)value + intercept);
+                angle = -(float)360 / (float)(max - min)*(float)value + (float)360 / (float)(max - min) * (float)max;
 
             }
             return angle;
