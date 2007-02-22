@@ -28,7 +28,7 @@ namespace helopanel
         /// </summary>
         public Color GaugeSurfaceColor = Color.Black;
         
-        private float _DialOutlineWidth = 10F;
+        protected float _DialOutlineWidth = 10F;
 
         //Gauge surface dimensions
         /// <summary>
@@ -75,7 +75,7 @@ namespace helopanel
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            e.Graphics.Clear(BGColor);
+            DrawBG(e);
             Graphics myGraphics = e.Graphics;
             Pen myPen = new Pen(Color.Black);
 
@@ -85,17 +85,21 @@ namespace helopanel
             DrawScrews(myGraphics, myPen);
             myPen.Dispose();
         }
-        private void DrawGuageSurface(Graphics myGraphics, Pen myPen)
+        protected void DrawBG(PaintEventArgs e)
+        {
+            e.Graphics.Clear(BGColor);
+        }
+        protected void DrawGuageSurface(Graphics myGraphics, Pen myPen)
         {
             myPen.Color = GaugeSurfaceColor;
-            UpperLeftCornerX = this.Size.Height/10 + _DialOutlineWidth / 2 * this.Size.Height / 150;
-            UpperLeftCornerY = this.Size.Height / 10 + _DialOutlineWidth / 2 * this.Size.Height / 150;
-            GaugeWidth = this.Size.Width - (this.Size.Height / 5 + _DialOutlineWidth * this.Size.Height / 150);
+            UpperLeftCornerX = this.Size.Height/ 20 + _DialOutlineWidth / 2 * this.Size.Height / 150;
+            UpperLeftCornerY = this.Size.Height / 20 + _DialOutlineWidth / 2 * this.Size.Height / 150;
+            GaugeWidth = this.Size.Width - (this.Size.Height / 10 + _DialOutlineWidth * this.Size.Height / 150);
             GaugeHeight = GaugeWidth;
 
             myGraphics.FillEllipse(myPen.Brush, UpperLeftCornerX, UpperLeftCornerY, GaugeWidth, GaugeHeight);
         }
-        private void DrawGaugeOutline(Graphics myGraphics, Pen myPen)
+        protected void DrawGaugeOutline(Graphics myGraphics, Pen myPen)
         {
             myPen.Width = _DialOutlineWidth * this.Size.Width / 150;
             float GaugeOutLineWidth = GaugeWidth + myPen.Width;
@@ -104,7 +108,7 @@ namespace helopanel
 
             myGraphics.DrawEllipse(myPen, UpperLeftCornerX - myPen.Width / 2, UpperLeftCornerY - myPen.Width / 2, GaugeOutLineWidth, GaugeOutLineHeight);
         }
-        private void DrawScrews(Graphics myGraphics, Pen myPen)
+        protected void DrawScrews(Graphics myGraphics, Pen myPen)
         {
             float ScrewWidth = this.Size.Width / 7.5F;
             float ScrewHeight = ScrewWidth;

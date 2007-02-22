@@ -36,6 +36,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArtificialHorizon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CenterDial.cs">
       <SubType>UserControl</SubType>
     </Compile>
