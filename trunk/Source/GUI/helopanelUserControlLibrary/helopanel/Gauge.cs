@@ -61,6 +61,12 @@ namespace helopanel
         public Gauge()
         {
             InitializeComponent();
+            // Activates double buffering
+           
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.DoubleBuffer, true); 
+            
         }
         /// <summary>
         /// Draw the basic gauge with 4 screws, a ring and the guage surface.

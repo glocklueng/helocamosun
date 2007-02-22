@@ -13,6 +13,7 @@ namespace helopanel
     /// </summary>
     public class CenterDial : Gauge
     {
+        
         /// <summary>
         /// Number of degrees between major ticks.
         /// </summary>
@@ -52,8 +53,8 @@ namespace helopanel
         /// </summary>
         public int LowestValueAngle
         {
-            set { LowAngle = value + 180; }
-            get { return LowAngle -180; }
+            set { LowAngle = value; }
+            get { return LowAngle; }
         }
         private int LowAngle = 0;
         private float value = 5.7f;
@@ -102,6 +103,8 @@ namespace helopanel
         /// </summary>
         public CenterDial()
         {
+
+
         }
         /// <summary>
         /// This event draws the ticks, labels and needle of the dial gauge.
@@ -241,7 +244,8 @@ namespace helopanel
             }
             else
             {
-                angle = -((float)360 / (float)(max - min)) * (float)value + intercept;
+                //////fix this formula
+                angle = -(((float)360 / (float)(max - min)) * (float)value + intercept);
 
             }
             return angle;
@@ -256,8 +260,7 @@ namespace helopanel
             }
             else
             {
-                value = max-360 - ((float)angle - intercept) * (float)(max - min) / (float)360;
-
+                value = max + min - ((float)angle - intercept) * (float)(max - min) / (float)360;
             }
 
             return value;
