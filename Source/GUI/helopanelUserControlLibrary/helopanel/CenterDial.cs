@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace helopanel
 {
+    /// <summary>
+    /// A dynamic, GDI rendered dial gauge with many features.
+    /// </summary>
     public class CenterDial : Gauge
     {
         /// <summary>
@@ -93,11 +96,17 @@ namespace helopanel
         /// <summary>
         /// If true the dial values increase in the counter-clockwise direction, otherwise clockwise.
         /// </summary>
-        public bool CounterClockWise = true;
-
+        public bool CounterClockWise = false;
+        /// <summary>
+        /// Create a new Centerdial with the default settings
+        /// </summary>
         public CenterDial()
         {
         }
+        /// <summary>
+        /// This event draws the ticks, labels and needle of the dial gauge.
+        /// </summary>
+        /// <param name="e">paint event args</param>
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -105,7 +114,7 @@ namespace helopanel
             ScaledMajorTickLength = MajorTickLength * this.Size.Width / 150;
             Graphics myGraphics = e.Graphics;
             Pen myPen = new Pen(DialOutlineColor, 1.0f);
-           // DrawTickBaseArc(myGraphics, myPen);
+
             DrawMinorTicks(myGraphics, myPen);
             DrawMajorTicks(myGraphics, myPen);
             DrawLabels(myGraphics, myPen);
@@ -145,7 +154,6 @@ namespace helopanel
                 float Value = GetValueFromAngle(CurrentAngle);
                 if (Value <= MaxDisplayedValue && Value >= MinDisplayedValue)
                 {
-
                     string sValue;
                     if (Math.Abs(Value % 1) >= 0.05)
                     {
@@ -159,7 +167,6 @@ namespace helopanel
                     {
                         myPen.Color = RedLineColor;
                         myPen.Width = 2.0f;
-
                     }
                     else
                     {
@@ -249,7 +256,7 @@ namespace helopanel
             }
             else
             {
-                value = -((float)angle - intercept) * (float)(max - min) / (float)360;
+                value = max-360 - ((float)angle - intercept) * (float)(max - min) / (float)360;
 
             }
 

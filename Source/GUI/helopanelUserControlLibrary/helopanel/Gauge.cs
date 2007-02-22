@@ -8,31 +8,64 @@ using System.Windows.Forms;
 
 namespace helopanel
 {
-
+    /// <summary>
+    /// Parent class for guages
+    /// </summary>
     public partial class Gauge : UserControl
     {
+        /// <summary>
+        /// Background color of the gauge
+        /// </summary>
         public Color BGColor = Color.Silver;
+        /// <summary>
+        /// Color of ring surrounding gauge
+        /// </summary>
         public Color DialOutlineColor = Color.DarkGray;
+        //color of the 4 corner screws
         public Color ScrewColor = Color.Black;
+        /// <summary>
+        /// Color of gauge information surface
+        /// </summary>
         public Color GaugeSurfaceColor = Color.Black;
         
         private float _DialOutlineWidth = 10F;
 
         //Gauge surface dimensions
+        /// <summary>
+        /// x coordinate of corner where the guage surface is rendered from
+        /// </summary>
         protected float UpperLeftCornerX;
+        /// <summary>
+        /// y coordinate of corner where the guage surface is rendered from
+        /// </summary>
         protected float UpperLeftCornerY;
+        /// <summary>
+        /// Width of gauge, this value is dynamically adjusted depending on the size of the parent control
+        /// </summary>
         protected float GaugeWidth;
+        /// <summary>
+        /// Height of gauge, this value is dynamically adjusted depending on the size of the parent control
+        /// </summary>
         protected float GaugeHeight;
+        /// <summary>
+        /// Thickness of gauge outline ring, this value is dynamically adjusted depending on the size of the parent control
+        /// </summary>
         public float DialOutlineWidth
         {
             set { _DialOutlineWidth = value; }
             get { return _DialOutlineWidth; }
         }
+        /// <summary>
+        /// Create a new gauge with the default parameters
+        /// </summary>
         public Gauge()
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Draw the basic gauge with 4 screws, a ring and the guage surface.
+        /// </summary>
+        /// <param name="e">paint event args</param>
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
