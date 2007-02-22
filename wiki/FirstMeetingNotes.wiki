@@ -7,7 +7,7 @@ On Saturday Feb 17 2007 we met to discuss various issues for the design of this 
 
 = Details =
 
-We decided a good approach is to use a central CPU (possibly [http://www.toradex.com/e/Factsheet_Colibri_Intel_Marvell_XScale_PXA_Computer_Modules.php#Colibri_PXA320 this] Intel PXA module) for the high level processing, and several low end PICs for specialized tasks.
+We decided a good approach is to use a central CPU (possibly [http://www.toradex.com/e/Factsheet_Colibri_Intel_Marvell_XScale_PXA_Computer_Modules.php#Colibri_PXA320 this] or [http://gumstix.com/store/catalog/product_info.php?products_id=155 this] Intel PXA module) for the high level processing, and several low end PICs for specialized tasks.
 
 Jobs done by the main CPU:
   * Communication with base station
