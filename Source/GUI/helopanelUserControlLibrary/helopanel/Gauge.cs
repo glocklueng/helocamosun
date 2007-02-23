@@ -61,8 +61,8 @@ namespace helopanel
         public Gauge()
         {
             InitializeComponent();
+
             // Activates double buffering
-           
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true); 
