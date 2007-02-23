@@ -49,6 +49,12 @@
       <DependentUpon>Gauge.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScrollableMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ScrollableMap.Designer.cs">
+      <DependentUpon>ScrollableMap.cs</DependentUpon>
+    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
