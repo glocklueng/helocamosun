@@ -11,6 +11,12 @@ namespace helopanel
     public partial class ScrollableMap : UserControl
     {
         Image Map;
+        private string MapFilePath;
+        public string Path
+        {
+            set { MapFilePath = value; }
+            get { return MapFilePath; }
+        }
         private float _ImageTopLeftX = 0;
         public float ImageTopLeftX
         {
@@ -31,7 +37,11 @@ namespace helopanel
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
-            Map = Image.FromFile(@"c:\cc.jpg");
+
+        }
+        public void LoadMap()
+        {
+            Map = Image.FromFile(MapFilePath);
         }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -41,7 +51,7 @@ namespace helopanel
             Pen myPen = new Pen(Color.Black);
 
             Rectangle rect = new Rectangle(new Point(0,0), this.Size);
-            myGraphics.DrawImage(Map, rect, ImageTopLeftX, ImageTopLeftY, this.Size.Width+100, this.Size.Height, GraphicsUnit.Pixel);//overload 23
+            myGraphics.DrawImage(Map, rect, ImageTopLeftX, ImageTopLeftY, this.Size.Width, this.Size.Height, GraphicsUnit.Pixel);//overload 23
             myPen.Dispose();
         }
     }
