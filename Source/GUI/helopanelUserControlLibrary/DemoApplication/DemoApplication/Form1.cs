@@ -39,9 +39,9 @@ namespace DemoApplication
             Altitude.MajorTickDegrees = 30;
             Altitude.CounterClockWise = true;
             Altitude.MinorTickDegrees = Altitude.MajorTickDegrees / 5;
-            Altitude.min = 0;
+            Altitude.Min = 0;
             Altitude.MinDisplayedValue = 0;
-            Altitude.max = 720;
+            Altitude.Max = 720;
             Altitude.MaxDisplayedValue = 600;
             Altitude.RedLineThreshold = 720;
             this.Controls.Add(Altitude);
@@ -62,9 +62,9 @@ namespace DemoApplication
             BatteryLife.MinorTickDegrees = BatteryLife.MajorTickDegrees / 5;
             BatteryLife.MinorTickColor = Color.Red;
             BatteryLife.NeedleColor = Color.Black;
-            BatteryLife.min = 0;
+            BatteryLife.Min = 0;
             BatteryLife.MinDisplayedValue = 0;
-            BatteryLife.max = 120;
+            BatteryLife.Max = 120;
             BatteryLife.MaxDisplayedValue = 100;
             BatteryLife.RedLineThreshold = 120;
             this.Controls.Add(BatteryLife);
@@ -80,13 +80,13 @@ namespace DemoApplication
             RPM.MinorLabel = "x1000";
             RPM.MajorTickDegrees = 18;
             RPM.MinorTickDegrees = RPM.MajorTickDegrees / 5;
-            RPM.min = 0;
+            RPM.Min = 0;
             RPM.MinDisplayedValue = 0;
-            RPM.max = 20;
+            RPM.Max = 20;
             RPM.MaxDisplayedValue = 10;
             RPM.RedLineThreshold = 7;
             this.Controls.Add(RPM);
-            RPM.SetValue(4.0f);
+            RPM.Value =4.0f;
 
         }
         private void setUpArtHorizon()

@@ -8,12 +8,17 @@ using System.Windows.Forms;
 
 namespace helopanel
 {
+    public enum NeedleType
+    {
+        Simple
+
+    }
     /// <summary>
     /// A dynamic, GDI rendered dial gauge with many features.
     /// </summary>
     public class CenterDial : Gauge
     {
-        
+        #region data members
         /// <summary>
         /// Number of degrees between major ticks.
         /// </summary>
@@ -35,11 +40,21 @@ namespace helopanel
         /// <summary>
         /// Minumum value supported by the dial
         /// </summary>
-        public int min = -360;
+        public int Min
+        {
+            set { this.min = value; }
+            get { return min; }
+        }
+        private int min = -360;
         /// <summary>
         /// Maximum value supported by the dial
         /// </summary>
-        public int max = 360;
+        public int Max
+        {
+            set { this.max = value; }
+            get { return max; }
+        }
+        private int max = 360;
         /// <summary>
         /// Large label above the center of the dial gauge
         /// </summary>
@@ -58,6 +73,13 @@ namespace helopanel
         }
         private int LowAngle = 0;
         private float value = 5.7f;
+        public float Value
+        {
+            set { this.Invalidate();  this.value = value; }
+            get { return value; }
+        }
+        public float TickBaseArcMin = 0;
+        public float TickBaseArcMax = 0;
         /// <summary>
         /// Value after which no ticks or tick labels will be drawn.
         /// </summary>
@@ -91,21 +113,122 @@ namespace helopanel
         /// </summary>
         public Color RedLineColor = Color.Red;
         /// <summary>
-        /// Color of the tick base arc
+        /// Color of the tick base arc (not yet implemented)
         /// </summary>
-        public Color TickBaseArcColor = Color.Green;     
+        private Color TickBaseArcColor = Color.Green;     
         /// <summary>
         /// If true the dial values increase in the counter-clockwise direction, otherwise clockwise.
         /// </summary>
         public bool CounterClockWise = false;
+        public NeedleType needleType = NeedleType.Simple;
         /// <summary>
         /// Create a new Centerdial with the default settings
         /// </summary>
+        #endregion
+        #region contstructors
+
         public CenterDial()
         {
 
 
         }
+        /// <summary>
+        /// Create a new Centerdial with the default color and needle style and the specified settings
+        /// </summary>
+        /// <param name="MajorTickDegrees">Degrees in between major ticks</param>
+        /// <param name="MajorTickLength">Length of major tick marks, in pixels, at the default control size (150 by 150)</param>
+        /// <param name="MinorTickDegrees">Degrees in between minor ticks</param>
+        /// <param name="MinorTickLength">Length of minor tick marks, in pixels, at the default control size (150 by 150)</param>
+        /// <param name="Min">The dial's lowest value</param>
+        /// <param name="MinDisplayedValue">The dial's lowest displayed value</param>
+        /// <param name="Max">The dial's highest value</param>
+        /// <param name="MaxDisplayedValue">The dial's highest displayed value</param>
+        /// <param name="LowestValueAngle">The angle at which the lowest displayed value is rendered</param>
+        /// <param name="MajorLabel">The major text label to show above the center of the gauge (e.g. Temperature)</param>
+        /// <param name="MinorLabel">The minor text label to show below the major label (e.g. deg Kelvin)</param>
+        /// <param name="CounterClockWise">if True the dial's value increases in the counterclockwise direction, otherwise it decreases</param>
+
+        public CenterDial(int MajorTickDegrees, int MajorTickLength, int MinorTickDegrees, int MinorTickLength,
+                            int Min, int MinDisplayedValue, int Max, int MaxDisplayedValue, int LowestValueAngle,
+                            string MajorLabel, string MinorLabel, bool CounterClockWise
+                            )
+        {
+            this.MajorTickDegrees = MajorTickDegrees;
+            this.MajorTickLength = MajorTickLength;
+            this.MinorTickDegrees = MinorTickDegrees;
+            this.MinorTickLength = MinorTickLength;
+            this.Min = Min;
+            this.MinDisplayedValue = MinDisplayedValue;
+            this.Max = Max;
+            this.MaxDisplayedValue = MaxDisplayedValue;
+            this.LowestValueAngle = LowestValueAngle;
+            this.MajorLabel = MajorLabel;
+            this.MinorLabel = MinorLabel;
+            this.CounterClockWise = CounterClockWise;
+
+        }
+        /// <summary>
+        /// Create a new Centerdial with specified settings
+        /// </summary>
+        /// <param name="MajorTickDegrees">Degrees in between major ticks</param>
+        /// <param name="MajorTickLength">Length of major tick marks, in pixels, at the default control size (150 by 150)</param>
+        /// <param name="MinorTickDegrees">Degrees in between minor ticks</param>
+        /// <param name="MinorTickLength">Length of minor tick marks, in pixels, at the default control size (150 by 150)</param>
+        /// <param name="Min">The dial's lowest value</param>
+        /// <param name="MinDisplayedValue">The dial's lowest displayed value</param>
+        /// <param name="Max">The dial's highest value</param>
+        /// <param name="MaxDisplayedValue">The dial's highest displayed value</param>
+        /// <param name="LowestValueAngle">The angle at which the lowest displayed value is rendered</param>
+        /// <param name="MajorLabel">The major text label to show above the center of the gauge (e.g. Temperature)</param>
+        /// <param name="MinorLabel">The minor text label to show below the major label (e.g. deg Kelvin)</param>
+        /// <param name="CounterClockWise">if True the dial's value increases in the counterclockwise direction, otherwise it decreases</param>
+        /// <param name="needleType">Type of needle to render</param>
+        /// <param name="LabelColor">Color of the Major and minor labels</param>
+        /// <param name="MajorTickColor">Color of the major ticks</param>
+        /// <param name="MinorTickColor">Color of the minor ticks</param>
+        /// <param name="NeedleColor">Color of the needle</param>
+        /// <param name="BackGroundColor">Background color of the gauge</param>
+        /// <param name="GaugeRingColor">Color of ring surrounding gauge</param>
+        /// <param name="ScrewColor">color of the 4 corner screws</param>
+        /// <param name="GaugeSurfaceColor">Color of gauge information surface</param>
+
+        public CenterDial(  int MajorTickDegrees, int MajorTickLength, int MinorTickDegrees, int MinorTickLength,
+                            int Min, int MinDisplayedValue, int Max, int MaxDisplayedValue, int LowestValueAngle,
+                            string MajorLabel, string MinorLabel,bool CounterClockWise, NeedleType needleType, Color LabelColor,
+                            Color MajorTickColor, Color MinorTickColor,Color NeedleColor, Color BackGroundColor, Color GaugeRingColor,
+                            Color ScrewColor, Color GaugeSurfaceColor
+                            )
+                            
+            
+        {
+            this.MajorTickDegrees = MajorTickDegrees;
+            this.MajorTickLength = MajorTickLength;
+            this.MinorTickDegrees =MinorTickDegrees;
+            this.MinorTickLength=MinorTickLength;
+            this.Min=Min;
+            this.MinDisplayedValue=MinDisplayedValue;
+            this.Max=Max;
+            this.MaxDisplayedValue=MaxDisplayedValue;
+            this.LowestValueAngle=LowestValueAngle;
+            this.MajorLabel=MajorLabel;
+            this.MinorLabel=MinorLabel;
+            this.CounterClockWise = CounterClockWise;
+            this.needleType = needleType;
+            this.LabelColor = LabelColor;
+            this.MajorTickColor = MajorTickColor;
+            this.MinorTickColor = MinorTickColor;
+            this.NeedleColor = NeedleColor;
+            this.BGColor = BackGroundColor;
+            this.DialOutlineColor = GaugeRingColor;
+            this.ScrewColor = ScrewColor;
+            this.GaugeSurfaceColor = GaugeSurfaceColor;
+
+
+        }
+
+
+        #endregion
+        #region methods
         /// <summary>
         /// This event draws the ticks, labels and needle of the dial gauge.
         /// </summary>
@@ -273,5 +396,7 @@ namespace helopanel
             this.value = value;
             this.Invalidate();
         }
+        #endregion
     }
+        
 }
