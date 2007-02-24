@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Collections;
 
 namespace helopanel
 {
@@ -13,12 +14,25 @@ namespace helopanel
         Simple
 
     }
+    public class RedLineRange
+    {
+        public float LowerBound = 40;
+        public float UpperBound = 50;
+        public Color MajorTickColor = Color.Red;
+        public Color MinorTickColor = Color.Red;
+        public Color TickLabelColor = Color.Red;
+        public bool OverrideMinorTickColor = true;
+        public bool OverrideMajorTickColor = true;
+        public bool OverrideTickLabelColor = true;
+    }
     /// <summary>
     /// A dynamic, GDI rendered dial gauge with many features.
     /// </summary>
     public class CenterDial : Gauge
     {
         #region data members
+        private float MajorTickWidth = 1.5f;
+        private float MinorTickWidth = 1f;
         /// <summary>
         /// Number of degrees between major ticks.
         /// </summary>
@@ -89,13 +103,13 @@ namespace helopanel
         /// </summary>
         public int MinDisplayedValue = -250;
         /// <summary>
-        /// Value after which the ticks and tick lables will be drawn in the RedLineColor.
-        /// </summary>
-        public int RedLineThreshold = 180;
-        /// <summary>
         /// Color of the major ticks
         /// </summary>
         public Color MajorTickColor = Color.White;
+        /// <summary>
+        /// Color of the major tick labels
+        /// </summary>
+        public Color TickLabelColor = Color.White;
         /// <summary>
         /// Color of the minor ticks
         /// </summary>
@@ -120,13 +134,14 @@ namespace helopanel
         /// If true the dial values increase in the counter-clockwise direction, otherwise clockwise.
         /// </summary>
         public bool CounterClockWise = false;
+        private ArrayList RedLineRanges = new ArrayList();
         public NeedleType needleType = NeedleType.Simple;
+
+        #endregion
+        #region contstructors
         /// <summary>
         /// Create a new Centerdial with the default settings
         /// </summary>
-        #endregion
-        #region contstructors
-
         public CenterDial()
         {
 
@@ -147,10 +162,10 @@ namespace helopanel
         /// <param name="MajorLabel">The major text label to show above the center of the gauge (e.g. Temperature)</param>
         /// <param name="MinorLabel">The minor text label to show below the major label (e.g. deg Kelvin)</param>
         /// <param name="CounterClockWise">if True the dial's value increases in the counterclockwise direction, otherwise it decreases</param>
-
+        /// <param name="ranges">Array of RedLineRanges to define tick values that have a different color</param>
         public CenterDial(int MajorTickDegrees, int MajorTickLength, int MinorTickDegrees, int MinorTickLength,
                             int Min, int MinDisplayedValue, int Max, int MaxDisplayedValue, int LowestValueAngle,
-                            string MajorLabel, string MinorLabel, bool CounterClockWise
+                            string MajorLabel, string MinorLabel, bool CounterClockWise, RedLineRange[] ranges
                             )
         {
             this.MajorTickDegrees = MajorTickDegrees;
@@ -165,7 +180,10 @@ namespace helopanel
             this.MajorLabel = MajorLabel;
             this.MinorLabel = MinorLabel;
             this.CounterClockWise = CounterClockWise;
-
+            foreach (RedLineRange r in ranges)
+            {
+                RedLineRanges.Add(r);
+            }
         }
         /// <summary>
         /// Create a new Centerdial with specified settings
@@ -182,6 +200,7 @@ namespace helopanel
         /// <param name="MajorLabel">The major text label to show above the center of the gauge (e.g. Temperature)</param>
         /// <param name="MinorLabel">The minor text label to show below the major label (e.g. deg Kelvin)</param>
         /// <param name="CounterClockWise">if True the dial's value increases in the counterclockwise direction, otherwise it decreases</param>
+        /// <param name="ranges">Array of RedLineRanges to define tick values that have a different color</param>
         /// <param name="needleType">Type of needle to render</param>
         /// <param name="LabelColor">Color of the Major and minor labels</param>
         /// <param name="MajorTickColor">Color of the major ticks</param>
@@ -194,9 +213,9 @@ namespace helopanel
 
         public CenterDial(  int MajorTickDegrees, int MajorTickLength, int MinorTickDegrees, int MinorTickLength,
                             int Min, int MinDisplayedValue, int Max, int MaxDisplayedValue, int LowestValueAngle,
-                            string MajorLabel, string MinorLabel,bool CounterClockWise, NeedleType needleType, Color LabelColor,
-                            Color MajorTickColor, Color MinorTickColor,Color NeedleColor, Color BackGroundColor, Color GaugeRingColor,
-                            Color ScrewColor, Color GaugeSurfaceColor
+                            string MajorLabel, string MinorLabel,bool CounterClockWise, RedLineRange[] ranges, NeedleType needleType,
+                            Color LabelColor, Color MajorTickColor, Color MinorTickColor,Color NeedleColor, Color BackGroundColor,
+                            Color GaugeRingColor, Color ScrewColor, Color GaugeSurfaceColor
                             )
                             
             
@@ -213,6 +232,10 @@ namespace helopanel
             this.MajorLabel=MajorLabel;
             this.MinorLabel=MinorLabel;
             this.CounterClockWise = CounterClockWise;
+            foreach (RedLineRange r in ranges)
+            {
+                RedLineRanges.Add(r);
+            }
             this.needleType = needleType;
             this.LabelColor = LabelColor;
             this.MajorTickColor = MajorTickColor;
@@ -249,6 +272,22 @@ namespace helopanel
 
             myPen.Dispose();
         }
+        /// <summary>
+        /// Add a RedLineRange that defines values where ticks have a different color
+        /// </summary>
+        /// <param name="r">RedLineRange that defines tick values that have a different color</param>
+        public void AddRedLineRange(RedLineRange r)
+        {
+            RedLineRanges.Add(r);
+        }
+        /// <summary>
+        /// Remove a RedLineRange
+        /// </summary>
+        /// <param name="r">RedLineRange to remove</param>
+        public void RemoveRedLineRange(RedLineRange r)
+        {
+            RedLineRanges.Remove(r);
+        }
         private void DrawLabels(Graphics myGraphics, Pen myPen)
         {
             myPen.Color = LabelColor;
@@ -274,6 +313,7 @@ namespace helopanel
         }
         private void DrawMajorTicks(Graphics myGraphics, Pen myPen)
         {
+            float ScaleFactor = this.Size.Width / 150;
             float Diameter = GaugeWidth;//assumes circle
             for (int CurrentAngle = LowAngle; CurrentAngle <= 360 + LowAngle; CurrentAngle += MajorTickDegrees)
             {
@@ -289,72 +329,119 @@ namespace helopanel
                     {
                         sValue = string.Format("{0:0}", Value);
                     }
-                    if (Value >= RedLineThreshold)
-                    {
-                        myPen.Color = RedLineColor;
-                        myPen.Width = 2.0f;
-                    }
-                    else
-                    {
-                        myPen.Color = MajorTickColor;
-                        myPen.Width = 2.0f;
-                    }
-
                     Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
                                                 Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
                     Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.5 * ScaledMajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
                                                 Convert.ToInt32((Diameter / 2 - 0.5 * ScaledMajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
                     Point RotatedPoint = new Point(-Convert.ToInt32((Diameter / 2 - 0.8 * ScaledMajorTickLength) * Math.Cos((CurrentAngle - MajorTickDegrees / 3) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
                                                 Convert.ToInt32((Diameter / 2 - 0.8 * ScaledMajorTickLength) * Math.Sin((CurrentAngle - MajorTickDegrees / 3) * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
-                    myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
 
-                    //draw the labels on the major ticks
                     StringFormat stringFormat = new StringFormat();
                     stringFormat.Alignment = StringAlignment.Center;
                     stringFormat.LineAlignment = StringAlignment.Center;
-                    myGraphics.DrawString(sValue, new Font(FontFamily.GenericSansSerif, 5f * this.Size.Width / 150, FontStyle.Regular), myPen.Brush, RotatedPoint.X, RotatedPoint.Y, stringFormat);
+
+                    bool TickDrawn = false;
+                    bool LabelDrawn = false;
+                    foreach (RedLineRange r in RedLineRanges)
+                    {
+  
+                        if (Value >= r.LowerBound && Value <= r.UpperBound)
+                        {
+                            if (r.OverrideMajorTickColor && !TickDrawn)
+                            {
+                                myPen.Color = r.MajorTickColor;
+                                myPen.Width = MajorTickWidth * ScaleFactor;
+                                myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+                                TickDrawn = true;
+                            }
+                            if (r.OverrideTickLabelColor && !LabelDrawn)
+                            {
+                                myPen.Color = r.TickLabelColor;
+                                myGraphics.DrawString(sValue, new Font(FontFamily.GenericSansSerif, 5f * this.Size.Width / 150, FontStyle.Regular), myPen.Brush, RotatedPoint.X, RotatedPoint.Y, stringFormat);
+                                TickDrawn = true;
+                            }
+                        }
+                        if (TickDrawn && LabelDrawn)
+                        {
+                            break;
+                        }
+                    }
+                    if (!TickDrawn)
+                    {
+                        //draw the default tick
+                        myPen.Color = MajorTickColor;
+                        myPen.Width = MajorTickWidth * ScaleFactor;
+                        myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+                    }
+                    if (!LabelDrawn)
+                    {
+                        //draw the default label
+                        myPen.Color = TickLabelColor;
+                        myGraphics.DrawString(sValue, new Font(FontFamily.GenericSansSerif, 5f * this.Size.Width / 150, FontStyle.Regular), myPen.Brush, RotatedPoint.X, RotatedPoint.Y, stringFormat);
+
+                    }
+
                 }
             }
 
         }
         private void DrawMinorTicks(Graphics myGraphics, Pen myPen)
         {
+            float ScaleFactor = this.Size.Width / 150;
             float Diameter = GaugeWidth;//assumes circle
             for (int CurrentAngle = LowAngle; CurrentAngle < 360 + LowAngle; CurrentAngle += MinorTickDegrees)
             {
                 float Value = GetValueFromAngle(CurrentAngle);
                 if (Value <= MaxDisplayedValue && Value >= MinDisplayedValue)
                 {
-                    if (Value >= RedLineThreshold)
-                    {
-                        myPen.Color = RedLineColor;
-                        myPen.Width = 1.0f;
-
-                    }
-                    else
-                    {
-                        myPen.Color = MinorTickColor;
-                        myPen.Width = 1.0f;
-                    }
 
                     Point InnerPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                                Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                            Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
 
                     Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Cos(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
                                                 Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Sin(CurrentAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
-                    myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+
+
+                    bool TickDrawn = false;
+                    foreach (RedLineRange r in RedLineRanges)
+                    {
+                        if (Value >= r.LowerBound && Value <= r.UpperBound)
+                        {
+                            if (r.OverrideMajorTickColor && !TickDrawn)
+                            {
+                                myPen.Color = r.MinorTickColor;
+                                myPen.Width = MinorTickWidth * ScaleFactor;
+                                myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+                                TickDrawn = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!TickDrawn)
+                    {
+                        //draw the default tick
+                        myPen.Color = MajorTickColor;
+                        myPen.Width = MinorTickWidth * ScaleFactor;
+                        myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+                    }
+
+
                 }
             }
         }
         private void DrawNeedle(float angle, Graphics myGraphics, Pen myPen)
         {
             myPen.Color = NeedleColor;
-            myPen.Width = 3.0f;
-            float Diameter = GaugeWidth;
-            Point InnerPoint = new Point(Convert.ToInt32(UpperLeftCornerX + Diameter / 2), Convert.ToInt32(UpperLeftCornerY + Diameter / 2));//centre
-            Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Cos(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                            Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Sin(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
-            myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+
+            if (needleType == NeedleType.Simple)
+            {
+                myPen.Width = 2.0f * this.Size.Width /150;
+                float Diameter = GaugeWidth;
+                Point InnerPoint = new Point(Convert.ToInt32(UpperLeftCornerX + Diameter / 2), Convert.ToInt32(UpperLeftCornerY + Diameter / 2));//centre
+                Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Cos(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                                Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Sin(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
+            }
         }
         private float GetAngleFromValue(float value)
         {
