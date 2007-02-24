@@ -11,7 +11,7 @@ namespace DemoApplication
 {
     public partial class Form1 : Form
     {
-        int guageSzStd = 180;
+        int guageSzStd = 200;
         CenterDial Altitude;
         CenterDial BatteryLife;
         CenterDial RPM;
@@ -43,7 +43,6 @@ namespace DemoApplication
             Altitude.MinDisplayedValue = 0;
             Altitude.Max = 720;
             Altitude.MaxDisplayedValue = 600;
-            Altitude.RedLineThreshold = 720;
             this.Controls.Add(Altitude);
             Altitude.SetValue(100);
         }
@@ -56,17 +55,45 @@ namespace DemoApplication
             BatteryLife.DialOutlineColor = Color.Black;
             BatteryLife.MajorLabel = "BatteryLife";
             BatteryLife.LabelColor = Color.Black;
+            BatteryLife.TickLabelColor = Color.Black;
             BatteryLife.MinorLabel = "%";
             BatteryLife.MajorTickDegrees = 30;
-            BatteryLife.MajorTickColor = Color.DarkRed;
+            BatteryLife.MajorTickColor = Color.Black;
             BatteryLife.MinorTickDegrees = BatteryLife.MajorTickDegrees / 5;
-            BatteryLife.MinorTickColor = Color.Red;
+            BatteryLife.MinorTickColor = Color.Black;
             BatteryLife.NeedleColor = Color.Black;
             BatteryLife.Min = 0;
             BatteryLife.MinDisplayedValue = 0;
             BatteryLife.Max = 120;
             BatteryLife.MaxDisplayedValue = 100;
-            BatteryLife.RedLineThreshold = 120;
+            
+            RedLineRange CriticalRange = new RedLineRange();
+            CriticalRange.LowerBound = 0;
+            CriticalRange.UpperBound = 30;
+            CriticalRange.OverrideTickLabelColor = true;
+            CriticalRange.MajorTickColor = Color.Red;
+            CriticalRange.MinorTickColor = Color.Red;
+            CriticalRange.TickLabelColor = Color.Black;
+            BatteryLife.AddRedLineRange(CriticalRange);
+
+            RedLineRange WarningRange = new RedLineRange();
+            WarningRange.LowerBound = 30;
+            WarningRange.UpperBound = 50;
+            WarningRange.OverrideTickLabelColor = true;
+            WarningRange.MajorTickColor = Color.DarkGoldenrod;
+            WarningRange.MinorTickColor = Color.DarkGoldenrod;
+            WarningRange.TickLabelColor = Color.Black;
+            BatteryLife.AddRedLineRange(WarningRange);
+
+            RedLineRange OkRange = new RedLineRange();
+            OkRange.LowerBound = 50;
+            OkRange.UpperBound = 100;
+            OkRange.OverrideTickLabelColor = true;
+            OkRange.MajorTickColor = Color.Green;
+            OkRange.MinorTickColor = Color.Green;
+            OkRange.TickLabelColor = Color.Black;
+            BatteryLife.AddRedLineRange(OkRange);
+            
             this.Controls.Add(BatteryLife);
             BatteryLife.SetValue(78.7f);
 
@@ -84,7 +111,18 @@ namespace DemoApplication
             RPM.MinDisplayedValue = 0;
             RPM.Max = 20;
             RPM.MaxDisplayedValue = 10;
-            RPM.RedLineThreshold = 7;
+
+
+            RedLineRange WarningRange = new RedLineRange();
+            WarningRange.LowerBound = 8;
+            WarningRange.UpperBound = 10;
+            WarningRange.OverrideTickLabelColor = true;
+            WarningRange.MajorTickColor = Color.Red;
+            WarningRange.MinorTickColor = Color.Red;
+            WarningRange.TickLabelColor = Color.YellowGreen;
+            RPM.AddRedLineRange(WarningRange);
+
+
             this.Controls.Add(RPM);
             RPM.Value =4.0f;
 
@@ -116,10 +154,7 @@ namespace DemoApplication
                 map.ImageTopLeftX = 0;
             }
             map.ImageTopLeftY =2f* (float)Math.Sin(map.ImageTopLeftX)+100;
-            /*if (map.ImageTopLeftY > 100)
-            {
-                map.ImageTopLeftY = 
-            }*/
+ 
 
             ArtHorizon.Roll += 0.2f;
             if (ArtHorizon.Roll > 30)
