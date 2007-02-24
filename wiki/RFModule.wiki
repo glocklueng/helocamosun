@@ -1,0 +1,16 @@
+#summary A possible RF module to be used
+
+= Introduction =
+One idea for a radio system is to use the Easy Radio ERx00TRS-02 Transceiver. 
+
+
+= Details =
+The ERx00TRS-02 has the following characteristics:
+  * Half Duplex operation (RX and TX but not simultaneously)
+  * Customizable Serial I/O baud rate (deigned to interface with uC UARTS
+  * CMOS/TTL logic levels
+  * 180 byte TX/RX Buffer
+  * Modules available in 400MHz and 900Mhz ranges
+  * Includes software for programming the module
+
+I personally believe this is a suitable module to use. It will significantly reduce design time, and allow us to focus more on making the helicopter actually fly.
