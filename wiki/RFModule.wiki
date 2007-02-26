@@ -18,3 +18,5 @@ I personally believe this is a suitable module to use. It will significantly red
 [http://www.radio-modules.com/products/radiodatamods/datasheets/er-datasheet-2.3-sept-05.pdf datasheet]
 
 [http://www.radio-modules.com/products/radiodatamods/radiodatamods.asp website] 
+
+This radio module has a maximum data throughput of 38.4kbps (see page 14 of the datasheet).  This is plenty for telemetry data, but too slow for video or photos.
