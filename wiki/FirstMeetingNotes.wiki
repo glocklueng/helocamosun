@@ -22,19 +22,21 @@ In the meeting we discussed using specialized MCUs to control flight stability. 
   * Pitch/Roll MCU
     * Controls 2 servos connected to main rotor
     * requires feedback from gyroscopes, level sensor
+  * Collective MCU
+    * Controls collective blade pitch via 1 servo connected to main rotor
+    * requires feedback from GPS, elevation sensors,
   * Yaw MCU
     * Controls servo connected to rear rotor
     * requires feedback from compass, gyroscope
-  * Motor Control / Elevation MCU
+  * Motor Control MCU
     * Controls motor power
     * requires feedback from GPS, elevation sensors, possibly motor RPM
   * Base Station MCU
-    * A radio to Laptop bridge
+    * A ground based radio to Laptop bridge
 
 
 
  
-
 
 
 
