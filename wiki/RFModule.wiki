@@ -14,3 +14,7 @@ The ERx00TRS-02 has the following characteristics:
   * Includes software for programming the module
 
 I personally believe this is a suitable module to use. It will significantly reduce design time, and allow us to focus more on making the helicopter actually fly.
+
+[http://www.radio-modules.com/products/radiodatamods/datasheets/er-datasheet-2.3-sept-05.pdf datasheet]
+
+[http://www.radio-modules.com/products/radiodatamods/radiodatamods.asp website] 
