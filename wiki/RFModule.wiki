@@ -1,10 +1,8 @@
-#summary A possible RF module to be used
-
-= Introduction =
-One idea for a radio system is to use the Easy Radio ERx00TRS-02 Transceiver. 
+#summary Possible RF modules to be used
 
 
-= Details =
+= Easy Radio ERx00TRS-02 Transceiver. =
+
 The ERx00TRS-02 has the following characteristics:
   * Half Duplex operation (RX and TX but not simultaneously)
   * Customizable Serial I/O baud rate (deigned to interface with uC UARTS
@@ -13,12 +11,33 @@ The ERx00TRS-02 has the following characteristics:
   * Modules available in 400MHz and 900Mhz ranges
   * Includes software for programming the module
 
-I personally believe this is a suitable module to use. It will significantly reduce design time, and allow us to focus more on making the helicopter actually fly.
+Pros:
+  * It will significantly reduce design time, and allow us to focus more on making the helicopter actually fly.
 
-[http://www.radio-modules.com/products/radiodatamods/datasheets/er-datasheet-2.3-sept-05.pdf datasheet]
+Cons:
+  * This radio module has a maximum data throughput of 38.4kbps (see page 14 of the datasheet).  This is plenty for telemetry data, but too slow for video or photos.
 
-[http://www.radio-modules.com/products/radiodatamods/radiodatamods.asp website] 
+Links: 
+  * [http://www.radio-modules.com/products/radiodatamods/datasheets/er-datasheet-2.3-sept-05.pdf datasheet]
+  * [http://www.radio-modules.com/products/radiodatamods/radiodatamods.asp website] 
 
-This radio module has a maximum data throughput of 38.4kbps (see page 14 of the datasheet).  This is plenty for telemetry data, but too slow for video or photos.
+= XBee-PRO™ ZigBee OEM RF Module =
 
-Another option to look at are Zigbee modules like [http://www.maxstream.net/products/xbee/xbee-oem-rf-module-zigbee.php this one].  It can transmit 250kbps, still not super fast, but faster.
+Characteristics:
+  * 60 mW (18 dBm), 100 mW EIRP power output (up to 1 mile range) 
+  * 250kbps data rate
+
+Pros:
+  * Good range
+
+Cons:
+  * probably more difficult to set up than the Easy Radio module
+
+Links
+  * [http://www.maxstream.net/products/xbee/xbee-pro-oem-rf-module-zigbee.php Webpage]
+  * [http://www.maxstream.net/products/xbee/manual_xb_oem-rf-modules_zigbee.pdf Manual]
+
+
+
+
+
