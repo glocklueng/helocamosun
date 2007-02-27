@@ -13,6 +13,11 @@ We will likely use an operating system such as Linux, QNX or another RTOS varian
 
 =Gumstix=
 
+Features
+
+Pros
+
+Cons
 
 Links
   * [http://gumstix.com/store/catalog/product_info.php?cPath=27&products_id=155 Webpage]
@@ -20,6 +25,11 @@ Links
 
 =Toradex Intel PXA=
 
+Features
+
+Pros
+
+Cons
 
 Links
   * Webpage
