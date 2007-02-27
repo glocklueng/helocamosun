@@ -15,7 +15,7 @@ We will likely use an operating system such as Linux, QNX or another RTOS varian
 
 
 Links
-  * Webpage
+  * [http://gumstix.com/store/catalog/product_info.php?cPath=27&products_id=155 Webpage]
   * Datasheet
 
 =Toradex Intel PXA=
@@ -24,4 +24,3 @@ Links
 Links
   * Webpage
   * Datasheet
-
