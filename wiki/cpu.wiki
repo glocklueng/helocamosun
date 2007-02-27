@@ -29,7 +29,7 @@ Cons
   * Aging Processor, I'm not sure about support, and I cant even find a datasheet
 
 Cost
-197.272 for the high end model (CDN)
+$197.27 for the 400MHz high end model (CDN)
 
 Links
   * [http://gumstix.com/store/catalog/product_info.php?cPath=27&products_id=155 Webpage]
@@ -74,7 +74,7 @@ Cons
   * does not come pre-packed with Linux
 
 Cost
-152.967 for the 312MHz module, 214.842 CAD for the 806MHz module (CDN)
+$152.97 for the 312MHz module, $214.84 for the 806MHz module (CDN)
 
 Links
   * Webpage
