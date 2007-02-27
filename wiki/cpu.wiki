@@ -13,7 +13,10 @@ We will likely use an operating system such as Linux, QNX or another RTOS varian
 
 =Gumstix=
 
+http://gumstix.com/store/catalog/images/prd_bsx400xmbt.jpg
+
 Features
+  * Embedded linux, comes pre-packaged with a 2.6 kernel
 
 Pros
 
@@ -21,9 +24,11 @@ Cons
 
 Links
   * [http://gumstix.com/store/catalog/product_info.php?cPath=27&products_id=155 Webpage]
-  * Datasheet
+  * I havent been able to find the PXA255 datasheet yet
 
 =Toradex Intel PXA=
+
+http://www.toradex.com/img/Colibri_PXA320.jpg
 
 Features
 
