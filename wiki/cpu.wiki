@@ -1,0 +1,30 @@
+#Discussion of the hardware used for upper control functions of the helicopter
+
+A CPU is required for the upper functions of the helicopter.  These functions are as follows.
+
+  * Implementation of our custom protocol (to be defined)
+  * GPS data parsing
+  * monitoring of non-stability related helicopter functions (battery, GPS etc)
+  * assigning tasks to the stability MCUs (eg. go to waypoint, ascend, descend)
+  * photography/video
+  * collision detection
+
+We will likely use an operating system such as Linux, QNX or another RTOS variant.  A Realtime OS may not be necessary, since the stability MCUs will handle critical helicopter functions in real time. So far we have considered the following modules:
+
+=Gumstix=
+
+
+Links
+  * Webpage
+  * Datasheet
+
+=Toradex Intel PXA=
+
+
+Links
+  * Webpage
+  * Datasheet
+
+
+
+
