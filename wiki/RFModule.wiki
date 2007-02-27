@@ -25,7 +25,8 @@ Links:
 
 Characteristics:
   * 60 mW (18 dBm), 100 mW EIRP power output (up to 1 mile range) 
-  * 250kbps data rate
+  * 250kbps RF data rate, up to 115.2kbps interface data rate
+  * serial data interface: 3V CMOS UART - No configuration required
 
 Pros:
   * Good range
@@ -36,7 +37,6 @@ Cons:
 Links
   * [http://www.maxstream.net/products/xbee/xbee-pro-oem-rf-module-zigbee.php Webpage]
   * [http://www.maxstream.net/products/xbee/manual_xb_oem-rf-modules_zigbee.pdf Manual]
-
 
 
 
