@@ -30,6 +30,8 @@ Characteristics:
 
 Pros:
   * Good range
+  * fairly inexpensive ($32.00 usd)
+  * off the shelf USB reciever available
 
 Cons:
   * probably more difficult to set up than the Easy Radio module
@@ -37,7 +39,6 @@ Cons:
 Links
   * [http://www.maxstream.net/products/xbee/xbee-pro-oem-rf-module-zigbee.php Webpage]
   * [http://www.maxstream.net/products/xbee/manual_xb_oem-rf-modules_zigbee.pdf Manual]
-
 
 
 
