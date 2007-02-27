@@ -54,9 +54,9 @@ Features
     * 100 MBit Ethernet
     * Memory Stick
     * SDCard
-    * CompactFlash/PCMCIA
+    * CompactFlash\PCMCIA
     * 1x USB Host
-    * 1x USB Host/Device
+    * 1x USB Host\Device
     * UTMI for USB 2.0 Host
     * LCD (XGA, 1024x768)
     * Touch Screen
