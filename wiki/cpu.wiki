@@ -1,4 +1,4 @@
-#Discussion of the hardware used for upper control functions of the helicopter
+# Discussion of the hardware used for upper control functions of the helicopter
 
 A CPU is required for the upper functions of the helicopter.  These functions are as follows.
 
@@ -24,6 +24,5 @@ Links
 Links
   * Webpage
   * Datasheet
-
 
 
