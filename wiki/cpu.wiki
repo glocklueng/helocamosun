@@ -33,8 +33,13 @@ http://www.toradex.com/img/Colibri_PXA320.jpg
 Features
 
 Pros
-
+  * Fast
+  * 
 Cons
+  * does not come pre-packed with Linux
+
+Cost
+152.967 for the 312MHz module, 214.842 CAD for the 806MHz module
 
 Links
   * Webpage
