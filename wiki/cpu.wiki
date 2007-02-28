@@ -64,14 +64,15 @@ Features
     * CMOS/CCD image sensor
     * MSL (up to 192 Mbps)
     * up to 123 GPIOs
-
+    * comes with WinCE installed
 Pros
   * Fast
   * Processor is up to date and well supported by Intel
   * on board image processing hardware
 
 Cons
-  * does not come pre-packed with Linux
+  * does not come pre-packed with Linux, though a tested Linux image is available for the 312MHz and 500MHz models
+
 
 Cost
 $152.97 for the 312MHz module, $214.84 for the 806MHz module (CDN)
