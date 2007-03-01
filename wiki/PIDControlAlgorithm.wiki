@@ -29,7 +29,7 @@ C code:
 #defion DerConst = 1
 
 //variable declarations:
-long Time;
+long Time = 1;
 int Proportion;
 int Integral = 0;
 int Derivative;
@@ -38,7 +38,6 @@ long LastTime;
 
 //Loop:
 //ReadForwardBackTilt() returns the tilt forward or backward as a scaled integer
-//GetTime() returns a long integer with the current system time
 //ReadGyro() returns an int with the scaled rate of tilt forward or backward
 while(1)
 {
@@ -50,7 +49,6 @@ while(1)
 }
 
 }}}
-
 
 
 
