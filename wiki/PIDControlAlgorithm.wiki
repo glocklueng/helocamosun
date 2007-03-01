@@ -15,7 +15,7 @@ Forward/Reverse
 
 Proportional: This is the absolute pitch angle of the helocopter which is read in for every iteration of the PID loop.
 
-Integral: Each loop of the control adds the pitch angle divided by the time elapsed since last loop execution.  An accumulated error is built up.
+Integral: Each loop of the control adds the pitch angle multiplied by the time elapsed since last loop execution.  An accumulated error is built up.
 
 Derivative: A gyroscope that reads the rate of tilt can be sampled.
 
@@ -29,7 +29,6 @@ C code:
 #defion DerConst = 1
 
 //variable declarations:
-long Time = 1;
 int Proportion;
 int Integral = 0;
 int Derivative;
@@ -39,17 +38,17 @@ long LastTime;
 //Loop:
 //ReadForwardBackTilt() returns the tilt forward or backward as a scaled integer
 //ReadGyro() returns an int with the scaled rate of tilt forward or backward
+//Time() returns a long int counter that it incremented at some interval in an interrupt
 while(1)
 {
   Proportion = ReadForwardBackTilt() * PropConst;
-  Integral += ReadForwardBackTilt() * (Time - LastTime) * IntConst;
+  Integral += ReadForwardBackTilt() * (Time() - LastTime) * IntConst;
   Derivative = ReadGyro() * DerConst;
   Correction = Proportion + Integral + Derivative;
-  LastTime = ++Time;
+  LastTime = Time();
 }
 
 }}}
-
 
 
 
