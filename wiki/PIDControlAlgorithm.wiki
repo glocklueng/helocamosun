@@ -11,7 +11,7 @@ This aspect must be broken down into 2 parts.
   * forward/reverse pitch 
   * side to side roll
 
-Forward/Reverse
+== Forward/Reverse ==
 
 Proportional: This is the absolute pitch angle of the helocopter which is read in for every iteration of the PID loop.
 
@@ -49,6 +49,5 @@ while(1)
 }
 
 }}}
-
 
 
