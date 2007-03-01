@@ -46,6 +46,7 @@ while(1)
   Integral += ReadForwardBackTilt() * (Time() - LastTime) * IntConst;
   Derivative = ReadGyro() * DerConst;
   Correction = Proportion + Integral + Derivative;
+  ApplyCorrection(Correction);
   LastTime = Time();
 }
 
