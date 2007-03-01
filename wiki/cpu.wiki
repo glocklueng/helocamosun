@@ -11,7 +11,7 @@ A CPU is required for the upper functions of the helicopter.  These functions ar
 
 We will likely use an operating system such as Linux, QNX or another RTOS variant.  A Realtime OS may not be necessary, since the stability MCUs will handle critical helicopter functions in real time. So far we have considered the following modules:
 
-Both of these models can run the Linux kernel developed by [http://pxa-linux.sourceforge.net/ the PXA Linux Project] 
+Both of these modules can run the Linux kernel developed by [http://pxa-linux.sourceforge.net/ the PXA Linux Project] 
 
 =Gumstix=
 
