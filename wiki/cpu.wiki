@@ -80,3 +80,4 @@ $152.97 for the 312MHz module, $214.84 for the 806MHz module (CDN)
 Links
   * Webpage
   * Datasheet
+  * [http://pxa-linux.sourceforge.net/ Open source PXA Linux Kernel hacker website]
