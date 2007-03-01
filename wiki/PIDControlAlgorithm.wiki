@@ -29,6 +29,7 @@ C code:
 #defion DerConst = 1
 
 //variable declarations:
+long Time;
 int Proportion;
 int Integral = 0;
 int Derivative;
@@ -42,14 +43,13 @@ long LastTime;
 while(1)
 {
   Proportion = ReadForwardBackTilt() * PropConst;
-  Integral += ReadForwardBackTilt() / (GetTime() - LastTime) * IntConst;
+  Integral += ReadForwardBackTilt() / (Time - LastTime) * IntConst;
   Derivative = ReadGyro();
   Correction = Proportion + Integral + Derivative;
-  LastTime = GetTime();
+  LastTime = ++Time * DerConst;
 }
 
 }}}
-
 
 
 
