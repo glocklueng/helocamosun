@@ -20,7 +20,8 @@ Integral: Each loop of the control adds the pitch angle multiplied by the time e
 Derivative: A gyroscope that reads the rate of tilt can be sampled.
 
 Solution: The solution is a cyclic correction in the front/back direction
-C code:
+
+=C code:=
 
 {{{
 //constants that will need to be empirically derived or mathematically calculated
@@ -49,5 +50,4 @@ while(1)
 }
 
 }}}
-
 
