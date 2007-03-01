@@ -26,7 +26,7 @@ C code:
 //constants that will need to be empirically derived or mathematically calculated
 #define PropConst = 1
 #define IntConst = 1
-#defion DerConst = 1
+#define DerConst = 1
 
 //variable declarations:
 int Proportion;
@@ -49,7 +49,6 @@ while(1)
 }
 
 }}}
-
 
 
 
