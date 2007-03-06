@@ -40,5 +40,29 @@ Links
   * [http://www.maxstream.net/products/xbee/xbee-pro-oem-rf-module-zigbee.php Webpage]
   * [http://www.maxstream.net/products/xbee/manual_xb_oem-rf-modules_zigbee.pdf Manual]
 
+= Spark Fun Nordic Transceiver - 2.4GHz with Built-In Antenna =
+
+Characteristics:
+  * Frequency: 2.4~2.524 GHz 
+  * Modulation type: GFSK 
+  * Operating Voltage: 3V 
+  * Output Power: +4dBm 
+  * Data Rate: 1Mbps; 250Kbps 
+  * Small footprint size: 20.0 x 36.7 x 2.4mm 
+  * Operating Temperature: -40 ~ +85 C 
+  * Long range: 280mts @250Kbps ; 150mts @1Mbps 
+  * Built-in antenna 
+
+Pros:
+  * high data rate ( 250 to 1000 kbps) 
+  * inexpensive ($19.00 usd)
+
+Cons:
+  * short range (280 meters max)
+
+Links
+  * [http://www.sparkfun.com/commerce/product_info.php?products_id=151 Webpage]
+  * [http://www.sparkfun.com/datasheets/RF/RF-24G_datasheet.pdf datasheet]
+
 
 
