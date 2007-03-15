@@ -139,8 +139,7 @@ namespace DemoApplication
         private void setUpmap()
         {
             map = new ScrollableMap();
-            map.Path = "..\\..\\cc.jpg";
-            map.LoadMap();
+            map.LoadMap("..\\..\\cc.jpg");
             map.Location = new Point(0, guageSzStd);
             map.Size = new Size(guageSzStd * 4, 400);
             this.Controls.Add(map);
@@ -167,7 +166,7 @@ namespace DemoApplication
                 ArtHorizon.Pitch = -20;
             }
             value+=1;
-            RPM.SetValue(value / 100);
+            RPM.SetValue(value);
             BatteryLife.SetValue(100 - value / 10);
             Altitude.SetValue(value);
             if (value > 500)

@@ -21,13 +21,19 @@ namespace helopanel
         /// Color of ring surrounding gauge
         /// </summary>
         public Color DialOutlineColor = Color.DarkGray;
-        //color of the 4 corner screws
+        
+        /// <summary>
+        /// color of the 4 corner screws
+        /// </summary>
+
         public Color ScrewColor = Color.Black;
         /// <summary>
         /// Color of gauge information surface
         /// </summary>
         public Color GaugeSurfaceColor = Color.Black;
-        
+        /// <summary>
+        /// width of the gauge outline at the default size
+        /// </summary>
         protected float _DialOutlineWidth = 10F;
 
         //Gauge surface dimensions

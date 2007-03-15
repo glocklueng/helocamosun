@@ -1,0 +1,16 @@
+bin\Release\PIDLoopTest.exe
+bin\Release\PIDLoopTest.pdb
+obj\Release\ResolveAssemblyReference.cache
+obj\Release\PIDLoopTest.Properties.Resources.resources
+obj\Release\PIDLoopTest.csproj.GenerateResource.Cache
+obj\Release\PIDLoopTest.exe
+obj\Release\PIDLoopTest.pdb
+bin\Debug\PIDLoopTest.exe
+bin\Debug\PIDLoopTest.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\PIDLoopTest.Properties.Resources.resources
+obj\Debug\PIDLoopTest.csproj.GenerateResource.Cache
+obj\Debug\PIDLoopTest.exe
+obj\Debug\PIDLoopTest.pdb
+obj\Release\PIDLoopTest.Form1.resources
+obj\Debug\PIDLoopTest.Form1.resources

@@ -11,12 +11,7 @@ namespace helopanel
     public partial class ScrollableMap : UserControl
     {
         Image Map;
-        private string MapFilePath;
-        public string Path
-        {
-            set { MapFilePath = value; }
-            get { return MapFilePath; }
-        }
+
         private float _ImageTopLeftX = 0;
         public float ImageTopLeftX
         {
@@ -39,7 +34,7 @@ namespace helopanel
             SetStyle(ControlStyles.DoubleBuffer, true);
 
         }
-        public void LoadMap()
+        public void LoadMap(string MapFilePath)
         {
             Map = Image.FromFile(MapFilePath);
         }
@@ -51,7 +46,14 @@ namespace helopanel
             Pen myPen = new Pen(Color.Black);
 
             Rectangle rect = new Rectangle(new Point(0,0), this.Size);
-            myGraphics.DrawImage(Map, rect, ImageTopLeftX, ImageTopLeftY, this.Size.Width, this.Size.Height, GraphicsUnit.Pixel);//overload 23
+            if (Map != null)
+            {
+                myGraphics.DrawImage(Map, rect, ImageTopLeftX, ImageTopLeftY, this.Size.Width, this.Size.Height, GraphicsUnit.Pixel);//overload 23
+            }
+            else
+            {
+                MessageBox.Show("You must load a map file using LoadMap() before adding this user control to your form");
+            }
             myPen.Dispose();
         }
     }
