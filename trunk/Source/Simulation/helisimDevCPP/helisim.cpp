@@ -7,14 +7,15 @@
 *******************************************************************/
 
 #include "helisim.h"
-
+#include <stdio.h>
+#include "control.h"
 
 double windows_dt = 0.05;
 
 int simWindow;
 int hudWindow;
 
-
+HelicopterController HC;
 /********* SCOPE FUNCTIONS *************/
 static void ResizeSimWindow(GLsizei w, GLsizei h);
 static void ResizeHudWindow(GLsizei w, GLsizei h);
@@ -119,23 +120,38 @@ void Dynamics(void)
 {
 	int n;
 	double U[4];
+    
+    
 
+    //printf("%f\n",xcell.sixdofX.rate[1]* C_FT2M);
+    
+    HC.UpdateSensorValues(xcell.sixdofX);
+    
+	U[0] = 10.0*C_DEG2RAD;			// main rotor collective
+	U[1] = HC.RollCorrection()*C_DEG2RAD;			// A1 (roll)
+	U[2] = HC.PitchCorrection()*C_DEG2RAD;			// B1 (pitch)
+	U[3] = HC.YawCorrection()*C_DEG2RAD;			// tail rotor collective
+    printf("%f\n",U[3] * C_RAD2DEG);	
 	for(n=0; n<(int)(windows_dt/model_dt); ++n)
 	{
-		U[0] = 10.5*C_DEG2RAD;			// main rotor collective
-		U[1] = 0.0*C_DEG2RAD;			// A1 (roll)
-		U[2] = 0.0*C_DEG2RAD;			// B1 (pitch)
-		U[3] = 6.0*C_DEG2RAD;			// tail rotor collective
-
-// t
-//_________________________________________________________
+     	//U[0] = 10.0*C_DEG2RAD;			// main rotor collective
+        //U[1] = -4.0*C_DEG2RAD;			// A1 (roll)
+        //U[2] = -4.0*C_DEG2RAD;			// B1 (pitch)
+        //U[3] = 7.0*C_DEG2RAD;			// tail rotor collective
+       
+ 
+        
+        xcell.sixdofIn.hold_u   = 1;	//	hold X-axis body vel. constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_v	= 1;	//	hold Y-axis body vel. constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_w	= 1;	//	hold Z-axis body vel. constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_p	= 1;	//	hold X-axis body rate constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_q	= 1;	//	hold Y-axis body rate constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_r	= 0;	//  hold Z-axis body rate constant (1 hold, 0 free)
 			
 		ModelGO(U);
 
-// t+dt
+
 	}
-		
-	/****** FLIGHT CONTROL CODE GOES HERE ******/
 
 }
 
