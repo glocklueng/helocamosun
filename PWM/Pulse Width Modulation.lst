@@ -1,0 +1,470 @@
+MP2COD 4.1, COFF to COD File Converter
+Copyright (c) 2006 Microchip Technology Inc.
+Listing File Generated: Sun Mar 18 13:39:22 2007
+
+
+Address  Value    Disassembly              Source                                                                           File
+-------  -------  -----------------------  -------------------------------------------------------------------------------  -----
+                                           /* $Id: c018i.c,v 1.7 2006/11/15 22:53:12 moshtaa Exp $ */                       C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           /* Copyright (c)1999 Microchip Technology */                                     C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           /* MPLAB-C18 startup code, including initialized data */                         C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           /* external reference to __init() function */                                    C:\MCC18\src\traditional\startup\c018i.c
+                                           extern void __init (void);                                                       C:\MCC18\src\traditional\startup\c018i.c
+                                           /* external reference to the user's main routine */                              C:\MCC18\src\traditional\startup\c018i.c
+                                           extern void main (void);                                                         C:\MCC18\src\traditional\startup\c018i.c
+                                           /* prototype for the startup function */                                         C:\MCC18\src\traditional\startup\c018i.c
+                                           void _entry (void);                                                              C:\MCC18\src\traditional\startup\c018i.c
+                                           void _startup (void);                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           /* prototype for the initialized data setup */                                   C:\MCC18\src\traditional\startup\c018i.c
+                                           void _do_cinit (void);                                                           C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           extern volatile near unsigned long short TBLPTR;                                 C:\MCC18\src\traditional\startup\c018i.c
+                                           extern near unsigned FSR0;                                                       C:\MCC18\src\traditional\startup\c018i.c
+                                           extern near char __FPFLAGS;                                                      C:\MCC18\src\traditional\startup\c018i.c
+                                           #define RND 6                                                                    C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           #pragma code _entry_scn=0x000000                                                 C:\MCC18\src\traditional\startup\c018i.c
+                                           void                                                                             C:\MCC18\src\traditional\startup\c018i.c
+                                           _entry (void)                                                                    C:\MCC18\src\traditional\startup\c018i.c
+                                           {                                                                                C:\MCC18\src\traditional\startup\c018i.c
+000000   efd9     GOTO      0x1b2          _asm goto _startup _endasm                                                       C:\MCC18\src\traditional\startup\c018i.c
+000002   f000                                                                                                               
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+000004   0012     RETURN    0x0            }                                                                                C:\MCC18\src\traditional\startup\c018i.c
+                                           #pragma code _startup_scn                                                        C:\MCC18\src\traditional\startup\c018i.c
+                                           void                                                                             C:\MCC18\src\traditional\startup\c018i.c
+                                           _startup (void)                                                                  C:\MCC18\src\traditional\startup\c018i.c
+                                           {                                                                                C:\MCC18\src\traditional\startup\c018i.c
+                                             _asm                                                                           C:\MCC18\src\traditional\startup\c018i.c
+                                               // Initialize the stack pointer                                              C:\MCC18\src\traditional\startup\c018i.c
+0001b2   ee12     LFSR      0x1,0x200          lfsr 1, _stack                                                               C:\MCC18\src\traditional\startup\c018i.c
+0001b4   f000                                                                                                               
+0001b6   ee22     LFSR      0x2,0x200          lfsr 2, _stack                                                               C:\MCC18\src\traditional\startup\c018i.c
+0001b8   f000                                                                                                               
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+0001ba   6af8     CLRF      0xf8,0x0           clrf TBLPTRU, 0 // 1st silicon doesn't do this on POR                        C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+0001bc   9c01     BCF       0x1,0x6,0x0        bcf __FPFLAGS,RND,0 // Initialize rounding flag for floating point libs      C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                               _endasm                                                                      C:\MCC18\src\traditional\startup\c018i.c
+0001be   ec8a     CALL      0x114,0x0          _do_cinit ();                                                                C:\MCC18\src\traditional\startup\c018i.c
+0001c0   f000                                                                                                               
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           loop:                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                             // If user defined __init is not found, the one in clib.lib will be used       C:\MCC18\src\traditional\startup\c018i.c
+0001c2   ece7     CALL      0x1ce,0x0        __init ();                                                                     C:\MCC18\src\traditional\startup\c018i.c
+0001c4   f000                                                                                                               
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                             // Call the user's main routine                                                C:\MCC18\src\traditional\startup\c018i.c
+0001c6   ec69     CALL      0xd2,0x0         main ();                                                                       C:\MCC18\src\traditional\startup\c018i.c
+0001c8   f000                                                                                                               
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+0001ca   d7fb     BRA       0x1c2            goto loop;                                                                     C:\MCC18\src\traditional\startup\c018i.c
+0001cc   0012     RETURN    0x0            }                               /* end _startup() */                             C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           /* MPLAB-C18 initialized data memory support */                                  C:\MCC18\src\traditional\startup\c018i.c
+                                           /* The linker will populate the _cinit table */                                  C:\MCC18\src\traditional\startup\c018i.c
+                                           extern far rom struct                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           {                                                                                C:\MCC18\src\traditional\startup\c018i.c
+                                             unsigned short num_init;                                                       C:\MCC18\src\traditional\startup\c018i.c
+                                             struct _init_entry                                                             C:\MCC18\src\traditional\startup\c018i.c
+                                             {                                                                              C:\MCC18\src\traditional\startup\c018i.c
+                                               unsigned long from;                                                          C:\MCC18\src\traditional\startup\c018i.c
+                                               unsigned long to;                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                               unsigned long size;                                                          C:\MCC18\src\traditional\startup\c018i.c
+                                             }                                                                              C:\MCC18\src\traditional\startup\c018i.c
+                                             entries[];                                                                     C:\MCC18\src\traditional\startup\c018i.c
+                                           }                                                                                C:\MCC18\src\traditional\startup\c018i.c
+                                           _cinit;                                                                          C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           #pragma code _cinit_scn                                                          C:\MCC18\src\traditional\startup\c018i.c
+                                           void                                                                             C:\MCC18\src\traditional\startup\c018i.c
+                                           _do_cinit (void)                                                                 C:\MCC18\src\traditional\startup\c018i.c
+                                           {                                                                                C:\MCC18\src\traditional\startup\c018i.c
+                                             /* we'll make the assumption in the following code that these statics          C:\MCC18\src\traditional\startup\c018i.c
+                                              * will be allocated into the same bank.                                       C:\MCC18\src\traditional\startup\c018i.c
+                                              */                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                             static short long prom;                                                        C:\MCC18\src\traditional\startup\c018i.c
+                                             static unsigned short curr_byte;                                               C:\MCC18\src\traditional\startup\c018i.c
+                                             static unsigned short curr_entry;                                              C:\MCC18\src\traditional\startup\c018i.c
+                                             static short long data_ptr;                                                    C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                             // Initialized data...                                                         C:\MCC18\src\traditional\startup\c018i.c
+000114   0e2a     MOVLW     0x2a             TBLPTR = (short long)&_cinit;                                                  C:\MCC18\src\traditional\startup\c018i.c
+000116   6ef6     MOVWF     0xf6,0x0                                                                                        
+000118   0e00     MOVLW     0x0                                                                                             
+00011a   6ef7     MOVWF     0xf7,0x0                                                                                        
+00011c   0e00     MOVLW     0x0                                                                                             
+00011e   6ef8     MOVWF     0xf8,0x0                                                                                        
+                                             _asm                                                                           C:\MCC18\src\traditional\startup\c018i.c
+000120   0100     MOVLB     0x0                movlb data_ptr                                                               C:\MCC18\src\traditional\startup\c018i.c
+000122   0009     TBLRDPOSTINC                 tblrdpostinc                                                                 C:\MCC18\src\traditional\startup\c018i.c
+000124   50f5     MOVF      0xf5,0x0,0x0       movf TABLAT, 0, 0                                                            C:\MCC18\src\traditional\startup\c018i.c
+000126   6f65     MOVWF     0x65,0x1           movwf curr_entry, 1                                                          C:\MCC18\src\traditional\startup\c018i.c
+000128   0009     TBLRDPOSTINC                 tblrdpostinc                                                                 C:\MCC18\src\traditional\startup\c018i.c
+00012a   50f5     MOVF      0xf5,0x0,0x0       movf TABLAT, 0, 0                                                            C:\MCC18\src\traditional\startup\c018i.c
+00012c   6f66     MOVWF     0x66,0x1           movwf curr_entry+1, 1                                                        C:\MCC18\src\traditional\startup\c018i.c
+                                             _endasm                                                                        C:\MCC18\src\traditional\startup\c018i.c
+                                               //while (curr_entry)                                                         C:\MCC18\src\traditional\startup\c018i.c
+                                               //{                                                                          C:\MCC18\src\traditional\startup\c018i.c
+                                               test:                                                                        C:\MCC18\src\traditional\startup\c018i.c
+                                               _asm                                                                         C:\MCC18\src\traditional\startup\c018i.c
+00012e   e103     BNZ       0x136               bnz 3                                                                       C:\MCC18\src\traditional\startup\c018i.c
+000130   6765     TSTFSZ    0x65,0x1           tstfsz curr_entry, 1                                                         C:\MCC18\src\traditional\startup\c018i.c
+000132   d001     BRA       0x136              bra 1                                                                        C:\MCC18\src\traditional\startup\c018i.c
+                                               _endasm                                                                      C:\MCC18\src\traditional\startup\c018i.c
+000134   d03d     BRA       0x1b0              goto done;                                                                   C:\MCC18\src\traditional\startup\c018i.c
+                                                 /* Count down so we only have to look up the data in _cinit                C:\MCC18\src\traditional\startup\c018i.c
+                                                  * once.                                                                   C:\MCC18\src\traditional\startup\c018i.c
+                                                  *                                                                         C:\MCC18\src\traditional\startup\c018i.c
+                                                  * At this point we know that TBLPTR points to the top of the current      C:\MCC18\src\traditional\startup\c018i.c
+                                                  * entry in _cinit, so we can just start reading the from, to, and         C:\MCC18\src\traditional\startup\c018i.c
+                                                  * size values.                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                                  */                                                                        C:\MCC18\src\traditional\startup\c018i.c
+                                                 _asm                                                                       C:\MCC18\src\traditional\startup\c018i.c
+                                           	/* read the source address */                                                   C:\MCC18\src\traditional\startup\c018i.c
+000136   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+000138   50f5     MOVF      0xf5,0x0,0x0   	movf TABLAT, 0, 0                                                               C:\MCC18\src\traditional\startup\c018i.c
+00013a   6f60     MOVWF     0x60,0x1       	movwf prom, 1                                                                   C:\MCC18\src\traditional\startup\c018i.c
+00013c   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+00013e   50f5     MOVF      0xf5,0x0,0x0   	movf TABLAT, 0, 0                                                               C:\MCC18\src\traditional\startup\c018i.c
+000140   6f61     MOVWF     0x61,0x1       	movwf prom+1, 1                                                                 C:\MCC18\src\traditional\startup\c018i.c
+000142   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+000144   50f5     MOVF      0xf5,0x0,0x0   	movf TABLAT, 0, 0                                                               C:\MCC18\src\traditional\startup\c018i.c
+000146   6f62     MOVWF     0x62,0x1       	movwf prom+2, 1                                                                 C:\MCC18\src\traditional\startup\c018i.c
+                                           	/* skip a byte since it's stored as a 32bit int */                              C:\MCC18\src\traditional\startup\c018i.c
+000148   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+                                           	/* read the destination address directly into FSR0 */                           C:\MCC18\src\traditional\startup\c018i.c
+00014a   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+00014c   50f5     MOVF      0xf5,0x0,0x0   	movf TABLAT, 0, 0                                                               C:\MCC18\src\traditional\startup\c018i.c
+00014e   6ee9     MOVWF     0xe9,0x0       	movwf FSR0L, 0                                                                  C:\MCC18\src\traditional\startup\c018i.c
+000150   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+000152   50f5     MOVF      0xf5,0x0,0x0   	movf TABLAT, 0, 0                                                               C:\MCC18\src\traditional\startup\c018i.c
+000154   6eea     MOVWF     0xea,0x0       	movwf FSR0H, 0                                                                  C:\MCC18\src\traditional\startup\c018i.c
+                                           	/* skip two bytes since it's stored as a 32bit int */                           C:\MCC18\src\traditional\startup\c018i.c
+000156   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+000158   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+                                           	/* read the destination address directly into FSR0 */                           C:\MCC18\src\traditional\startup\c018i.c
+00015a   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+00015c   50f5     MOVF      0xf5,0x0,0x0   	movf TABLAT, 0, 0                                                               C:\MCC18\src\traditional\startup\c018i.c
+00015e   6f63     MOVWF     0x63,0x1       	movwf curr_byte, 1                                                              C:\MCC18\src\traditional\startup\c018i.c
+000160   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+000162   50f5     MOVF      0xf5,0x0,0x0   	movf TABLAT, 0, 0                                                               C:\MCC18\src\traditional\startup\c018i.c
+000164   6f64     MOVWF     0x64,0x1       	movwf curr_byte+1, 1                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           	/* skip two bytes since it's stored as a 32bit int */                           C:\MCC18\src\traditional\startup\c018i.c
+000166   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+000168   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+                                                 _endasm                                                                    C:\MCC18\src\traditional\startup\c018i.c
+                                                 //prom = data_ptr->from;                                                   C:\MCC18\src\traditional\startup\c018i.c
+                                                 //FSR0 = data_ptr->to;                                                     C:\MCC18\src\traditional\startup\c018i.c
+                                                 //curr_byte = (unsigned short) data_ptr->size;                             C:\MCC18\src\traditional\startup\c018i.c
+                                                 /* the table pointer now points to the next entry. Save it                 C:\MCC18\src\traditional\startup\c018i.c
+                                                  * off since we'll be using the table pointer to do the copying            C:\MCC18\src\traditional\startup\c018i.c
+                                                  * for the entry.                                                          C:\MCC18\src\traditional\startup\c018i.c
+                                                  */                                                                        C:\MCC18\src\traditional\startup\c018i.c
+00016a   cff6     MOVFF     0xff6,0x67           data_ptr = TBLPTR;                                                         C:\MCC18\src\traditional\startup\c018i.c
+00016c   f067                                                                                                               
+00016e   cff7     MOVFF     0xff7,0x68                                                                                      
+000170   f068                                                                                                               
+000172   cff8     MOVFF     0xff8,0x69                                                                                      
+000174   f069                                                                                                               
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                                 /* now assign the source address to the table pointer */                   C:\MCC18\src\traditional\startup\c018i.c
+000176   c060     MOVFF     0x60,0xff6           TBLPTR = prom;                                                             C:\MCC18\src\traditional\startup\c018i.c
+000178   fff6                                                                                                               
+00017a   c061     MOVFF     0x61,0xff7                                                                                      
+00017c   fff7                                                                                                               
+00017e   c062     MOVFF     0x62,0xff8                                                                                      
+000180   fff8                                                                                                               
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                                 /* do the copy loop */                                                     C:\MCC18\src\traditional\startup\c018i.c
+                                                 _asm                                                                       C:\MCC18\src\traditional\startup\c018i.c
+                                                   // determine if we have any more bytes to copy                           C:\MCC18\src\traditional\startup\c018i.c
+000182   0100     MOVLB     0x0            	movlb curr_byte                                                                 C:\MCC18\src\traditional\startup\c018i.c
+000184   5363     MOVF      0x63,0x1,0x1   	movf curr_byte, 1, 1                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           copy_loop:                                                                       C:\MCC18\src\traditional\startup\c018i.c
+000186   e102     BNZ       0x18c          	bnz 2 // copy_one_byte                                                          C:\MCC18\src\traditional\startup\c018i.c
+000188   5364     MOVF      0x64,0x1,0x1   	movf curr_byte + 1, 1, 1                                                        C:\MCC18\src\traditional\startup\c018i.c
+00018a   e007     BZ        0x19a          	bz 7 // done_copying                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           copy_one_byte:                                                                   C:\MCC18\src\traditional\startup\c018i.c
+00018c   0009     TBLRDPOSTINC             	tblrdpostinc                                                                    C:\MCC18\src\traditional\startup\c018i.c
+00018e   50f5     MOVF      0xf5,0x0,0x0   	movf TABLAT, 0, 0                                                               C:\MCC18\src\traditional\startup\c018i.c
+000190   6eee     MOVWF     0xee,0x0       	movwf POSTINC0, 0                                                               C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           	// decrement byte counter                                                       C:\MCC18\src\traditional\startup\c018i.c
+000192   0763     DECF      0x63,0x1,0x1   	decf curr_byte, 1, 1                                                            C:\MCC18\src\traditional\startup\c018i.c
+000194   e2f8     BC        0x186          	bc -8 // copy_loop                                                              C:\MCC18\src\traditional\startup\c018i.c
+000196   0764     DECF      0x64,0x1,0x1           decf curr_byte + 1, 1, 1                                                 C:\MCC18\src\traditional\startup\c018i.c
+000198   d7f9     BRA       0x18c          	bra -7 // copy_one_byte                                                         C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           done_copying:                                                                    C:\MCC18\src\traditional\startup\c018i.c
+                                                                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                                 _endasm                                                                    C:\MCC18\src\traditional\startup\c018i.c
+                                                 /* restore the table pointer for the next entry */                         C:\MCC18\src\traditional\startup\c018i.c
+00019a   c067     MOVFF     0x67,0xff6           TBLPTR = data_ptr;                                                         C:\MCC18\src\traditional\startup\c018i.c
+00019c   fff6                                                                                                               
+00019e   c068     MOVFF     0x68,0xff7                                                                                      
+0001a0   fff7                                                                                                               
+0001a2   c069     MOVFF     0x69,0xff8                                                                                      
+0001a4   fff8                                                                                                               
+                                                 /* next entry... */                                                        C:\MCC18\src\traditional\startup\c018i.c
+0001a6   0100     MOVLB     0x0                  curr_entry--;                                                              C:\MCC18\src\traditional\startup\c018i.c
+0001a8   0765     DECF      0x65,0x1,0x1                                                                                    
+0001aa   0e00     MOVLW     0x0                                                                                             
+0001ac   5b66     SUBWFB    0x66,0x1,0x1                                                                                    
+0001ae   d7bf     BRA       0x12e                goto test;                                                                 C:\MCC18\src\traditional\startup\c018i.c
+                                           done:                                                                            C:\MCC18\src\traditional\startup\c018i.c
+                                           ;                                                                                C:\MCC18\src\traditional\startup\c018i.c
+0001b0   0012     RETURN    0x0            }                                                                                C:\MCC18\src\traditional\startup\c018i.c
+                                           /*                                                                               D:\Helicopter Project\source\PWM\PWM.c
+                                           	Title: 	PWM.c                                                                   D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           	Author:	Kyle Wong                                                               D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           	Date:	17/03/07                                                                  D:\Helicopter Project\source\PWM\PWM.c
+                                           	                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                           	Description:	Control a 20ms pulse width modulated signal.                       D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           	Compiled with MCC18 compiler                                                    D:\Helicopter Project\source\PWM\PWM.c
+                                           	and MPLAB ver 7.5                                                               D:\Helicopter Project\source\PWM\PWM.c
+                                           */                                                                               D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /************************** Include Section **************************/          D:\Helicopter Project\source\PWM\PWM.c
+                                           #include <p18f4431.h>                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           //#include <p18f4620.h>                                                          D:\Helicopter Project\source\PWM\PWM.c
+                                           #include <delays.h>                                                              D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /*************************** Program Control *************************/          D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /*************************** Defines *********************************/          D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /*************************** Definitions *****************************/          D:\Helicopter Project\source\PWM\PWM.c
+                                           typedef union                                                                    D:\Helicopter Project\source\PWM\PWM.c
+                                           {                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                           	char byte[2];                                                                   D:\Helicopter Project\source\PWM\PWM.c
+                                           	int D_byte;                                                                     D:\Helicopter Project\source\PWM\PWM.c
+                                           	//long D_word;                                                                  D:\Helicopter Project\source\PWM\PWM.c
+                                           }WORD;                                                                           D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /*************************** Global Variables ************************/          D:\Helicopter Project\source\PWM\PWM.c
+                                           WORD Capture;                                                                    D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /*************************** Initialization Functions ****************/          D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           void PCPWMInit(void);                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /*************************** Interrupt Section ***********************/          D:\Helicopter Project\source\PWM\PWM.c
+                                           /********************** Interrupt Function Definition ****************/          D:\Helicopter Project\source\PWM\PWM.c
+                                           void CCPINT(void);                                                               D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /************************* Interrupt Functions ***********************/          D:\Helicopter Project\source\PWM\PWM.c
+                                           #pragma interrupt INTERRUPT                                                      D:\Helicopter Project\source\PWM\PWM.c
+00002c   cfda     MOVFF     0xfda,0xfe4    void INTERRUPT(void)                                                             D:\Helicopter Project\source\PWM\PWM.c
+00002e   ffe4                                                                                                               
+000030   cfe2     MOVFF     0xfe2,0xfda                                                                                     
+000032   ffda                                                                                                               
+000034   cfe9     MOVFF     0xfe9,0xfe4                                                                                     
+000036   ffe4                                                                                                               
+000038   cfea     MOVFF     0xfea,0xfe4                                                                                     
+00003a   ffe4                                                                                                               
+00003c   cff6     MOVFF     0xff6,0xfe4                                                                                     
+00003e   ffe4                                                                                                               
+000040   cff7     MOVFF     0xff7,0xfe4                                                                                     
+000042   ffe4                                                                                                               
+000044   cff5     MOVFF     0xff5,0xfe4                                                                                     
+000046   ffe4                                                                                                               
+000048   cff3     MOVFF     0xff3,0xfe4                                                                                     
+00004a   ffe4                                                                                                               
+00004c   cff4     MOVFF     0xff4,0xfe4                                                                                     
+00004e   ffe4                                                                                                               
+000050   cffa     MOVFF     0xffa,0xfe4                                                                                     
+000052   ffe4                                                                                                               
+000054   ee00     LFSR      0x0,0x0                                                                                         
+000056   f000                                                                                                               
+000058   0e02     MOVLW     0x2                                                                                             
+00005a   04e8     DECF      0xe8,0x0,0x0                                                                                    
+00005c   e303     BNC       0x64                                                                                            
+00005e   cfee     MOVFF     0xfee,0xfe4                                                                                     
+000060   ffe4                                                                                                               
+000062   d7fb     BRA       0x5a                                                                                            
+000064   ee00     LFSR      0x0,0x2                                                                                         
+000066   f002                                                                                                               
+000068   0e00     MOVLW     0x0                                                                                             
+00006a   04e8     DECF      0xe8,0x0,0x0                                                                                    
+00006c   e303     BNC       0x74                                                                                            
+00006e   cfee     MOVFF     0xfee,0xfe4                                                                                     
+000070   ffe4                                                                                                               
+000072   d7fb     BRA       0x6a                                                                                            
+000074   52e6     MOVF      0xe6,0x1,0x0                                                                                    
+                                           {                                                                                D:\Helicopter Project\source\PWM\PWM.c
+000076   b49e     BTFSC     0x9e,0x2,0x0   	if(PIR1bits.CCP1IF)			// capture compare interrupt                              D:\Helicopter Project\source\PWM\PWM.c
+                                           	{                                                                               D:\Helicopter Project\source\PWM\PWM.c
+000078   d824     RCALL     0xc2           		CCPINT();                                                                      D:\Helicopter Project\source\PWM\PWM.c
+                                           	}                                                                               D:\Helicopter Project\source\PWM\PWM.c
+00007a   52e5     MOVF      0xe5,0x1,0x0   }                                                                                D:\Helicopter Project\source\PWM\PWM.c
+00007c   ee00     LFSR      0x0,0x1                                                                                         
+00007e   f001                                                                                                               
+000080   0e00     MOVLW     0x0                                                                                             
+000082   04e8     DECF      0xe8,0x0,0x0                                                                                    
+000084   e303     BNC       0x8c                                                                                            
+000086   cfe5     MOVFF     0xfe5,0xfed                                                                                     
+000088   ffed                                                                                                               
+00008a   d7fb     BRA       0x82                                                                                            
+00008c   ee00     LFSR      0x0,0x1                                                                                         
+00008e   f001                                                                                                               
+000090   0e02     MOVLW     0x2                                                                                             
+000092   04e8     DECF      0xe8,0x0,0x0                                                                                    
+000094   e303     BNC       0x9c                                                                                            
+000096   cfe5     MOVFF     0xfe5,0xfed                                                                                     
+000098   ffed                                                                                                               
+00009a   d7fb     BRA       0x92                                                                                            
+00009c   cfe5     MOVFF     0xfe5,0xffa                                                                                     
+00009e   fffa                                                                                                               
+0000a0   cfe5     MOVFF     0xfe5,0xff4                                                                                     
+0000a2   fff4                                                                                                               
+0000a4   cfe5     MOVFF     0xfe5,0xff3                                                                                     
+0000a6   fff3                                                                                                               
+0000a8   cfe5     MOVFF     0xfe5,0xff5                                                                                     
+0000aa   fff5                                                                                                               
+0000ac   cfe5     MOVFF     0xfe5,0xff7                                                                                     
+0000ae   fff7                                                                                                               
+0000b0   cfe5     MOVFF     0xfe5,0xff6                                                                                     
+0000b2   fff6                                                                                                               
+0000b4   cfe5     MOVFF     0xfe5,0xfea                                                                                     
+0000b6   ffea                                                                                                               
+0000b8   cfe5     MOVFF     0xfe5,0xfe9                                                                                     
+0000ba   ffe9                                                                                                               
+0000bc   cfe5     MOVFF     0xfe5,0xfda                                                                                     
+0000be   ffda                                                                                                               
+0000c0   0011     RETFIE    0x1                                                                                             
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           void CCPINT(void)                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                           {                                                                                D:\Helicopter Project\source\PWM\PWM.c
+0000c2   949e     BCF       0x9e,0x2,0x0   	PIR1bits.CCP1IF = 0; 		// clear the capture flag                                D:\Helicopter Project\source\PWM\PWM.c
+0000c4   cfce     MOVFF     0xfce,0x6a     	Capture.byte[0] = TMR1L;                                                        D:\Helicopter Project\source\PWM\PWM.c
+0000c6   f06a                                                                                                               
+0000c8   6ace     CLRF      0xce,0x0       	TMR1L = 0;					// Clear the low timer                                           D:\Helicopter Project\source\PWM\PWM.c
+0000ca   cfcf     MOVFF     0xfcf,0x6b     	Capture.byte[1] = TMR1H;                                                        D:\Helicopter Project\source\PWM\PWM.c
+0000cc   f06b                                                                                                               
+0000ce   6acf     CLRF      0xcf,0x0       	TMR1H = 0;					// Clear the high timer                                          D:\Helicopter Project\source\PWM\PWM.c
+0000d0   0012     RETURN    0x0            }                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           #pragma code high_int_vector = 0x08					/* change to interrupt page*/            D:\Helicopter Project\source\PWM\PWM.c
+                                           void interrupt_at_high_vector(void)                                              D:\Helicopter Project\source\PWM\PWM.c
+                                           {                                                                                D:\Helicopter Project\source\PWM\PWM.c
+000008   ef16     GOTO      0x2c           	_asm GOTO INTERRUPT _endasm                                                     D:\Helicopter Project\source\PWM\PWM.c
+00000a   f000                                                                                                               
+00000c   0012     RETURN    0x0            }                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           #pragma code 										/* return to default code section */                      D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           void main(void)                                                                  D:\Helicopter Project\source\PWM\PWM.c
+                                           {                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                           /*********** Varible declaration *****************/                              D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /********** Beginning of main code **************/                               D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /********* TROUBLESHOOTING TOOL *********                                        D:\Helicopter Project\source\PWM\PWM.c
+                                           		while(BusyUSART());                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           		TXREG = string2[17];                                                           D:\Helicopter Project\source\PWM\PWM.c
+                                           */                                                                               D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /******** VARIABLE INITIALIZATION ************/                                  D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           /******** START OF MAIN LOOP *****************/                                  D:\Helicopter Project\source\PWM\PWM.c
+0000d2   6a93     CLRF      0x93,0x0       	TRISB = 0X00;	// PORTB ALL OUTPUT                                               D:\Helicopter Project\source\PWM\PWM.c
+0000d4   9e95     BCF       0x95,0x7,0x0   	TRISDbits.TRISD7 = 0;                                                           D:\Helicopter Project\source\PWM\PWM.c
+0000d6   0e7f     MOVLW     0x7f           	PWMCON0 = 0X7F; // ALL ODD I/O PINS ENABLED, PWM I/Os IN INDEPENDANT MODE       D:\Helicopter Project\source\PWM\PWM.c
+0000d8   6e6f     MOVWF     0x6f,0x0                                                                                        
+0000da   6a6e     CLRF      0x6e,0x0       	PWMCON1 = 0X00;                                                                 D:\Helicopter Project\source\PWM\PWM.c
+0000dc   6a6d     CLRF      0x6d,0x0       	DTCON = 0X00; 	// DEAD TIME CONTROL                                             D:\Helicopter Project\source\PWM\PWM.c
+0000de   6a6c     CLRF      0x6c,0x0       	FLTCONFIG = 0X00;// FAULT CONFIGURATION                                         D:\Helicopter Project\source\PWM\PWM.c
+0000e0   686b     SETF      0x6b,0x0       	OVDCOND = 0XFF;	// OUTPUTS CONTROLED BY PWMS                                    D:\Helicopter Project\source\PWM\PWM.c
+0000e2   6a6a     CLRF      0x6a,0x0       	OVDCONS = 0X00;                                                                 D:\Helicopter Project\source\PWM\PWM.c
+                                           	                                                                                D:\Helicopter Project\source\PWM\PWM.c
+0000e4   6a7c     CLRF      0x7c,0x0       	PTMRH = 0X00;	// PWM TIME BASE                                                  D:\Helicopter Project\source\PWM\PWM.c
+0000e6   6a7d     CLRF      0x7d,0x0       	PTMRL = 0X00;                                                                   D:\Helicopter Project\source\PWM\PWM.c
+                                           	                                                                                D:\Helicopter Project\source\PWM\PWM.c
+0000e8   6a7a     CLRF      0x7a,0x0       	PTPERH = 0X00;	// TIME BASE PERIOD                                              D:\Helicopter Project\source\PWM\PWM.c
+0000ea   0e08     MOVLW     0x8            	PTPERL = 0X08;	// NEED TO ADJUST FOR 20ms PERIOD 0x061B                         D:\Helicopter Project\source\PWM\PWM.c
+0000ec   6e7b     MOVWF     0x7b,0x0                                                                                        
+                                           	                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                           	// PWM DUTY CYCLES                                                              D:\Helicopter Project\source\PWM\PWM.c
+0000ee   0e04     MOVLW     0x4            	PDC0L = 0X04;	// ADJUST THE UPPER 6 BITS FOR DUTY CYCLE                         D:\Helicopter Project\source\PWM\PWM.c
+0000f0   6e79     MOVWF     0x79,0x0                                                                                        
+0000f2   6a78     CLRF      0x78,0x0       	PDC0H = 0X00;                                                                   D:\Helicopter Project\source\PWM\PWM.c
+0000f4   0e08     MOVLW     0x8            	PDC1L = 0X08;                                                                   D:\Helicopter Project\source\PWM\PWM.c
+0000f6   6e77     MOVWF     0x77,0x0                                                                                        
+0000f8   6a76     CLRF      0x76,0x0       	PDC1H = 0X00;                                                                   D:\Helicopter Project\source\PWM\PWM.c
+0000fa   0e0c     MOVLW     0xc            	PDC2L = 0X0C;                                                                   D:\Helicopter Project\source\PWM\PWM.c
+0000fc   6e75     MOVWF     0x75,0x0                                                                                        
+0000fe   6a74     CLRF      0x74,0x0       	PDC2H = 0X00;                                                                   D:\Helicopter Project\source\PWM\PWM.c
+000100   0e10     MOVLW     0x10           	PDC3L = 0X10;                                                                   D:\Helicopter Project\source\PWM\PWM.c
+000102   6e73     MOVWF     0x73,0x0                                                                                        
+000104   6a72     CLRF      0x72,0x0       	PDC3H = 0X00;                                                                   D:\Helicopter Project\source\PWM\PWM.c
+                                           	                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                           	// START TIMERS                                                                 D:\Helicopter Project\source\PWM\PWM.c
+000106   0efd     MOVLW     0xfd           	PTCON0 = 0xFD;	// POSTSCALE 1:16, TIMEBASE INPUT CLOCK FOSC/256: PWM CONTINUOUS COUNTING D:\Helicopter Project\source\PWM\PWM.c
+000108   6e7f     MOVWF     0x7f,0x0                                                                                        
+00010a   0e80     MOVLW     0x80           	PTCON1 = 0x80;	// START TIMERS AND COUNT DOWN                                   D:\Helicopter Project\source\PWM\PWM.c
+00010c   6e7e     MOVWF     0x7e,0x0                                                                                        
+                                           	                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                           	do                                                                              D:\Helicopter Project\source\PWM\PWM.c
+                                           	{                                                                               D:\Helicopter Project\source\PWM\PWM.c
+                                           /******** INITILIZE LOOP VARIABLES ***********/                                  D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           		                                                                               D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           	}                                                                               D:\Helicopter Project\source\PWM\PWM.c
+00010e   d7ff     BRA       0x10e          	while(1);                                                                       D:\Helicopter Project\source\PWM\PWM.c
+000110   0012     RETURN    0x0            }                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                           /*****************************  End of Main code *********************/          D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+                                           void PCPWMInit(void)                                                             D:\Helicopter Project\source\PWM\PWM.c
+                                           {                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                                                                                                            D:\Helicopter Project\source\PWM\PWM.c
+000112   0012     RETURN    0x0            }                                                                                D:\Helicopter Project\source\PWM\PWM.c
+                                                   LIST P=18F4431                                                           C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                                                   LIST                                                                     C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                                                   END                                                                      C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                                           ;	RCS Header $Id: cmath18.asm,v 1.5 2006/01/12 23:16:38 rhinec Exp $             C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                                                                                                            C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                           ;       CMATH18 DATA DEFINITION FILE                                             C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                                                                                                            C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                           ;******************************************************************************* C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                           ;   VARIABLE ALLOCATION - Core math library routines                             C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                           ;******************************************************************************* C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                                                                                                            C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                           MATH_DATA      UDATA_ACS                                                         C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                                                                                                            C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                           SIGN		RES 1       ; save location for sign in MSB                                C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                           __FPFLAGSbits                                                                    C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                           __FPFLAGS		RES 1       ; floating point library exception flags                  C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                                                                                                            C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                                   GLOBAL  SIGN, __FPFLAGS, __FPFLAGSbits                                   C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                           	                                                                                C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                                   END                                                                      C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                                                                                                                            C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                                           /** @name __init                                                                 C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                                            * The {\bf __init} is called if the linker can not find a                       C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                                            * user defined version for it                                                   C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                                            */                                                                              C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                                                                                                                            C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                                           void __init (void)                                                               C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                                           {                                                                                C:\MCC18\src\TRADIT~1\stdclib\__init.c
+0001ce   0012     RETURN    0x0            }                                                                                C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                                                                                                                            C:\MCC18\src\TRADIT~1\stdclib\__init.c
