@@ -19,12 +19,10 @@ filter_lkr=*.lkr
 file_000=no
 file_001=no
 file_002=no
-file_003=no
 [FILE_INFO]
 file_000=PWM.c
 file_001=C:\MCC18\h\p18f4431.h
-file_002=C:\MCC18\h\delays.h
-file_003=C:\MCC18\lkr\18f4431.lkr
+file_002=C:\MCC18\lkr\18f4431.lkr
 [SUITE_INFO]
 suite_guid={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
 suite_state=

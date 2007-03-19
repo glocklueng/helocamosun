@@ -99,33 +99,37 @@ void main(void)
 	PTMRH = 0X00;	// PWM TIME BASE
 	PTMRL = 0X00;
 	
-	PTPERH = 0X00;	// TIME BASE PERIOD
-	PTPERL = 0X08;	// NEED TO ADJUST FOR 20ms PERIOD 0x061B
+	PTPERH = 0X0C;	// TIME BASE PERIOD
+	PTPERL = 0X35;	// NEED TO ADJUST FOR 20ms PERIOD 0x0C35
 	
 	// PWM DUTY CYCLES
-	PDC0L = 0X04;	// ADJUST THE UPPER 6 BITS FOR DUTY CYCLE
-	PDC0H = 0X00;
-	PDC1L = 0X08;
-	PDC1H = 0X00;
-	PDC2L = 0X0C;
-	PDC2H = 0X00;
-	PDC3L = 0X10;
-	PDC3H = 0X00;
+	PDC0L = 0X39;	// 0.5ms, minimum duty cycle
+	PDC0H = 0X01;
+	PDC1L = 0X1B;	// 2.5ms, maximum duty cycle
+	PDC1H = 0X06;
+	PDC2L = 0XAA;	// 1.5ms, 50% duty cycle
+	PDC2H = 0X03;	
+	PDC3L = 0X10;	// some random value
+	PDC3H = 0X04;
 	
 	// START TIMERS
-	PTCON0 = 0xFD;	// POSTSCALE 1:16, TIMEBASE INPUT CLOCK FOSC/256: PWM CONTINUOUS COUNTING
-	PTCON1 = 0x80;	// START TIMERS AND COUNT DOWN
+	PTCON0 = 0xFC;	// POSTSCALE 1:16, TIMEBASE INPUT CLOCK FOSC/256: EDGE TRIGGERED
+	PTCON1 = 0x80;	// START TIMERS AND COUNT UP
 	
 	do
 	{
 /******** INITILIZE LOOP VARIABLES ***********/
-
-
-
-		
+	if(PORTBbits.RB4)
+	{
+		Nop();
+	}
+	if(!PORTBbits.RB4)
+	{
+		Nop();
+	}
 
 	}
-	while(1);
+while(1);
 }
 /*****************************  End of Main code *********************/
 
