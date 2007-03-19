@@ -123,7 +123,7 @@ void Dynamics(void)
     
     
 
-    //printf("%f\n",xcell.sixdofX.rate[1]* C_FT2M);
+
     
     HC.UpdateSensorValues(xcell.sixdofX);
     
@@ -131,7 +131,10 @@ void Dynamics(void)
 	U[1] = HC.RollCorrection()*C_DEG2RAD;			// A1 (roll)
 	U[2] = HC.PitchCorrection()*C_DEG2RAD;			// B1 (pitch)
 	U[3] = HC.YawCorrection()*C_DEG2RAD;			// tail rotor collective
-    printf("%f\n",U[3] * C_RAD2DEG);	
+	
+	    printf("RATE: %f, ANGLE: %f, CORRECTION: %f\n",xcell.sixdofX.rate[2]* C_FT2M, xcell.sixdofX.THETA[2],U[3] * C_RAD2DEG);
+	    
+   // printf("%f\n",U[3] * C_RAD2DEG);	
 	for(n=0; n<(int)(windows_dt/model_dt); ++n)
 	{
      	//U[0] = 10.0*C_DEG2RAD;			// main rotor collective
