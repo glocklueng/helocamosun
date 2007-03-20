@@ -12,6 +12,7 @@
 
 #define COMPASS 2
 
+
 HelicopterController::HelicopterController()
 {
     ForwardBackward_Accelerometer = 0;
@@ -34,29 +35,29 @@ void HelicopterController::UpdateSensorValues(sixdof_fe_state_def  s)
      
      Compass = s.THETA[COMPASS];                                    
 }
-double HelicopterController::RollCorrection(void)
+double HelicopterController::RollCorrection(double CorrectValue)
 {
   return 0.1;       
        
 }
-double HelicopterController::PitchCorrection(void)
+double HelicopterController::PitchCorrection(double CorrectValue)
 {
   return 0.1;       
        
 }
-double HelicopterController::YawCorrection(void)
+
+double HelicopterController::YawCorrection(double CorrectValue)
 {
   static double integral = 0;
-
-  double CorrectValue = 1;
-  double PropConst = 0.8;
-  double IntConst = 0.1;
-  double DerConst = 0.7;
-
-
-  double proportion = -PropConst * (Compass  - CorrectValue);
+  double PropConst = 50;
+  double IntConst = 12;
+  double DerConst = 10;
+  double proportion;
+  double derivative;
+  
+  proportion = -PropConst * (Compass  - CorrectValue);
   integral += -IntConst * (Compass - CorrectValue)* CalcPeriod; 
-  double derivative = -DerConst * Yaw_Gyro;
-     
-  return  proportion + derivative + integral + 6.42571;    
+  derivative = -DerConst * Yaw_Gyro;
+
+  return  proportion + derivative + integral;    
 }
