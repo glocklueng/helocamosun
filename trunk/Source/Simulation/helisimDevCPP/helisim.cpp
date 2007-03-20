@@ -127,12 +127,12 @@ void Dynamics(void)
     
     HC.UpdateSensorValues(xcell.sixdofX);
     
-	U[0] = 10.0*C_DEG2RAD;			// main rotor collective
-	U[1] = HC.RollCorrection()*C_DEG2RAD;			// A1 (roll)
-	U[2] = HC.PitchCorrection()*C_DEG2RAD;			// B1 (pitch)
-	U[3] = HC.YawCorrection()*C_DEG2RAD;			// tail rotor collective
+	U[0] = 10.0*C_DEG2RAD;			                // main rotor collective
+	U[1] = HC.RollCorrection(0)*C_DEG2RAD;			// A1 (roll)
+	U[2] = HC.PitchCorrection(0)*C_DEG2RAD;			// B1 (pitch)
+	U[3] = HC.YawCorrection(2.0)*C_DEG2RAD;			// tail rotor collective
 	
-	    printf("RATE: %f, ANGLE: %f, CORRECTION: %f\n",xcell.sixdofX.rate[2]* C_FT2M, xcell.sixdofX.THETA[2],U[3] * C_RAD2DEG);
+	printf("RATE: %f, ANGLE: %f, CORRECTION: %f\n",xcell.sixdofX.rate[2]* C_FT2M, xcell.sixdofX.THETA[2],U[3] * C_RAD2DEG);
 	    
    // printf("%f\n",U[3] * C_RAD2DEG);	
 	for(n=0; n<(int)(windows_dt/model_dt); ++n)
@@ -142,18 +142,14 @@ void Dynamics(void)
         //U[2] = -4.0*C_DEG2RAD;			// B1 (pitch)
         //U[3] = 7.0*C_DEG2RAD;			// tail rotor collective
        
- 
-        
         xcell.sixdofIn.hold_u   = 1;	//	hold X-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_v	= 1;	//	hold Y-axis body vel. constant (1 hold, 0 free)
-        xcell.sixdofIn.hold_w	= 1;	//	hold Z-axis body vel. constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_w	= 0;	//	hold Z-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_p	= 1;	//	hold X-axis body rate constant (1 hold, 0 free)
         xcell.sixdofIn.hold_q	= 1;	//	hold Y-axis body rate constant (1 hold, 0 free)
         xcell.sixdofIn.hold_r	= 0;	//  hold Z-axis body rate constant (1 hold, 0 free)
 			
 		ModelGO(U);
-
-
 	}
 
 }

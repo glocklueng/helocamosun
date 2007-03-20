@@ -8,9 +8,9 @@ class HelicopterController
  public:
          HelicopterController();
          void UpdateSensorValues(sixdof_fe_state_def  sensors);
-         double RollCorrection(void);
-         double PitchCorrection(void);
-         double YawCorrection(void);
+         double RollCorrection(double CorrectValue);
+         double PitchCorrection(double CorrectValue);
+         double YawCorrection(double CorrectValue);
          
  private:
          double ForwardBackward_Accelerometer;
