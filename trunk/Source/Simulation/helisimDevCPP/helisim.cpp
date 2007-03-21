@@ -127,27 +127,23 @@ void Dynamics(void)
     
     HC.UpdateSensorValues(xcell.sixdofX);
     
-	U[0] = 10.0*C_DEG2RAD;			                // main rotor collective
-	U[1] = HC.RollCorrection(0)*C_DEG2RAD;			// A1 (roll)
-	U[2] = HC.PitchCorrection(0)*C_DEG2RAD;			// B1 (pitch)
+	U[0] = 9.3*C_DEG2RAD;			                // main rotor collective
+	U[1] = HC.RollCorrection(0.0)*C_DEG2RAD;			// A1 (roll)
+	U[2] = HC.PitchCorrection(-0.0)*C_DEG2RAD;		// B1 (pitch)
 	U[3] = HC.YawCorrection(2.0)*C_DEG2RAD;			// tail rotor collective
-	
-	printf("RATE: %f, ANGLE: %f, CORRECTION: %f\n",xcell.sixdofX.rate[2]* C_FT2M, xcell.sixdofX.THETA[2],U[3] * C_RAD2DEG);
-	    
-   // printf("%f\n",U[3] * C_RAD2DEG);	
-	for(n=0; n<(int)(windows_dt/model_dt); ++n)
+	system("cls");
+	printf("YAW: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[2]* C_FT2M, xcell.sixdofX.THETA[2],U[3]);
+	printf("PITCH: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[1]* C_FT2M,xcell.sixdofX.THETA[1],U[2]);	    
+   	printf("ROLL: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[0]* C_FT2M,xcell.sixdofX.THETA[0],U[1]);
+   	for(n=0; n<(int)(windows_dt/model_dt); ++n)
 	{
-     	//U[0] = 10.0*C_DEG2RAD;			// main rotor collective
-        //U[1] = -4.0*C_DEG2RAD;			// A1 (roll)
-        //U[2] = -4.0*C_DEG2RAD;			// B1 (pitch)
-        //U[3] = 7.0*C_DEG2RAD;			// tail rotor collective
        
-        xcell.sixdofIn.hold_u   = 1;	//	hold X-axis body vel. constant (1 hold, 0 free)
-        xcell.sixdofIn.hold_v	= 1;	//	hold Y-axis body vel. constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_u   = 0;	//	hold X-axis body vel. constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_v	= 0;	//	hold Y-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_w	= 0;	//	hold Z-axis body vel. constant (1 hold, 0 free)
-        xcell.sixdofIn.hold_p	= 1;	//	hold X-axis body rate constant (1 hold, 0 free)
-        xcell.sixdofIn.hold_q	= 1;	//	hold Y-axis body rate constant (1 hold, 0 free)
-        xcell.sixdofIn.hold_r	= 0;	//  hold Z-axis body rate constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_p	= 0;	//	hold X-axis body rate constant (1 hold, 0 free) side to side roll
+        xcell.sixdofIn.hold_q	= 0;	//	hold Y-axis body rate constant (1 hold, 0 free) forward backward roll
+        xcell.sixdofIn.hold_r	= 0;	//  hold Z-axis body rate constant (1 hold, 0 free) yaw
 			
 		ModelGO(U);
 	}
