@@ -25,25 +25,48 @@ HelicopterController::HelicopterController()
 }
 void HelicopterController::UpdateSensorValues(sixdof_fe_state_def  s)
 {
-     ForwardBackward_Accelerometer = s.accel[FORWARDBACKWARD_ACCELEROMETER];
-     LeftRight_Accelerometer = s.accel[FORWARDBACKWARD_ACCELEROMETER];
+     
+     ForwardBackward_Accelerometer = s.THETA[1];//s.accel[FORWARDBACKWARD_ACCELEROMETER];
+     LeftRight_Accelerometer = s.THETA[0];//s.accel[FORWARDBACKWARD_ACCELEROMETER];
      UpDown_Accelerometer = s.accel[UPDOWN_ACCELEROMETER];             
     
      Roll_Gyro = s.rate[ROLLRATE_GYRO];
      Pitch_Gyro = s.rate[PITCHRATE_GYRO];
      Yaw_Gyro = s.rate[YAWRATE_GYRO];
      
-     Compass = s.THETA[COMPASS];                                    
+     Compass = s.THETA[COMPASS];                                  
 }
 double HelicopterController::RollCorrection(double CorrectValue)
 {
-  return 0.1;       
-       
+  static double integral = 0;
+  double PropConst = 15;
+  double IntConst = 2;
+  double DerConst = 5;
+  double proportion;
+  double derivative;
+  
+  proportion = -PropConst * (LeftRight_Accelerometer - CorrectValue);
+  integral += -IntConst * (LeftRight_Accelerometer - CorrectValue)* CalcPeriod; 
+  derivative = DerConst * Roll_Gyro;
+
+  return  proportion + derivative + integral;    
 }
 double HelicopterController::PitchCorrection(double CorrectValue)
 {
-  return 0.1;       
-       
+  static double integral = 0;
+
+  double PropConst = 10;
+  double IntConst = 2;
+  double DerConst = 5;
+  
+  double proportion;
+  double derivative;
+  
+  proportion = PropConst * (ForwardBackward_Accelerometer - CorrectValue);
+  integral += IntConst * (ForwardBackward_Accelerometer - CorrectValue)* CalcPeriod; 
+  derivative = DerConst * Pitch_Gyro;
+
+  return  proportion + derivative + integral;    
 }
 
 double HelicopterController::YawCorrection(double CorrectValue)
