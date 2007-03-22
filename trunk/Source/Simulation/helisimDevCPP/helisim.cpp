@@ -128,9 +128,9 @@ void Dynamics(void)
     HC.UpdateSensorValues(xcell.sixdofX);
     
 	U[0] = 9.3*C_DEG2RAD;			                // main rotor collective
-	U[1] = HC.RollCorrection(0.0)*C_DEG2RAD;			// A1 (roll)
-	U[2] = HC.PitchCorrection(-0.0)*C_DEG2RAD;		// B1 (pitch)
-	U[3] = HC.YawCorrection(2.0)*C_DEG2RAD;			// tail rotor collective
+	U[1] = HC.RollCorrection(0)*C_DEG2RAD;			// A1 (roll)
+	U[2] = HC.PitchCorrection(0)*C_DEG2RAD;		// B1 (pitch)
+	U[3] = HC.YawCorrection(1.0)*C_DEG2RAD;			// tail rotor collective
 	system("cls");
 	printf("YAW: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[2]* C_FT2M, xcell.sixdofX.THETA[2],U[3]);
 	printf("PITCH: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[1]* C_FT2M,xcell.sixdofX.THETA[1],U[2]);	    

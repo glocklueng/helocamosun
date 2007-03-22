@@ -39,9 +39,9 @@ void HelicopterController::UpdateSensorValues(sixdof_fe_state_def  s)
 double HelicopterController::RollCorrection(double CorrectValue)
 {
   static double integral = 0;
-  double PropConst = 15;
-  double IntConst = 2;
-  double DerConst = 5;
+  double PropConst = 10;
+  double IntConst = 20;
+  double DerConst = 3;
   double proportion;
   double derivative;
   
@@ -54,11 +54,9 @@ double HelicopterController::RollCorrection(double CorrectValue)
 double HelicopterController::PitchCorrection(double CorrectValue)
 {
   static double integral = 0;
-
   double PropConst = 10;
-  double IntConst = 2;
-  double DerConst = 5;
-  
+  double IntConst = 20;
+  double DerConst = 3;
   double proportion;
   double derivative;
   
