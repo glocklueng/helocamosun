@@ -8,9 +8,10 @@ class HelicopterController
  public:
          HelicopterController();
          void UpdateSensorValues(sixdof_fe_state_def  sensors);
-         double RollCorrection(double CorrectValue);
-         double PitchCorrection(double CorrectValue);
-         double YawCorrection(double CorrectValue);
+         double RollCorrection(double CorrectRollAngle);
+         double PitchCorrection(double CorrectPitchAngle);
+         double YawCorrection(double CorrectYawAngle);
+         double CollectiveCorrection(double CorrectAltitude);
          
  private:
          double ForwardBackward_Accelerometer;
@@ -22,6 +23,10 @@ class HelicopterController
          double Yaw_Gyro;  
          
          double Compass;
+         
+         double Altitude;
+         double North;
+         double East;
 
       
       
