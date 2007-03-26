@@ -66,7 +66,7 @@ namespace CommProtocolLib
             }
             else
             {
-                throw new Exception("CommProtocol Error:  SendTTCEngineRPM, specified RPM value '" + RPM +
+                throw new Exception("CommProtocol Error: SetMotorRPM, specified RPM value '" + RPM +
                                     "' is out of range.  Use a value >= 0 and <= 100");
             }
         }
@@ -76,7 +76,35 @@ namespace CommProtocolLib
         /// <param name="PitchCyclic"></param>
         public void SetCyclicPitch(int CyclicPitch)
         {
-
+            if (RPM >= 0 && RPM <= 100)
+            {
+                Byte[] OutData = new byte[9];
+                OutData[0] = 0xA5;//Start of transmission 1
+                OutData[1] = 0x5A;//Start of transmission 2
+                OutData[2] = 0x54;//Command type “Testing/Tuning”
+                OutData[3] = 0x50;//Command “Pitch Servo adjust”
+                //value from 0x00 to 0x64 representing the desired percentage of engine speed.
+                OutData[4] = Convert.ToByte(CyclicPitch);
+                //Calculate checksum high byte
+                OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
+                //Calculate checksum low byte
+                OutData[6] = Convert.ToByte(((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0x00FF);
+                OutData[7] = 0xCC;//End of transmission 1
+                OutData[8] = 0x33;//End of transmission 2
+                try
+                {
+                    SP.Write(OutData, 0, 9);//write the data to the serial port
+                }
+                catch (Exception ex)
+                {
+                    ClassExceptions.Add(ex);
+                }
+            }
+            else
+            {
+                throw new Exception("CommProtocol Error:  SetCyclicPitch, specified Cyclic Pitch value '" + CyclicPitch +
+                    "' is out of range.  Use a value >= 0 and <= 100");
+            }
 
         }
     }
