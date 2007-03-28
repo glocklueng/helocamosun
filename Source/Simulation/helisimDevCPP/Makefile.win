@@ -1,18 +1,18 @@
 # Project: Helisim
 # Makefile created by Dev-C++ 4.9.9.2
 
-CPP  = g++.exe
-CC   = gcc.exe
+CPP  = g++.exe -D__DEBUG__
+CC   = gcc.exe -D__DEBUG__
 WINDRES = windres.exe
 RES  = 
-OBJ  = graphics.obj helisim.obj instruments.obj matlib.obj model.obj simlib.obj control.obj $(RES)
-LINKOBJ  = graphics.obj helisim.obj instruments.obj matlib.obj model.obj simlib.obj control.obj $(RES)
-LIBS =  -L"C:/Dev-Cpp/lib" -lopengl32 -lglu32 -lglut32 libglut.a glut32.lib  
+OBJ  = graphics.o helisim.o instruments.o matlib.o model.o simlib.o control.o $(RES)
+LINKOBJ  = graphics.o helisim.o instruments.o matlib.o model.o simlib.o control.o $(RES)
+LIBS =  -L"C:/Dev-Cpp/lib" -lopengl32 -lglu32 -lglut32 libglut.a glut32.lib  -lgmon -pg  -g3 
 INCS =  -I"C:/Dev-Cpp/include" 
-CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include"  -I"C:/Dev-Cpp/include/wx/msw"  -I"C:/Dev-Cpp/include/wx/generic"  -I"C:/Dev-Cpp/include/wx/animate"  -I"C:/Dev-Cpp/include/wx/fl"  -I"C:/Dev-Cpp/include/wx/gizmos"  -I"C:/Dev-Cpp/include/wx/html"  -I"C:/Dev-Cpp/include/wx/mmedia"  -I"C:/Dev-Cpp/include/wx/net"  -I"C:/Dev-Cpp/include/wx/ogl"  -I"C:/Dev-Cpp/include/wx/plot"  -I"C:/Dev-Cpp/include/wx/protocol"  -I"C:/Dev-Cpp/include/wx/stc"  -I"C:/Dev-Cpp/include/wx/svg"  -I"C:/Dev-Cpp/include/wx/xml"  -I"C:/Dev-Cpp/include/wx/xrc"  -I"C:/Dev-Cpp/include/wx" 
+CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include" 
 BIN  = Helisim.exe
-CXXFLAGS = $(CXXINCS) 
-CFLAGS = $(INCS) 
+CXXFLAGS = $(CXXINCS)   -pg -g3
+CFLAGS = $(INCS)   -pg -g3
 RM = rm -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -21,29 +21,28 @@ all: all-before Helisim.exe all-after
 
 
 clean: clean-custom
-clean: 
-	$(RM) $(OBJ) $(BIN)
+	${RM} $(OBJ) $(BIN)
 
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o "Helisim.exe" $(LIBS)
 
-graphics.obj: graphics.cpp C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/GL/gl.h C:/Dev-Cpp/include/GL/glu.h   C:/Dev-Cpp/include/math.h C:/Dev-Cpp/include/GL/glut.h matlib.h model.h   C:/Dev-Cpp/include/time.h simlib.h
-	$(CPP) -c graphics.cpp -o graphics.obj $(CXXFLAGS)
+graphics.o: graphics.cpp
+	$(CPP) -c graphics.cpp -o graphics.o $(CXXFLAGS)
 
-helisim.obj: helisim.cpp C:/Dev-Cpp/include/stdio.h C:/Dev-Cpp/include/sys/types.h   C:/Dev-Cpp/include/GL/gl.h C:/Dev-Cpp/include/GL/glu.h   C:/Dev-Cpp/include/math.h C:/Dev-Cpp/include/GL/glut.h matlib.h model.h   C:/Dev-Cpp/include/time.h simlib.h graphics.h instruments.h control.h
-	$(CPP) -c helisim.cpp -o helisim.obj $(CXXFLAGS)
+helisim.o: helisim.cpp
+	$(CPP) -c helisim.cpp -o helisim.o $(CXXFLAGS)
 
-instruments.obj: instruments.cpp C:/Dev-Cpp/include/windows.h C:/Dev-Cpp/include/stdio.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/GL/gl.h   C:/Dev-Cpp/include/GL/glu.h C:/Dev-Cpp/include/math.h   C:/Dev-Cpp/include/GL/glut.h matlib.h
-	$(CPP) -c instruments.cpp -o instruments.obj $(CXXFLAGS)
+instruments.o: instruments.cpp
+	$(CPP) -c instruments.cpp -o instruments.o $(CXXFLAGS)
 
-matlib.obj: matlib.cpp C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/math.h   C:/Dev-Cpp/include/string.h matlib.h
-	$(CPP) -c matlib.cpp -o matlib.obj $(CXXFLAGS)
+matlib.o: matlib.cpp
+	$(CPP) -c matlib.cpp -o matlib.o $(CXXFLAGS)
 
-model.obj: model.cpp C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/stdlib.h   C:/Dev-Cpp/include/math.h C:/Dev-Cpp/include/time.h   C:/Dev-Cpp/include/windows.h matlib.h simlib.h
-	$(CPP) -c model.cpp -o model.obj $(CXXFLAGS)
+model.o: model.cpp
+	$(CPP) -c model.cpp -o model.o $(CXXFLAGS)
 
-simlib.obj: simlib.cpp C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/math.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/string.h matlib.h
-	$(CPP) -c simlib.cpp -o simlib.obj $(CXXFLAGS)
+simlib.o: simlib.cpp
+	$(CPP) -c simlib.cpp -o simlib.o $(CXXFLAGS)
 
-control.obj: control.cpp C:/Dev-Cpp/include/_mingw.h   C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   C:/Dev-Cpp/include/sys/types.h C:/Dev-Cpp/include/math.h   C:/Dev-Cpp/include/stdlib.h C:/Dev-Cpp/include/string.h matlib.h
-	$(CPP) -c control.cpp -o control.obj $(CXXFLAGS)
+control.o: control.cpp
+	$(CPP) -c control.cpp -o control.o $(CXXFLAGS)

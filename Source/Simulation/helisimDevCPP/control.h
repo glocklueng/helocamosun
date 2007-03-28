@@ -25,6 +25,7 @@ class HelicopterController
          double Compass;
          
          double Altitude;
+         double AltitudeRate;
          double North;
          double East;
 
