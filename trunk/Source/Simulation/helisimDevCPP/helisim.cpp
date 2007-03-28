@@ -127,21 +127,21 @@ void Dynamics(void)
     
     HC.UpdateSensorValues(xcell.sixdofX);
     
-	U[0] = 9.2*C_DEG2RAD;			                // main rotor collective
+	U[0] = HC.CollectiveCorrection(5);			                // main rotor collective
 	U[1] = HC.RollCorrection(0*C_DEG2RAD)*C_DEG2RAD;			// A1 (roll)
-	U[2] = HC.PitchCorrection(0*C_DEG2RAD)*C_DEG2RAD;		// B1 (pitch)
-	U[3] = HC.YawCorrection(1.0)*C_DEG2RAD;			// tail rotor collective
-	system("cls");
+	U[2] = HC.PitchCorrection(-10*C_DEG2RAD)*C_DEG2RAD;		// B1 (pitch)
+	U[3] = HC.YawCorrection(2.0)*C_DEG2RAD;			// tail rotor collective
+	//system("cls");
 	printf("YAW: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[2]* C_FT2M, xcell.sixdofX.THETA[2],U[3]);
 	printf("PITCH: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[1]* C_FT2M,xcell.sixdofX.THETA[1],U[2]);	    
    	printf("ROLL: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[0]* C_FT2M,xcell.sixdofX.THETA[0],U[1]);
-   	printf("ALTITUDE: %f\n",-xcell.sixdofX.NED[2]);
-   	printf("VELOCITY UP: %f\n",-xcell.sixdofX.Vb[2]);   	
+   	printf("COLL: \tRATE: %f, \tALTITUDE: %f, \tCORRECTION: %f\n",-xcell.sixdofX.Vb[2], -xcell.sixdofX.NED[2], U[0]);
+   	printf("ACCEL0: %f, ACCEL1: %f, ACCEL2: %f\n",xcell.sixdofX.accel[0]* C_FT2M,xcell.sixdofX.accel[1]* C_FT2M,xcell.sixdofX.accel[2]* C_FT2M);        	
     for(n=0; n<(int)(windows_dt/model_dt); ++n)
 	{
        
-        xcell.sixdofIn.hold_u   = 1;	//	hold X-axis body vel. constant (1 hold, 0 free)
-        xcell.sixdofIn.hold_v	= 1;	//	hold Y-axis body vel. constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_u   = 0;	//	hold X-axis body vel. constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_v	= 0;	//	hold Y-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_w	= 0;	//	hold Z-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_p	= 0;	//	hold X-axis body rate constant (1 hold, 0 free) side to side roll
         xcell.sixdofIn.hold_q	= 0;	//	hold Y-axis body rate constant (1 hold, 0 free) forward backward roll

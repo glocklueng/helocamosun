@@ -41,6 +41,7 @@ void HelicopterController::UpdateSensorValues(sixdof_fe_state_def  s)
      Compass = s.THETA[COMPASS];    
      
      Altitude = -s.NED[DOWN];
+     AltitudeRate = s.Vb[2];
      North = s.NED[NORTH];
      East = s.NED[EAST];                              
 }
@@ -78,9 +79,9 @@ double HelicopterController::PitchCorrection(double CorrectPitchAngle)
 double HelicopterController::YawCorrection(double CorrectYawAngle)
 {
   static double integral = 0;
-  double PropConst = 50;
-  double IntConst = 12;
-  double DerConst = 10;
+  double PropConst = 20;
+  double IntConst = 25;
+  double DerConst = 6;
   double proportion;
   double derivative;
   
@@ -94,15 +95,15 @@ double HelicopterController::YawCorrection(double CorrectYawAngle)
 double HelicopterController::CollectiveCorrection(double CorrectAltitude)
 {
   static double integral = 0;
-  double PropConst = 50;
-  double IntConst = 12;
-  double DerConst = 10;
+  double PropConst = 0.06;
+  double IntConst = 0.03;
+  double DerConst = 0.03;
   double proportion;
   double derivative;
   
   proportion = -PropConst * (Altitude  - CorrectAltitude);
   integral += -IntConst * (Altitude - CorrectAltitude)* CalcPeriod; 
-  //derivative = -DerConst * AltitudeRate;
+  derivative = DerConst * AltitudeRate;
 
   return  proportion + derivative + integral;    
 }
