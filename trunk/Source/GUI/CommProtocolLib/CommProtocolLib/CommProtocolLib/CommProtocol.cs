@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO.Ports;
+using System.Timers;
 
 namespace CommProtocolLib
 {
@@ -10,12 +11,14 @@ namespace CommProtocolLib
     {
         ArrayList ClassExceptions = new ArrayList();
         SerialPort SP;
+        string IncomingDataBuffer;
         public CommProtocol(string PortName, int BaudRate)
         {
             try
             {
                 SP = new SerialPort(PortName, BaudRate);
                 SP.Open();
+                SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
             }
             catch (Exception ex)
             {
@@ -28,12 +31,14 @@ namespace CommProtocolLib
             {
                 SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
                 SP.Open();
+                SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
             }
             catch (Exception ex)
             {
                 ClassExceptions.Add(ex);
             }
         }
+        #region Testing and tuning commands
         /// <summary>
         /// Set the helicopter's motor's RPM
         /// </summary>
@@ -71,12 +76,12 @@ namespace CommProtocolLib
             }
         }
         /// <summary>
-        /// 
+        /// Set the cyclic pitch control from 0 to 100
         /// </summary>
         /// <param name="PitchCyclic"></param>
         public void SetCyclicPitch(int CyclicPitch)
         {
-            if (RPM >= 0 && RPM <= 100)
+            if (CyclicPitch >= 0 && CyclicPitch <= 100)
             {
                 Byte[] OutData = new byte[9];
                 OutData[0] = 0xA5;//Start of transmission 1
@@ -106,6 +111,47 @@ namespace CommProtocolLib
                     "' is out of range.  Use a value >= 0 and <= 100");
             }
 
+        }
+        #endregion
+
+
+        private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            
+            IncomingDataBuffer += SP.ReadExisting();
+            if (IncomingDataBuffer.Length >= 2)//start of transmission bytes are 0 and 1
+            {
+                if (IncomingDataBuffer[0] == 0xA5 && IncomingDataBuffer[1] == 0x5A)
+                {
+                    if (IncomingDataBuffer.Length >= 4)//command bytes are 2 and 3
+                    {
+                        if (IncomingDataBuffer[3] == 0x74)//telemetry
+                        {
+                            if (IncomingDataBuffer.Length >= 6)
+                            {
+                                if (IncomingDataBuffer[4] == 0x4C)//Report “Location”
+                                {
+
+                                }
+                                else if (IncomingDataBuffer[4] == 0x48)//Report “Heading, Speed, and Altitude”
+                                {
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            IncomingDataBuffer = "";//garbage data, blank the buffer
+                            throw new Exception("Received unknown command from helicopter: " + string.Format("0:X2", IncomingDataBuffer[3]));
+                        }
+                    }
+                }
+                else
+                {
+                    IncomingDataBuffer = "";//garbage data, blank the buffer
+                    throw new Exception("Received unknown packet header from helicopter: byte 1:" + string.Format("0:X2", IncomingDataBuffer[3]) + "byte2: " + string.Format("0:X", IncomingDataBuffer[3]));
+                }
+            }
         }
     }
 }
