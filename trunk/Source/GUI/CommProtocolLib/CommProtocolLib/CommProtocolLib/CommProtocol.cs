@@ -7,6 +7,20 @@ using System.Timers;
 
 namespace CommProtocolLib
 {
+    public struct Latitude
+    {
+        /*
+        0xDD	Degrees (0-180) Latitude
+        0xMM	Minutes (0-59) Latitude
+        0xSSSS	Seconds (0-59) Latitude. Use first six bits for integer portion of seconds, use remaining 10 bits for decimal portion of seconds. There are approximately 31 meters in one second of latitude (and slightly less in 1 minute of longitude at our distance from the equator). 31m / 2^10 = 3 cm accuracy, which is way more accuracy than the GPS will determine.
+        North or South
+        */
+        public byte Degrees;
+        public byte Minutes;
+        public byte SecondsH;
+        public byte SecondsL;
+        public bool North;
+    }
     public class CommProtocol
     {
         ArrayList ClassExceptions = new ArrayList();
@@ -17,6 +31,7 @@ namespace CommProtocolLib
             try
             {
                 SP = new SerialPort(PortName, BaudRate);
+                SP.Encoding = Encoding.ASCII;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
             }
@@ -30,6 +45,7 @@ namespace CommProtocolLib
             try
             {
                 SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
+                SP.Encoding = Encoding.ASCII;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
             }
@@ -116,41 +132,77 @@ namespace CommProtocolLib
 
 
         private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            
+        {           
             IncomingDataBuffer += SP.ReadExisting();
-            if (IncomingDataBuffer.Length >= 2)//start of transmission bytes are 0 and 1
+            MatchIncomingPacket(ref IncomingDataBuffer);
+        }
+        private void MatchIncomingPacket(ref string Packet)
+        {
+            byte[] LocationPacket = { 0xA5, 0x5A, 0x74, 0x4C };//first 2 bytes are header, second pair are location command packet
+            byte[] HeadingSpeedAltitude = { 0xA5, 0x5A, 0x74, 0x48 };//first 2 bytes are header, second pair are HeadingSpeedAltitude command packet
+
+            if (Packet.Contains(LocationPacket.ToString()))
             {
-                if (IncomingDataBuffer[0] == 0xA5 && IncomingDataBuffer[1] == 0x5A)
+                /*
+                Location Packet:
+                  1 0xA5    SOT1
+                    0x5A    SOT2
+                    0x74	Report type “Telemetry”
+                  4 0x4C	Report “Location”
+
+                    0xDD	Degrees (0-180) Latitude
+                    0xMM	Minutes (0-59) Latitude
+                    0xSSSS	Seconds (0-59) Latitude. Use first six bits for integer portion of seconds, use remaining 10 bits for decimal portion of seconds. There are approximately 31 meters in one second of latitude (and slightly less in 1 minute of longitude at our distance from the equator). 31m / 2^10 = 3 cm accuracy, which is way more accuracy than the GPS will determine.
+                  9 0xNS	0x4E = North or 0x53 = South
+
+                    0xDD	Degrees (0-180) Longitude
+                    0xMM	Minutes (0-59) Longitude
+                    0xSSSS	Seconds (0-59) Longitude. See above for more details.
+                 14 0xEW	0x45 = East or 0x57 = West
+                    
+                    0xXX    Checksum 1
+                    0xXX    Checksum 2
+                    
+                    0xCC    EOT1
+                 18 0x33    EOT2
+                */
+                if (Packet.Length == 18 && Packet[16] == 0xCC && Packet[17] == 0x33)
                 {
-                    if (IncomingDataBuffer.Length >= 4)//command bytes are 2 and 3
+                    //calculate checksum
+                    int sum = 0;
+                    for(int i = 2; i<14; i++)
                     {
-                        if (IncomingDataBuffer[3] == 0x74)//telemetry
-                        {
-                            if (IncomingDataBuffer.Length >= 6)
-                            {
-                                if (IncomingDataBuffer[4] == 0x4C)//Report “Location”
-                                {
+                        sum+=Packet[i];
+                    }
+                    byte chk1 = (byte)((sum & 0x0000FF00) >> 8);
+                    byte chk2 = (byte)(sum & 0x000000FF);
+                    if (chk1 != Packet[14] || chk2 != Packet[15])
+                    {
+                        //checksum error
+                        //bad packet, dump it
+                        //todo: handle the bad packet with an event
 
-                                }
-                                else if (IncomingDataBuffer[4] == 0x48)//Report “Heading, Speed, and Altitude”
-                                {
-
-                                }
-                            }
-                        }
-                        else
-                        {
-                            IncomingDataBuffer = "";//garbage data, blank the buffer
-                            throw new Exception("Received unknown command from helicopter: " + string.Format("0:X2", IncomingDataBuffer[3]));
-                        }
+                        Packet = "";
+                    }
+                    else
+                    {
+                        Latitude Lat = new Latitude();
+                        Lat.Degrees = Packet[4];
+                        Lat.Minutes = Packet[5];
+                       // Lat.SecondsH = Mike needs to specify this part more precisely
                     }
                 }
-                else
-                {
-                    IncomingDataBuffer = "";//garbage data, blank the buffer
-                    throw new Exception("Received unknown packet header from helicopter: byte 1:" + string.Format("0:X2", IncomingDataBuffer[3]) + "byte2: " + string.Format("0:X", IncomingDataBuffer[3]));
-                }
+            }
+            else if (Packet.Contains(HeadingSpeedAltitude.ToString()))
+            {
+
+            }
+            else if (Packet.Length > 4)
+            {
+                //bad packet, dump it
+                //todo: handle the bad packet with an event
+                
+                Packet = "";
             }
         }
     }
