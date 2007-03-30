@@ -21,6 +21,21 @@ namespace CommProtocolLib
         public byte SecondsL;
         public bool North;
     }
+    public struct Longitude
+    {
+        /*
+        0xDD	Degrees (0-180) Longitude
+        0xMM	Minutes (0-59) Longitude
+        0xSSSS	Seconds (0-59) Longitude. Use first six bits for integer portion of seconds, use remaining 10 bits for decimal portion of seconds. There are approximately 31 meters in one second of latitude (and slightly less in 1 minute of longitude at our distance from the equator). 31m / 2^10 = 3 cm accuracy, which is way more accuracy than the GPS will determine.
+        East or West
+        */
+        public byte Degrees;
+        public byte Minutes;
+        public byte SecondsH;
+        public byte SecondsL;
+        public bool East;
+    }
+
     public class CommProtocol
     {
         ArrayList ClassExceptions = new ArrayList();
@@ -31,7 +46,7 @@ namespace CommProtocolLib
             try
             {
                 SP = new SerialPort(PortName, BaudRate);
-                SP.Encoding = Encoding.ASCII;
+                SP.Encoding = Encoding.Unicode;//char type uses unicode for strings
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
             }
@@ -45,7 +60,7 @@ namespace CommProtocolLib
             try
             {
                 SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
-                SP.Encoding = Encoding.ASCII;
+                SP.Encoding = Encoding.Unicode;//char type uses unicode for strings
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
             }
@@ -136,12 +151,15 @@ namespace CommProtocolLib
             IncomingDataBuffer += SP.ReadExisting();
             MatchIncomingPacket(ref IncomingDataBuffer);
         }
-        private void MatchIncomingPacket(ref string Packet)
+        public void MatchIncomingPacket(ref string Packet)
         {
-            byte[] LocationPacket = { 0xA5, 0x5A, 0x74, 0x4C };//first 2 bytes are header, second pair are location command packet
-            byte[] HeadingSpeedAltitude = { 0xA5, 0x5A, 0x74, 0x48 };//first 2 bytes are header, second pair are HeadingSpeedAltitude command packet
+            string LocationPacket = new string(new char[]{ (char)0xA5, (char)0x5A, (char)0x74, (char)0x4C });
+            //first 2 bytes are header, second pair are location command packet
 
-            if (Packet.Contains(LocationPacket.ToString()))
+            string HeadingSpeedAltitude = new string(new char[] { (char)0xA5, (char)0x5A, (char)0x74, (char)0x48 });
+            //first 2 bytes are header, second pair are HeadingSpeedAltitude command packet
+
+            if (Packet.Contains(LocationPacket))
             {
                 /*
                 Location Packet:
@@ -187,9 +205,14 @@ namespace CommProtocolLib
                     else
                     {
                         Latitude Lat = new Latitude();
-                        Lat.Degrees = Packet[4];
-                        Lat.Minutes = Packet[5];
+                        Lat.Degrees = (byte)Packet[4];
+                        Lat.Minutes = (byte)Packet[5];
                        // Lat.SecondsH = Mike needs to specify this part more precisely
+
+                        Longitude Long = new Longitude();
+
+
+                        OnLocationPacketRecieved(new LocationPacketRecievedEventArgs(Lat,Long));
                     }
                 }
             }
@@ -205,5 +228,35 @@ namespace CommProtocolLib
                 Packet = "";
             }
         }
+
+        #region custom event code
+
+        #region location Packet recieved
+        public delegate void LocationPacketRecievedEventHandler(object sender, LocationPacketRecievedEventArgs e);
+        public event LocationPacketRecievedEventHandler LocationPacketRecieved;
+        protected virtual void OnLocationPacketRecieved(LocationPacketRecievedEventArgs e)
+        {
+            if (LocationPacketRecieved != null)
+            {
+                LocationPacketRecieved(this, e);
+            }
+        }
+        /// <summary>
+        /// event args definition for a location recieved packet
+        /// </summary>
+        public class LocationPacketRecievedEventArgs : System.EventArgs
+        {
+            public Latitude Lat;
+            public Longitude Long;
+            public LocationPacketRecievedEventArgs(Latitude Lat, Longitude Long)
+            {
+                this.Lat = Lat;
+                this.Long = Long;
+            }
+        }
+        #endregion
+
+        #endregion
     }
+
 }
