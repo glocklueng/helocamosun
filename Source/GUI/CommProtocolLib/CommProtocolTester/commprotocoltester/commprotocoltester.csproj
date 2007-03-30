@@ -30,7 +30,7 @@
   <ItemGroup>
     <Reference Include="CommProtocolLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\helo\Source\GUI\CommProtocolLib\CommProtocolLib\CommProtocolLib\bin\Debug\CommProtocolLib.dll</HintPath>
+      <HintPath>..\..\CommProtocolLib\CommProtocolLib\bin\Debug\CommProtocolLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

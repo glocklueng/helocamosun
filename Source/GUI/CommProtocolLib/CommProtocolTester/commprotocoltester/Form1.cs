@@ -17,20 +17,24 @@ namespace commprotocoltester
             CommProtocol cp = new CommProtocol("COM1", 19200);
 
 
-            char[] bytestring = { (char)0xA5, (char)0x5A,
-                (char)0x74, (char)0x4C,
-                (char)0x00,
-                (char)0x01,
-                (char)0x00,
-                (char)0x01,
+            char[] bytestring = 
+            { 
+                (char)0xA5, 
+                (char)0x5A,
+                (char)0x74, 
+                (char)0x4C,
+                (char)0x32,
+                (char)0x32,
+                (char)0x12,
+                (char)0xFC,
                 (char)0x4E,
                 (char)0x00,
                 (char)0x01,
                 (char)0x00,
                 (char)0x01,
-                (char)0x4E,
-                (char)0x01,
-                (char)0x60,
+                (char)0x45,
+                (char)0x02,
+                (char)0xC7,
                 (char)0xCC,
                 (char)0x33
             };
