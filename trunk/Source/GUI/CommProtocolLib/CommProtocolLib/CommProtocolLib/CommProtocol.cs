@@ -18,7 +18,8 @@ namespace CommProtocolLib
         public byte Degrees;
         public byte Minutes;
         public byte SecondsH;
-        public byte SecondsL;
+        public UInt16 SecondsL;
+        public float SecondsF;
         public bool North;
     }
     public struct Longitude
@@ -32,7 +33,8 @@ namespace CommProtocolLib
         public byte Degrees;
         public byte Minutes;
         public byte SecondsH;
-        public byte SecondsL;
+        public UInt16 SecondsL;
+        public float SecondsF;
         public bool East;
     }
 
@@ -196,22 +198,51 @@ namespace CommProtocolLib
                     byte chk2 = (byte)(sum & 0x000000FF);
                     if (chk1 != Packet[14] || chk2 != Packet[15])
                     {
-                        //checksum error
-                        //bad packet, dump it
-                        //todo: handle the bad packet with an event
-
                         Packet = "";
+                        throw new Exception("Invalid packet: invalid checksum");
                     }
                     else
                     {
                         Latitude Lat = new Latitude();
                         Lat.Degrees = (byte)Packet[4];
                         Lat.Minutes = (byte)Packet[5];
-                       // Lat.SecondsH = Mike needs to specify this part more precisely
+                        Lat.SecondsH = (byte)(Packet[6] & 0x00FC);//upper 6 bits for seconds
+                        Lat.SecondsL = Convert.ToUInt16(((byte)Packet[6]&0x03)<<10 + Convert.ToUInt16(Packet[7]));//10 bit decimal portion of seconds
+                        Lat.SecondsF = (float)Lat.SecondsH + (float)Lat.SecondsL / 1024.0f;
+                        if ((byte)Packet[8] == 0x4E)
+                        {
+                            Lat.North = true;
+                        }
+                        else if ((byte)Packet[8] == 0x4E)
+                        {
+                            Lat.North = false;
+                        }
+                        else
+                        {
+                            Packet = "";
+                            throw new Exception("Invalid packet: The north south byte of the Latitude in a recieved location packet is invalid.");
+                        }
 
                         Longitude Long = new Longitude();
-
-
+                        Long.Degrees = (byte)Packet[9];
+                        Long.Minutes = (byte)Packet[10];
+                        Long.SecondsH = (byte)(Packet[11] & 0x00FC);//upper 6 bits for seconds
+                        Long.SecondsL = Convert.ToUInt16(((byte)Packet[11] & 0x03) << 10 + Convert.ToUInt16(Packet[12]));//10 bit decimal portion of seconds
+                        Long.SecondsF = (float)Long.SecondsH + (float)Long.SecondsL / 1024.0f;
+                        if ((byte)Packet[13] == 0x45)
+                        {
+                            Long.East = true;
+                        }
+                        else if ((byte)Packet[13] == 0x57)
+                        {
+                            Long.East = false;
+                        }
+                        else
+                        {
+                            Packet = "";
+                            throw new Exception("Invalid packet: The east west byte of the Longitude in a recieved location packet is invalid.");
+                        }
+                        //invoke the event
                         OnLocationPacketRecieved(new LocationPacketRecievedEventArgs(Lat,Long));
                     }
                 }
@@ -220,12 +251,15 @@ namespace CommProtocolLib
             {
 
             }
+            else if (Packet.Length > 4 && Packet[0] == 0xA5 && Packet[1] == 0x5A)
+            {
+                Packet = "";
+                throw new Exception("Invalid packet: unknown command");
+            }
             else if (Packet.Length > 4)
             {
-                //bad packet, dump it
-                //todo: handle the bad packet with an event
-                
                 Packet = "";
+                throw new Exception("Invalid packet: no packet header");
             }
         }
 
@@ -256,6 +290,28 @@ namespace CommProtocolLib
         }
         #endregion
 
+        #region bad packet recieved
+        public delegate void BadPacketRecievedEventHandler(object sender, BadPacketReceivedEventArgs e);
+        public event BadPacketRecievedEventHandler BadPacketReceived;
+        protected virtual void OnBadPacketReceived(BadPacketReceivedEventArgs e)
+        {
+            if (BadPacketReceived != null)
+            {
+                BadPacketReceived(this, e);
+            }
+        }
+
+        public class BadPacketReceivedEventArgs : System.EventArgs
+        {
+            public string BadPacket;
+            public string ErrorMessage;
+            public BadPacketReceivedEventArgs(string BadPacket, string ErrorMessage)
+            {
+                this.BadPacket = BadPacket;
+                this.ErrorMessage = ErrorMessage;
+            }
+        }
+        #endregion
         #endregion
     }
 
