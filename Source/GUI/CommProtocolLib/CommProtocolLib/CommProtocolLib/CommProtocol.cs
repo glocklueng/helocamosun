@@ -37,12 +37,33 @@ namespace CommProtocolLib
         public float SecondsF;
         public bool East;
     }
+    public struct HeadingSpeedAltitude
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public UInt16 Heading;
+        /// <summary>
+        /// Speed in meters per second, on the current heading
+        /// </summary>
+        public byte Speed;
+        /// <summary>
+        /// Altitude in meters
+        /// </summary>
+        public UInt16 Altitude;
+
+    }
 
     public class CommProtocol
     {
+        
+        #region datamembers
         ArrayList ClassExceptions = new ArrayList();
         SerialPort SP;
         string IncomingDataBuffer;
+        #endregion
+        
+        #region constructors
         public CommProtocol(string PortName, int BaudRate)
         {
             try
@@ -71,12 +92,15 @@ namespace CommProtocolLib
                 ClassExceptions.Add(ex);
             }
         }
+        #endregion
+        
+        #region out-going packets
         #region Testing and tuning commands
         /// <summary>
         /// Set the helicopter's motor's RPM
         /// </summary>
         /// <param name="RPM">A value between 0 and 100 representing percentage engine speed</param>
-        public void SetMotorRPM(int RPM)
+        public void SetMotorRPM(UInt16 RPM)
         {
             if (RPM >= 0 && RPM <= 100)
             {
@@ -111,8 +135,8 @@ namespace CommProtocolLib
         /// <summary>
         /// Set the cyclic pitch control from 0 to 100
         /// </summary>
-        /// <param name="PitchCyclic"></param>
-        public void SetCyclicPitch(int CyclicPitch)
+        /// <param name="PitchCyclic">A value between 0 and 100 representing the servo angle</param>
+        public void SetCyclicPitch(UInt16 CyclicPitch)
         {
             if (CyclicPitch >= 0 && CyclicPitch <= 100)
             {
@@ -147,7 +171,10 @@ namespace CommProtocolLib
         }
         #endregion
 
+        #endregion
 
+        #region incoming packets
+        
         private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {           
             IncomingDataBuffer += SP.ReadExisting();
@@ -161,6 +188,7 @@ namespace CommProtocolLib
             string HeadingSpeedAltitude = new string(new char[] { (char)0xA5, (char)0x5A, (char)0x74, (char)0x48 });
             //first 2 bytes are header, second pair are HeadingSpeedAltitude command packet
 
+            #region Location Packet recieved
             if (Packet.Contains(LocationPacket))
             {
                 /*
@@ -189,7 +217,7 @@ namespace CommProtocolLib
                 if (Packet.Length == 18 && Packet[16] == 0xCC && Packet[17] == 0x33)
                 {
                     //calculate checksum
-                    int sum = 0;
+                    UInt16 sum = 0;
                     for(int i = 2; i<14; i++)
                     {
                         sum+=Packet[i];
@@ -198,8 +226,12 @@ namespace CommProtocolLib
                     byte chk2 = (byte)(sum & 0x000000FF);
                     if (chk1 != Packet[14] || chk2 != Packet[15])
                     {
+                        OnBadPacketReceived(
+                            new BadPacketReceivedEventArgs(Packet,
+                            string.Format("Invalid Location packet: invalid checksum recieved {0:X4}, expected {0:X4}",
+                            (Convert.ToUInt16(Packet[14]) << 8) + Packet[15], sum))
+                            );
                         Packet = "";
-                        throw new Exception("Invalid packet: invalid checksum");
                     }
                     else
                     {
@@ -219,8 +251,8 @@ namespace CommProtocolLib
                         }
                         else
                         {
+                            OnBadPacketReceived(new BadPacketReceivedEventArgs(Packet, "Invalid packet: The north south byte of the Latitude in a recieved location packet is invalid."));
                             Packet = "";
-                            throw new Exception("Invalid packet: The north south byte of the Latitude in a recieved location packet is invalid.");
                         }
 
                         Longitude Long = new Longitude();
@@ -239,28 +271,81 @@ namespace CommProtocolLib
                         }
                         else
                         {
+                            OnBadPacketReceived(new BadPacketReceivedEventArgs(Packet, "Invalid packet: The east west byte of the Longitude in a recieved location packet is invalid."));
                             Packet = "";
-                            throw new Exception("Invalid packet: The east west byte of the Longitude in a recieved location packet is invalid.");
                         }
                         //invoke the event
                         OnLocationPacketRecieved(new LocationPacketRecievedEventArgs(Lat,Long));
                     }
                 }
             }
+            #endregion
+            #region Heading Speed altitude recieved
             else if (Packet.Contains(HeadingSpeedAltitude.ToString()))
             {
+                /*
+                    Heading/Speed/Altitude:
+                  1 0xA5    SOT1
+                    0x5A    SOT2
+                    0x74	Report type “Telemetry”
+                    0x48	Report “Heading, Speed, and Altitude”
 
+                  5 0xHHHH	Hex value (0x0000 – 0x0167) representing current heading. Can potentially use extra bits for partial degrees.
+
+                  7 0xSS	Hex value representing helicopter speed (m/s)
+
+                  8 0xAAAA	2-byte value representing altitude in meters
+                    
+                 10 0xXX    Checksum 1
+                    0xXX    Checksum 2
+                    
+                 12 0xCC    EOT1
+                 13 0x33    EOT2
+                 */
+                if (Packet.Length == 13 && Packet[11] == 0xCC && Packet[12] == 0x33)
+                {
+                    //calculate checksum
+                    UInt16 sum = 0;
+                    for(int i = 2; i<8; i++)
+                    {
+                        sum+=Packet[i];
+                    }
+                    byte chk1 = (byte)((sum & 0x0000FF00) >> 8);
+                    byte chk2 = (byte)(sum & 0x000000FF);
+                    if (chk1 != Packet[9] || chk2 != Packet[10])
+                    {
+                        OnBadPacketReceived(
+                           new BadPacketReceivedEventArgs(Packet,
+                           string.Format("Invalid heading speed altitude packet: invalid checksum recieved {0:X4}, expected {0:X4}",
+                           (Convert.ToUInt16(Packet[9]) << 8) + Packet[10], sum))
+                           );
+                        Packet = "";
+                    }
+                    else
+                    {
+                        HeadingSpeedAltitude HSA = new HeadingSpeedAltitude();
+                        HSA.Heading = Convert.ToUInt16(Packet[4] << 8 + Packet[5]);
+                        HSA.Speed = Convert.ToByte(Packet[6]);
+                        HSA.Altitude = Convert.ToUInt16(Packet[7] << 8 + Packet[8]);
+                        //invoke the event
+                        OnHeadingSpeedAltitudePacketRecieved(new HeadingSpeedAltitudePacketRecievedEventArgs(HSA));
+                    }
+
+                }
             }
+            #endregion
+            #region bad packet header or bad packet command
             else if (Packet.Length > 4 && Packet[0] == 0xA5 && Packet[1] == 0x5A)
             {
-                Packet = "";
-                throw new Exception("Invalid packet: unknown command");
+                OnBadPacketReceived(new BadPacketReceivedEventArgs(Packet, "Invalid packet: unknown command"));
+                Packet = "";//dump the packet
             }
             else if (Packet.Length > 4)
             {
                 Packet = "";
-                throw new Exception("Invalid packet: no packet header");
+                OnBadPacketReceived(new BadPacketReceivedEventArgs(Packet, "Invalid packet: no packet header"));
             }
+            #endregion
         }
 
         #region custom event code
@@ -289,7 +374,29 @@ namespace CommProtocolLib
             }
         }
         #endregion
+        #region HeadingSpeedAltitude Packet recieved
 
+        public delegate void HeadingSpeedAltitudePacketRecievedEventHandler(object sender, HeadingSpeedAltitudePacketRecievedEventArgs e);
+        public event HeadingSpeedAltitudePacketRecievedEventHandler HeadingSpeedAltitudePacketRecieved;
+        protected virtual void OnHeadingSpeedAltitudePacketRecieved(HeadingSpeedAltitudePacketRecievedEventArgs e)
+        {
+            if (HeadingSpeedAltitudePacketRecieved != null)
+            {
+                HeadingSpeedAltitudePacketRecieved(this, e);
+            }
+
+        }
+
+        public class HeadingSpeedAltitudePacketRecievedEventArgs : System.EventArgs
+        {
+            public HeadingSpeedAltitude HSA;
+
+            public HeadingSpeedAltitudePacketRecievedEventArgs(HeadingSpeedAltitude HSA)
+            {
+                this.HSA = HSA;
+            }
+        }
+        #endregion
         #region bad packet recieved
         public delegate void BadPacketRecievedEventHandler(object sender, BadPacketReceivedEventArgs e);
         public event BadPacketRecievedEventHandler BadPacketReceived;
@@ -311,6 +418,7 @@ namespace CommProtocolLib
                 this.ErrorMessage = ErrorMessage;
             }
         }
+        #endregion
         #endregion
         #endregion
     }
