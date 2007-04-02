@@ -1,0 +1,749 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <title>Power Map: Google Maps taken to the next level</title>
+  <head>
+    <style type="text/css">
+    v\:* {
+      behavior:url(#default#VML);
+      }
+table.control {
+	font-family: lucida grande, verdana, arial, sans-serif;
+        font-size: 80%;
+}
+    </style>    
+    <script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAAt4_6gciWjrJRc09GgT2mGRRlHe9VDrnA40HVXuK2dfYCPR10eBSqhkV75TKhNl9f6BOSoVQwUAdmPQ" type="text/javascript"></script>
+  </head>
+  <body onLoad="onLoad()">
+    <table border=1 class="control">
+
+    <tr><td><img src="powermap_title.jpg" alt="Power Map: Google Maps taken to the next level"></td>
+    <td align="center">
+        <table border=0>
+           <tr>
+             <td width=60 align="center"><a href="advmap/about.html">About</a></td>
+             <td width=60 align="center"><a href="advmap/credits.html">Credits</a></td>
+             <td width=60 align="center"><a href="advmap/help.html">Help</a></td>
+
+           </tr>
+        </table>
+      </td>
+    <td>
+     <form name="geocode">
+     <table border=0>
+      <tr>
+        <td>Go to street address</td>
+
+        <td><input type="text" id=streetAddress size="20" onsubmit="geocodeAddress()"></td>
+        <td><a href="javascript:geocodeAddress()">Go</a></td>
+      </tr>
+     </table>
+     </form>
+   </td>
+    </tr>
+    <tr>
+
+    <td valign="top">
+       <table border=0>
+        <tr>
+          <td rowspan=2 valign="top">
+            <img src="pm_600xpx_vert_ruler.jpg">
+          </td>
+          <td>
+             <div id="map" style="width: 600px; height: 600px"></div>
+          </td>
+
+         </tr>
+         <tr>
+           <td>
+             <img src="pm_600px_horiz_ruler.jpg">
+           </td>
+         </tr>
+       </table>
+    </td>
+    <td valign="top">
+
+      <p>
+      <form name="control">
+         <table border=0>
+         <tr><td><b>Map Behavior Settings</b></td></tr>
+         <tr><td>Enable dynamic dragging</td><td><input type="checkbox" onClick="toggler('enableDragging')" id=enableDragging></td></tr>
+         <tr><td>Display small map control</td><td><input type="checkbox" onClick="toggler('smallMapControl')" id=smallMapControl></td></tr>
+         <tr><td>Display large map control</td><td><input type="checkbox" onClick="toggler('largeMapControl')" id=largeMapControl></td></tr>
+
+         <tr><td>Display map/satellite mode switcher</td><td><input type="checkbox" onClick="toggler('typeControl')" id=typeControl></td></tr> 
+         <tr><td>Display current zoom level</td><td><input type="checkbox" onClick="toggler('displayZoom')" id=displayZoom></td></tr>
+         <tr><td>Display current viewport bounds</td><td><input type="checkbox" onClick="toggler('displayViewportBounds')" id=displayViewportBounds></td></tr>
+         <tr><td>Display current map dimensions</td><td><input type="checkbox" onClick="toggler('displayMapDimensions')" id=displayMapDimensions></td></tr>
+         <tr><td>Enable popup info windows</td><td><input type="checkbox" onClick="toggler('enableInfoWindow')" id=enableInfoWindow></td></tr>
+         <tr><td>Display current lat/long coordinates</td><td><input type="checkbox" onClick="toggler('displayCoords')" id=displayCoords></td></tr>
+
+          <tr><td><a href="javascript:resetMapTrack()">Clear all tracks and markers</a></td></tr>
+         <tr><td>Display map movement track</td><td><input type="checkbox" onClick="toggler('mapTrack')" id=mapTrack></td></tr>
+         <tr><td>
+         <table halign="center">
+                 <tr><td align="right"><font size=-1>Track color</font></td><td><input type="text" id=trackColor value="#ff0000" size="7" maxlength="7"></td><td><font size=-1><a href="javascript:updateTrackColor()">Set</a></font></td></tr> 
+          <tr><td align="right"><font size=-1>Track width</font><td><input type="text" id=trackWidth value="3" size="3"><font size=-1>pixels</font></td><td><font size=-1><a href="javascript:updateTrackWidth()">Set</a></font></td></tr>
+
+          <tr><td align="right"><font size=-1>Track opacity</font></td><td><input type="text" id=trackOpacity value="0.5" size="4"></td><td><font size=-1><a href="javascript:updateTrackOpacity()">Set</a></font></td></tr>
+        </table>
+        </tr></td>
+         <tr><td>Set markers at each waypoint</td><td><input type="checkbox" id=setWaypointMarkers></td><tr>
+         <tr><td>Display waypoint coordinates</td><td><input type="checkbox" onClick="toggler('waypointCoords')" id=waypointCoords></td></tr>
+         <tr><td>
+           <table halign="right">
+
+             <tr><td><input type="checkbox" id=waypointStyleGPoint></td><td><font size=-1>As GPoint objects</font></td></tr>
+             <tr><td><input type="checkbox" id=waypointStyleXML checked></td><td><font size=-1>As GMaps marker XML</font></td></tr>
+            </table>
+         </td>
+      </tr>
+         <tr><td>Display distance travelled</td><td><input type="checkbox" onClick="toggler('distTravelled')" id=distTravelled></td></tr>
+          <tr><td><font size=-1><a href="javascript:resetDistTravelled()">Reset distance travelled</a></font></td</tr>
+
+          <tr><td>Go to lat/long coordinate</td></tr>
+          <tr>
+             <td>
+             <table halign="center" border=0>
+               <tr><td align="right"><font size=-1>Latitude</font></td><td><input type="text" value="37.803003" id=gotoLatitude size="8"></td></tr>
+               <tr><td align="right"><font size=-1>Longitude</font></td><td><input type="text" value="-122.468033" id=gotoLongitude size="8"></td></tr>
+               <tr><td align="right"><font size=-1><a href="javascript:gotoLoc()">Go to location</a></font></td></tr>
+
+             </table>
+           </td>
+         </tr>      
+      </table>
+      </p>
+    </td>
+    <td valign="top">
+       <table border=0>
+          <tr><td>Set marker at lat/long coordinate</td></tr>
+
+          <tr>
+             <td>
+             <table halign="center" border=0>
+               <tr><td align="right"><font size=-1>Latitude</font></td><td><input type="text" value="37.803003" id=markerLatitude size="8"></td></tr>
+               <tr><td align="right"><font size=-1>Longitude</font></td><td><input type="text" value="-122.468033" id=markerLongitude size="8"></td></tr>
+               <tr><td align="right"><font size=-1>Description</font></td><td><input type="text" id=markerDescription size="8"</td></tr>
+               <tr><td align="right"><font size=-1><a href="javascript:setMarker()">Set marker</a></font></td></tr>
+
+             </table>
+           </td>
+         </tr>      
+      <tr><td>Set marker at current location</td></tr> 
+      <tr><td>
+         <table halign="center" border=0>
+               <tr><td align="right"><font size=-1>Description</font></td><td><input type="text" id=clocDescription size="8"</td></tr>
+         </table>
+        </td>
+
+      </tr> 
+      <tr><td><font size=-1><a href="javascript:setMarkerAtCurrentLoc()">Set marker</a></font></td></tr>
+      <tr><td><br>Load and mark waypoints in XML file</td></tr>  
+      <tr><td> 
+        <table halign="center" border=0>
+          <tr><td align="right"><font size=-1>File URL</font></td><td align="left"><input type="text" id=xmlFileUrl value="marker.xml" size="15"></td></tr>
+          <tr><td align="left"><font size=-1><a href="javascript:loadXMLWaypointFile()">Load waypoint file</a></font></td></tr>
+         </table>
+
+       </td>
+      </tr>
+      </table>
+      </form>
+    </td>
+   </tr>
+   <!-- Message area -->
+   <tr><td><font size=-1><div id="message1"></div></font></td><td><font size=-1><div id="message5"></div></font></td></tr>
+   <tr><td><font size=-1><div id="message6"></div></font></td><td colspan="2"><font size=-1><div id="message7"></div></font></td></tr>
+
+   <tr><td><font size=-1><div id="message2"></div></font></td></tr>
+   <tr><td><font size=-1><div id="message3"></div></font></td></tr>
+   <tr><td><font size=-1><div id="message4"></div></font></td></tr>
+ </table>
+    <script type="text/javascript">
+//Power Map v1.0 2005-07-10 -- An enhanced interface to Google Maps
+//
+//Copyright (C) 2005 Rupert Scammell <rupe@sbcglobal.net>
+//http://hobbiton.thisside.net/ 
+//
+//This program is free software; you can redistribute it and/or
+//modify it under the terms of the GNU General Public License
+//as published by the Free Software Foundation; either version 2
+//of the License, or (at your option) any later version.
+//
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//GNU General Public License for more details.
+//
+//You should have received a copy of the GNU General Public License
+//along with this program; if not, write to the Free Software
+//Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+    //<![CDATA[
+    <!-- Initial settings for our check boxes -->
+    <!-- Dynamic dragging of the map window -->
+    document.control.enableDragging.checked=true
+    <!-- Visibility of the small map control (sans slider bar) -->
+    document.control.smallMapControl.checked=false
+    <!-- Visibility of the large map control (+/- buttons w/ slider) -->
+    document.control.largeMapControl.checked=true
+    <!-- Visibility of the map / satellite map type switcher control -->
+    document.control.typeControl.checked = true
+    <!-- Enablement of info window display -->
+    document.control.enableInfoWindow.checked = true
+    <!-- Enablement of lat/long display -->
+    document.control.displayCoords.checked = true
+    <!-- Enablement of map movement tracking -->
+    document.control.mapTrack.checked = false
+    <!-- Enablement of waypoint display -->
+    document.control.waypointCoords.checked = false
+    <!-- Enablement of distance travelled display -->
+    document.control.distTravelled.checked = false 
+    <!-- Enablement of current zoom display -->
+    document.control.displayZoom.checked = false 
+    <!-- Enablement of viewport bounds display -->
+    document.control.displayViewportBounds.checked = false
+    <!-- Enablement of current map height/width display -->
+    document.control.displayMapDimensions.checked = false 
+
+    var smallControl = new GSmallMapControl();
+    var largeControl = new GLargeMapControl();
+    var typeControl = new GMapTypeControl();
+
+    <!-- Initial default map track color -->
+    tColor = "#ff0000"
+    <!-- Initial default map track width -->
+    tWidth = "3"
+    <!-- Initial default map track opacity -->
+    tOpacity = "0.5"
+
+    <!-- Starting latitude -->
+    var startLat = 40.178873	 
+    <!-- Starting longitude -->
+    var startLong = -40.781250 
+    <!-- Starting zoom level -->
+    var lastZoom = 16 
+    <!-- Distance travelled (mi) -->
+    var disTravelMiles = 0
+    <!-- Distance travelled (km) -->
+    var disTravelKm = 0
+    <!-- Required constant -->
+    var d2r = Math.PI/180
+
+    <!-- Function to handle checkbox toggling events -->
+    function toggler(checkboxName) {
+
+      <!-- Handle dynamic dragging toggle event -->
+      if (checkboxName == "enableDragging") {
+         if (document.control.enableDragging.checked == true) {
+           map.enableDragging()
+         } else {
+           map.disableDragging()
+         }
+      }
+    
+      <!-- Handle small map control toggle event -->
+      if (checkboxName == "smallMapControl") {
+          if (document.control.smallMapControl.checked == true) {
+             map.addControl(smallControl);
+          } else {
+             map.removeControl(smallControl);
+          }
+      }
+ 
+      <!-- Handle large map control toggle event -->
+      if (checkboxName == "largeMapControl") {
+          if (document.control.largeMapControl.checked == true) {
+             map.addControl(largeControl);
+          } else {
+             map.removeControl(largeControl);
+          }
+      }
+
+      <!-- Handle map/satellite switcher control toggle event -->
+      if (checkboxName == "typeControl") {
+          if (document.control.typeControl.checked == true) {
+             map.addControl(typeControl);
+          } else {
+             map.removeControl(typeControl);
+          }
+      }
+
+      <!-- Handle zoom level display toggle event -->
+      if (checkboxName == "displayZoom") {
+          if (document.control.displayZoom.checked == true) {
+               displayZoom()
+               GEvent.trigger(map, "moveend")
+          } else {
+               hideZoom()
+          }
+      }
+
+      <!-- Handle viewport bounds display toggle event -->
+      if (checkboxName == "displayViewportBounds") {
+          if (document.control.displayViewportBounds.checked == true) {
+               displayViewportBounds()
+               GEvent.trigger(map, "moveend")
+          } else {
+               hideViewportBounds()
+          }
+      }
+
+
+      <!-- Handle map dimensions display toggle event -->
+      if (checkboxName == "displayMapDimensions") {
+          if (document.control.displayMapDimensions.checked == true) {
+               document.getElementById("message7").innerHTML = '<b>Map Dimensions:</b><br>';
+               displayMapDimensions()
+               GEvent.trigger(map, "moveend")
+          } else {
+               hideMapDimensions()
+          }
+      }
+
+      <!-- Handle info window toggle event -->
+      if (checkboxName == "enableInfoWindow") {
+          if (document.control.typeControl.checked == true) {
+             map.enableInfoWindow()
+          } else {
+             map.disableInfoWindow()
+          }
+      }
+
+      <!-- Handle lat/long coord display toggle event -->
+      if (checkboxName == "displayCoords") {
+          if (document.control.displayCoords.checked == true) {
+               displayGeoCoords()
+               GEvent.trigger(map, "moveend")
+          } else {
+               hideGeoCoords()
+          }
+      }
+
+      <!-- Handle map tracking toggle event -->
+      if (checkboxName == "mapTrack") {
+          if (document.control.mapTrack.checked == true) {
+            plotMapMovement()
+          } else {
+            GEvent.removeListener(trackListener); 
+          }
+      }
+
+      <!-- Handle waypoint display toggle event -->
+      if (checkboxName == "waypointCoords") {
+          if (document.control.waypointCoords.checked == true) {
+            displayWaypointCoords();
+            GEvent.trigger(map, "moveend"); 
+          } else {
+            GEvent.removeListener(waypointDisplayListener); 
+            document.getElementById("message3").innerHTML = "";
+          }
+      }
+
+      <!-- Handle distance display toggle event -->
+      if (checkboxName == "distTravelled") {
+          if (document.control.distTravelled.checked == true) {
+            displayDistTravelled();
+            GEvent.trigger(map, "moveend"); 
+          } else {
+            GEvent.removeListener(distTravelledListener); 
+            document.getElementById("message2").innerHTML = "";
+          }
+      }
+    }
+
+
+    <!-- Geocode address and go to location -->
+    function geocodeAddress() {
+          var icon = new GIcon();
+          icon.image = "http://labs.google.com/ridefinder/images/mm_20_purple.png";
+          icon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+          icon.iconSize = new GSize(12, 20);
+          icon.shadowSize = new GSize(22, 20);
+          icon.iconAnchor = new GPoint(6, 20);
+          icon.infoWindowAnchor = new GPoint(5, 1);
+       
+          <!--Escape entered street address -->
+           var escapedStreetAddress = escape(document.geocode.streetAddress.value);
+           var geocodeUrl = 'http://hobbiton.thisside.net/cgi-bin/geogetter.py?address=' + escapedStreetAddress;
+            var request = GXmlHttp.create();
+            request.open("GET", geocodeUrl, true);
+            request.onreadystatechange = function() {
+            if (request.readyState == 4) {
+                var xmlDoc = request.responseXML;
+                var errors = xmlDoc.documentElement.getElementsByTagName("error");
+                <!-- Look for errors returned by the geocoder, and put up a dialog box -->
+		if (errors.length != 0) {
+                    for (var q = 0; q < errors.length; q++ ) {
+                        errmsg = errors[q].getAttribute("msg");
+                        alert(errmsg); 
+                    }
+                }
+                var markers = xmlDoc.documentElement.getElementsByTagName("address");
+                for (var i = 0; i < markers.length; i++) {
+                    lat = parseFloat(markers[i].getAttribute("lat"))
+                    lng = parseFloat(markers[i].getAttribute("lng"))
+                    var point = new GPoint(lng, lat)
+                     var marker = new GMarker(point, icon);
+                     var descStr = markers[i].getAttribute("desc");
+                     GEvent.addListener(marker, "click", function() {
+                      marker.openInfoWindowHtml('<b>Address:</b> ' + descStr + '<br><b>Latitude:</b> ' + lat + '<br><b>Longitude:</b> ' + lng);
+                     });
+                     map.addOverlay(marker);
+                     map.centerAtLatLng(point);
+               }
+            }
+       }        
+      request.send(null);
+    }
+
+    <!-- Load an XML waypoint file, and display markers at each point. -->
+    function loadXMLWaypointFile() {
+        var icon = new GIcon();
+        icon.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";
+        icon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+        icon.iconSize = new GSize(12, 20);
+        icon.shadowSize = new GSize(22, 20);
+        icon.iconAnchor = new GPoint(6, 20);
+        icon.infoWindowAnchor = new GPoint(5, 1);
+
+        var request = GXmlHttp.create();
+        request.open("GET", document.control.xmlFileUrl.value, true);
+        request.onreadystatechange = function() {
+           if (request.readyState == 4) {
+              var xmlDoc = request.responseXML;
+              var markers = xmlDoc.documentElement.getElementsByTagName("marker");
+              for (var i = 0; i < markers.length; i++) {
+                 var point = new GPoint(parseFloat(markers[i].getAttribute("lng")),
+                             parseFloat(markers[i].getAttribute("lat")));
+                 var marker = new GMarker(point,icon);
+                 map.addOverlay(marker);
+              }
+          }
+       }
+       request.send(null);
+    }
+
+
+    <!-- Set a marker at the centerpoint of the current map region in view -->
+    function setMarkerAtCurrentLoc() {
+        var icon = new GIcon();
+        icon.image = "http://labs.google.com/ridefinder/images/mm_20_red.png";
+        icon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+        icon.iconSize = new GSize(12, 20);
+        icon.shadowSize = new GSize(22, 20);
+        icon.iconAnchor = new GPoint(6, 20);
+        icon.infoWindowAnchor = new GPoint(5, 1);
+        var center = map.getCenterLatLng();
+        clocMarker = new GMarker(new GPoint(center.x, center.y), icon);
+        GEvent.addListener(clocMarker, "click", function() {
+        clocMarker.openInfoWindowHtml('<b>Description: </b> ' + document.control.clocDescription.value  + '<br><b>Latitude:</b> ' + (parseAsFloat(center.y)).toFixed(6) + '<br><b>Longitude:</b> ' + (parseAsFloat(center.x)).toFixed(6));
+                     });
+        map.addOverlay(clocMarker);
+     }      
+
+    <!-- Set a marker at a particular lat/long coordinate -->
+    function setMarker() {
+        var icon = new GIcon();
+        icon.image = "http://labs.google.com/ridefinder/images/mm_20_green.png";
+        icon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+        icon.iconSize = new GSize(12, 20);
+        icon.shadowSize = new GSize(22, 20);
+        icon.iconAnchor = new GPoint(6, 20);
+        icon.infoWindowAnchor = new GPoint(5, 1);
+        locMarker = new GMarker(new GPoint(document.control.markerLongitude.value, document.control.markerLatitude.value), icon);
+        GEvent.addListener(locMarker, "click", function() {
+        locMarker.openInfoWindowHtml('<b>Description: </b> ' + document.control.markerDescription.value  + '<br><b>Latitude:</b> ' + document.control.markerLatitude.value + '<br><b>Longitude:</b> ' + document.control.markerLongitude.value);
+                     });
+        map.addOverlay(locMarker);
+     }      
+
+
+    <!-- Go to a particular lat/long coordinate -->
+    function gotoLoc() {
+        map.centerAtLatLng(new GPoint(document.control.gotoLongitude.value, document.control.gotoLatitude.value));
+    }
+
+
+    <!-- Display map dimensions -->
+    function displayMapDimensions() {
+          dimensionsListener = GEvent.addListener(map, "moveend", function() {
+              var vpBounds = map.getBoundsLatLng();
+              var vpMaxX  = vpBounds.maxX;
+              var vpMinX  = vpBounds.minX;
+              var vpMaxY  = vpBounds.maxY;
+              var vpMinY  = vpBounds.minY; 
+              var diagDistMiles = calcDist(vpMaxY, vpMinX, vpMinY, vpMaxX, "miles");
+              var diagDistKm = calcDist(vpMaxY, vpMinX, vpMinY, vpMaxX, "km");
+              var diagWidthString = '<b>Diagonal map length:</b> ' + (parseFloat(diagDistMiles)).toFixed(3) + ' miles / ' + (parseFloat(diagDistKm)).toFixed(3) + ' km' + ' / ';
+
+              var vertDistMiles = calcDist(vpMinY, vpMinX, vpMaxY, vpMinX, "miles");
+              var vertDistKm = calcDist(vpMinY, vpMinX, vpMaxY, vpMinX, "km");
+              var vertWidthString = '<b>Map height:</b> ' + (parseFloat(vertDistMiles)).toFixed(3) + ' miles / ' + (parseFloat(vertDistKm)).toFixed(3) + ' km' + ' / ';
+              var vertDistMiles = calcDist(vpMaxY, vpMinX, vpMaxY, vpMaxX, "miles");
+
+              var horizDistMiles = calcDist(vpMaxY, vpMinX, vpMaxY, vpMaxX, "miles");
+              var horizDistKm = calcDist(vpMaxY, vpMinX, vpMaxY, vpMaxX, "km");
+              var horizWidthString = '<b>Map width:</b> ' + (parseFloat(horizDistMiles)).toFixed(3) + ' miles / ' + (parseFloat(horizDistKm)).toFixed(3) + ' km' + ' / ';
+              var sqMiles = horizDistMiles * vertDistMiles;
+              var sqKm = horizDistKm * vertDistKm; 
+              var sqString = '<b>Map area:</b> ' + (parseFloat(sqMiles)).toFixed(3) + ' square miles / ' + (parseFloat(sqKm)).toFixed(3) + ' square km';
+               document.getElementById("message7").innerHTML = diagWidthString + vertWidthString + horizWidthString + sqString;
+                
+          });
+      }
+
+    <!-- Hide map dimensions display -->
+    function hideMapDimensions() {
+         GEvent.removeListener(dimensionsListener)
+         document.getElementById("message7").innerHTML = ""
+    }
+
+function calcDist(startLat, startLng, endLat, endLng, distType ) {
+        var firstCenter = map.getCenterLatLng();
+        var lastLat = startLat;
+        var lastLng = startLng;
+        var lastLatS = (parseFloat(lastLat)).toFixed(5);
+        var lastLngS = (parseFloat(lastLng)).toFixed(5);
+        var latS = (parseFloat(endLat)).toFixed(5);
+        var lngS = (parseFloat(endLng)).toFixed(5);
+        var lat = parseFloat(latS);
+        var lng = parseFloat(lngS);
+        var lastLatR = lastLat * d2r;
+        var delLngR = (lastLng - lng) * d2r;
+        var latR = lat * d2r;
+        if (distType == "miles") {
+                   disTravelMiles = 3963 * Math.acos( Math.cos(delLngR) * Math.cos(lastLatR) * Math.cos(latR) + Math.sin(lastLatR) * Math.sin(latR) );
+                   return disTravelMiles;
+               }
+         if (distType == "km") {
+                      disTravelKm = 6378.8 * Math.acos( Math.cos(delLngR) * Math.cos(lastLatR) * Math.cos(latR) + Math.sin(lastLatR) * Math.sin(latR) );
+                      return disTravelKm;
+               }
+
+                  lastLat = lat;
+                  lastLng = lng;
+                  lastLatS = latS;
+                  lastLngS = lngS;
+   }
+    
+    <!-- Display distance travelled -->
+    function displayDistTravelled() {
+        var firstCenter = map.getCenterLatLng();
+        var lastLat = firstCenter.y;
+        var lastLng = firstCenter.x;
+        var lastLatS = (parseFloat(lastLat)).toFixed(5);
+        var lastLngS = (parseFloat(lastLng)).toFixed(5);
+
+        distTravelledListener = GEvent.addListener(map, "moveend", function() {
+           var zoom = parseInt(map.getZoomLevel());
+           if (lastZoom == zoom) {
+               var center = map.getCenterLatLng();
+               var latS = (parseFloat(center.y)).toFixed(5);
+               var lngS = (parseFloat(center.x)).toFixed(5);
+               var lat = parseFloat(latS);
+               var lng = parseFloat(lngS);
+               var lastLatR = lastLat * d2r;
+               var delLngR = (lastLng - lng) * d2r;
+               var latR = lat * d2r;
+               disTravelMiles += 3963 * Math.acos( Math.cos(delLngR) * Math.cos(lastLatR) * Math.cos(latR) + Math.sin(lastLatR) * Math.sin(latR) );
+               disTravelKm += 6378.8 * Math.acos( Math.cos(delLngR) * Math.cos(lastLatR) * Math.cos(latR) + Math.sin(lastLatR) * Math.sin(latR) );
+                   var travString = '<b>Total distance traversed:</b> ' + (parseFloat(disTravelMiles)).toFixed(3) + ' miles / ' + (parseFloat(disTravelKm)).toFixed(3) + ' kilometers';
+                   document.getElementById("message2").innerHTML = travString;
+
+                  lastLat = lat;
+                  lastLng = lng;
+                  lastLatS = latS;
+                  lastLngS = lngS;
+          } else {
+             lastZoom = zoom;
+            } 
+     });
+ 
+   }
+    
+    <!-- Reset distance travelled odometer -->
+    function resetDistTravelled() {
+        disTravelMiles = 0;
+        disTravelKm = 0;
+        <!-- Fire moveend event to update display if listener is running -->
+        GEvent.trigger(map, "moveend");
+    }
+    
+    <!-- Display waypoint data -->
+    function displayWaypointCoords() {
+        var firstCenter = map.getCenterLatLng();
+        var lastLat = firstCenter.y;
+        var lastLng = firstCenter.x;
+        var lastLatS = (parseFloat(lastLat)).toFixed(5);
+        var lastLngS = (parseFloat(lastLng)).toFixed(5);
+        var waypointStr = "<b>Waypoint Coordinates:</b><br>";
+        var firstRun = true; 
+
+        waypointDisplayListener = GEvent.addListener(map, "moveend", function() {
+           var zoom = parseInt(map.getZoomLevel());
+           if (lastZoom == zoom) {
+               var center = map.getCenterLatLng();
+               var latS = (parseFloat(center.y)).toFixed(5);
+               var lngS = (parseFloat(center.x)).toFixed(5);
+               if (latS != lastLatS || lngS != lastLngS || firstRun == true) {
+                  if (document.control.waypointStyleGPoint.checked == true) {
+                     waypointStr += 'GPoint(' + lngS + ', ' + latS + ')' + '<br>';
+                  }
+                  if (document.control.waypointStyleXML.checked == true) {
+                     waypointStr += '&lt;marker lat="' + latS + '" lng="' + lngS + '"/&gt;<br>';
+                  }   
+                  document.getElementById("message3").innerHTML = waypointStr;
+                  
+                  var lat = parseFloat(latS);
+                  var lng = parseFloat(lngS);
+
+                  lastLat = lat;
+                  lastLng = lng;
+                  lastLatS = latS;
+                  lastLngS = lngS;
+
+                  if (firstRun == true) {
+                     firstRun = false;
+                  }
+               }
+          } else {
+             lastZoom = zoom;
+            } 
+     });
+ 
+   }
+
+    <!-- Set map polyline track color -->
+    function updateTrackColor() {
+       tColor = document.control.trackColor.value;
+    }
+
+    <!-- Set map polyline track width -->
+    function updateTrackWidth() {
+       tWidth = document.control.trackWidth.value;
+    }
+
+    <!-- Set map polyline track opacity -->
+    function updateTrackOpacity() {
+       tOpacity = document.control.trackOpacity.value;
+    }
+
+    <!-- Clear any previously created map tracks -->
+     function resetMapTrack() {
+         map.clearOverlays();
+     }
+
+    <!-- Track map movement by plotting polylines -->
+    function plotMapMovement() {
+        var firstCenter = map.getCenterLatLng();
+        var lastLat = firstCenter.y;
+        var lastLng = firstCenter.x;
+        var lastLatS = (parseFloat(lastLat)).toFixed(5);
+        var lastLngS = (parseFloat(lastLng)).toFixed(5);
+
+        trackListener = GEvent.addListener(map, "moveend", function() {
+           var zoom = parseInt(map.getZoomLevel());
+           if (lastZoom == zoom) {
+               var center = map.getCenterLatLng();
+               var latS = (parseFloat(center.y)).toFixed(5);
+               var lngS = (parseFloat(center.x)).toFixed(5);
+
+               if (latS != lastLatS || lngS != lastLngS) {
+                  var lat = parseFloat(latS);
+                  var lng = parseFloat(lngS);
+                  var lastPoint = new GPoint(lastLng, lastLat);
+                  var curPoint = new GPoint(lng, lat);
+                  var lastLine = new GPolyline([new GPoint(lastLng, lastLat), new GPoint(lng, lat)], tColor, tWidth, tOpacity);
+                  map.addOverlay(lastLine);
+
+                  if (document.control.setWaypointMarkers.checked == true) {
+                      var icon = new GIcon();
+                      icon.image = "http://labs.google.com/ridefinder/images/mm_20_yellow.png";
+                      icon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+                      icon.iconSize = new GSize(12, 20);
+                      icon.shadowSize = new GSize(22, 20);
+                      icon.iconAnchor = new GPoint(6, 20);
+                      icon.infoWindowAnchor = new GPoint(5, 1);
+                      var curMarker = new GMarker(curPoint, icon);
+                      map.addOverlay(curMarker);
+                  }
+                  lastLat = lat;
+                  lastLng = lng;
+                  lastLatS = latS;
+                  lastLngS = lngS;
+               }
+          } else {
+             lastZoom = zoom;
+            } 
+     });
+ 
+   }
+        
+    <!-- Output current latitude & longitude --> 
+    function displayGeoCoords() {
+               coordListener = GEvent.addListener(map, "moveend", function() {
+                  var center = map.getCenterLatLng();
+                  var latLngStr = '<b>Latitude/Longitude at map center:</b> ' + (parseFloat(center.y)).toFixed(6) + ' / ' + (parseFloat(center.x)).toFixed(6);
+                  document.getElementById("message1").innerHTML = latLngStr;
+               });
+     }
+
+    <!-- Hide latitude & longitude display -->
+    function hideGeoCoords() {
+         GEvent.removeListener(coordListener)
+         document.getElementById("message1").innerHTML = ""
+    }
+
+
+    <!-- Output current zoom level --> 
+    function displayZoom() {
+               zoomListener = GEvent.addListener(map, "moveend", function() {
+                  var zl = map.getZoomLevel();
+                  var zlStr = '<b>Current zoom level:</b> ' + zl;
+                  document.getElementById("message5").innerHTML = zlStr;
+               });
+     }
+
+    <!-- Hide current zoom display -->
+    function hideZoom() {
+         GEvent.removeListener(zoomListener)
+         document.getElementById("message5").innerHTML = ""
+    }
+
+
+
+    <!-- Output current viewport bounds --> 
+    function displayViewportBounds() {
+               vpbListener = GEvent.addListener(map, "moveend", function() {
+                  var vpBounds = map.getBoundsLatLng();
+                  var vpMaxXS = (parseFloat(vpBounds.maxX)).toFixed(5);
+                  var vpMinXS = (parseFloat(vpBounds.minX)).toFixed(5);
+                  var vpMaxYS = (parseFloat(vpBounds.maxY)).toFixed(5);
+                  var vpMinYS = (parseFloat(vpBounds.minY)).toFixed(5);
+                  var vpbStr = '<b>Current viewport lat/long bounds:</b><br>' + 
+                  'Top left corner lat/long: ' + vpMaxYS + ' / ' + vpMinXS + '<br>' +
+                  'Top right corner lat/long: ' + vpMaxYS + ' / ' + vpMaxXS + '<br>' +
+                  'Bottom left corner lat/long: ' + vpMinYS + ' / ' + vpMinXS + '<br>' +
+                  'Bottom right corner lat/long: ' + vpMinYS + ' / ' + vpMaxXS;
+                  document.getElementById("message6").innerHTML = vpbStr;
+               });
+     }
+
+    <!-- Hide viewport bounds display -->
+    function hideViewportBounds() {
+         GEvent.removeListener(vpbListener)
+         document.getElementById("message6").innerHTML = ""
+    }
+     <!-- Stuff to do at initialization time --> 
+     function onLoad() {
+             displayGeoCoords();
+             map.addControl(typeControl);
+             map.addControl(largeControl);
+             map.centerAndZoom(new GPoint(startLat, startLong), lastZoom);
+     } 
+             var map = new GMap(document.getElementById("map"));
+    //]]>
+    </script>
+  </body>
+</html>
