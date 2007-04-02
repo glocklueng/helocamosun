@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using helopanel;
+using GoogleMapsControl;
 
 namespace DemoApplication
 {
@@ -16,18 +17,18 @@ namespace DemoApplication
         CenterDial BatteryLife;
         CenterDial RPM;
         ArtificialHorizon ArtHorizon;
-        ScrollableMap map;
+        GoogleMapControl gmc = new GoogleMapControl();
         float value = 0;
         public Form1()
         {
             InitializeComponent();
             this.Width = guageSzStd * 4;
-            this.Height = guageSzStd + 400;
+            this.Height = guageSzStd + 800;
             setUpAltimeter();
             setUpBatteryLife();
             setUpRPM();
             setUpArtHorizon();
-            setUpmap();
+            setUpGoogleMap();
 
         }
         private void setUpAltimeter()
@@ -136,24 +137,13 @@ namespace DemoApplication
             ArtHorizon.Roll=(4.0f);
             ArtHorizon.Pitch=(-1f);
         }
-        private void setUpmap()
-        {
-            map = new ScrollableMap();
-            map.LoadMap("..\\..\\cc.jpg");
-            map.Location = new Point(0, guageSzStd);
-            map.Size = new Size(guageSzStd * 4, 400);
-            this.Controls.Add(map);
-        }
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            map.ImageTopLeftX += 0.2f;
-            if (map.ImageTopLeftX > 100)
-            {
-                map.ImageTopLeftX = 0;
-            }
-            map.ImageTopLeftY =2f* (float)Math.Sin(map.ImageTopLeftX)+100;
- 
+            
+            gmc.GotoLoc(48.490928+ (double)value/1000000.0, -123.415958+ (double)value/1000000.0);
+
 
             ArtHorizon.Roll += 0.2f;
             if (ArtHorizon.Roll > 30)
@@ -173,6 +163,13 @@ namespace DemoApplication
             {
                 value = 0;
             }
+        }
+        private void setUpGoogleMap()
+        {
+            this.Controls.Add(gmc);
+            gmc.Location = new Point(0, guageSzStd);
+            gmc.Show();
+
         }
     }
 }
