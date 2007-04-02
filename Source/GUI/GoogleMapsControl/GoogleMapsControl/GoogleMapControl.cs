@@ -29,14 +29,17 @@ namespace GoogleMapsControl
 
         public void GotoLoc(double latitude, double longitude)
         {
+            HtmlElement LatitudeTextBox;
+            if ((LatitudeTextBox = webBrowser1.Document.GetElementById("gotoLatitude")) != null)
+            {
 
-            HtmlElement LatitudeTextBox = webBrowser1.Document.GetElementById("gotoLatitude");
-            LatitudeTextBox.OuterHtml = "<INPUT id=gotoLatitude size=8 value="+latitude+">";
+                LatitudeTextBox.OuterHtml = "<INPUT id=gotoLatitude size=8 value=" + latitude + ">";
 
 
-            HtmlElement LongitudeTextBox = webBrowser1.Document.GetElementById("gotoLongitude");
-            LongitudeTextBox.OuterHtml = "<INPUT id=gotoLongitude size=8 value=" + longitude + ">";
-            webBrowser1.Document.InvokeScript("gotoLoc");
+                HtmlElement LongitudeTextBox = webBrowser1.Document.GetElementById("gotoLongitude");
+                LongitudeTextBox.OuterHtml = "<INPUT id=gotoLongitude size=8 value=" + longitude + ">";
+                webBrowser1.Document.InvokeScript("gotoLoc");
+            }
         }
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
