@@ -19,19 +19,28 @@
 
 HelicopterController::HelicopterController()
 {
-    ForwardBackward_Accelerometer = 0;
-    LeftRight_Accelerometer = 0;
-    UpDown_Accelerometer = 0;     
-    Roll_Gyro = 0;
-    Pitch_Gyro = 0;
-    Yaw_Gyro = 0;
-    Compass = 0;                      
+     ForwardBackward_Accelerometer = 0;
+     LeftRight_Accelerometer = 0;
+     UpDown_Accelerometer = 0;             
+    
+     Roll_Gyro = 0;
+     Pitch_Gyro = 0;
+     Yaw_Gyro = 0;
+     
+     Compass = 0;    
+     
+     Altitude = 0;
+     AltitudeRate = 0;
+     North = 0;
+     NorthRate = 0;
+     East = 0;
+     EastRate = 0;                        
 }
 void HelicopterController::UpdateSensorValues(sixdof_fe_state_def  s)
 {
      
-     ForwardBackward_Accelerometer = s.THETA[1];//s.accel[FORWARDBACKWARD_ACCELEROMETER];
-     LeftRight_Accelerometer = s.THETA[0];//s.accel[FORWARDBACKWARD_ACCELEROMETER];
+     ForwardBackward_Accelerometer = s.THETA[1];
+     LeftRight_Accelerometer = s.THETA[0];
      UpDown_Accelerometer = s.accel[UPDOWN_ACCELEROMETER];             
     
      Roll_Gyro = s.rate[ROLLRATE_GYRO];
@@ -41,9 +50,11 @@ void HelicopterController::UpdateSensorValues(sixdof_fe_state_def  s)
      Compass = s.THETA[COMPASS];    
      
      Altitude = -s.NED[DOWN];
-     AltitudeRate = s.Vb[2];
+     AltitudeRate = s.Ve[DOWN];
      North = s.NED[NORTH];
-     East = s.NED[EAST];                              
+     NorthRate = s.Ve[NORTH];
+     East = s.NED[EAST];
+     EastRate = s.Ve[EAST];                            
 }
 double HelicopterController::RollCorrection(double CorrectRollAngle)
 {
@@ -58,7 +69,7 @@ double HelicopterController::RollCorrection(double CorrectRollAngle)
   integral += -IntConst * (LeftRight_Accelerometer - CorrectRollAngle)* CalcPeriod; 
   derivative = DerConst * Roll_Gyro;
 
-  return  proportion + derivative + integral;    
+  return  proportion + integral + derivative;
 }
 double HelicopterController::PitchCorrection(double CorrectPitchAngle)
 {
@@ -73,7 +84,7 @@ double HelicopterController::PitchCorrection(double CorrectPitchAngle)
   integral += IntConst * (ForwardBackward_Accelerometer - CorrectPitchAngle)* CalcPeriod; 
   derivative = DerConst * Pitch_Gyro;
 
-  return  proportion + derivative + integral;    
+  return  proportion + integral + derivative;
 }
 
 double HelicopterController::YawCorrection(double CorrectYawAngle)
@@ -89,15 +100,15 @@ double HelicopterController::YawCorrection(double CorrectYawAngle)
   integral += -IntConst * (Compass - CorrectYawAngle)* CalcPeriod; 
   derivative = -DerConst * Yaw_Gyro;
 
-  return  proportion + derivative + integral;    
+  return  proportion + integral + derivative;
 }
 
 double HelicopterController::CollectiveCorrection(double CorrectAltitude)
 {
   static double integral = 0;
-  double PropConst = 0.06;
-  double IntConst = 0.03;
-  double DerConst = 0.03;
+  double PropConst = 0.15;
+  double IntConst = 0.08;
+  double DerConst = 0.05;
   double proportion;
   double derivative;
   
@@ -105,5 +116,5 @@ double HelicopterController::CollectiveCorrection(double CorrectAltitude)
   integral += -IntConst * (Altitude - CorrectAltitude)* CalcPeriod; 
   derivative = DerConst * AltitudeRate;
 
-  return  proportion + derivative + integral;    
+  return  proportion + integral + derivative;
 }
