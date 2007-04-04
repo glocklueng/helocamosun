@@ -82,6 +82,7 @@ namespace CommProtocolLib
         {
             try
             {
+                
                 SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
                 SP.Encoding = Encoding.Unicode;//char type uses unicode for strings
                 SP.Open();
