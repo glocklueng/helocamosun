@@ -1,0 +1,10 @@
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\Test_Tune.Form1.resources
+obj\Debug\Test_Tune.Properties.Resources.resources
+obj\Debug\Test_Tune.csproj.GenerateResource.Cache
+bin\Debug\Test_Tune.exe
+bin\Debug\Test_Tune.pdb
+bin\Debug\CommProtocolLib.dll
+bin\Debug\CommProtocolLib.pdb
+obj\Debug\Test_Tune.exe
+obj\Debug\Test_Tune.pdb
