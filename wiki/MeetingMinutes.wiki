@@ -1,6 +1,6 @@
 On going meeting minutes.
 
-Date: April 2, 2007
+=Date: April 2, 2007=
 Start time: 4:30PM
 Room: TEC204
 
@@ -37,7 +37,7 @@ Attendees:
   * $1 late meeting fee to go towards end of term beer fund
 
 
-Date: April 3, 2007
+=Date: April 3, 2007=
 Start time: 1:00PM
 Room: CBA124
 
@@ -53,7 +53,6 @@ Attendees:
     * everyone writes a different section/part
     * divide sections/work
   * Microchip/Circuit Celler contest
-1:05
   * Helicopter project sections
     * RF
       * Ground unit/base station(PC)
@@ -69,6 +68,18 @@ Attendees:
       * PWM
     * Interfacing to Gyro/Compass
     * Power consumption
-1:30
     * Hardware controls
       * PCB design layout
+      * Implementation of sensors in optimal position
+    * Motor/Power
+      * Purchase motor driver/controller
+      * Types of batteries
+      * charging to be done by a commercial charger
+      * use of linear regulators
+      * separate power for servos
+      * pick batteries
+==Summarize==
+  # Motor/power section - Stef/Carl
+  # GUI - Scott
+  # Comms protocol, Test programs - Mik
+  # Control systems - Kyle
