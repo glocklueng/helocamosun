@@ -1,0 +1,74 @@
+On going meeting minutes.
+
+Date: April 2, 2007
+Start time: 4:30PM
+Room: TEC204
+
+Attendees: 
+  # Stef Kaban
+  # Mike Ghazi
+  # Carl Phillipsen
+  # Scot Morken
+  # Kyle Wong
+
+==Items discussed==
+  * proposal to have shirts with logos and names for final presentation
+  * group name finalized = Helicam lt.
+  * Project Name finalized = Airwulf
+  * possibility of renting a meeting room at the college
+  * group rules
+  * personal schedules, and timings
+  * begin a website that may contain the following:
+    * progress reports
+    * blog entries
+    * resumes, bio, photos
+    * meeting notes
+    * meeting schedule
+  * next meeting Tuesday, April 3, 2007
+  * Topics to be discussed at the next meeting
+    * Establish timeline
+    * Project Benchmarks
+    * Testing periods
+
+==Group rules==
+  * 48 hours notice prior to supplementary meetings
+  * Meetings to commence on Thursdays from 2:30-3:30 for all members
+  * 3-strike rule to be implemented
+  * $1 late meeting fee to go towards end of term beer fund
+
+
+Date: April 3, 2007
+Start time: 1:00PM
+Room: CBA124
+
+Attendees: 
+  # Stef Kaban
+  # Mike Ghazi
+  # Carl Phillipsen
+  # Scot Morken
+  # Kyle Wong
+
+==Items discussed==
+  * Project proposal
+    * everyone writes a different section/part
+    * divide sections/work
+  * Microchip/Circuit Celler contest
+1:05
+  * Helicopter project sections
+    * RF
+      * Ground unit/base station(PC)
+      * Protocol
+      * Hardware required
+    * Gui implementation
+      * Testing tuning section
+    * Control systems software
+      * PID (backup system)
+      * Fuzzy logic controller
+      * Get fuzzy simulation running
+      * can simulation be exported to FuzzyTech
+      * PWM
+    * Interfacing to Gyro/Compass
+    * Power consumption
+1:30
+    * Hardware controls
+      * PCB design layout
