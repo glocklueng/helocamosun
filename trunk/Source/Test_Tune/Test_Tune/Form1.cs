@@ -29,15 +29,15 @@ namespace Test_Tune
             
             InitializeComponent();
             ckbTXPackets.Checked = true;
-            /*txtColVal = "0";
-            txtEngineSpeed = "0";
-            txtPitchVal = "0";
-            txtRollVal = "0";
-            txtYawVal = "0";
+            txtColVal.Text = "0";
+            txtEngineSpeed.Text = "0";
+            txtPitchVal.Text = "0";
+            txtRollVal.Text = "0";
+            txtYawVal.Text = "0";
 
-            txtFBCurrent = "UNK";
-            txtFBTemp = "UNK";
-            txtFBVoltage = "UNK";*/
+            txtFBCurrent.Text = "UNK";
+            txtFBTemp.Text = "UNK";
+            txtFBVoltage.Text = "UNK";
         }
 
         private void Form1_Load(object sender, EventArgs e)
