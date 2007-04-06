@@ -22,7 +22,7 @@ namespace GoogleMapsControl
             webBrowser1.IsWebBrowserContextMenuEnabled = false;
             webBrowser1.WebBrowserShortcutsEnabled = false;
             webBrowser1.ObjectForScripting = this;
-            webBrowser1.Url = new Uri(@"E:\helo\Source\GUI\GoogleMapsControl\GoogleMapsControl\index.html");
+            webBrowser1.Url = new Uri(@"..\index.html");
             webBrowser1.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser1_DocumentCompleted);
 
         }
