@@ -19,7 +19,6 @@ namespace CommProtocolLib
         public byte Minutes;
         public byte SecondsH;
         public UInt16 SecondsL;
-        public float SecondsF;
         public bool North;
     }
     public struct Longitude
@@ -34,7 +33,6 @@ namespace CommProtocolLib
         public byte Minutes;
         public byte SecondsH;
         public UInt16 SecondsL;
-        public float SecondsF;
         public bool East;
     }
     public struct HeadingSpeedAltitude
@@ -58,7 +56,7 @@ namespace CommProtocolLib
     {
         
         #region datamembers
-        ArrayList ClassExceptions = new ArrayList();
+        public ArrayList ClassExceptions = new ArrayList();
         SerialPort SP;
         string IncomingDataBuffer;
         #endregion
@@ -101,7 +99,7 @@ namespace CommProtocolLib
         /// Set the helicopter's motor's RPM
         /// </summary>
         /// <param name="RPM">A value between 0 and 100 representing percentage engine speed</param>
-        public void SetMotorRPM(UInt16 RPM)
+        public void SetMotorRPM(byte RPM)
         {
             if (RPM >= 0 && RPM <= 100)
             {
@@ -111,11 +109,11 @@ namespace CommProtocolLib
                 OutData[2] = 0x54;//Command type “Testing/Tuning”
                 OutData[3] = 0x45;//Command “Engine RPM adjust”
                 //value from 0x00 to 0x64 representing the desired percentage of engine speed.
-                OutData[4] = Convert.ToByte(RPM);
+                OutData[4] = RPM;
                 //Calculate checksum high byte
                 OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
                 //Calculate checksum low byte
-                OutData[6] = Convert.ToByte(((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0x00FF);
+                OutData[6] = Convert.ToByte((OutData[2] + OutData[3] + OutData[4]) & 0x00FF);
                 OutData[7] = 0xCC;//End of transmission 1
                 OutData[8] = 0x33;//End of transmission 2
                 try
@@ -137,7 +135,7 @@ namespace CommProtocolLib
         /// Set the cyclic pitch control from 0 to 100
         /// </summary>
         /// <param name="PitchCyclic">A value between 0 and 100 representing the servo angle</param>
-        public void SetCyclicPitch(UInt16 CyclicPitch)
+        public void SetCyclicPitch(byte CyclicPitch)
         {
             if (CyclicPitch >= 0 && CyclicPitch <= 100)
             {
@@ -146,8 +144,8 @@ namespace CommProtocolLib
                 OutData[1] = 0x5A;//Start of transmission 2
                 OutData[2] = 0x54;//Command type “Testing/Tuning”
                 OutData[3] = 0x50;//Command “Pitch Servo adjust”
-                //value from 0x00 to 0x64 representing the desired percentage of engine speed.
-                OutData[4] = Convert.ToByte(CyclicPitch);
+                //value from 0x00 to 0x64 representing the desired percentage of cyclic pitch.
+                OutData[4] = CyclicPitch;
                 //Calculate checksum high byte
                 OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
                 //Calculate checksum low byte
@@ -170,12 +168,291 @@ namespace CommProtocolLib
             }
 
         }
+        /// <summary>
+        /// Set the cyclic roll control from 0 to 100
+        /// </summary>
+        /// <param name="CyclicRoll"></param>
+        public void SetCyclicRoll(byte CyclicRoll)
+        {
+
+            if (CyclicRoll >= 0 && CyclicRoll <= 100)
+            {
+                Byte[] OutData = new byte[9];
+                OutData[0] = 0xA5;//Start of transmission 1
+                OutData[1] = 0x5A;//Start of transmission 2
+                OutData[2] = 0x54;//Command type “Testing/Tuning”
+                OutData[3] = 0x52;//Command “Roll Servo adjust”
+                //value from 0x00 to 0x64 representing the desired percentage of cyclic roll.
+                OutData[4] = CyclicRoll;
+                //Calculate checksum high byte
+                OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
+                //Calculate checksum low byte
+                OutData[6] = Convert.ToByte(((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0x00FF);
+                OutData[7] = 0xCC;//End of transmission 1
+                OutData[8] = 0x33;//End of transmission 2
+                try
+                {
+                    SP.Write(OutData, 0, 9);//write the data to the serial port
+                }
+                catch (Exception ex)
+                {
+                    ClassExceptions.Add(ex);
+                }
+            }
+            else
+            {
+                throw new Exception("CommProtocol Error:  SetCyclicRoll, specified Cyclic Roll value '" + CyclicRoll +
+                    "' is out of range.  Use a value >= 0 and <= 100");
+            }
+        }
+        /// <summary>
+        /// Set the collective control from 0 to 100 percent
+        /// </summary>
+        /// <param name="Collective">percentage of collective</param>
+        public void SetCollective(byte Collective)
+        {
+            if (Collective >= 0 && Collective <= 100)
+            {
+                Byte[] OutData = new byte[9];
+                OutData[0] = 0xA5;//Start of transmission 1
+                OutData[1] = 0x5A;//Start of transmission 2
+                OutData[2] = 0x54;//Command type “Testing/Tuning”
+                OutData[3] = 0x43;//Command “Collective Servo adjust”
+                //value from 0x00 to 0x64 representing the desired percentage of collective.
+                OutData[4] = Collective;
+                //Calculate checksum high byte
+                OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
+                //Calculate checksum low byte
+                OutData[6] = Convert.ToByte(((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0x00FF);
+                OutData[7] = 0xCC;//End of transmission 1
+                OutData[8] = 0x33;//End of transmission 2
+                try
+                {
+                    SP.Write(OutData, 0, 9);//write the data to the serial port
+                }
+                catch (Exception ex)
+                {
+                    ClassExceptions.Add(ex);
+                }
+            }
+            else
+            {
+                throw new Exception("CommProtocol Error:  SetCollective, specified Collective value '" + Collective +
+                    "' is out of range.  Use a value >= 0 and <= 100");
+            }
+
+        }
+        /// <summary>
+        /// Set the anti-torque servo to the desired percentage
+        /// </summary>
+        /// <param name="AntiTorque">a percentage servo value</param>
+        public void SetAntiTorque(byte AntiTorque)
+        {
+            if (AntiTorque >= 0 && AntiTorque <= 100)
+            {
+                Byte[] OutData = new byte[9];
+                OutData[0] = 0xA5;//Start of transmission 1
+                OutData[1] = 0x5A;//Start of transmission 2
+                OutData[2] = 0x54;//Command type “Testing/Tuning”
+                OutData[3] = 0x51;//Command “Collective Servo adjust”
+                //value from 0x00 to 0x64 representing the desired percentage of collective.
+                OutData[4] = AntiTorque;
+                //Calculate checksum high byte
+                OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
+                //Calculate checksum low byte
+                OutData[6] = Convert.ToByte(((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0x00FF);
+                OutData[7] = 0xCC;//End of transmission 1
+                OutData[8] = 0x33;//End of transmission 2
+                try
+                {
+                    SP.Write(OutData, 0, 9);//write the data to the serial port
+                }
+                catch (Exception ex)
+                {
+                    ClassExceptions.Add(ex);
+                }
+            }
+            else
+            {
+                throw new Exception("CommProtocol Error:  SetAntiTorque, specified AntiTorque value '" + AntiTorque +
+                    "' is out of range.  Use a value >= 0 and <= 100");
+            }
+
+        }
+
+        #region Flight operation commands
+        /// <summary>
+        /// Start the motor
+        /// </summary>
+        public void EngageEngine()
+        {
+            //packet formation: header(0xA55A, command(0x4645), checksum(0x004B), footer(0xCC33)
+            byte[] Packet = {0xA5,0x5A,0x46,0x45,0x00,0x4B,0xCC,0x33};
+            try
+            {
+                SP.Write(Packet, 0, 8);//write the data to the serial port
+            }
+            catch (Exception ex)
+            {
+                ClassExceptions.Add(ex);
+            }
+        }
+        /// <summary>
+        /// Hover using a preset altitude, the current altitude, or the specified altitude
+        /// </summary>
+        /// <param name="mode">
+        /// 0x50 to use preset altitude, 0x43 to use current altitude, and 0x4D to use specified. 
+        /// If 4D you must also specify the Altitude parameter. Otherwise it is ignored.
+        /// </param>
+        /// <param name="Altitude">
+        /// The specified altitude this value is ignored unless the mode parameter is set to 0x4D.
+        /// In this case the helicopter hovers at the specified value in meters
+        /// </param>
+        public void Hover(byte mode, UInt16 Altitude)
+        {
+            if (mode == 0x50 || mode == 0x43)
+            {
+                byte[] Packet = new byte[9];
+                Packet[0] = 0xA5;
+                Packet[1] = 0x5A;//packet header
+                Packet[2] = 0x46;//Command type “Flight Ops”
+                Packet[3] = 0x48;//Command “Hover”
+                Packet[4] = mode;//Parameter set: 0x50 = Use preset altitude, 0x43 = hover at current altitude, 0x4D = use following altitude 
+                Packet[5] = (byte)(((short)Packet[2] + (short)Packet[3] + (short)Packet[4])>>8);//checksum high
+                Packet[6] = (byte)((Packet[2] + Packet[3] + Packet[4]) & 0x00FF);//checksum low
+                Packet[7] = 0xCC;
+                Packet[8] = 0x33;//Footer
+                try
+                {
+                    SP.Write(Packet, 0, 9);//write the data to the serial port
+                }
+                catch (Exception ex)
+                {
+                    ClassExceptions.Add(ex);
+                }
+            }
+            else if (mode == 0x4D)
+            {
+                byte[] Packet = new byte[10];
+                Packet[0] = 0xA5;
+                Packet[1] = 0x5A;//packet header
+                Packet[2] = 0x46;//Command type “Flight Ops”
+                Packet[3] = 0x48;//Command “Hover”
+                Packet[4] = mode;//Parameter set: 0x50 = Use preset altitude, 0x43 = hover at current altitude, 0x4D = use following altitude 
+                Packet[5] = (byte)((Altitude & 0xFF00) >> 8);
+                Packet[6] = (byte)(Altitude & 0x00FF);
+                Packet[7] = (byte)(((short)Packet[2] + (short)Packet[3] + (short)Packet[4] + (short)Packet[5] + (short)Packet[6]) >> 8);//checksum high
+                Packet[8] = (byte)((Packet[2] + Packet[3] + Packet[4] + Packet[5] + Packet[6]) & 0x00FF);//checksum low
+                Packet[9] = 0xCC;
+                Packet[10] = 0x33;//Footer
+                try
+                {
+                    SP.Write(Packet, 0, 10);//write the data to the serial port
+                }
+                catch (Exception ex)
+                {
+                    ClassExceptions.Add(ex);
+                }
+
+            }
+            else
+            {
+                throw new Exception("Hover(): Invalid mode argument. Must be either 0x50, 0x43 or 0x4D");
+            }
+
+        }
+        /// <summary>
+        /// Send the helicopter to a gps cooridinate, and specify the action on arrival
+        /// </summary>
+        /// <param name="Lat">A filled Latitude struct</param>
+        /// <param name="Long">a filled longitude struct</param>
+        /// <param name="action">0x48 to hover on arrival and 0x53 to circle at arrival</param>
+        /// <param name="Altitude">Altitude to perform action at (metres)</param>
+        public void Goto(Latitude Lat, Longitude Long, byte action, UInt16 Altitude)
+        {
+            /*
+          1 0xA5    header
+            0x5A
+            
+            0x46	Command type “Flight Ops”
+            0x47	Command “Go To”
+
+          5 0xDD	Degrees (0-180) Latitude
+            0xMM	Minutes (0-59) Latitude
+            0xSSSS	Seconds(0-59) Latitude. Use upper six bits for integer portion of seconds, use remaining 10 bits for decimal portion of seconds. There are approximately 31 meters in one second of latitude (and slightly less in 1 minute of longitude at our distance from the equator). 31m / 2^10 = 3 cm accuracy, which is way more accuracy than the GPS will determine.
+            0xNS	0x4E = North
+	                0x53 = South
+
+         10 0xDD	Degrees (0-180) Longitude
+            0xMM	Minutes (0-59) Longitude
+            0xSSSS	Seconds(0-59) Longitude. See above for more details.
+            0xEW	0x45 = East
+	                0x57 = West
+
+         15 0xAA	Action on Arrival:
+		            IF 0x48 Hover at given altitude ELSE IF 0x53 Circle at given altitude
+            0xAAAA	Given altitude
+
+            0xXX checksum High
+            0xXX checksum Low
+            0xCC
+         21 0x33 footer
+            */
+
+            byte[] Packet = new byte[21];
+            Packet[0] = 0xA5;
+            Packet[1] = 0x5A;
+            Packet[2] = 0x46;//Command type “Flight Ops”
+            Packet[3] = 0x47;
+            Packet[4] = Lat.Degrees;
+            Packet[5] = Lat.Minutes;
+            //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
+            Packet[6] = (byte)(Lat.SecondsH + (byte)((Lat.SecondsL & 0xFC00) >> 8));
+            Packet[7] = (byte)(Lat.SecondsL & 0x00FF);
+            if(Lat.North)
+            {
+                Packet[8] = 0x4E;
+            }
+            else
+            {
+                Packet[8] = 0x53;
+            }
+            Packet[9] = Long.Degrees;
+            Packet[10] = Long.Minutes;
+            //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
+            Packet[11] = (byte)(Long.SecondsH + (byte)((Long.SecondsL & 0xFC00) >> 8));
+            Packet[12] = (byte)(Long.SecondsL & 0x00FF);
+            if (Long.East)
+            {
+                Packet[13] = 0x45;
+            }
+            else
+            {
+                Packet[13] = 0x57;
+            }
+            if (action == 0x48)
+            {
+                Packet[14] = 0x48;
+            }
+            else if (action == 0x53)
+            {
+                Packet[15] = 0x53;
+            }
+            else
+            {
+                throw new Exception("CommProtocol.Goto(): invalid action specified.  Must be either 0x48 or 0x53");
+            }
+            Packet[16] = (byte)((Altitude & 0xFF00) >> 8);
+            Packet[17] = (byte)(Altitude & 0x00FF);
+
+        }
+        #endregion
         #endregion
 
         #endregion
 
         #region incoming packets
-        
+
         private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {           
             IncomingDataBuffer += SP.ReadExisting();
@@ -241,7 +518,6 @@ namespace CommProtocolLib
                         Lat.Minutes = (byte)Packet[5];
                         Lat.SecondsH = (byte)(Packet[6] & 0x00FC);//upper 6 bits for seconds
                         Lat.SecondsL = Convert.ToUInt16(((byte)Packet[6]&0x03)<<10 + Convert.ToUInt16(Packet[7]));//10 bit decimal portion of seconds
-                        Lat.SecondsF = (float)Lat.SecondsH + (float)Lat.SecondsL / 1024.0f;
                         if ((byte)Packet[8] == 0x4E)
                         {
                             Lat.North = true;
@@ -261,7 +537,6 @@ namespace CommProtocolLib
                         Long.Minutes = (byte)Packet[10];
                         Long.SecondsH = (byte)(Packet[11] & 0x00FC);//upper 6 bits for seconds
                         Long.SecondsL = Convert.ToUInt16(((byte)Packet[11] & 0x03) << 10 + Convert.ToUInt16(Packet[12]));//10 bit decimal portion of seconds
-                        Long.SecondsF = (float)Long.SecondsH + (float)Long.SecondsL / 1024.0f;
                         if ((byte)Packet[13] == 0x45)
                         {
                             Long.East = true;
