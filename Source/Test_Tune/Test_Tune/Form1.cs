@@ -28,6 +28,16 @@ namespace Test_Tune
             
             
             InitializeComponent();
+            ckbTXPackets.Checked = true;
+            /*txtColVal = "0";
+            txtEngineSpeed = "0";
+            txtPitchVal = "0";
+            txtRollVal = "0";
+            txtYawVal = "0";
+
+            txtFBCurrent = "UNK";
+            txtFBTemp = "UNK";
+            txtFBVoltage = "UNK";*/
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -38,27 +48,50 @@ namespace Test_Tune
         private void pitchServo_Scroll(object sender, EventArgs e)
         {
             txtPitchVal.Text = Convert.ToString(pitchServo.Value);
+            if (ckbTXPackets.Checked)
+            {
+                SP.SetCyclicPitch((ushort)pitchServo.Value);
+               
+            }
         }
 
         private void rollServo_Scroll(object sender, EventArgs e)
         {
             txtRollVal.Text = Convert.ToString(rollServo.Value);
+            if (ckbTXPackets.Checked)
+            {
+                SP.SetCyclicRoll((ushort)rollServo.Value);
+            }
         }
 
         private void yawServo_Scroll(object sender, EventArgs e)
         {
             txtYawVal.Text = Convert.ToString(yawServo.Value);
+            if (ckbTXPackets.Checked)
+            {
+                SP.SetYaw((ushort)yawServo.Value);
+               
+            }
         }
 
         private void colServo_Scroll(object sender, EventArgs e)
         {
             txtColVal.Text = Convert.ToString(colServo.Value);
+            if (ckbTXPackets.Checked)
+            {
+                SP.SetCollective((ushort)colServo.Value);
 
+            }
         }
 
         private void engineSpeed_Scroll(object sender, EventArgs e)
         {
             txtEngineSpeed.Text = Convert.ToString(engineSpeed.Value);
+            if (ckbTXPackets.Checked)
+            {
+                SP.SetMotorRPM((ushort)engineSpeed.Value);
+
+            }
         }
 
         private void bnApply_Click(object sender, EventArgs e)
@@ -70,7 +103,12 @@ namespace Test_Tune
         private void bnOpen_Click(object sender, EventArgs e)
         {
             SP = new CommProtocol(Settings.PortName, Settings.BaudRate);
+            //SP = new CommProtocol("COM6", 9600);
         }
+
+     
+
+      
 
     }
 }

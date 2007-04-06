@@ -45,13 +45,24 @@ namespace Test_Tune
             this.engineSpeed = new System.Windows.Forms.TrackBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.ckbTXPackets = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.bnOpen = new System.Windows.Forms.Button();
             this.bnApply = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.cbBaudRate = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cbCommPort = new System.Windows.Forms.ComboBox();
-            this.bnOpen = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtFBVoltage = new System.Windows.Forms.TextBox();
+            this.txtFBTemp = new System.Windows.Forms.TextBox();
+            this.txtFBCurrent = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pitchServo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rollServo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yawServo)).BeginInit();
@@ -60,6 +71,7 @@ namespace Test_Tune
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pitchServo
@@ -204,11 +216,12 @@ namespace Test_Tune
             this.tabControl1.Location = new System.Drawing.Point(39, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(698, 359);
+            this.tabControl1.Size = new System.Drawing.Size(522, 391);
             this.tabControl1.TabIndex = 16;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.ckbTXPackets);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.txtEngineSpeed);
             this.tabPage1.Controls.Add(this.pitchServo);
@@ -227,10 +240,20 @@ namespace Test_Tune
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(690, 333);
+            this.tabPage1.Size = new System.Drawing.Size(514, 365);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Control";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // ckbTXPackets
+            // 
+            this.ckbTXPackets.AutoSize = true;
+            this.ckbTXPackets.Location = new System.Drawing.Point(195, 318);
+            this.ckbTXPackets.Name = "ckbTXPackets";
+            this.ckbTXPackets.Size = new System.Drawing.Size(108, 17);
+            this.ckbTXPackets.TabIndex = 15;
+            this.ckbTXPackets.Text = "Transmit Packets";
+            this.ckbTXPackets.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -243,10 +266,20 @@ namespace Test_Tune
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(690, 333);
+            this.tabPage2.Size = new System.Drawing.Size(514, 365);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Configuration";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // bnOpen
+            // 
+            this.bnOpen.Location = new System.Drawing.Point(178, 257);
+            this.bnOpen.Name = "bnOpen";
+            this.bnOpen.Size = new System.Drawing.Size(75, 23);
+            this.bnOpen.TabIndex = 5;
+            this.bnOpen.Text = "Open Port\r\n";
+            this.bnOpen.UseVisualStyleBackColor = true;
+            this.bnOpen.Click += new System.EventHandler(this.bnOpen_Click);
             // 
             // bnApply
             // 
@@ -318,21 +351,108 @@ namespace Test_Tune
             this.cbCommPort.Size = new System.Drawing.Size(147, 21);
             this.cbCommPort.TabIndex = 0;
             // 
-            // bnOpen
+            // groupBox1
             // 
-            this.bnOpen.Location = new System.Drawing.Point(178, 257);
-            this.bnOpen.Name = "bnOpen";
-            this.bnOpen.Size = new System.Drawing.Size(75, 23);
-            this.bnOpen.TabIndex = 5;
-            this.bnOpen.Text = "Open Port\r\n";
-            this.bnOpen.UseVisualStyleBackColor = true;
-            this.bnOpen.Click += new System.EventHandler(this.bnOpen_Click);
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.txtFBVoltage);
+            this.groupBox1.Controls.Add(this.txtFBTemp);
+            this.groupBox1.Controls.Add(this.txtFBCurrent);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Location = new System.Drawing.Point(608, 50);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(241, 149);
+            this.groupBox1.TabIndex = 17;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Feed Back";
+            // 
+            // txtFBVoltage
+            // 
+            this.txtFBVoltage.Enabled = false;
+            this.txtFBVoltage.Location = new System.Drawing.Point(107, 78);
+            this.txtFBVoltage.Name = "txtFBVoltage";
+            this.txtFBVoltage.Size = new System.Drawing.Size(47, 20);
+            this.txtFBVoltage.TabIndex = 5;
+            // 
+            // txtFBTemp
+            // 
+            this.txtFBTemp.Enabled = false;
+            this.txtFBTemp.Location = new System.Drawing.Point(107, 109);
+            this.txtFBTemp.Name = "txtFBTemp";
+            this.txtFBTemp.Size = new System.Drawing.Size(47, 20);
+            this.txtFBTemp.TabIndex = 4;
+            // 
+            // txtFBCurrent
+            // 
+            this.txtFBCurrent.Enabled = false;
+            this.txtFBCurrent.Location = new System.Drawing.Point(107, 47);
+            this.txtFBCurrent.Name = "txtFBCurrent";
+            this.txtFBCurrent.Size = new System.Drawing.Size(47, 20);
+            this.txtFBCurrent.TabIndex = 3;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(20, 113);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(70, 13);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "Temperature:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(20, 82);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(82, 13);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "Battery Voltage:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(20, 51);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(72, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Current Draw:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(158, 51);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(22, 13);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "mA";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(158, 82);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(14, 13);
+            this.label12.TabIndex = 7;
+            this.label12.Text = "V";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(158, 113);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(14, 13);
+            this.label13.TabIndex = 8;
+            this.label13.Text = "C";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(897, 420);
+            this.ClientSize = new System.Drawing.Size(933, 458);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Airwulf Testing and Tuning Application";
@@ -347,6 +467,8 @@ namespace Test_Tune
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -377,6 +499,17 @@ namespace Test_Tune
         private System.Windows.Forms.ComboBox cbCommPort;
         private System.Windows.Forms.Button bnApply;
         private System.Windows.Forms.Button bnOpen;
+        private System.Windows.Forms.CheckBox ckbTXPackets;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtFBCurrent;
+        private System.Windows.Forms.TextBox txtFBVoltage;
+        private System.Windows.Forms.TextBox txtFBTemp;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
 
     }
 }
