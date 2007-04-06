@@ -18,6 +18,9 @@ namespace CommProtocolLib
         public byte Degrees;
         public byte Minutes;
         public byte SecondsH;
+        /// <summary>
+        /// The decimal remainder of seconds, the value is 1/2^10 of SecondsH
+        /// </summary>
         public UInt16 SecondsL;
         public bool North;
     }
@@ -32,13 +35,16 @@ namespace CommProtocolLib
         public byte Degrees;
         public byte Minutes;
         public byte SecondsH;
+        /// <summary>
+        /// The decimal remainder of seconds, the value is 1/2^10 of SecondsH
+        /// </summary>
         public UInt16 SecondsL;
         public bool East;
     }
     public struct HeadingSpeedAltitude
     {
         /// <summary>
-        /// 
+        /// heading in degrees, North is zero degrees, increases in clockwise direction
         /// </summary>
         public UInt16 Heading;
         /// <summary>
@@ -50,6 +56,21 @@ namespace CommProtocolLib
         /// </summary>
         public UInt16 Altitude;
 
+    }
+    public struct Attitude
+    {
+        /// <summary>
+        /// Helicopter's current roll value: 0 degrees is upright; increases as helicopter rolls in the starboard direction
+        /// </summary>
+        public UInt16 Roll;
+        /// <summary>
+        /// Helicopter's current pitch value: 0 degrees is upright; increases as helicopter pitches forward
+        /// </summary>
+        public UInt16 Pitch;
+        /// <summary>
+        /// Helicopters current yaw angle: 0 degrees is north; increases as helicopter rotates counter clockwise, as seen from above the helicopter
+        /// </summary>
+        public UInt16 Yaw;
     }
 
     public class CommProtocol
@@ -280,6 +301,10 @@ namespace CommProtocolLib
 
         }
 
+
+        #endregion
+
+
         #region Flight operation commands
         /// <summary>
         /// Start the motor
@@ -287,7 +312,7 @@ namespace CommProtocolLib
         public void EngageEngine()
         {
             //packet formation: header(0xA55A, command(0x4645), checksum(0x004B), footer(0xCC33)
-            byte[] Packet = {0xA5,0x5A,0x46,0x45,0x00,0x4B,0xCC,0x33};
+            byte[] Packet = { 0xA5, 0x5A, 0x46, 0x45, 0x00, 0x4B, 0xCC, 0x33 };
             try
             {
                 SP.Write(Packet, 0, 8);//write the data to the serial port
@@ -318,7 +343,7 @@ namespace CommProtocolLib
                 Packet[2] = 0x46;//Command type “Flight Ops”
                 Packet[3] = 0x48;//Command “Hover”
                 Packet[4] = mode;//Parameter set: 0x50 = Use preset altitude, 0x43 = hover at current altitude, 0x4D = use following altitude 
-                Packet[5] = (byte)(((short)Packet[2] + (short)Packet[3] + (short)Packet[4])>>8);//checksum high
+                Packet[5] = (byte)(((short)Packet[2] + (short)Packet[3] + (short)Packet[4]) >> 8);//checksum high
                 Packet[6] = (byte)((Packet[2] + Packet[3] + Packet[4]) & 0x00FF);//checksum low
                 Packet[7] = 0xCC;
                 Packet[8] = 0x33;//Footer
@@ -393,7 +418,7 @@ namespace CommProtocolLib
 		            IF 0x48 Hover at given altitude ELSE IF 0x53 Circle at given altitude
             0xAAAA	Given altitude
 
-            0xXX checksum High
+         18 0xXX checksum High
             0xXX checksum Low
             0xCC
          21 0x33 footer
@@ -409,7 +434,7 @@ namespace CommProtocolLib
             //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
             Packet[6] = (byte)(Lat.SecondsH + (byte)((Lat.SecondsL & 0xFC00) >> 8));
             Packet[7] = (byte)(Lat.SecondsL & 0x00FF);
-            if(Lat.North)
+            if (Lat.North)
             {
                 Packet[8] = 0x4E;
             }
@@ -436,17 +461,35 @@ namespace CommProtocolLib
             }
             else if (action == 0x53)
             {
-                Packet[15] = 0x53;
+                Packet[14] = 0x53;
             }
             else
             {
                 throw new Exception("CommProtocol.Goto(): invalid action specified.  Must be either 0x48 or 0x53");
             }
-            Packet[16] = (byte)((Altitude & 0xFF00) >> 8);
-            Packet[17] = (byte)(Altitude & 0x00FF);
+            Packet[15] = (byte)((Altitude & 0xFF00) >> 8);//altitude high byte
+            Packet[16] = (byte)(Altitude & 0x00FF);//altitude low byte
+            //calculate checksum
+            short checksum = 0;
+            for (int i = 2; i < 17; i++)//calculate checksum
+            {
+                checksum += Packet[i];
+            }
+            Packet[17] = (byte)((checksum & 0xFF00) >> 8);//checksum high
+            Packet[18] = (byte)(checksum & 0x00FF);//checksum low
+            Packet[19] = 0xCC;
+            Packet[20] = 0x33;//footer
+            try
+            {
+                SP.Write(Packet, 0, 21);//write the data to the serial port
+            }
+            catch (Exception ex)
+            {
+                ClassExceptions.Add(ex);
+            }
+
 
         }
-        #endregion
         #endregion
 
         #endregion
@@ -465,6 +508,8 @@ namespace CommProtocolLib
 
             string HeadingSpeedAltitude = new string(new char[] { (char)0xA5, (char)0x5A, (char)0x74, (char)0x48 });
             //first 2 bytes are header, second pair are HeadingSpeedAltitude command packet
+
+            string Attitude = new string(new char[] { });
 
             #region Location Packet recieved
             if (Packet.Contains(LocationPacket))
@@ -557,7 +602,7 @@ namespace CommProtocolLib
             }
             #endregion
             #region Heading Speed altitude recieved
-            else if (Packet.Contains(HeadingSpeedAltitude.ToString()))
+            else if (Packet.Contains(HeadingSpeedAltitude))
             {
                 /*
                     Heading/Speed/Altitude:
@@ -582,9 +627,9 @@ namespace CommProtocolLib
                 {
                     //calculate checksum
                     UInt16 sum = 0;
-                    for(int i = 2; i<8; i++)
+                    for (int i = 2; i < 9; i++)
                     {
-                        sum+=Packet[i];
+                        sum += Packet[i];
                     }
                     byte chk1 = (byte)((sum & 0x0000FF00) >> 8);
                     byte chk2 = (byte)(sum & 0x000000FF);
@@ -592,7 +637,7 @@ namespace CommProtocolLib
                     {
                         OnBadPacketReceived(
                            new BadPacketReceivedEventArgs(Packet,
-                           string.Format("Invalid heading speed altitude packet: invalid checksum recieved {0:X4}, expected {0:X4}",
+                           string.Format("Invalid heading speed altitude packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
                            (Convert.ToUInt16(Packet[9]) << 8) + Packet[10], sum))
                            );
                         Packet = "";
@@ -607,6 +652,64 @@ namespace CommProtocolLib
                         OnHeadingSpeedAltitudePacketRecieved(new HeadingSpeedAltitudePacketRecievedEventArgs(HSA));
                     }
 
+                }
+            }
+            #endregion
+            #region Attitude packet received
+            else if (Packet.Contains(Attitude))
+            {
+                /*
+                Attitude
+                
+                1 0xA5
+                  0x5A    Packet Header
+                
+                3 0x74	Report type “Telemetry”
+                  0x5A	Report “Attitude”
+
+                5 0xRRRR	Hex value (0x0000 – 0x0167) representing current roll angle, can potentially use extra bits for partial degrees 
+                  (increases as helicopter rolls in the starboard direction)
+                 
+                7 0xPPPP	Hex value (0x0000 – 0x0167) representing current pitch angle, can potentially use extra bits for partial degrees 
+                  (increases as helicopter pitches forward)
+                
+                9 0xYYYY	Hex value (0x0000 – 0x0167) representing current yaw angle, can potentially use extra bits for partial degrees 
+                  (increases as helicopter rotates counter clockwise, as seen from above the helicopter)
+
+               11 0xXX //checksum high
+                  0xXX //checksum low
+                
+               13 0xCC
+               14 0x33 //footer
+                */
+                if (Packet.Length == 14 && Packet[12] == 0xCC && Packet[13] == 0x33)
+                {
+                    //calculate checksum
+                    UInt16 sum = 0;
+                    for (int i = 2; i < 10; i++)
+                    {
+                        sum += Packet[i];
+                    }
+                    byte chk1 = (byte)((sum & 0xFF00) >> 8);
+                    byte chk2 = (byte)(sum & 0x00FF);
+                    if (chk1 != Packet[10] || chk2 != Packet[11])
+                    {
+                        OnBadPacketReceived(
+                           new BadPacketReceivedEventArgs(Packet,
+                           string.Format("Invalid attitude packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
+                           (Convert.ToUInt16(Packet[10]) << 8) + Packet[11], sum))
+                           );
+                        Packet = "";
+                    }
+                }
+                else
+                {
+                    Attitude a = new Attitude();
+                    a.Roll = (ushort)((Packet[4]<<8) + Packet[5]);
+                    a.Pitch = (ushort)((Packet[6] << 8) + Packet[7]);
+                    a.Yaw = (ushort)((Packet[8] << 8) + Packet[9]);
+                    //invoke the event
+                    OnAttitudePacketRecieved(new AttitudePacketRecievedEventArgs(a));
                 }
             }
             #endregion
@@ -670,6 +773,28 @@ namespace CommProtocolLib
             public HeadingSpeedAltitudePacketRecievedEventArgs(HeadingSpeedAltitude HSA)
             {
                 this.HSA = HSA;
+            }
+        }
+        #endregion
+        #region Attitude packet recieved
+
+        public delegate void AttitudePacketRecievedEventHandler(object sender, AttitudePacketRecievedEventArgs e);
+        public event AttitudePacketRecievedEventHandler AttitudePacketRecieved;
+        protected virtual void OnAttitudePacketRecieved(AttitudePacketRecievedEventArgs e)
+        {
+            if (AttitudePacketRecieved != null)
+            {
+                AttitudePacketRecieved(this, e);
+            }
+        }
+
+        public class AttitudePacketRecievedEventArgs
+        {
+            public Attitude attitude;
+
+            public AttitudePacketRecievedEventArgs(Attitude a)
+            {
+                attitude = a;
             }
         }
         #endregion
