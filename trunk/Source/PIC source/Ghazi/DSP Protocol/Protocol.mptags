@@ -7,16 +7,40 @@
 !_TAG_REVISION_NAME	MCHPTags	//
 !_TAG_REVISION_VERSION	6.0.1	//
 FCY::10000000	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	4;"	d	line:4	file:
+MAXPACKLEN::256	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	5;"	d	line:5	file:
 TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	13;"	p	line:13	file:	signature:( unsigned char )
-TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	50;"	f	line:50	signature:( unsigned char ch )
+TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	84;"	f	line:84	signature:( unsigned char ch )
 TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	16;"	p	line:16	file:	signature:( unsigned char *packet, unsigned short len )
-TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	56;"	f	line:56	signature:( unsigned char *packet, unsigned short len )
-_U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	76;"	f	line:76	signature:(void)
+TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	93;"	f	line:93	signature:( unsigned char packet[256], unsigned short len )
+_U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	291;"	f	line:291	signature:(void)
 _U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	7;"	p	line:7	file:	signature:(void)
-bytercvd	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	22;"	v	line:22
-init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	36;"	f	line:36	signature:( unsigned short baud )
+bytercvd	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	26;"	v	line:26
+check	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	112;"	l	line:112	file:
+checksum	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	111;"	l	line:111	file:
+chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	107;"	l	line:107	file:
+coll	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	33;"	v	line:33
+data	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	28;"	v	line:28
+datavalid	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	27;"	v	line:27
+debug_dv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	39;"	v	line:39
+dump	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	115;"	l	line:115
+engRPM	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	29;"	v	line:29
+err_EOT	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	37;"	v	line:37
+err_SOT	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	36;"	v	line:36
+err_chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	35;"	v	line:35
+init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	70;"	f	line:70	signature:( unsigned short baud )
 init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	9;"	p	line:9	file:	signature:( unsigned short )
-lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	58;"	l	line:58
-main	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	24;"	f	line:24	signature:( void )
+lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	113;"	l	line:113
+lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	95;"	l	line:95
+main	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	45;"	f	line:45	signature:( void )
+msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	244;"	l	line:244
+packet	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	110;"	l	line:110	file:
+packet_cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	109;"	l	line:109	file:
+packet_length	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	108;"	l	line:108	file:
+parse_data	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	22;"	p	line:22	file:	signature:( unsigned char vdata[MAXPACKLEN] )
+parse_data	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	242;"	f	line:242	signature:( unsigned char vdata[MAXPACKLEN] )
+pitch	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	30;"	v	line:30
+roll	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	31;"	v	line:31
+state	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	106;"	l	line:106	file:
+state_machine	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	104;"	f	line:104	signature:( void )
 state_machine	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	19;"	p	line:19	file:	signature:( void )
-state_machine	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	66;"	f	line:66	signature:( void )
+yaw	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	32;"	v	line:32
