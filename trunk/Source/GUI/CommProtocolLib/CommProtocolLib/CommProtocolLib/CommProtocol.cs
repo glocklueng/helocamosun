@@ -4,43 +4,66 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO.Ports;
 using System.Timers;
+using System.Threading;
 
 namespace CommProtocolLib
 {
+    #region Public Data Structures
+    /// <summary>
+    /// standard global latitude data structure
+    /// </summary>
     public struct Latitude
     {
-        /*
-        0xDD	Degrees (0-180) Latitude
-        0xMM	Minutes (0-59) Latitude
-        0xSSSS	Seconds (0-59) Latitude. Use first six bits for integer portion of seconds, use remaining 10 bits for decimal portion of seconds. There are approximately 31 meters in one second of latitude (and slightly less in 1 minute of longitude at our distance from the equator). 31m / 2^10 = 3 cm accuracy, which is way more accuracy than the GPS will determine.
-        North or South
-        */
+        /// <summary>
+        /// standard latitude degrees (0-180)
+        /// </summary>
         public byte Degrees;
+        /// <summary>
+        /// standard latitude minutes (0 to 60)
+        /// </summary>
         public byte Minutes;
+        /// <summary>
+        /// integer portion of seconds, a value between 0 and 60 inclusive
+        /// </summary>
         public byte SecondsH;
         /// <summary>
         /// The decimal remainder of seconds, the value is 1/2^10 of SecondsH
         /// </summary>
         public UInt16 SecondsL;
+        /// <summary>
+        /// North latitude if true, otherwise south
+        /// </summary>
         public bool North;
     }
+    /// <summary>
+    /// standard global longitude data structure
+    /// </summary>
     public struct Longitude
     {
-        /*
-        0xDD	Degrees (0-180) Longitude
-        0xMM	Minutes (0-59) Longitude
-        0xSSSS	Seconds (0-59) Longitude. Use first six bits for integer portion of seconds, use remaining 10 bits for decimal portion of seconds. There are approximately 31 meters in one second of latitude (and slightly less in 1 minute of longitude at our distance from the equator). 31m / 2^10 = 3 cm accuracy, which is way more accuracy than the GPS will determine.
-        East or West
-        */
+        /// <summary>
+        /// standard longitude degrees (0-180)
+        /// </summary>
         public byte Degrees;
+        /// <summary>
+        /// standard longitude minutes (0 to 60)
+        /// </summary>
         public byte Minutes;
+        /// <summary>
+        /// integer portion of seconds, a value between 0 and 60 inclusive
+        /// </summary>
         public byte SecondsH;
         /// <summary>
         /// The decimal remainder of seconds, the value is 1/2^10 of SecondsH
         /// </summary>
         public UInt16 SecondsL;
+        /// <summary>
+        /// East latitude if true, otherwise West
+        /// </summary>
         public bool East;
     }
+    /// <summary>
+    /// Data structure to keep track of heading speed and altitude of the helicopter
+    /// </summary>
     public struct HeadingSpeedAltitude
     {
         /// <summary>
@@ -57,6 +80,9 @@ namespace CommProtocolLib
         public UInt16 Altitude;
 
     }
+    /// <summary>
+    /// Data structure to keep track of the helicopter's attitude (roll, pitch and yaw)
+    /// </summary>
     public struct Attitude
     {
         /// <summary>
@@ -72,31 +98,160 @@ namespace CommProtocolLib
         /// </summary>
         public UInt16 Yaw;
     }
+    /// <summary>
+    /// data structure for battery information packets 
+    /// </summary>
+    public struct BatteryStatus
+    {
+        /// <summary>
+        /// battery voltage reading
+        /// </summary>
+        public ushort Voltage;
+        /// <summary>
+        /// battery current draw reading
+        /// </summary>
+        public ushort CurrentDraw;
+        /// <summary>
+        /// battery temperature reading
+        /// </summary>
+        public ushort Temperature;
+    }
+    /// <summary>
+    /// Data structure containing pre-flight packet data
+    /// </summary>
+    public struct PreFlightPacketData
+    {
+        /// <summary>
+        /// Pre-flight latitude
+        /// </summary>
+        public Latitude Lat;
+        /// <summary>
+        /// Pre-flight longitude
+        /// </summary>
+        public Longitude Long;
+        /// <summary>
+        /// Altiude of helicopter as reported by GPS
+        /// </summary>
+        public ushort GPSAltitude;
+        /// <summary>
+        /// Altitude of helicopter as reported by the acoustic sensor
+        /// </summary>
+        public ushort SonarAltitude;
+        /// <summary>
+        /// Main battery voltage
+        /// </summary>
+        public ushort BatteryVoltage;
+        /// <summary>
+        /// main battery temperature
+        /// </summary>
+        public ushort BatteryTemp;
+        /// <summary>
+        /// a bit field containing sensor status
+        /// </summary>
+        public byte SensorStatus;
+    }
+    #endregion
 
+    /// <summary>
+    /// Implementation of the helicopter communication protocol via the serial port
+    /// </summary>
     public class CommProtocol
     {
-        
+
         #region datamembers
+        /// <summary>
+        /// When a packet is sent there is an expected response from the helicopter
+        /// it is a full packet (with ACK)response or a data response.  This struct keeps track of the state.
+        /// </summary>
+        public ExpectedResponses ExpectedResponse = new ExpectedResponses();
+        /// <summary>
+        /// any serial port exceptions raised by this class are stored here
+        /// </summary>
         public ArrayList ClassExceptions = new ArrayList();
-        SerialPort SP;
-        string IncomingDataBuffer;
+        private SerialPort SP;
+        private string IncomingDataBuffer;
+        private byte[] OutGoingPacket;
+        /// <summary>
+        /// Time to wait for a response after sending a data packet.  
+        /// If the timer expires before the expected packet is recieved the OnResponseTimeout event is invoked.
+        /// </summary>
+        private int TimeOut = 100;
+        private System.Timers.Timer ResponseTimer;
+        /// <summary>
+        /// When a packet is sent there is an expected response from the helicopter
+        /// it is a full packet (with ACK)response or a data response.
+        /// </summary>
+        public struct ExpectedResponses
+        {
+            /// <summary>
+            /// If true a response is expected and no datapackets can be sent out until a response is recieved or a timeout occurs
+            /// </summary>
+            public bool ResponseExpected;
+            /// <summary>
+            /// The expected response packet, this is defined only for full packet responses
+            /// where the response can be fully predicted
+            /// </summary>
+            public string ExpectedPacket;
+            /// <summary>
+            /// Name of initiating function that sent the original packet (for debugging purposes)
+            /// </summary>
+            public string Name;
+            /// <summary>
+            /// enumeration of the types of responses to expect after sending a packet
+            /// </summary>
+            public enum type
+            {
+                /// <summary>
+                /// A full packet response with ACK (0x06) is expected
+                /// </summary>
+                FullPacketResponse,
+                /// <summary>
+                /// A packet containing telemetry or other information is expected
+                /// </summary>
+                DataResponse,
+                /// <summary>
+                /// no response is expected
+                /// </summary>
+                none
+            }
+            /// <summary>
+            /// instance of the type enum
+            /// </summary>
+            public type ResponseType;
+        }
         #endregion
         
         #region constructors
+
+        /// <summary>
+        /// Creates a new CommProtocol, with specified serial port parameters and a specified response timeout.  The other serial port parameters are all set to default
+        /// </summary>
+        /// <param name="PortName">the serial port name e.g. "COM1"</param>
+        /// <param name="BaudRate">a valid serial port baud rate e.g. 9600</param>
         public CommProtocol(string PortName, int BaudRate)
         {
             try
             {
                 SP = new SerialPort(PortName, BaudRate);
-                SP.Encoding = Encoding.Unicode;//char type uses unicode for strings
+                SP.Encoding = Encoding.Unicode;//char type uses unicode for strings  ****NEED TO TEST THIS******
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
+                Setup();
+               
             }
             catch (Exception ex)
             {
                 ClassExceptions.Add(ex);
             }
         }
+        /// <summary>
+        /// Creates a new CommProtocol, with specified serial port parameters and a specified response timeout
+        /// </summary>
+        /// <param name="PortName">the serial port name e.g. "COM1"</param>
+        /// <param name="BaudRate">a valid serial port baud rate e.g. 9600</param>
+        /// <param name="parity">a valid parity</param>
+        /// <param name="DataBits">the number of data bits per frame</param>
+        /// <param name="stopBits">the number of stop bits per frame</param>
         public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits )
         {
             try
@@ -106,15 +261,95 @@ namespace CommProtocolLib
                 SP.Encoding = Encoding.Unicode;//char type uses unicode for strings
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
+                Setup();
             }
             catch (Exception ex)
             {
                 ClassExceptions.Add(ex);
             }
         }
+        /// <summary>
+        /// Creates a new CommProtocol, with specified serial port parameters and a specified response timeout
+        /// </summary>
+        /// <param name="PortName">the serial port name e.g. "COM1"</param>
+        /// <param name="BaudRate">a valid serial port baud rate e.g. 9600</param>
+        /// <param name="parity">a valid parity</param>
+        /// <param name="DataBits">the number of data bits per frame</param>
+        /// <param name="stopBits">the number of stop bits per frame</param>
+        /// <param name="Timeout">Time to wait for a response after sending a data packet.  
+        /// If the timer expires before the expected packet is recieved the OnResponseTimeout event is invoked.</param>
+        public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits, int Timeout)
+        {
+            try
+            {
+
+                SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
+                SP.Encoding = Encoding.Unicode;//char type uses unicode for strings
+                SP.Open();
+                SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
+                this.TimeOut = Timeout;
+                Setup();
+            }
+            catch (Exception ex)
+            {
+                ClassExceptions.Add(ex);
+            }
+        }
+        /// <summary>
+        /// Called by all constructors
+        /// </summary>
+        private void Setup()
+        {
+            ResponseTimer = new System.Timers.Timer(TimeOut);
+            ResponseTimer.Enabled = false;
+        }
         #endregion
         
         #region out-going packets
+
+        #region Communications
+        /// <summary>
+        /// Send out a ping to prove the helicopter is communicating
+        /// </summary>
+        public void CommsHandShakeInitiate()
+        {
+            if (ExpectedResponse.ResponseExpected == false)
+            {
+                OutGoingPacket = new byte[7];
+                OutGoingPacket[0] = 0xA5;//header
+                OutGoingPacket[1] = 0x5A;
+                OutGoingPacket[2] = 0x02;//2 bytes
+                OutGoingPacket[3] = 0x43;//communications command type
+                OutGoingPacket[4] = 0x48;//handshake
+                OutGoingPacket[5] = 0x00;//checksum high
+                OutGoingPacket[6] = 0x8B;//checksum low
+                OutGoingPacket[7] = 0xCC;
+                OutGoingPacket[8] = 0x33;//footer
+                SendPacket("CommsHandShakeInitiate", ExpectedResponses.type.DataResponse);
+            }
+        }
+        /// <summary>
+        /// Instruct the helicopter to stop sending acks at the end of the hand shake sequence
+        /// </summary>
+        public void CommsHandShakeTerminate()
+        {
+            if (ExpectedResponse.ResponseExpected == false)
+            {
+                OutGoingPacket = new byte[7];
+                OutGoingPacket[0] = 0xA5;//header
+                OutGoingPacket[1] = 0x5A;
+                OutGoingPacket[2] = 0x02;//2 bytes
+                OutGoingPacket[3] = 0x43;//communications command type
+                OutGoingPacket[4] = 0x54;//terminate handshake
+                OutGoingPacket[5] = 0x00;//checksum high
+                OutGoingPacket[6] = 0x97;//checksum low
+                OutGoingPacket[7] = 0xCC;
+                OutGoingPacket[8] = 0x33;//footer
+                SendPacket("CommsHandShakeTerminate", ExpectedResponses.type.none);//helicopter is not required to respond to this packet
+            }
+        }
+        #endregion
+
         #region Testing and tuning commands
         /// <summary>
         /// Set the helicopter's motor's RPM
@@ -122,72 +357,66 @@ namespace CommProtocolLib
         /// <param name="RPM">A value between 0 and 100 representing percentage engine speed</param>
         public void SetMotorRPM(byte RPM)
         {
-            if (RPM >= 0 && RPM <= 100)
+            if (ExpectedResponse.ResponseExpected == false)//dont send out a packet if a response is expected from the helicopter
             {
-                Byte[] OutData = new byte[9];
-                OutData[0] = 0xA5;//Start of transmission 1
-                OutData[1] = 0x5A;//Start of transmission 2
-                OutData[2] = 0x54;//Command type “Testing/Tuning”
-                OutData[3] = 0x45;//Command “Engine RPM adjust”
-                //value from 0x00 to 0x64 representing the desired percentage of engine speed.
-                OutData[4] = RPM;
-                //Calculate checksum high byte
-                OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
-                //Calculate checksum low byte
-                OutData[6] = Convert.ToByte((OutData[2] + OutData[3] + OutData[4]) & 0x00FF);
-                OutData[7] = 0xCC;//End of transmission 1
-                OutData[8] = 0x33;//End of transmission 2
-                try
+                if (RPM >= 0 && RPM <= 100)
                 {
-                    SP.Write(OutData, 0, 9);//write the data to the serial port
+                    OutGoingPacket = new byte[10];
+                    OutGoingPacket[0] = 0xA5;//Start of transmission 1
+                    OutGoingPacket[1] = 0x5A;//Start of transmission 2
+                    OutGoingPacket[2] = 0x03;//length: number of bytes in data portion
+                    OutGoingPacket[3] = 0x54;//Command type “Testing/Tuning”
+                    OutGoingPacket[4] = 0x45;//Command “Engine RPM adjust”
+                    //value from 0x00 to 0x64 representing the desired percentage of engine speed.
+                    OutGoingPacket[5] = RPM;
+                    //Calculate checksum high byte
+                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0xFF00) >> 8);
+                    //Calculate checksum low byte
+                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);
+                    OutGoingPacket[8] = 0xCC;//End of transmission 1
+                    OutGoingPacket[9] = 0x33;//End of transmission 2
+                    SendPacket("SetMotorRPM",ExpectedResponses.type.FullPacketResponse);
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    ClassExceptions.Add(ex);
+                    throw new Exception("CommProtocol Error: SetMotorRPM, specified RPM value '" + RPM +
+                                        "' is out of range.  Use a value >= 0 and <= 100");
                 }
-            }
-            else
-            {
-                throw new Exception("CommProtocol Error: SetMotorRPM, specified RPM value '" + RPM +
-                                    "' is out of range.  Use a value >= 0 and <= 100");
             }
         }
         /// <summary>
         /// Set the cyclic pitch control from 0 to 100
         /// </summary>
-        /// <param name="PitchCyclic">A value between 0 and 100 representing the servo angle</param>
+        /// <param name="CyclicPitch">A value between 0 and 100 representing the servo angle</param>
         public void SetCyclicPitch(byte CyclicPitch)
         {
-            if (CyclicPitch >= 0 && CyclicPitch <= 100)
+            if (ExpectedResponse.ResponseExpected == false)
             {
-                Byte[] OutData = new byte[9];
-                OutData[0] = 0xA5;//Start of transmission 1
-                OutData[1] = 0x5A;//Start of transmission 2
-                OutData[2] = 0x54;//Command type “Testing/Tuning”
-                OutData[3] = 0x50;//Command “Pitch Servo adjust”
-                //value from 0x00 to 0x64 representing the desired percentage of cyclic pitch.
-                OutData[4] = CyclicPitch;
-                //Calculate checksum high byte
-                OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
-                //Calculate checksum low byte
-                OutData[6] = Convert.ToByte(((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0x00FF);
-                OutData[7] = 0xCC;//End of transmission 1
-                OutData[8] = 0x33;//End of transmission 2
-                try
+                if (CyclicPitch >= 0 && CyclicPitch <= 100)
                 {
-                    SP.Write(OutData, 0, 9);//write the data to the serial port
+                    OutGoingPacket = new byte[10];
+                    OutGoingPacket[0] = 0xA5;//Start of transmission 1
+                    OutGoingPacket[1] = 0x5A;//Start of transmission 2
+                    OutGoingPacket[2] = 0x03;//length: number of bytes in data portion
+                    OutGoingPacket[3] = 0x54;//Command type “Testing/Tuning”
+                    OutGoingPacket[4] = 0x50;//Command “Pitch Servo adjust”
+                    //value from 0x00 to 0x64 representing the desired percentage of cyclic pitch.
+                    OutGoingPacket[5] = CyclicPitch;
+                    //Calculate checksum high byte
+                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0xFF00) >> 8);
+                    //Calculate checksum low byte
+                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);
+                    OutGoingPacket[8] = 0xCC;//End of transmission 1
+                    OutGoingPacket[9] = 0x33;//End of transmission 2
+                    SendPacket("SetCyclicPitch", ExpectedResponses.type.FullPacketResponse);
                 }
-                catch (Exception ex)
+                else
                 {
-                    ClassExceptions.Add(ex);
+                    throw new Exception("CommProtocol Error:  SetCyclicPitch, specified Cyclic Pitch value '" + CyclicPitch +
+                        "' is out of range.  Use a value >= 0 and <= 100");
                 }
             }
-            else
-            {
-                throw new Exception("CommProtocol Error:  SetCyclicPitch, specified Cyclic Pitch value '" + CyclicPitch +
-                    "' is out of range.  Use a value >= 0 and <= 100");
-            }
-
         }
         /// <summary>
         /// Set the cyclic roll control from 0 to 100
@@ -195,35 +424,31 @@ namespace CommProtocolLib
         /// <param name="CyclicRoll"></param>
         public void SetCyclicRoll(byte CyclicRoll)
         {
-
-            if (CyclicRoll >= 0 && CyclicRoll <= 100)
+            if (ExpectedResponse.ResponseExpected == false)
             {
-                Byte[] OutData = new byte[9];
-                OutData[0] = 0xA5;//Start of transmission 1
-                OutData[1] = 0x5A;//Start of transmission 2
-                OutData[2] = 0x54;//Command type “Testing/Tuning”
-                OutData[3] = 0x52;//Command “Roll Servo adjust”
-                //value from 0x00 to 0x64 representing the desired percentage of cyclic roll.
-                OutData[4] = CyclicRoll;
-                //Calculate checksum high byte
-                OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
-                //Calculate checksum low byte
-                OutData[6] = Convert.ToByte(((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0x00FF);
-                OutData[7] = 0xCC;//End of transmission 1
-                OutData[8] = 0x33;//End of transmission 2
-                try
+                if (CyclicRoll >= 0 && CyclicRoll <= 100)
                 {
-                    SP.Write(OutData, 0, 9);//write the data to the serial port
+                    OutGoingPacket = new byte[10];
+                    OutGoingPacket[0] = 0xA5;//Start of transmission 1
+                    OutGoingPacket[1] = 0x5A;//Start of transmission 2
+                    OutGoingPacket[2] = 0x03;//length: number of bytes in data portion
+                    OutGoingPacket[3] = 0x54;//Command type “Testing/Tuning”
+                    OutGoingPacket[4] = 0x52;//Command “Roll Servo adjust”
+                    //value from 0x00 to 0x64 representing the desired percentage of cyclic roll.
+                    OutGoingPacket[5] = CyclicRoll;
+                    //Calculate checksum high byte
+                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0xFF00) >> 8);
+                    //Calculate checksum low byte
+                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);
+                    OutGoingPacket[8] = 0xCC;//End of transmission 1
+                    OutGoingPacket[9] = 0x33;//End of transmission 2
+                    SendPacket("SetCyclicRoll", ExpectedResponses.type.FullPacketResponse);
                 }
-                catch (Exception ex)
+                else
                 {
-                    ClassExceptions.Add(ex);
+                    throw new Exception("CommProtocol Error:  SetCyclicRoll, specified Cyclic Roll value '" + CyclicRoll +
+                        "' is out of range.  Use a value >= 0 and <= 100");
                 }
-            }
-            else
-            {
-                throw new Exception("CommProtocol Error:  SetCyclicRoll, specified Cyclic Roll value '" + CyclicRoll +
-                    "' is out of range.  Use a value >= 0 and <= 100");
             }
         }
         /// <summary>
@@ -232,36 +457,32 @@ namespace CommProtocolLib
         /// <param name="Collective">percentage of collective</param>
         public void SetCollective(byte Collective)
         {
-            if (Collective >= 0 && Collective <= 100)
+            if (ExpectedResponse.ResponseExpected == false)
             {
-                Byte[] OutData = new byte[9];
-                OutData[0] = 0xA5;//Start of transmission 1
-                OutData[1] = 0x5A;//Start of transmission 2
-                OutData[2] = 0x54;//Command type “Testing/Tuning”
-                OutData[3] = 0x43;//Command “Collective Servo adjust”
-                //value from 0x00 to 0x64 representing the desired percentage of collective.
-                OutData[4] = Collective;
-                //Calculate checksum high byte
-                OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
-                //Calculate checksum low byte
-                OutData[6] = Convert.ToByte(((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0x00FF);
-                OutData[7] = 0xCC;//End of transmission 1
-                OutData[8] = 0x33;//End of transmission 2
-                try
+                if (Collective >= 0 && Collective <= 100)
                 {
-                    SP.Write(OutData, 0, 9);//write the data to the serial port
+                    OutGoingPacket = new byte[10];
+                    OutGoingPacket[0] = 0xA5;//Start of transmission 1
+                    OutGoingPacket[1] = 0x5A;//Start of transmission 2
+                    OutGoingPacket[2] = 0x03;//number of bytes
+                    OutGoingPacket[3] = 0x54;//Command type “Testing/Tuning”
+                    OutGoingPacket[4] = 0x43;//Command “Collective Servo adjust”
+                    //value from 0x00 to 0x64 representing the desired percentage of collective.
+                    OutGoingPacket[5] = Collective;
+                    //Calculate checksum high byte
+                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0xFF00) >> 8);
+                    //Calculate checksum low byte
+                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);
+                    OutGoingPacket[8] = 0xCC;//End of transmission 1
+                    OutGoingPacket[9] = 0x33;//End of transmission 2
+                    SendPacket("SetCollective", ExpectedResponses.type.FullPacketResponse);
                 }
-                catch (Exception ex)
+                else
                 {
-                    ClassExceptions.Add(ex);
+                    throw new Exception("CommProtocol Error:  SetCollective, specified Collective value '" + Collective +
+                        "' is out of range.  Use a value >= 0 and <= 100");
                 }
             }
-            else
-            {
-                throw new Exception("CommProtocol Error:  SetCollective, specified Collective value '" + Collective +
-                    "' is out of range.  Use a value >= 0 and <= 100");
-            }
-
         }
         /// <summary>
         /// Set the anti-torque servo to the desired percentage
@@ -269,41 +490,91 @@ namespace CommProtocolLib
         /// <param name="AntiTorque">a percentage servo value</param>
         public void SetAntiTorque(byte AntiTorque)
         {
-            if (AntiTorque >= 0 && AntiTorque <= 100)
+            if (ExpectedResponse.ResponseExpected == false)
             {
-                Byte[] OutData = new byte[9];
-                OutData[0] = 0xA5;//Start of transmission 1
-                OutData[1] = 0x5A;//Start of transmission 2
-                OutData[2] = 0x54;//Command type “Testing/Tuning”
-                OutData[3] = 0x51;//Command “Collective Servo adjust”
-                //value from 0x00 to 0x64 representing the desired percentage of collective.
-                OutData[4] = AntiTorque;
-                //Calculate checksum high byte
-                OutData[5] = Convert.ToByte((((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0xFF00) >> 8);
-                //Calculate checksum low byte
-                OutData[6] = Convert.ToByte(((short)OutData[2] + (short)OutData[3] + (short)OutData[4]) & 0x00FF);
-                OutData[7] = 0xCC;//End of transmission 1
-                OutData[8] = 0x33;//End of transmission 2
-                try
+                if (AntiTorque >= 0 && AntiTorque <= 100)
                 {
-                    SP.Write(OutData, 0, 9);//write the data to the serial port
+                    OutGoingPacket = new byte[10];
+                    OutGoingPacket[0] = 0xA5;//Start of transmission 1
+                    OutGoingPacket[1] = 0x5A;//Start of transmission 2
+                    OutGoingPacket[2] = 0x03;//packet length
+                    OutGoingPacket[3] = 0x54;//Command type “Testing/Tuning”
+                    OutGoingPacket[4] = 0x51;//Command “Collective Servo adjust”
+                    //value from 0x00 to 0x64 representing the desired percentage of collective.
+                    OutGoingPacket[5] = AntiTorque;
+                    //Calculate checksum high byte
+                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0xFF00) >> 8);
+                    //Calculate checksum low byte
+                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);
+                    OutGoingPacket[8] = 0xCC;//End of transmission 1
+                    OutGoingPacket[9] = 0x33;//End of transmission 2
+                    SendPacket("SetAntiTorque", ExpectedResponses.type.FullPacketResponse);
                 }
-                catch (Exception ex)
+                else
                 {
-                    ClassExceptions.Add(ex);
+                    throw new Exception("CommProtocol Error:  SetAntiTorque, specified AntiTorque value '" + AntiTorque +
+                        "' is out of range.  Use a value >= 0 and <= 100");
                 }
             }
-            else
-            {
-                throw new Exception("CommProtocol Error:  SetAntiTorque, specified AntiTorque value '" + AntiTorque +
-                    "' is out of range.  Use a value >= 0 and <= 100");
-            }
-
         }
+        /// <summary>
+        /// Set tune points
+        /// </summary>
+        /// <param name="TuningPoint">Tuning set: 0x5A = Zero Points, 0x46 = 50% points, 0x4D = Max points</param>
+        /// <param name="RPM">percentage RPM</param>
+        /// <param name="PitchServo">percentage pitch servo</param>
+        /// <param name="RollServo">percentage Roll servo</param>
+        /// <param name="CollectiveServo">percentage collective servo</param>
+        /// <param name="AntiTorqueServo">percentage anti-torque servo</param>
+        public void SetTunePoints(byte TuningPoint, byte RPM, byte PitchServo, byte RollServo, byte CollectiveServo, byte AntiTorqueServo)
+        {
+            if (ExpectedResponse.ResponseExpected == false)
+            {
+                if (TuningPoint == 0x5A || TuningPoint == 0x46 || TuningPoint == 0x4D)
+                {
+                    OutGoingPacket = new byte[20];
+                    OutGoingPacket[0] = 0xA5;//packet header
+                    OutGoingPacket[1] = 0x08;
+                    OutGoingPacket[2] = 0x30;//number of bytes in the data part
+                    OutGoingPacket[3] = 0x54;//command type testing/tuning
+                    OutGoingPacket[4] = TuningPoint;//packet command
+                    OutGoingPacket[5] = RPM;
+                    OutGoingPacket[6] = PitchServo;
+                    OutGoingPacket[7] = RollServo;
+                    OutGoingPacket[8] = CollectiveServo;
+                    OutGoingPacket[9] = AntiTorqueServo;
+                    OutGoingPacket[10] = 
+                        (byte)(((
+                        OutGoingPacket[3] +
+                        OutGoingPacket[4] +
+                        OutGoingPacket[5] +
+                        OutGoingPacket[6] +
+                        OutGoingPacket[7] + 
+                        OutGoingPacket[8] +
+                        OutGoingPacket[9]
+                        ) & 0xFF00) >> 8);//checksum high
+                    OutGoingPacket[11] = 
+                        (byte)((
+                        OutGoingPacket[3] +
+                        OutGoingPacket[4] +
+                        OutGoingPacket[5] +
+                        OutGoingPacket[6] +
+                        OutGoingPacket[7] +
+                        OutGoingPacket[8] +
+                        OutGoingPacket[9]
+                        ) & 0x00FF); //checksum low
+                    OutGoingPacket[12] = 0xCC;
+                    OutGoingPacket[13] = 0x33;//packet footer
+                    SendPacket("SetTunePoints", ExpectedResponses.type.FullPacketResponse);
 
-
+                }
+                else
+                {
+                    throw new Exception("SetTunePoints: Invalid tunining point specified must by one of: 0x5A, ox46 or 0x4D");
+                }
+            }
+        }
         #endregion
-
 
         #region Flight operation commands
         /// <summary>
@@ -311,15 +582,11 @@ namespace CommProtocolLib
         /// </summary>
         public void EngageEngine()
         {
-            //packet formation: header(0xA55A, command(0x4645), checksum(0x004B), footer(0xCC33)
-            byte[] Packet = { 0xA5, 0x5A, 0x46, 0x45, 0x00, 0x4B, 0xCC, 0x33 };
-            try
+            if (ExpectedResponse.ResponseExpected == false)
             {
-                SP.Write(Packet, 0, 8);//write the data to the serial port
-            }
-            catch (Exception ex)
-            {
-                ClassExceptions.Add(ex);
+                //packet formation: header(0xA55A, numbytes(0x02), command(0x4645), checksum(0x004B), footer(0xCC33)
+                OutGoingPacket = new byte[]{ 0xA5, 0x5A, 0x02, 0x46, 0x45, 0x00, 0x4B, 0xCC, 0x33 };
+                SendPacket("EngageEngine", ExpectedResponses.type.FullPacketResponse);
             }
         }
         /// <summary>
@@ -335,56 +602,47 @@ namespace CommProtocolLib
         /// </param>
         public void Hover(byte mode, UInt16 Altitude)
         {
-            if (mode == 0x50 || mode == 0x43)
+            if (ExpectedResponse.ResponseExpected == false)
             {
-                byte[] Packet = new byte[9];
-                Packet[0] = 0xA5;
-                Packet[1] = 0x5A;//packet header
-                Packet[2] = 0x46;//Command type “Flight Ops”
-                Packet[3] = 0x48;//Command “Hover”
-                Packet[4] = mode;//Parameter set: 0x50 = Use preset altitude, 0x43 = hover at current altitude, 0x4D = use following altitude 
-                Packet[5] = (byte)(((short)Packet[2] + (short)Packet[3] + (short)Packet[4]) >> 8);//checksum high
-                Packet[6] = (byte)((Packet[2] + Packet[3] + Packet[4]) & 0x00FF);//checksum low
-                Packet[7] = 0xCC;
-                Packet[8] = 0x33;//Footer
-                try
+                if (mode == 0x50 || mode == 0x43)
                 {
-                    SP.Write(Packet, 0, 9);//write the data to the serial port
+                    OutGoingPacket = new byte[10];
+                    OutGoingPacket[0] = 0xA5;
+                    OutGoingPacket[1] = 0x5A;//packet header
+                    OutGoingPacket[2] = 0x03;//number bytes
+                    OutGoingPacket[3] = 0x46;//Command type “Flight Ops”
+                    OutGoingPacket[4] = 0x48;//Command “Hover”
+                    OutGoingPacket[5] = mode;//Parameter set: 0x50 = Use preset altitude, 0x43 = hover at current altitude, 0x4D = use following altitude 
+                    OutGoingPacket[6] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) >> 8);//checksum high
+                    OutGoingPacket[7] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);//checksum low
+                    OutGoingPacket[8] = 0xCC;
+                    OutGoingPacket[9] = 0x33;//Footer
+                    SendPacket("Hover", ExpectedResponses.type.FullPacketResponse);
+                    
                 }
-                catch (Exception ex)
+                else if (mode == 0x4D)
                 {
-                    ClassExceptions.Add(ex);
-                }
-            }
-            else if (mode == 0x4D)
-            {
-                byte[] Packet = new byte[10];
-                Packet[0] = 0xA5;
-                Packet[1] = 0x5A;//packet header
-                Packet[2] = 0x46;//Command type “Flight Ops”
-                Packet[3] = 0x48;//Command “Hover”
-                Packet[4] = mode;//Parameter set: 0x50 = Use preset altitude, 0x43 = hover at current altitude, 0x4D = use following altitude 
-                Packet[5] = (byte)((Altitude & 0xFF00) >> 8);
-                Packet[6] = (byte)(Altitude & 0x00FF);
-                Packet[7] = (byte)(((short)Packet[2] + (short)Packet[3] + (short)Packet[4] + (short)Packet[5] + (short)Packet[6]) >> 8);//checksum high
-                Packet[8] = (byte)((Packet[2] + Packet[3] + Packet[4] + Packet[5] + Packet[6]) & 0x00FF);//checksum low
-                Packet[9] = 0xCC;
-                Packet[10] = 0x33;//Footer
-                try
-                {
-                    SP.Write(Packet, 0, 10);//write the data to the serial port
-                }
-                catch (Exception ex)
-                {
-                    ClassExceptions.Add(ex);
-                }
+                    OutGoingPacket = new byte[12];
+                    OutGoingPacket[0] = 0xA5;
+                    OutGoingPacket[1] = 0x5A;//packet header
+                    OutGoingPacket[2] = 0x05;//numbytes
+                    OutGoingPacket[3] = 0x46;//Command type “Flight Ops”
+                    OutGoingPacket[4] = 0x48;//Command “Hover”
+                    OutGoingPacket[5] = mode;//Parameter set: 0x50 = Use preset altitude, 0x43 = hover at current altitude, 0x4D = use following altitude 
+                    OutGoingPacket[6] = (byte)((Altitude & 0xFF00) >> 8);
+                    OutGoingPacket[7] = (byte)(Altitude & 0x00FF);
+                    OutGoingPacket[8] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5] + OutGoingPacket[6]) >> 8);//checksum high
+                    OutGoingPacket[9] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5] + OutGoingPacket[6]) & 0x00FF);//checksum low
+                    OutGoingPacket[10] = 0xCC;
+                    OutGoingPacket[11] = 0x33;//Footer
+                    SendPacket("Hover", ExpectedResponses.type.FullPacketResponse);                 
 
+                }
+                else
+                {
+                    throw new Exception("Hover(): Invalid mode argument. Must be either 0x50, 0x43 or 0x4D");
+                }
             }
-            else
-            {
-                throw new Exception("Hover(): Invalid mode argument. Must be either 0x50, 0x43 or 0x4D");
-            }
-
         }
         /// <summary>
         /// Send the helicopter to a gps cooridinate, and specify the action on arrival
@@ -398,97 +656,174 @@ namespace CommProtocolLib
             /*
           1 0xA5    header
             0x5A
-            
+           
+            0x0F    number of bytes in data
             0x46	Command type “Flight Ops”
             0x47	Command “Go To”
 
-          5 0xDD	Degrees (0-180) Latitude
+          6 0xDD	Degrees (0-180) Latitude
             0xMM	Minutes (0-59) Latitude
             0xSSSS	Seconds(0-59) Latitude. Use upper six bits for integer portion of seconds, use remaining 10 bits for decimal portion of seconds. There are approximately 31 meters in one second of latitude (and slightly less in 1 minute of longitude at our distance from the equator). 31m / 2^10 = 3 cm accuracy, which is way more accuracy than the GPS will determine.
             0xNS	0x4E = North
 	                0x53 = South
 
-         10 0xDD	Degrees (0-180) Longitude
+         11 0xDD	Degrees (0-180) Longitude
             0xMM	Minutes (0-59) Longitude
             0xSSSS	Seconds(0-59) Longitude. See above for more details.
             0xEW	0x45 = East
 	                0x57 = West
-
-         15 0xAA	Action on Arrival:
+            
+         16 0xAA	Action on Arrival:
 		            IF 0x48 Hover at given altitude ELSE IF 0x53 Circle at given altitude
             0xAAAA	Given altitude
 
-         18 0xXX checksum High
+         19 0xXX checksum High
             0xXX checksum Low
             0xCC
-         21 0x33 footer
+         22 0x33 footer
             */
+            if (ExpectedResponse.ResponseExpected == false)
+            {
+                OutGoingPacket = new byte[22];
+                OutGoingPacket[0] = 0xA5;
+                OutGoingPacket[1] = 0x5A;
+                OutGoingPacket[2] = 0x0F;//number of bytes
+                OutGoingPacket[3] = 0x46;//Command type “Flight Ops”
+                OutGoingPacket[4] = 0x47;
+                OutGoingPacket[5] = Lat.Degrees;
+                OutGoingPacket[6] = Lat.Minutes;
+                //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
+                OutGoingPacket[7] = (byte)(Lat.SecondsH + (byte)((Lat.SecondsL & 0xFC00) >> 8));
+                OutGoingPacket[8] = (byte)(Lat.SecondsL & 0x00FF);
+                if (Lat.North)
+                {
+                    OutGoingPacket[9] = 0x4E;
+                }
+                else
+                {
+                    OutGoingPacket[9] = 0x53;
+                }
+                OutGoingPacket[10] = Long.Degrees;
+                OutGoingPacket[11] = Long.Minutes;
+                //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
+                OutGoingPacket[12] = (byte)(Long.SecondsH + (byte)((Long.SecondsL & 0xFC00) >> 8));
+                OutGoingPacket[13] = (byte)(Long.SecondsL & 0x00FF);
+                if (Long.East)
+                {
+                    OutGoingPacket[14] = 0x45;
+                }
+                else
+                {
+                    OutGoingPacket[14] = 0x57;
+                }
+                if (action == 0x48)
+                {
+                    OutGoingPacket[15] = 0x48;
+                }
+                else if (action == 0x53)
+                {
+                    OutGoingPacket[15] = 0x53;
+                }
+                else
+                {
+                    throw new Exception("CommProtocol.Goto(): invalid action specified.  Must be either 0x48 or 0x53");
+                }
+                OutGoingPacket[16] = (byte)((Altitude & 0xFF00) >> 8);//altitude high byte
+                OutGoingPacket[17] = (byte)(Altitude & 0x00FF);//altitude low byte
+                //calculate checksum
+                short checksum = 0;
+                for (int i = 3; i < 18; i++)//calculate checksum
+                {
+                    checksum += OutGoingPacket[i];
+                }
+                OutGoingPacket[18] = (byte)((checksum & 0xFF00) >> 8);//checksum high
+                OutGoingPacket[19] = (byte)(checksum & 0x00FF);//checksum low
+                OutGoingPacket[20] = 0xCC;
+                OutGoingPacket[21] = 0x33;//footer
 
-            byte[] Packet = new byte[21];
-            Packet[0] = 0xA5;
-            Packet[1] = 0x5A;
-            Packet[2] = 0x46;//Command type “Flight Ops”
-            Packet[3] = 0x47;
-            Packet[4] = Lat.Degrees;
-            Packet[5] = Lat.Minutes;
-            //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
-            Packet[6] = (byte)(Lat.SecondsH + (byte)((Lat.SecondsL & 0xFC00) >> 8));
-            Packet[7] = (byte)(Lat.SecondsL & 0x00FF);
-            if (Lat.North)
-            {
-                Packet[8] = 0x4E;
-            }
-            else
-            {
-                Packet[8] = 0x53;
-            }
-            Packet[9] = Long.Degrees;
-            Packet[10] = Long.Minutes;
-            //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
-            Packet[11] = (byte)(Long.SecondsH + (byte)((Long.SecondsL & 0xFC00) >> 8));
-            Packet[12] = (byte)(Long.SecondsL & 0x00FF);
-            if (Long.East)
-            {
-                Packet[13] = 0x45;
-            }
-            else
-            {
-                Packet[13] = 0x57;
-            }
-            if (action == 0x48)
-            {
-                Packet[14] = 0x48;
-            }
-            else if (action == 0x53)
-            {
-                Packet[14] = 0x53;
-            }
-            else
-            {
-                throw new Exception("CommProtocol.Goto(): invalid action specified.  Must be either 0x48 or 0x53");
-            }
-            Packet[15] = (byte)((Altitude & 0xFF00) >> 8);//altitude high byte
-            Packet[16] = (byte)(Altitude & 0x00FF);//altitude low byte
-            //calculate checksum
-            short checksum = 0;
-            for (int i = 2; i < 17; i++)//calculate checksum
-            {
-                checksum += Packet[i];
-            }
-            Packet[17] = (byte)((checksum & 0xFF00) >> 8);//checksum high
-            Packet[18] = (byte)(checksum & 0x00FF);//checksum low
-            Packet[19] = 0xCC;
-            Packet[20] = 0x33;//footer
-            try
-            {
-                SP.Write(Packet, 0, 21);//write the data to the serial port
-            }
-            catch (Exception ex)
-            {
-                ClassExceptions.Add(ex);
-            }
+                SendPacket("Goto", ExpectedResponses.type.FullPacketResponse);
 
-
+            }
+        }
+        /// <summary>
+        /// instruct the helicpoter to return to its take off coordinate
+        /// </summary>
+        public void ReturnToBase()
+        {
+            if (ExpectedResponse.ResponseExpected == false)
+            {
+                //header(0xA55A), number bytes(0x02),command(0x4652),checksum(0x0098),footer(0xCC33)
+                OutGoingPacket = new byte[] { 0xA5, 0x5A, 0x02, 0x46, 0x52, 0x00, 0x98, 0xCC, 0x33 };
+                SendPacket("ReturnToBase", ExpectedResponses.type.FullPacketResponse);
+            }
+        }
+        /// <summary>
+        /// Request a pre-flight packet, the helicopter should respond with a data packet
+        /// </summary>
+        public void RequestPreFlightPacket()
+        {
+            if (ExpectedResponse.ResponseExpected == false)
+            {
+                //header(0xA55A), number bytes(0x02),command(0x4650),checksum(0x0096),footer(0xCC33)
+                OutGoingPacket = new byte[] { 0xA5, 0x5A, 0x02, 0x46, 0x50, 0x00, 0x96, 0xCC, 0x33 };
+                SendPacket("RequestPreFlightPacket", ExpectedResponses.type.DataResponse);
+            }
+        }
+        /// <summary>
+        /// Move the helicopter a short distance the specified direction
+        /// </summary>
+        /// <param name="Direction">one of: 0x46(forward),0x52(reverse),0x50(Port) or 0x53(starboard)</param>
+        public void DiscreetMovementControl(byte Direction)
+        {
+            if (ExpectedResponse.ResponseExpected == false)
+            {
+                if (Direction == 0x46 || Direction == 0x52 || Direction == 0x50 || Direction == 0x53)
+                {
+                    //header(0xA55A), number bytes(0x03),command(0x4650),direction(0xXX), checksum(0xXXXX),footer(0xCC33)
+                    OutGoingPacket = new byte[10];
+                    OutGoingPacket[0] = 0xA5;
+                    OutGoingPacket[1] = 0x5A;
+                    OutGoingPacket[2] = 0x03;
+                    OutGoingPacket[3] = 0x46;
+                    OutGoingPacket[4] = 0x50;
+                    OutGoingPacket[5] = Direction;
+                    OutGoingPacket[6] = (byte)(((OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0xFF00) >> 8);
+                    OutGoingPacket[7] = (byte)((OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0x00FF);
+                    OutGoingPacket[8] = 0xCC;
+                    OutGoingPacket[9] = 0x33;
+                    SendPacket("DiscreetMovementControl", ExpectedResponses.type.FullPacketResponse);
+                }
+                else
+                {
+                    throw new Exception(string.Format("Invalid direction arg: {0:X2} must be one of 0x46,0x52,0x50 or 0x53",Direction));
+                }
+            }
+        }
+        /// <summary>
+        /// Request a data packet from the helicopter
+        /// </summary>
+        /// <param name="info">byte representing the desired information: 0x4C Location,
+        /// 0x48 Heading/Speed/Altitude, 0x5A Attitude, 0x42 Battery Status</param>
+        public void RequestForInformation(byte info)
+        {
+            if (ExpectedResponse.ResponseExpected == false)
+            {
+                if (info == 0x4C || info == 0x48 || info == 0x5A || info == 42)
+                {
+                    OutGoingPacket = new byte[10];
+                    OutGoingPacket[0] = 0xA5;//packet header
+                    OutGoingPacket[1] = 0x5A;
+                    OutGoingPacket[2] = 0x05;//number of bytes
+                    OutGoingPacket[3] = 0x46;//flight ops command
+                    OutGoingPacket[4] = 0x49;//ROI
+                    OutGoingPacket[5] = info;
+                    OutGoingPacket[6] = (byte)(((OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0xFF00) >> 8);//checksum high
+                    OutGoingPacket[7] = (byte)((OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0x00FF);//checksum low
+                    OutGoingPacket[8] = 0xCC;
+                    OutGoingPacket[9] = 0x33;
+                    SendPacket("RequestForInformation", ExpectedResponses.type.DataResponse);
+                }
+            }
         }
         #endregion
 
@@ -497,241 +832,705 @@ namespace CommProtocolLib
         #region incoming packets
 
         private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {           
-            IncomingDataBuffer += SP.ReadExisting();
-            MatchIncomingPacket(ref IncomingDataBuffer);
-        }
-        public void MatchIncomingPacket(ref string Packet)
         {
-            string LocationPacket = new string(new char[]{ (char)0xA5, (char)0x5A, (char)0x74, (char)0x4C });
-            //first 2 bytes are header, second pair are location command packet
-
-            string HeadingSpeedAltitude = new string(new char[] { (char)0xA5, (char)0x5A, (char)0x74, (char)0x48 });
-            //first 2 bytes are header, second pair are HeadingSpeedAltitude command packet
-
-            string Attitude = new string(new char[] { });
-
-            #region Location Packet recieved
-            if (Packet.Contains(LocationPacket))
+            IncomingDataBuffer += SP.ReadExisting();
+            if (ExpectedResponse.ResponseExpected == false)
             {
-                /*
-                Location Packet:
-                  1 0xA5    SOT1
-                    0x5A    SOT2
-                    0x74	Report type “Telemetry”
-                  4 0x4C	Report “Location”
+                //this means the helicopter has spoken without being asked to, probably an error message
+            }
+            else if (ExpectedResponse.ResponseExpected == true && ExpectedResponse.ResponseType == ExpectedResponses.type.DataResponse)
+            {
+                //if WaitingForResponse is true then we are waiting for a response for a sent packet
+                //otherwise it is probably a regular data packet
 
-                    0xDD	Degrees (0-180) Latitude
-                    0xMM	Minutes (0-59) Latitude
-                    0xSSSS	Seconds (0-59) Latitude. Use first six bits for integer portion of seconds, use remaining 10 bits for decimal portion of seconds. There are approximately 31 meters in one second of latitude (and slightly less in 1 minute of longitude at our distance from the equator). 31m / 2^10 = 3 cm accuracy, which is way more accuracy than the GPS will determine.
-                  9 0xNS	0x4E = North or 0x53 = South
-
-                    0xDD	Degrees (0-180) Longitude
-                    0xMM	Minutes (0-59) Longitude
-                    0xSSSS	Seconds (0-59) Longitude. See above for more details.
-                 14 0xEW	0x45 = East or 0x57 = West
-                    
-                    0xXX    Checksum 1
-                    0xXX    Checksum 2
-                    
-                    0xCC    EOT1
-                 18 0x33    EOT2
-                */
-                if (Packet.Length == 18 && Packet[16] == 0xCC && Packet[17] == 0x33)
+                //match the incoming packet against known data packets
+                MatchIncomingPacket();
+            }
+            else if (ExpectedResponse.ResponseExpected == true && ExpectedResponse.ResponseType == ExpectedResponses.type.FullPacketResponse)
+            {
+                //a full packet response is requested
+                if (IncomingDataBuffer == ExpectedResponse.ExpectedPacket)
                 {
-                    //calculate checksum
-                    UInt16 sum = 0;
-                    for(int i = 2; i<14; i++)
+                    //the response is successfully recieved
+                }
+                if (IncomingDataBuffer.Length >= ExpectedResponse.ExpectedPacket.Length)
+                {
+                    //throw the event
+                    OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Recieved a bad packet response for command: " + ExpectedResponse.Name));
+                    //the packet was bad dump it
+                    ClearBuffer();
+                }
+            }
+        }
+
+        /// <summary>
+        /// this is public only for debugging purposes
+        /// </summary>
+        public void MatchIncomingPacket()
+        {
+            if (IncomingDataBuffer.Length >= 5)//5 is the minimum size that contains the command 
+            {
+                if (IncomingDataBuffer[0] == 0xA5 && IncomingDataBuffer[1] == 0x5A)//packet header
+                {
+                    if (IncomingDataBuffer[3] == 0x74)//telemetry command
                     {
-                        sum+=Packet[i];
-                    }
-                    byte chk1 = (byte)((sum & 0x0000FF00) >> 8);
-                    byte chk2 = (byte)(sum & 0x000000FF);
-                    if (chk1 != Packet[14] || chk2 != Packet[15])
-                    {
-                        OnBadPacketReceived(
-                            new BadPacketReceivedEventArgs(Packet,
-                            string.Format("Invalid Location packet: invalid checksum recieved {0:X4}, expected {0:X4}",
-                            (Convert.ToUInt16(Packet[14]) << 8) + Packet[15], sum))
-                            );
-                        Packet = "";
-                    }
-                    else
-                    {
-                        Latitude Lat = new Latitude();
-                        Lat.Degrees = (byte)Packet[4];
-                        Lat.Minutes = (byte)Packet[5];
-                        Lat.SecondsH = (byte)(Packet[6] & 0x00FC);//upper 6 bits for seconds
-                        Lat.SecondsL = Convert.ToUInt16(((byte)Packet[6]&0x03)<<10 + Convert.ToUInt16(Packet[7]));//10 bit decimal portion of seconds
-                        if ((byte)Packet[8] == 0x4E)
+                        if (IncomingDataBuffer[4] == 0x4C)//location command
                         {
-                            Lat.North = true;
+                            ParseLocationPacket();
                         }
-                        else if ((byte)Packet[8] == 0x4E)
+                        else if (IncomingDataBuffer[4] == 0x48)//heading/speed/altitude command
                         {
-                            Lat.North = false;
+                            ParseHeadingSpeedAltitudePacket();
+                        }
+                        else if (IncomingDataBuffer[4] == 0x5A)//attitude command
+                        {
+                            ParseAttitudePacket();
+                        }
+                        else if (IncomingDataBuffer[4] == 0x42)//battery status
+                        {
+                            ParseBatteryStatusPacket();
+                        }
+                        else if (IncomingDataBuffer[4] == 0x45)//onboard error
+                        {
+                            ParseOnBoardErrorPacket();
+                        }
+                        else if (IncomingDataBuffer[4] == 0x50)//pre-flight packet
+                        {
+                            ParsePreFlightPacket();
                         }
                         else
                         {
-                            OnBadPacketReceived(new BadPacketReceivedEventArgs(Packet, "Invalid packet: The north south byte of the Latitude in a recieved location packet is invalid."));
-                            Packet = "";
+                            OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown telemetry command"));
+                            ClearBuffer();
                         }
-
-                        Longitude Long = new Longitude();
-                        Long.Degrees = (byte)Packet[9];
-                        Long.Minutes = (byte)Packet[10];
-                        Long.SecondsH = (byte)(Packet[11] & 0x00FC);//upper 6 bits for seconds
-                        Long.SecondsL = Convert.ToUInt16(((byte)Packet[11] & 0x03) << 10 + Convert.ToUInt16(Packet[12]));//10 bit decimal portion of seconds
-                        if ((byte)Packet[13] == 0x45)
-                        {
-                            Long.East = true;
-                        }
-                        else if ((byte)Packet[13] == 0x57)
-                        {
-                            Long.East = false;
-                        }
-                        else
-                        {
-                            OnBadPacketReceived(new BadPacketReceivedEventArgs(Packet, "Invalid packet: The east west byte of the Longitude in a recieved location packet is invalid."));
-                            Packet = "";
-                        }
-                        //invoke the event
-                        OnLocationPacketRecieved(new LocationPacketRecievedEventArgs(Lat,Long));
                     }
-                }
-            }
-            #endregion
-            #region Heading Speed altitude recieved
-            else if (Packet.Contains(HeadingSpeedAltitude))
-            {
-                /*
-                    Heading/Speed/Altitude:
-                  1 0xA5    SOT1
-                    0x5A    SOT2
-                    0x74	Report type “Telemetry”
-                    0x48	Report “Heading, Speed, and Altitude”
-
-                  5 0xHHHH	Hex value (0x0000 – 0x0167) representing current heading. Can potentially use extra bits for partial degrees.
-
-                  7 0xSS	Hex value representing helicopter speed (m/s)
-
-                  8 0xAAAA	2-byte value representing altitude in meters
-                    
-                 10 0xXX    Checksum 1
-                    0xXX    Checksum 2
-                    
-                 12 0xCC    EOT1
-                 13 0x33    EOT2
-                 */
-                if (Packet.Length == 13 && Packet[11] == 0xCC && Packet[12] == 0x33)
-                {
-                    //calculate checksum
-                    UInt16 sum = 0;
-                    for (int i = 2; i < 9; i++)
+                    else if (IncomingDataBuffer[3] == 0x43 && IncomingDataBuffer[4] == 0x06)//comms handshake, ack recieved
                     {
-                        sum += Packet[i];
-                    }
-                    byte chk1 = (byte)((sum & 0x0000FF00) >> 8);
-                    byte chk2 = (byte)(sum & 0x000000FF);
-                    if (chk1 != Packet[9] || chk2 != Packet[10])
-                    {
-                        OnBadPacketReceived(
-                           new BadPacketReceivedEventArgs(Packet,
-                           string.Format("Invalid heading speed altitude packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
-                           (Convert.ToUInt16(Packet[9]) << 8) + Packet[10], sum))
-                           );
-                        Packet = "";
+                        ParseCommHandShakeAck();
                     }
                     else
                     {
-                        HeadingSpeedAltitude HSA = new HeadingSpeedAltitude();
-                        HSA.Heading = Convert.ToUInt16(Packet[4] << 8 + Packet[5]);
-                        HSA.Speed = Convert.ToByte(Packet[6]);
-                        HSA.Altitude = Convert.ToUInt16(Packet[7] << 8 + Packet[8]);
-                        //invoke the event
-                        OnHeadingSpeedAltitudePacketRecieved(new HeadingSpeedAltitudePacketRecievedEventArgs(HSA));
-                    }
-
-                }
-            }
-            #endregion
-            #region Attitude packet received
-            else if (Packet.Contains(Attitude))
-            {
-                /*
-                Attitude
-                
-                1 0xA5
-                  0x5A    Packet Header
-                
-                3 0x74	Report type “Telemetry”
-                  0x5A	Report “Attitude”
-
-                5 0xRRRR	Hex value (0x0000 – 0x0167) representing current roll angle, can potentially use extra bits for partial degrees 
-                  (increases as helicopter rolls in the starboard direction)
-                 
-                7 0xPPPP	Hex value (0x0000 – 0x0167) representing current pitch angle, can potentially use extra bits for partial degrees 
-                  (increases as helicopter pitches forward)
-                
-                9 0xYYYY	Hex value (0x0000 – 0x0167) representing current yaw angle, can potentially use extra bits for partial degrees 
-                  (increases as helicopter rotates counter clockwise, as seen from above the helicopter)
-
-               11 0xXX //checksum high
-                  0xXX //checksum low
-                
-               13 0xCC
-               14 0x33 //footer
-                */
-                if (Packet.Length == 14 && Packet[12] == 0xCC && Packet[13] == 0x33)
-                {
-                    //calculate checksum
-                    UInt16 sum = 0;
-                    for (int i = 2; i < 10; i++)
-                    {
-                        sum += Packet[i];
-                    }
-                    byte chk1 = (byte)((sum & 0xFF00) >> 8);
-                    byte chk2 = (byte)(sum & 0x00FF);
-                    if (chk1 != Packet[10] || chk2 != Packet[11])
-                    {
-                        OnBadPacketReceived(
-                           new BadPacketReceivedEventArgs(Packet,
-                           string.Format("Invalid attitude packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
-                           (Convert.ToUInt16(Packet[10]) << 8) + Packet[11], sum))
-                           );
-                        Packet = "";
+                        OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown command"));
+                        ClearBuffer();
                     }
                 }
                 else
                 {
-                    Attitude a = new Attitude();
-                    a.Roll = (ushort)((Packet[4]<<8) + Packet[5]);
-                    a.Pitch = (ushort)((Packet[6] << 8) + Packet[7]);
-                    a.Yaw = (ushort)((Packet[8] << 8) + Packet[9]);
-                    //invoke the event
-                    OnAttitudePacketRecieved(new AttitudePacketRecievedEventArgs(a));
+                    OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header"));
+                    ClearBuffer();
                 }
             }
-            #endregion
-            #region bad packet header or bad packet command
-            else if (Packet.Length > 4 && Packet[0] == 0xA5 && Packet[1] == 0x5A)
-            {
-                OnBadPacketReceived(new BadPacketReceivedEventArgs(Packet, "Invalid packet: unknown command"));
-                Packet = "";//dump the packet
-            }
-            else if (Packet.Length > 4)
-            {
-                Packet = "";
-                OnBadPacketReceived(new BadPacketReceivedEventArgs(Packet, "Invalid packet: no packet header"));
-            }
-            #endregion
         }
+
+       
+        #region Location Packet recieved
+        private void ParseLocationPacket()
+        {
+            /*
+            Location Packet:
+              1 0xA5    SOT1
+                0x5A    SOT2
+              
+              3 0x0B    bytes
+                0x74	Report type “Telemetry”
+              5 0x4C	Report “Location”
+
+                0xDD	Degrees (0-180) Latitude
+                0xMM	Minutes (0-59) Latitude
+                0xSSSS	Seconds (0-59) Latitude. Use first six bits for integer portion of seconds, use remaining 10 bits for decimal portion of seconds. There are approximately 31 meters in one second of latitude (and slightly less in 1 minute of longitude at our distance from the equator). 31m / 2^10 = 3 cm accuracy, which is way more accuracy than the GPS will determine.
+             10 0xNS	0x4E = North or 0x53 = South
+
+                0xDD	Degrees (0-180) Longitude
+                0xMM	Minutes (0-59) Longitude
+                0xSSSS	Seconds (0-59) Longitude. See above for more details.
+             15 0xEW	0x45 = East or 0x57 = West
+                    
+                0xXX    Checksum 1
+                0xXX    Checksum 2
+                    
+                0xCC    EOT1
+             19 0x33    EOT2
+            */
+            if (IncomingDataBuffer.Length == 18 && IncomingDataBuffer[17] == 0xCC && IncomingDataBuffer[18] == 0x33)
+            {
+                //calculate checksum
+                UInt16 sum = 0;
+                for (int i = 3; i < 15; i++)
+                {
+                    sum += IncomingDataBuffer[i];
+                }
+                byte chk1 = (byte)((sum & 0x0000FF00) >> 8);
+                byte chk2 = (byte)(sum & 0x000000FF);
+                if (chk1 != IncomingDataBuffer[15] || chk2 != IncomingDataBuffer[16])
+                {
+                    OnBadPacketReceived(
+                        new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                        string.Format("Invalid Location packet: invalid checksum recieved: {0:X4}, expected: {0:X4}",
+                        (Convert.ToUInt16(IncomingDataBuffer[15]) << 8) + IncomingDataBuffer[16], sum))
+                        );
+                    ClearBuffer();
+                }
+                else
+                {
+                    //checksum ok
+                    Latitude Lat = new Latitude();
+                    Lat.Degrees = (byte)IncomingDataBuffer[5];
+                    Lat.Minutes = (byte)IncomingDataBuffer[6];
+                    Lat.SecondsH = (byte)(IncomingDataBuffer[7] & 0x00FC);//upper 6 bits for seconds
+                    Lat.SecondsL = Convert.ToUInt16(((byte)IncomingDataBuffer[7] & 0x03) << 10 + Convert.ToUInt16(IncomingDataBuffer[8]));//10 bit decimal portion of seconds
+                    if ((byte)IncomingDataBuffer[9] == 0x4E)
+                    {
+                        Lat.North = true;
+                    }
+                    else if ((byte)IncomingDataBuffer[9] == 0x4E)
+                    {
+                        Lat.North = false;
+                    }
+                    else
+                    {
+                        OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The north south byte of the Latitude in a recieved location packet is invalid."));
+                        ClearBuffer();
+                        return;
+                    }
+
+                    Longitude Long = new Longitude();
+                    Long.Degrees = (byte)IncomingDataBuffer[10];
+                    Long.Minutes = (byte)IncomingDataBuffer[11];
+                    Long.SecondsH = (byte)(IncomingDataBuffer[12] & 0x00FC);//upper 6 bits for seconds
+                    Long.SecondsL = Convert.ToUInt16(((byte)IncomingDataBuffer[12] & 0x03) << 10 + Convert.ToUInt16(IncomingDataBuffer[13]));//10 bit decimal portion of seconds
+                    if ((byte)IncomingDataBuffer[14] == 0x45)
+                    {
+                        Long.East = true;
+                    }
+                    else if ((byte)IncomingDataBuffer[14] == 0x57)
+                    {
+                        Long.East = false;
+                    }
+                    else
+                    {
+                        OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The east west byte of the Longitude in a recieved location packet is invalid."));
+                        ClearBuffer();
+                        return;
+                    }
+                    //invoke the event
+                    OnLocationPacketRecieved(new LocationPacketRecievedEventArgs(Lat, Long));
+                    ClearBuffer();
+                }
+            }
+            if (IncomingDataBuffer.Length >= 18)
+            {
+                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad location packet recieved"));
+                ClearBuffer();
+            }
+        }
+        #endregion
+       
+        #region Heading Speed altitude recieved
+        private void ParseHeadingSpeedAltitudePacket()
+        {
+            /*
+                Heading/Speed/Altitude:
+              1 0xA5    SOT1
+                0x5A    SOT2
+
+              3 0x07    Number of bytes
+             
+                0x74	Report type “Telemetry”
+                0x48	Report “Heading, Speed, and Altitude”
+
+              6 0xHHHH	Hex value (0x0000 – 0x0167) representing current heading. Can potentially use extra bits for partial degrees.
+
+              8 0xSS	Hex value representing helicopter speed (m/s)
+
+              9 0xAAAA	2-byte value representing altitude in meters
+                    
+             11 0xXX    Checksum 1
+                0xXX    Checksum 2
+                    
+             13 0xCC    EOT1
+             14 0x33    EOT2
+             */
+            if (IncomingDataBuffer.Length == 14 && IncomingDataBuffer[12] == 0xCC && IncomingDataBuffer[13] == 0x33)
+            {
+                //calculate checksum
+                UInt16 sum = 0;
+                for (int i = 3; i < 10; i++)
+                {
+                    sum += IncomingDataBuffer[i];
+                }
+                byte chk1 = (byte)((sum & 0x0000FF00) >> 8);
+                byte chk2 = (byte)(sum & 0x000000FF);
+                if (chk1 != IncomingDataBuffer[10] || chk2 != IncomingDataBuffer[11])
+                {
+                    OnBadPacketReceived(
+                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid heading speed altitude packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
+                       (Convert.ToUInt16(IncomingDataBuffer[10]) << 8) + IncomingDataBuffer[11], sum))
+                       );
+                    ClearBuffer();
+                }
+                else
+                {
+                    //good checksum
+                    HeadingSpeedAltitude HSA = new HeadingSpeedAltitude();
+                    HSA.Heading = Convert.ToUInt16(IncomingDataBuffer[5] << 8 + IncomingDataBuffer[6]);
+                    HSA.Speed = Convert.ToByte(IncomingDataBuffer[7]);
+                    HSA.Altitude = Convert.ToUInt16(IncomingDataBuffer[8] << 8 + IncomingDataBuffer[9]);
+                    //invoke the event
+                    OnHeadingSpeedAltitudePacketRecieved(new HeadingSpeedAltitudePacketRecievedEventArgs(HSA));
+                    ClearBuffer();
+                }
+            }
+            else if (IncomingDataBuffer.Length >= 14)
+            {
+                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad heading/speed/altitude packetrecieved"));
+                ClearBuffer();
+            }
+        }
+        #endregion
+        
+        #region Attitude packet received
+        private void ParseAttitudePacket()
+        {
+            /*
+               Attitude
+                
+               1 0xA5
+                 0x5A    Packet Header
+                
+               3 0x08   bytes 
+               
+               4 0x74	Report type “Telemetry”
+                 0x5A	Report “Attitude”
+
+               6 0xRRRR	Hex value (0x0000 – 0x0167) representing current roll angle, can potentially use extra bits for partial degrees 
+                 (increases as helicopter rolls in the starboard direction)
+                 
+               8 0xPPPP	Hex value (0x0000 – 0x0167) representing current pitch angle, can potentially use extra bits for partial degrees 
+                 (increases as helicopter pitches forward)
+                
+              10 0xYYYY	Hex value (0x0000 – 0x0167) representing current yaw angle, can potentially use extra bits for partial degrees 
+                 (increases as helicopter rotates counter clockwise, as seen from above the helicopter)
+
+              12 0xXX //checksum high
+                 0xXX //checksum low
+                
+              14 0xCC
+              15 0x33 //footer
+               */
+            if (IncomingDataBuffer.Length == 14 && IncomingDataBuffer[13] == 0xCC && IncomingDataBuffer[14] == 0x33)
+            {
+                //calculate checksum
+                UInt16 sum = 0;
+                for (int i = 3; i < 11; i++)
+                {
+                    sum += IncomingDataBuffer[i];
+                }
+                byte chk1 = (byte)((sum & 0xFF00) >> 8);
+                byte chk2 = (byte)(sum & 0x00FF);
+                if (chk1 != IncomingDataBuffer[11] || chk2 != IncomingDataBuffer[12])
+                {
+                    OnBadPacketReceived(
+                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid attitude packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
+                       (Convert.ToUInt16(IncomingDataBuffer[11]) << 8) + IncomingDataBuffer[12], sum))
+                       );
+                    ClearBuffer();
+                }
+                else
+                {
+                    //checksum ok
+                    Attitude a = new Attitude();
+                    a.Roll = (ushort)((IncomingDataBuffer[5] << 8) + IncomingDataBuffer[6]);
+                    a.Pitch = (ushort)((IncomingDataBuffer[7] << 8) + IncomingDataBuffer[8]);
+                    a.Yaw = (ushort)((IncomingDataBuffer[9] << 8) + IncomingDataBuffer[10]);
+                    //invoke the event
+                    OnAttitudePacketRecieved(new AttitudePacketRecievedEventArgs(a)); 
+                    ClearBuffer();
+                }
+            }
+            else if (IncomingDataBuffer.Length >= 14)
+            {
+                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer,"Bad attitude packet recieved"));
+                ClearBuffer();
+            }
+
+
+        }
+        #endregion
+
+        #region Battery status packet recieved
+        private void ParseBatteryStatusPacket()
+        {
+            /*
+           Battery Status
+                        
+           1 0xA5
+             0x5A    Packet Header
+                        
+           3 0x08   bytes 
+                       
+           4 0x74	Report type “Telemetry”
+             0x5A	Report “Attitude”
+
+           6 0xVVVV	Hex Value representing battery voltage
+                         
+           8 0xIIII	Hex Value representing helicopter current draw
+                        
+          10 0xTTTT	Hex Value representing battery temperature
+
+          12 0xXX //checksum high
+             0xXX //checksum low
+                        
+          14 0xCC
+          15 0x33 //footer
+           */
+            if (IncomingDataBuffer.Length == 14 && IncomingDataBuffer[13] == 0xCC && IncomingDataBuffer[14] == 0x33)
+            {
+                //calculate checksum
+                UInt16 sum = 0;
+                for (int i = 3; i < 11; i++)
+                {
+                    sum += IncomingDataBuffer[i];
+                }
+                byte chk1 = (byte)((sum & 0xFF00) >> 8);
+                byte chk2 = (byte)(sum & 0x00FF);
+                if (chk1 != IncomingDataBuffer[11] || chk2 != IncomingDataBuffer[12])
+                {
+                    OnBadPacketReceived(
+                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid battery status packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
+                       (Convert.ToUInt16(IncomingDataBuffer[11]) << 8) + IncomingDataBuffer[12], sum))
+                       );
+                    ClearBuffer();
+                }
+                else
+                {
+                    //checksum ok
+                    BatteryStatus b = new BatteryStatus();
+                    b.Voltage = (ushort)((IncomingDataBuffer[5] << 8) + IncomingDataBuffer[6]);
+                    b.CurrentDraw = (ushort)((IncomingDataBuffer[7] << 8) + IncomingDataBuffer[8]);
+                    b.Temperature = (ushort)((IncomingDataBuffer[9] << 8) + IncomingDataBuffer[10]);
+                    //invoke the event
+                    OnBatteryStatusPacketRecieved(new BatteryStatusPacketRecievedEventArgs(b));
+                    ClearBuffer();
+                }
+            }
+            else if (IncomingDataBuffer.Length >= 14)
+            {
+                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad battery status packet recieved"));
+                ClearBuffer();
+            }
+        }
+        #endregion
+
+        #region on board error packet received
+        private void ParseOnBoardErrorPacket()
+        {
+            /*
+           On board error
+                        
+           1 0xA5
+             0x5A    Packet Header
+                        
+           3 0x03   bytes 
+                       
+           4 0x74	Report type “Telemetry”
+             0x45	Report “Attitude”
+
+           6 0xEE   Error code
+
+           7 0xXX   checksum high
+             0xXX   checksum low
+                        
+           9 0xCC
+          10 0x33   footer
+           */
+            if (IncomingDataBuffer.Length == 10 && IncomingDataBuffer[8] == 0xCC && IncomingDataBuffer[9] == 0x33)
+            {
+                //calculate checksum
+                UInt16 sum = 0;
+                for (int i = 3; i < 6; i++)
+                {
+                    sum += IncomingDataBuffer[i];
+                }
+                byte chk1 = (byte)((sum & 0xFF00) >> 8);
+                byte chk2 = (byte)(sum & 0x00FF);
+                if (chk1 != IncomingDataBuffer[6] || chk2 != IncomingDataBuffer[7])
+                {
+                    OnBadPacketReceived(
+                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid battery status packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
+                       (Convert.ToUInt16(IncomingDataBuffer[6]) << 8) + IncomingDataBuffer[7], sum))
+                       );
+                    ClearBuffer();
+                }
+                else
+                {
+                    //checksum ok
+                    //invoke the event
+                    OnBoardErrorPacketRecieved(this, new OnBoardErrorPacketRecievedEventArgs((byte)IncomingDataBuffer[5]));
+                    ClearBuffer();
+                }
+            }
+            else if (IncomingDataBuffer.Length >= 10)
+            {
+                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad on board error packet recieved"));
+                ClearBuffer();
+            }
+        }
+        #endregion
+
+        #region pre-flight packet recieved
+        private void ParsePreFlightPacket()
+        {
+            /*
+           Pre flight packet
+                        
+           1 0xA5
+             0x5A    Packet Header
+                        
+           3 0x14   bytes 
+                       
+           4 0x74	Report type “Telemetry”
+             0x5A	Report “Attitude”
+             
+           6 0xDD	Degrees (0-180) Latitude
+             0xMM	Minutes (0-59) Latitude
+             0xSSSS	Seconds (0-59) Latitude. 
+          10 0xNS	0x4E = North
+	                0x53 = South
+
+          11 0xDD	Degrees (0-180) Longitude
+             0xMM	Minutes (0-59) Longitude
+             0xSSSS	Seconds (0-59) Longitude. See above for more details.
+          15 0xEW	0x45 = East
+	                0x57 = West
+
+          16 0xAAAA	Altitude reported by GPS
+
+          18 0xSSSS	Altitude reported by Sonar
+
+          20 0xVVVV	Battery Voltage
+
+          22 0xTTTT	Battery Temperature
+
+          23 0xSS	8-bit bit-field representing sensor status
+
+          24 0xXX   checksum high
+             0xXX   checksum low
+                        
+          26 0xCC
+          27 0x33   footer
+           */
+            if (IncomingDataBuffer.Length == 27 && IncomingDataBuffer[25] == 0xCC && IncomingDataBuffer[26] == 0x33)
+            {
+                //calculate checksum
+                UInt16 sum = 0;
+                for (int i = 3; i < 23; i++)
+                {
+                    sum += IncomingDataBuffer[i];
+                }
+                byte chk1 = (byte)((sum & 0xFF00) >> 8);
+                byte chk2 = (byte)(sum & 0x00FF);
+                if (chk1 != IncomingDataBuffer[23] || chk2 != IncomingDataBuffer[24])
+                {
+                    OnBadPacketReceived(
+                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid battery status packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
+                       (Convert.ToUInt16(IncomingDataBuffer[23]) << 8) + IncomingDataBuffer[24], sum))
+                       );
+                    ClearBuffer();
+                }
+                else
+                {
+                    //checksum ok
+                    PreFlightPacketData PFP = new PreFlightPacketData();
+                    PFP.Lat = new Latitude();
+                    PFP.Lat.Degrees = (byte)IncomingDataBuffer[5];
+                    PFP.Lat.Minutes = (byte)IncomingDataBuffer[6];
+                    PFP.Lat.SecondsH = (byte)(IncomingDataBuffer[7] & 0x00FC);//upper 6 bits for seconds
+                    PFP.Lat.SecondsL = Convert.ToUInt16((IncomingDataBuffer[7] & 0x03) << 10 + IncomingDataBuffer[8]);//10 bit decimal portion of seconds
+                    if ((byte)IncomingDataBuffer[9] == 0x45)
+                    {
+                        PFP.Lat.North = true;
+                    }
+                    else if ((byte)IncomingDataBuffer[9] == 0x57)
+                    {
+                        PFP.Lat.North = false;
+                    }
+                    else
+                    {
+                        OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The north south byte of the Latitude in a recieved pre-flight packet is invalid."));
+                        ClearBuffer();
+                        return;
+                    }
+                    PFP.Long = new Longitude();
+                    PFP.Long.Degrees = (byte)IncomingDataBuffer[10];
+                    PFP.Long.Minutes = (byte)IncomingDataBuffer[11];
+                    PFP.Long.SecondsH = (byte)(IncomingDataBuffer[12] & 0x00FC);//upper 6 bits for seconds
+                    PFP.Long.SecondsL = Convert.ToUInt16((IncomingDataBuffer[12] & 0x03) << 10 + IncomingDataBuffer[13]);//10 bit decimal portion of seconds
+                    if ((byte)IncomingDataBuffer[14] == 0x4E)
+                    {
+                        PFP.Long.East = true;
+                    }
+                    else if ((byte)IncomingDataBuffer[14] == 0x4E)
+                    {
+                        PFP.Long.East = false;
+                    }
+                    else
+                    {
+                        OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The east west byte of the Latitude in a recieved pre-flight packet is invalid."));
+                        ClearBuffer();
+                        return;
+                    }
+                    PFP.GPSAltitude = (ushort)((IncomingDataBuffer[15]<<8) + IncomingDataBuffer[16]);
+                    PFP.SonarAltitude = (ushort)((IncomingDataBuffer[17] << 8) + IncomingDataBuffer[18]);
+                    PFP.BatteryVoltage = (ushort)((IncomingDataBuffer[19] << 8) + IncomingDataBuffer[20]);
+                    PFP.BatteryTemp = (ushort)((IncomingDataBuffer[21] << 8) + IncomingDataBuffer[22]);
+                    PFP.SensorStatus = (byte)IncomingDataBuffer[23];
+                    //invoke the event
+                    OnPreFlightPacketRecieved(new PreFlightPacketRecievedEventArgs(PFP));
+                    ClearBuffer();
+                }
+            }
+            else if (IncomingDataBuffer.Length >= 27)
+            {
+                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad pre flight packet recieved"));
+                ClearBuffer();
+            }
+        }
+        #endregion
+
+        #region communication handshake "ACK" recieved
+        private void ParseCommHandShakeAck()
+        {
+            /*
+           Comm handshake ack reply
+                        
+           1 0xA5
+             0x5A    Packet Header
+             
+             0x02   2 bytes           
+           4 0x43	Command type “Communications”
+             0x06	ACK
+
+           6 0xXX //checksum high
+             0xXX //checksum low
+                        
+           8 0xCC
+           9 0x33 //footer
+           */
+            if (IncomingDataBuffer.Length == 9 && IncomingDataBuffer[7] == 0xCC && IncomingDataBuffer[8] == 0x33)
+            {               
+                //calculate checksum
+                UInt16 sum = 0;
+                for (int i = 3; i < 10; i++)
+                {
+                    sum += IncomingDataBuffer[i];
+                }
+                byte chk1 = (byte)((sum & 0xFF00) >> 8);
+                byte chk2 = (byte)(sum & 0x00FF);
+                if (chk1 != IncomingDataBuffer[10] || chk2 != IncomingDataBuffer[11])
+                {
+                    OnBadPacketReceived(
+                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid attitude packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
+                       (Convert.ToUInt16(IncomingDataBuffer[10]) << 8) + IncomingDataBuffer[11], sum))
+                       );
+                    ClearBuffer();
+                }
+                else
+                {
+                    //checksum ok
+                    OnHandShakeAckRecieved(new EventArgs());
+                    ClearBuffer();
+                }
+            }
+            else if (IncomingDataBuffer.Length >= 9)
+            {
+                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer,"Bad hand shake acknowledgement packet received"));
+                ClearBuffer();
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Private class methods
+
+        /// <summary>
+        /// As the protocol specifies, the helicopter responds with non data requesting packets with a copy of that packet (with the ACK inserted).  
+        /// This method builds the packet that should be replied by the helicopter for comparison
+        /// </summary>
+        /// <param name="OutgoingPacket">The Packet sent by the base station</param>
+        /// <returns>the expected response by the helicopter</returns>
+        private byte[] BuildExpectedResponse(byte[] OutgoingPacket)
+        {
+            byte[] ExpectedResponse = new byte[OutGoingPacket.Length + 1];
+            ExpectedResponse[0] = 0xA5;//packet header high
+            ExpectedResponse[1] = 0x5A;//packet header low
+            ExpectedResponse[2] = OutGoingPacket[2];//length byte
+            ExpectedResponse[3] = 0x06;//ack
+            for (int j = 4; j < OutGoingPacket.Length - 1; j++)
+            {
+                ExpectedResponse[j] = OutGoingPacket[j - 1];//copy the sent packet to match with the recieved packet
+            }
+            return ExpectedResponse;
+        }
+        private void SendPacket(string Name, ExpectedResponses.type type)
+        {
+            if (type == ExpectedResponses.type.FullPacketResponse)
+            {
+                ExpectedResponse.ExpectedPacket = Convert.ToString(BuildExpectedResponse(OutGoingPacket));
+                ExpectedResponse.ResponseExpected = true;
+                ExpectedResponse.Name = Name;
+                ExpectedResponse.ResponseType = type;
+                SP.Write(OutGoingPacket, 0, OutGoingPacket.Length);
+                ResponseTimer.Start();
+            }
+            else if (type == ExpectedResponses.type.DataResponse)
+            {
+                ExpectedResponse.ExpectedPacket = "UNDEFINED";//a data packet is expected, we can't define it here
+                ExpectedResponse.ResponseExpected = true;
+                ExpectedResponse.Name = Name;
+                ExpectedResponse.ResponseType = type;
+                SP.Write(OutGoingPacket, 0, OutGoingPacket.Length);
+                ResponseTimer.Start();
+            }
+            else if (type == ExpectedResponses.type.none)
+            {
+                SP.Write(OutGoingPacket, 0, OutGoingPacket.Length);//no response is expected, just write the packet
+            }
+
+        }
+        private void ResponseTimer_Elapsed(Object Sender, EventArgs e)
+        {
+            if (ExpectedResponse.ResponseExpected)
+            {
+                //this means a response has timed out
+                //invoke the timeout event
+                OnResponseTimeout(new ResponseTimeoutEventArgs(ExpectedResponse.Name));
+                ClearBuffer();
+                ResponseTimer.Stop();
+            }
+        }
+        private void ClearBuffer()
+        {
+            IncomingDataBuffer = "";
+            ExpectedResponse.ResponseExpected = false;
+        }
+        #endregion
 
         #region custom event code
 
         #region location Packet recieved
         public delegate void LocationPacketRecievedEventHandler(object sender, LocationPacketRecievedEventArgs e);
         public event LocationPacketRecievedEventHandler LocationPacketRecieved;
+        /// <summary>
+        /// Raised when a location packet is recieved by the base station
+        /// </summary>
+        /// <param name="e">This parameter stores the location data.</param>
         protected virtual void OnLocationPacketRecieved(LocationPacketRecievedEventArgs e)
         {
             if (LocationPacketRecieved != null)
@@ -753,6 +1552,7 @@ namespace CommProtocolLib
             }
         }
         #endregion
+
         #region HeadingSpeedAltitude Packet recieved
 
         public delegate void HeadingSpeedAltitudePacketRecievedEventHandler(object sender, HeadingSpeedAltitudePacketRecievedEventArgs e);
@@ -776,6 +1576,7 @@ namespace CommProtocolLib
             }
         }
         #endregion
+
         #region Attitude packet recieved
 
         public delegate void AttitudePacketRecievedEventHandler(object sender, AttitudePacketRecievedEventArgs e);
@@ -798,8 +1599,25 @@ namespace CommProtocolLib
             }
         }
         #endregion
+
+        #region Hand shake ack recieved
+
+        public delegate void HandShakeAckRecievedEventHandler(object sender, EventArgs e);
+        public event HandShakeAckRecievedEventHandler HandShakeAckRecieved;
+        protected virtual void OnHandShakeAckRecieved(EventArgs e)
+        {
+            if (HandShakeAckRecieved != null)
+            {
+                HandShakeAckRecieved(this, e);
+            }
+        }
+        #endregion
+
         #region bad packet recieved
         public delegate void BadPacketRecievedEventHandler(object sender, BadPacketReceivedEventArgs e);
+        /// <summary>
+        /// Thrown when a bad packet is recieved, see BadPacketRecievedEventArgs.ErrorMessage for the details
+        /// </summary>
         public event BadPacketRecievedEventHandler BadPacketReceived;
         protected virtual void OnBadPacketReceived(BadPacketReceivedEventArgs e)
         {
@@ -820,8 +1638,101 @@ namespace CommProtocolLib
             }
         }
         #endregion
+
+        #region response timed out
+        public delegate void ResponseTimeoutEventHandler(object sender, ResponseTimeoutEventArgs e);
+        /// <summary>
+        /// This event is invoked when a command was sent to the helicopter 
+        /// and there was not a correct repsonse as defined in the protocol
+        /// </summary>
+        public event ResponseTimeoutEventHandler ResponseTimeout;
+        protected virtual void OnResponseTimeout(ResponseTimeoutEventArgs e)
+        {
+            if (ResponseTimeout != null)
+            {
+                ResponseTimeout(this, e);
+            }
+        }
+
+        public class ResponseTimeoutEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Name of the function that inititated the transaction, and for which the response was expected.
+            /// </summary>
+            public string Name;
+            public ResponseTimeoutEventArgs(string Name)
+            {
+                this.Name = Name;
+            }
+        }
+ 
+        #endregion
+
+        #region battery status packet recieved
+        public delegate void BatteryStatusPacketRecievedEventHandler(object sender, BatteryStatusPacketRecievedEventArgs e);
+        public event BatteryStatusPacketRecievedEventHandler BatteryStatusPacketRecieved;
+        protected virtual void OnBatteryStatusPacketRecieved(BatteryStatusPacketRecievedEventArgs e)
+        {
+            if (BatteryStatusPacketRecieved != null)
+            {
+                BatteryStatusPacketRecieved(this, e);
+            }
+        }
+        public class BatteryStatusPacketRecievedEventArgs : EventArgs
+        {
+            public BatteryStatus BattStat;
+
+            public BatteryStatusPacketRecievedEventArgs(BatteryStatus BattStat)
+            {
+                this.BattStat = BattStat;
+            }
+        }
+        #endregion
+
+        #region on board errror packet recieved
+        public delegate void OnBoardErrorPacketRecievedEventHandler(object sender, OnBoardErrorPacketRecievedEventArgs e);
+        public event OnBoardErrorPacketRecievedEventHandler OnBoardErrorPacketRecieved;
+        protected virtual void OnOnBoardErrorPacketRecieved(OnBoardErrorPacketRecievedEventArgs e)
+        {
+            if (OnBoardErrorPacketRecieved != null)
+            {
+                OnBoardErrorPacketRecieved(this, e);
+            }
+        }
+
+        public class OnBoardErrorPacketRecievedEventArgs : EventArgs
+        {
+            public byte ErrorCode;
+
+            public OnBoardErrorPacketRecievedEventArgs(byte ErrorCode)
+            {
+                this.ErrorCode = ErrorCode;
+            }
+        }
+        #endregion
+
+        #region pre-flight packet recieved
+        public delegate void PreFlightPacketRecievedEventHandler(object sender, PreFlightPacketRecievedEventArgs e);
+        public event PreFlightPacketRecievedEventHandler PreFlightPacketRecieved;
+        protected virtual void OnPreFlightPacketRecieved(PreFlightPacketRecievedEventArgs e)
+        {
+            if (PreFlightPacketRecieved != null)
+            {
+                PreFlightPacketRecieved(this, e);
+            }
+        }
+
+        public class PreFlightPacketRecievedEventArgs : EventArgs
+        {
+            public PreFlightPacketData PFP;
+
+            public PreFlightPacketRecievedEventArgs(PreFlightPacketData PFP)
+            {
+                this.PFP = PFP;
+            }
+        }
+
         #endregion
         #endregion
     }
-
 }
