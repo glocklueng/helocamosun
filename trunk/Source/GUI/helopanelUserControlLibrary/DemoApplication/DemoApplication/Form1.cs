@@ -12,7 +12,7 @@ namespace DemoApplication
 {
     public partial class Form1 : Form
     {
-        int guageSzStd = 200;
+        int guageSzStd = 150;
         CenterDial Altitude;
         CenterDial BatteryLife;
         CenterDial RPM;
