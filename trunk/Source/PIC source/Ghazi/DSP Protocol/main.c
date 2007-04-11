@@ -138,6 +138,11 @@ void state_machine ( void )
 					state++;
 					
 				}
+			
+				else
+				{
+					//TX_packet(err_SOT, strlen(err_SOT) );
+				}
 				break;
 			}
 
@@ -149,7 +154,11 @@ void state_machine ( void )
 					
 				}
 
-				else state = 0;
+				else 
+				{
+					//TX_packet(err_SOT, strlen(err_SOT) );
+					state = 0;
+				}
 				break;
 			}
 			
@@ -209,6 +218,7 @@ void state_machine ( void )
 					chksum = 0;
 					packet_length = 0;
 					packet_cnt = 0;
+					//TX_packet( err_EOT, strlen(err_EOT) );
 				}
 				break;
 			}
@@ -241,7 +251,11 @@ void state_machine ( void )
 					checksum[1] = 0;
 					check = 0;
 				}
-
+	
+				else
+				{
+					//TX_packet( err_EOT, strlen(err_EOT) );
+				}
 			
 				break;
 			}
