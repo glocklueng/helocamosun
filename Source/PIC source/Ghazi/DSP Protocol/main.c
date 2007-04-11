@@ -1,7 +1,10 @@
 #include <p30fxxxx.h>
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-#define FCY 		10000000
+//#define FCY 		10000000
+#define FCY			14740000		// instruction frequency (7.37MHz * 8x PLL / 4 clock per inst
 #define MAXPACKLEN 	256
 
 void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
@@ -10,33 +13,35 @@ void init_UART( unsigned short );
 // init_UART initializes UART1 to 8 data bits, no parity, 1 stop bit
 // at the baud rate passed to 'baud'
 
-void TX_char ( unsigned char );
+void TX_char ( char );
 // transmit 1 byte on the open UART port 
 
-void TX_packet ( unsigned char *packet, unsigned short len );
+void TX_packet ( char *packet, unsigned short len );
 // transmit a packet of length 'len'
 
 void state_machine ( void );
 // advances the state machine through a received packet
 
-void parse_data ( unsigned char vdata[MAXPACKLEN] );
+void parse_data ( char vdata[MAXPACKLEN] );
 // parses the data portion of a valid packet
+
+char *itoa(char *buffer, int i);
 
 //-------------------------- Global Variables -------------------------------
 unsigned char bytercvd = 0;  	// 0 = no byte in buffer, 1 = byte in buffer
 unsigned char datavalid = 0;	// 0 = no valid data ready, 1 = valid data ready
-unsigned char data[MAXPACKLEN] = "";
+char data[MAXPACKLEN] = "";
 unsigned char engRPM = 0;
 unsigned char pitch = 0;
 unsigned char roll = 0;
 unsigned char yaw = 0;
 unsigned char coll = 0;
 //--------------------------- Error Messages --------------------------------
-unsigned char err_chksum[] = "Error: Checksum incorrect\n";
-unsigned char err_SOT[] = "Error: SOT Invalid\n";
-unsigned char err_EOT[] = "Error: EOR Invalid\n";
+char err_chksum[] = "Error: Checksum incorrect\n";
+char err_SOT[] = "Error: SOT Invalid\n";
+char err_EOT[] = "Error: EOR Invalid\n";
 
-unsigned char debug_dv[] = "Data is Valid\n";
+char debug_dv[] = "Data is Valid\n";
 
 
 //---------------------------------------------------------------------------
@@ -52,13 +57,17 @@ int main ( void )
 	yaw = 0;
 	coll = 0;
 	engRPM = 0;
+	TRISBbits.TRISB0 = 0;
 	while(1)
 	{
+		
+		//LATBbits.LATB0 ^= 1;
 		state_machine();
 		if (datavalid)
 		{
+			//LATBbits.LATB0 ^= 1;
 			datavalid = 0;
-			TX_packet( debug_dv, strlen(debug_dv) );
+			//TX_packet( debug_dv, strlen(debug_dv) );
 			parse_data(data);
 			//TX_packet ( data, strlen(data) );
 		}
@@ -81,7 +90,7 @@ void init_UART( unsigned short baud )
 	U1MODEbits.UARTEN = 1;		// enable the UART
 }
 
-void TX_char ( unsigned char ch )
+void TX_char ( char ch )
 // transmit 1 byte on the open UART port 
 {
 	
@@ -90,7 +99,7 @@ void TX_char ( unsigned char ch )
 	U1TXREG = ch;
 }
 
-void TX_packet ( unsigned char packet[256], unsigned short len )
+void TX_packet ( char packet[256], unsigned short len )
 {
 	unsigned short lcv;
 	for (lcv = 0; lcv < len; lcv++)
@@ -107,14 +116,16 @@ void state_machine ( void )
 	static unsigned short chksum = 0;
 	static unsigned short packet_length = 0;
 	static unsigned char packet_cnt = 0;
-	static unsigned char packet[256] = "";
+	static char packet[256] = "";
 	static unsigned short checksum[2];
 	static unsigned short check = 0;
 	short lcv; 
 
 	unsigned char dump;
+	//LATBbits.LATB0 ^= 1;
 	if (bytercvd)
 	{
+		LATBbits.LATB0 ^= 1;
 		bytercvd = 0;
 		dump = U1RXREG;
 		switch (state)
@@ -239,9 +250,16 @@ void state_machine ( void )
 	}	
 }
 
-void parse_data ( unsigned char vdata[MAXPACKLEN] )
+void parse_data ( char vdata[MAXPACKLEN] )
 {
-	unsigned char msg[] = "It works!\n$";
+	char msg[256] = "";
+	char packet_msg[] = "Packet Received: ";
+	char engRPM_msg[] = "Engine RPM set to ";
+	char pitch_msg[] = "Pitch set to ";
+	char yaw_msg[] = "Yaw set to ";
+	char roll_msg[] = "Roll set to ";
+	char coll_msg[] = "Collective set to ";
+	char val[5] = "";
 	switch (data[0])
 	{
 		
@@ -252,6 +270,10 @@ void parse_data ( unsigned char vdata[MAXPACKLEN] )
 				case 0x45:		// Engine RPM
 				{
 					engRPM = data[2];
+					sprintf( val, "%d", data[2] ); 
+					strcat(msg, packet_msg);
+					strcat(msg, engRPM_msg);
+					strcat(msg, val);
 					TX_packet( msg, strlen(msg) );
 					break;
 				}
@@ -259,24 +281,44 @@ void parse_data ( unsigned char vdata[MAXPACKLEN] )
 				case 0x50:		// Pitch
 				{
 					pitch = data[2];
+					sprintf( val, "%d", data[2] ); 
+					strcat(msg, packet_msg);
+					strcat(msg, pitch_msg);
+					strcat(msg, val);
+					TX_packet( msg, strlen(msg) );
 					break;
 				}
 			
 				case 0x52:		// Roll
 				{
 					roll = data[2];
+					sprintf( val, "%d", data[2] ); 
+					strcat(msg, packet_msg);
+					strcat(msg, roll_msg);
+					strcat(msg, val);
+					TX_packet( msg, strlen(msg) );
 					break;
 				}
 
 				case 0x51:		// Yaw
 				{
 					yaw = data[2];
+					sprintf( val, "%d", data[2] ); 
+					strcat(msg, packet_msg);
+					strcat(msg, yaw_msg);
+					strcat(msg, val);
+					TX_packet( msg, strlen(msg) );
 					break;
 				}	
 
 				case 0x43:		// Collective
 				{
 					coll = data[2];
+					sprintf( val, "%d", data[2] ); 
+					strcat(msg, packet_msg);
+					strcat(msg, coll_msg);
+					strcat(msg, val);
+					TX_packet( msg, strlen(msg) );
 					break;
 				}
 			}
@@ -290,6 +332,7 @@ void parse_data ( unsigned char vdata[MAXPACKLEN] )
 //void _ISR _U1RXInterrupt ( void )
 void __attribute__(( interrupt, no_auto_psv )) _U1RXInterrupt(void)
 {
+	//LATBbits.LATB0 ^= 1;
 	IEC0bits.U1RXIE = 0;
 	IFS0bits.U1RXIF = 0;
 	bytercvd = 1;
