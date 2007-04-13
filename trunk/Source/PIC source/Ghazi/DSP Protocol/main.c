@@ -2,9 +2,15 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <xlcd.h>
+#include <delay.h>
+#include <uart.h>
 
 //#define FCY 		10000000
-#define FCY			14740000		// instruction frequency (7.37MHz * 8x PLL / 4 clock per inst
+//#define FCY			14740000		// instruction frequency (7.37MHz * 8x PLL / 4 clock per inst
+//#define FCY			58960000
+//#define FCY			7370000
+#define FCY			1842500
 #define MAXPACKLEN 	256
 
 void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
@@ -36,6 +42,10 @@ unsigned char pitch = 0;
 unsigned char roll = 0;
 unsigned char yaw = 0;
 unsigned char coll = 0;
+char errorSOT;
+char errorEOT;
+unsigned char dump;
+
 //--------------------------- Error Messages --------------------------------
 char err_chksum[] = "Error: Checksum incorrect\n";
 char err_SOT[] = "Error: SOT Invalid\n";
@@ -49,6 +59,8 @@ char debug_dv[] = "Data is Valid\n";
 //*******************************   MAIN   **********************************
 int main ( void )
 {
+
+
 	IEC0bits.U1RXIE = 1;
 	init_UART( 19200 );
 	TRISB = 0;
@@ -57,21 +69,47 @@ int main ( void )
 	yaw = 0;
 	coll = 0;
 	engRPM = 0;
-	TRISBbits.TRISB0 = 0;
+	errorSOT = 0;
+	errorEOT = 0;
+
+	//TRISBbits.TRISB0 = 0;
+	TRISD = 0;
+	LATDbits.LATD0 = 1;
+	LATDbits.LATD1 = 1;
+	LATDbits.LATD2 = 1;
+	LATDbits.LATD3 = 1;
 	while(1)
 	{
-		
 		//LATBbits.LATB0 ^= 1;
+		
 		state_machine();
 		if (datavalid)
 		{
-			//LATBbits.LATB0 ^= 1;
 			datavalid = 0;
-			//TX_packet( debug_dv, strlen(debug_dv) );
 			parse_data(data);
-			//TX_packet ( data, strlen(data) );
+			
+		}
+		else
+		{
+			//LATDbits.LATD1 ^= 1;
+		}
+		// THIS NEEDS WORK
+		if(errorSOT)
+		{
+			//TX_packet(err_SOT, strlen(err_SOT));
 		}
 	}
+
+	//OpenXLCD( EIGHT_BIT );
+		
+	//OpenXLCD();
+	//OpenXLCD( FOUR_BIT & TWO_LINE & INCR_MODE );
+	//putcXLCD(0x42);
+	/*while(1)
+	{
+		TX_packet( err_EOT, strlen(err_EOT) );
+	}*/
+	
 	return 0;
 }
 //***************************************************************************
@@ -121,27 +159,28 @@ void state_machine ( void )
 	static unsigned short check = 0;
 	short lcv; 
 
-	unsigned char dump;
-	//LATBbits.LATB0 ^= 1;
 	if (bytercvd)
 	{
-		LATBbits.LATB0 ^= 1;
+		LATDbits.LATD0 ^= 1;
 		bytercvd = 0;
-		dump = U1RXREG;
+	
 		switch (state)
 		{
+		
 			case 0:
 			{
 				if (dump == 0xA5)
 				{
 					chksum = 0;
 					state++;
-					
+					LATDbits.LATD1 ^= 1;
+					//TX_packet(err_SOT, strlen(err_SOT));
 				}
 			
 				else
 				{
-					//TX_packet(err_SOT, strlen(err_SOT) );
+					errorSOT = 1;
+					//TX_packet(err_SOT, strlen(err_SOT));
 				}
 				break;
 			}
@@ -151,12 +190,12 @@ void state_machine ( void )
 				if (dump == 0x5A)
 				{
 					state++;
-					
+					//LATDbits.LATD1 ^= 1;
 				}
 
 				else 
 				{
-					//TX_packet(err_SOT, strlen(err_SOT) );
+					errorSOT = 1;
 					state = 0;
 				}
 				break;
@@ -240,7 +279,7 @@ void state_machine ( void )
 					else
 					{
 						// The calculated checksum did not match the transmitted one:
-						TX_packet(err_chksum, strlen(err_chksum));
+						//TX_packet(err_chksum, strlen(err_chksum));
 					
 					}
 					state = 0;
@@ -259,7 +298,10 @@ void state_machine ( void )
 			
 				break;
 			}
-
+			default:
+			{
+				LATDbits.LATD2 ^= 1;
+			}
 		}
 	}	
 }
@@ -288,7 +330,7 @@ void parse_data ( char vdata[MAXPACKLEN] )
 					strcat(msg, packet_msg);
 					strcat(msg, engRPM_msg);
 					strcat(msg, val);
-					TX_packet( msg, strlen(msg) );
+					//TX_packet( msg, strlen(msg) );
 					break;
 				}
 				
@@ -299,7 +341,7 @@ void parse_data ( char vdata[MAXPACKLEN] )
 					strcat(msg, packet_msg);
 					strcat(msg, pitch_msg);
 					strcat(msg, val);
-					TX_packet( msg, strlen(msg) );
+					//TX_packet( msg, strlen(msg) );
 					break;
 				}
 			
@@ -310,7 +352,7 @@ void parse_data ( char vdata[MAXPACKLEN] )
 					strcat(msg, packet_msg);
 					strcat(msg, roll_msg);
 					strcat(msg, val);
-					TX_packet( msg, strlen(msg) );
+					//TX_packet( msg, strlen(msg) );
 					break;
 				}
 
@@ -321,7 +363,7 @@ void parse_data ( char vdata[MAXPACKLEN] )
 					strcat(msg, packet_msg);
 					strcat(msg, yaw_msg);
 					strcat(msg, val);
-					TX_packet( msg, strlen(msg) );
+					//TX_packet( msg, strlen(msg) );
 					break;
 				}	
 
@@ -332,7 +374,7 @@ void parse_data ( char vdata[MAXPACKLEN] )
 					strcat(msg, packet_msg);
 					strcat(msg, coll_msg);
 					strcat(msg, val);
-					TX_packet( msg, strlen(msg) );
+					//TX_packet( msg, strlen(msg) );
 					break;
 				}
 			}
@@ -350,5 +392,9 @@ void __attribute__(( interrupt, no_auto_psv )) _U1RXInterrupt(void)
 	IEC0bits.U1RXIE = 0;
 	IFS0bits.U1RXIF = 0;
 	bytercvd = 1;
+	dump = U1RXREG;
+	//dump = ReadUART1();
+	//LATDbits.LATD3 ^= 1;
 	IEC0bits.U1RXIE = 1;
+
 }
