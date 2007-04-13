@@ -14,7 +14,7 @@ A5 5A 03
 00 F9 CC 33
 
 wait 3 sec
-A5 5A 03
+B5 5A 03
 54 43 60
 00 FA CC 33
 
