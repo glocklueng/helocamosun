@@ -160,6 +160,10 @@ namespace CommProtocolLib
 
         #region datamembers
         /// <summary>
+        /// serial port encoding
+        /// </summary>
+        private Encoding encoding = Encoding.Default;
+        /// <summary>
         /// When a packet is sent there is an expected response from the helicopter
         /// it is a full packet (with ACK)response or a data response.  This struct keeps track of the state.
         /// </summary>
@@ -233,7 +237,7 @@ namespace CommProtocolLib
             try
             {
                 SP = new SerialPort(PortName, BaudRate);
-                SP.Encoding = Encoding.Unicode;//char type uses unicode for strings  ****NEED TO TEST THIS******
+                SP.Encoding = encoding;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
                 Setup();
@@ -258,7 +262,7 @@ namespace CommProtocolLib
             {
                 
                 SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
-                SP.Encoding = Encoding.Unicode;//char type uses unicode for strings
+                SP.Encoding = encoding;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
                 Setup();
@@ -284,7 +288,7 @@ namespace CommProtocolLib
             {
 
                 SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
-                SP.Encoding = Encoding.Unicode;//char type uses unicode for strings
+                SP.Encoding = encoding;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
                 this.TimeOut = Timeout;
@@ -302,6 +306,7 @@ namespace CommProtocolLib
         {
             ResponseTimer = new System.Timers.Timer(TimeOut);
             ResponseTimer.Enabled = false;
+            ResponseTimer.Elapsed += new ElapsedEventHandler(ResponseTimer_Elapsed);
         }
         #endregion
         
@@ -315,7 +320,7 @@ namespace CommProtocolLib
         {
             if (ExpectedResponse.ResponseExpected == false)
             {
-                OutGoingPacket = new byte[7];
+                OutGoingPacket = new byte[9];
                 OutGoingPacket[0] = 0xA5;//header
                 OutGoingPacket[1] = 0x5A;
                 OutGoingPacket[2] = 0x02;//2 bytes
@@ -837,6 +842,7 @@ namespace CommProtocolLib
             if (ExpectedResponse.ResponseExpected == false)
             {
                 //this means the helicopter has spoken without being asked to, probably an error message
+                MatchIncomingPacket();
             }
             else if (ExpectedResponse.ResponseExpected == true && ExpectedResponse.ResponseType == ExpectedResponses.type.DataResponse)
             {
@@ -870,31 +876,31 @@ namespace CommProtocolLib
         {
             if (IncomingDataBuffer.Length >= 5)//5 is the minimum size that contains the command 
             {
-                if (IncomingDataBuffer[0] == 0xA5 && IncomingDataBuffer[1] == 0x5A)//packet header
+                if ((int)IncomingDataBuffer[0] == 0xA5 && (int)IncomingDataBuffer[1] == 0x5A)//packet header
                 {
-                    if (IncomingDataBuffer[3] == 0x74)//telemetry command
+                    if ((int)IncomingDataBuffer[3] == 0x74)//telemetry command
                     {
-                        if (IncomingDataBuffer[4] == 0x4C)//location command
+                        if ((int)IncomingDataBuffer[4] == 0x4C)//location command
                         {
                             ParseLocationPacket();
                         }
-                        else if (IncomingDataBuffer[4] == 0x48)//heading/speed/altitude command
+                        else if ((int)IncomingDataBuffer[4] == 0x48)//heading/speed/altitude command
                         {
                             ParseHeadingSpeedAltitudePacket();
                         }
-                        else if (IncomingDataBuffer[4] == 0x5A)//attitude command
+                        else if ((int)IncomingDataBuffer[4] == 0x5A)//attitude command
                         {
                             ParseAttitudePacket();
                         }
-                        else if (IncomingDataBuffer[4] == 0x42)//battery status
+                        else if ((int)IncomingDataBuffer[4] == 0x42)//battery status
                         {
                             ParseBatteryStatusPacket();
                         }
-                        else if (IncomingDataBuffer[4] == 0x45)//onboard error
+                        else if ((int)IncomingDataBuffer[4] == 0x45)//onboard error
                         {
                             ParseOnBoardErrorPacket();
                         }
-                        else if (IncomingDataBuffer[4] == 0x50)//pre-flight packet
+                        else if ((int)IncomingDataBuffer[4] == 0x50)//pre-flight packet
                         {
                             ParsePreFlightPacket();
                         }
@@ -904,7 +910,7 @@ namespace CommProtocolLib
                             ClearBuffer();
                         }
                     }
-                    else if (IncomingDataBuffer[3] == 0x43 && IncomingDataBuffer[4] == 0x06)//comms handshake, ack recieved
+                    else if ((int)IncomingDataBuffer[3] == 0x43 && (int)IncomingDataBuffer[4] == 0x06)//comms handshake, ack recieved
                     {
                         ParseCommHandShakeAck();
                     }
@@ -951,22 +957,22 @@ namespace CommProtocolLib
                 0xCC    EOT1
              19 0x33    EOT2
             */
-            if (IncomingDataBuffer.Length == 18 && IncomingDataBuffer[17] == 0xCC && IncomingDataBuffer[18] == 0x33)
+            if (IncomingDataBuffer.Length == 18 && (int)IncomingDataBuffer[17] == 0xCC && (int)IncomingDataBuffer[18] == 0x33)
             {
                 //calculate checksum
                 UInt16 sum = 0;
                 for (int i = 3; i < 15; i++)
                 {
-                    sum += IncomingDataBuffer[i];
+                    sum += (ushort)IncomingDataBuffer[i];
                 }
                 byte chk1 = (byte)((sum & 0x0000FF00) >> 8);
                 byte chk2 = (byte)(sum & 0x000000FF);
-                if (chk1 != IncomingDataBuffer[15] || chk2 != IncomingDataBuffer[16])
+                if (chk1 != (int)IncomingDataBuffer[15] || chk2 != (int)IncomingDataBuffer[16])
                 {
                     OnBadPacketReceived(
                         new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                        string.Format("Invalid Location packet: invalid checksum recieved: {0:X4}, expected: {0:X4}",
-                        (Convert.ToUInt16(IncomingDataBuffer[15]) << 8) + IncomingDataBuffer[16], sum))
+                        string.Format("Invalid Location packet: invalid checksum recieved: {0:x4}, expected: {1:x4}",
+                        (Convert.ToUInt16((int)IncomingDataBuffer[15]) << 8) + (int)IncomingDataBuffer[16], sum))
                         );
                     ClearBuffer();
                 }
@@ -976,8 +982,8 @@ namespace CommProtocolLib
                     Latitude Lat = new Latitude();
                     Lat.Degrees = (byte)IncomingDataBuffer[5];
                     Lat.Minutes = (byte)IncomingDataBuffer[6];
-                    Lat.SecondsH = (byte)(IncomingDataBuffer[7] & 0x00FC);//upper 6 bits for seconds
-                    Lat.SecondsL = Convert.ToUInt16(((byte)IncomingDataBuffer[7] & 0x03) << 10 + Convert.ToUInt16(IncomingDataBuffer[8]));//10 bit decimal portion of seconds
+                    Lat.SecondsH = (byte)((int)IncomingDataBuffer[7] & 0x00FC);//upper 6 bits for seconds
+                    Lat.SecondsL = Convert.ToUInt16(((byte)IncomingDataBuffer[7] & 0x03) << 10 + Convert.ToUInt16((int)IncomingDataBuffer[8]));//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[9] == 0x4E)
                     {
                         Lat.North = true;
@@ -996,8 +1002,8 @@ namespace CommProtocolLib
                     Longitude Long = new Longitude();
                     Long.Degrees = (byte)IncomingDataBuffer[10];
                     Long.Minutes = (byte)IncomingDataBuffer[11];
-                    Long.SecondsH = (byte)(IncomingDataBuffer[12] & 0x00FC);//upper 6 bits for seconds
-                    Long.SecondsL = Convert.ToUInt16(((byte)IncomingDataBuffer[12] & 0x03) << 10 + Convert.ToUInt16(IncomingDataBuffer[13]));//10 bit decimal portion of seconds
+                    Long.SecondsH = (byte)((int)IncomingDataBuffer[12] & 0x00FC);//upper 6 bits for seconds
+                    Long.SecondsL = Convert.ToUInt16(((byte)IncomingDataBuffer[12] & 0x03) << 10 + Convert.ToUInt16((int)IncomingDataBuffer[13]));//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[14] == 0x45)
                     {
                         Long.East = true;
@@ -1050,22 +1056,22 @@ namespace CommProtocolLib
              13 0xCC    EOT1
              14 0x33    EOT2
              */
-            if (IncomingDataBuffer.Length == 14 && IncomingDataBuffer[12] == 0xCC && IncomingDataBuffer[13] == 0x33)
+            if (IncomingDataBuffer.Length == 14 && (int)IncomingDataBuffer[12] == 0xCC && (int)IncomingDataBuffer[13] == 0x33)
             {
                 //calculate checksum
                 UInt16 sum = 0;
                 for (int i = 3; i < 10; i++)
                 {
-                    sum += IncomingDataBuffer[i];
+                    sum += (ushort)IncomingDataBuffer[i];
                 }
                 byte chk1 = (byte)((sum & 0x0000FF00) >> 8);
                 byte chk2 = (byte)(sum & 0x000000FF);
-                if (chk1 != IncomingDataBuffer[10] || chk2 != IncomingDataBuffer[11])
+                if (chk1 != (int)IncomingDataBuffer[10] || chk2 != (int)IncomingDataBuffer[11])
                 {
                     OnBadPacketReceived(
                        new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid heading speed altitude packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
-                       (Convert.ToUInt16(IncomingDataBuffer[10]) << 8) + IncomingDataBuffer[11], sum))
+                       string.Format("Invalid heading speed altitude packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[10]) << 8) + (int)IncomingDataBuffer[11], sum))
                        );
                     ClearBuffer();
                 }
@@ -1073,9 +1079,9 @@ namespace CommProtocolLib
                 {
                     //good checksum
                     HeadingSpeedAltitude HSA = new HeadingSpeedAltitude();
-                    HSA.Heading = Convert.ToUInt16(IncomingDataBuffer[5] << 8 + IncomingDataBuffer[6]);
-                    HSA.Speed = Convert.ToByte(IncomingDataBuffer[7]);
-                    HSA.Altitude = Convert.ToUInt16(IncomingDataBuffer[8] << 8 + IncomingDataBuffer[9]);
+                    HSA.Heading = Convert.ToUInt16((int)IncomingDataBuffer[5] << 8 + (int)IncomingDataBuffer[6]);
+                    HSA.Speed = Convert.ToByte((int)IncomingDataBuffer[7]);
+                    HSA.Altitude = Convert.ToUInt16((int)IncomingDataBuffer[8] << 8 + (int)IncomingDataBuffer[9]);
                     //invoke the event
                     OnHeadingSpeedAltitudePacketRecieved(new HeadingSpeedAltitudePacketRecievedEventArgs(HSA));
                     ClearBuffer();
@@ -1118,22 +1124,22 @@ namespace CommProtocolLib
               14 0xCC
               15 0x33 //footer
                */
-            if (IncomingDataBuffer.Length == 14 && IncomingDataBuffer[13] == 0xCC && IncomingDataBuffer[14] == 0x33)
+            if (IncomingDataBuffer.Length == 14 && (int)IncomingDataBuffer[13] == 0xCC && (int)IncomingDataBuffer[14] == 0x33)
             {
                 //calculate checksum
                 UInt16 sum = 0;
                 for (int i = 3; i < 11; i++)
                 {
-                    sum += IncomingDataBuffer[i];
+                    sum += (ushort)IncomingDataBuffer[i];
                 }
                 byte chk1 = (byte)((sum & 0xFF00) >> 8);
                 byte chk2 = (byte)(sum & 0x00FF);
-                if (chk1 != IncomingDataBuffer[11] || chk2 != IncomingDataBuffer[12])
+                if (chk1 != (int)IncomingDataBuffer[11] || chk2 != (int)IncomingDataBuffer[12])
                 {
                     OnBadPacketReceived(
                        new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid attitude packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
-                       (Convert.ToUInt16(IncomingDataBuffer[11]) << 8) + IncomingDataBuffer[12], sum))
+                       string.Format("Invalid attitude packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[11]) << 8) + (int)IncomingDataBuffer[12], sum))
                        );
                     ClearBuffer();
                 }
@@ -1141,9 +1147,9 @@ namespace CommProtocolLib
                 {
                     //checksum ok
                     Attitude a = new Attitude();
-                    a.Roll = (ushort)((IncomingDataBuffer[5] << 8) + IncomingDataBuffer[6]);
-                    a.Pitch = (ushort)((IncomingDataBuffer[7] << 8) + IncomingDataBuffer[8]);
-                    a.Yaw = (ushort)((IncomingDataBuffer[9] << 8) + IncomingDataBuffer[10]);
+                    a.Roll = (ushort)(((int)IncomingDataBuffer[5] << 8) + (int)IncomingDataBuffer[6]);
+                    a.Pitch = (ushort)(((int)IncomingDataBuffer[7] << 8) + (int)IncomingDataBuffer[8]);
+                    a.Yaw = (ushort)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
                     //invoke the event
                     OnAttitudePacketRecieved(new AttitudePacketRecievedEventArgs(a)); 
                     ClearBuffer();
@@ -1185,22 +1191,22 @@ namespace CommProtocolLib
           14 0xCC
           15 0x33 //footer
            */
-            if (IncomingDataBuffer.Length == 14 && IncomingDataBuffer[13] == 0xCC && IncomingDataBuffer[14] == 0x33)
+            if (IncomingDataBuffer.Length == 14 && (int)IncomingDataBuffer[13] == 0xCC && (int)IncomingDataBuffer[14] == 0x33)
             {
                 //calculate checksum
                 UInt16 sum = 0;
                 for (int i = 3; i < 11; i++)
                 {
-                    sum += IncomingDataBuffer[i];
+                    sum += (ushort)IncomingDataBuffer[i];
                 }
                 byte chk1 = (byte)((sum & 0xFF00) >> 8);
                 byte chk2 = (byte)(sum & 0x00FF);
-                if (chk1 != IncomingDataBuffer[11] || chk2 != IncomingDataBuffer[12])
+                if (chk1 != (int)IncomingDataBuffer[11] || chk2 != (int)IncomingDataBuffer[12])
                 {
                     OnBadPacketReceived(
                        new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid battery status packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
-                       (Convert.ToUInt16(IncomingDataBuffer[11]) << 8) + IncomingDataBuffer[12], sum))
+                       string.Format("Invalid battery status packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[11]) << 8) + (int)IncomingDataBuffer[12], sum))
                        );
                     ClearBuffer();
                 }
@@ -1208,9 +1214,9 @@ namespace CommProtocolLib
                 {
                     //checksum ok
                     BatteryStatus b = new BatteryStatus();
-                    b.Voltage = (ushort)((IncomingDataBuffer[5] << 8) + IncomingDataBuffer[6]);
-                    b.CurrentDraw = (ushort)((IncomingDataBuffer[7] << 8) + IncomingDataBuffer[8]);
-                    b.Temperature = (ushort)((IncomingDataBuffer[9] << 8) + IncomingDataBuffer[10]);
+                    b.Voltage = (ushort)(((int)IncomingDataBuffer[5] << 8) + (int)IncomingDataBuffer[6]);
+                    b.CurrentDraw = (ushort)(((int)IncomingDataBuffer[7] << 8) + (int)IncomingDataBuffer[8]);
+                    b.Temperature = (ushort)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
                     //invoke the event
                     OnBatteryStatusPacketRecieved(new BatteryStatusPacketRecievedEventArgs(b));
                     ClearBuffer();
@@ -1246,22 +1252,22 @@ namespace CommProtocolLib
            9 0xCC
           10 0x33   footer
            */
-            if (IncomingDataBuffer.Length == 10 && IncomingDataBuffer[8] == 0xCC && IncomingDataBuffer[9] == 0x33)
+            if (IncomingDataBuffer.Length == 10 && (int)IncomingDataBuffer[8] == 0xCC && (int)IncomingDataBuffer[9] == 0x33)
             {
                 //calculate checksum
                 UInt16 sum = 0;
                 for (int i = 3; i < 6; i++)
                 {
-                    sum += IncomingDataBuffer[i];
+                    sum += (ushort)IncomingDataBuffer[i];
                 }
                 byte chk1 = (byte)((sum & 0xFF00) >> 8);
                 byte chk2 = (byte)(sum & 0x00FF);
-                if (chk1 != IncomingDataBuffer[6] || chk2 != IncomingDataBuffer[7])
+                if (chk1 != (int)IncomingDataBuffer[6] || chk2 != (int)IncomingDataBuffer[7])
                 {
                     OnBadPacketReceived(
                        new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid battery status packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
-                       (Convert.ToUInt16(IncomingDataBuffer[6]) << 8) + IncomingDataBuffer[7], sum))
+                       string.Format("Invalid on board error packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
+                       (((int)IncomingDataBuffer[6]) << 8) + (int)IncomingDataBuffer[7], sum))
                        );
                     ClearBuffer();
                 }
@@ -1323,22 +1329,22 @@ namespace CommProtocolLib
           26 0xCC
           27 0x33   footer
            */
-            if (IncomingDataBuffer.Length == 27 && IncomingDataBuffer[25] == 0xCC && IncomingDataBuffer[26] == 0x33)
+            if (IncomingDataBuffer.Length == 27 && (int)IncomingDataBuffer[25] == 0xCC && (int)IncomingDataBuffer[26] == 0x33)
             {
                 //calculate checksum
                 UInt16 sum = 0;
                 for (int i = 3; i < 23; i++)
                 {
-                    sum += IncomingDataBuffer[i];
+                    sum += (ushort)IncomingDataBuffer[i];
                 }
                 byte chk1 = (byte)((sum & 0xFF00) >> 8);
                 byte chk2 = (byte)(sum & 0x00FF);
-                if (chk1 != IncomingDataBuffer[23] || chk2 != IncomingDataBuffer[24])
+                if (chk1 != (int)IncomingDataBuffer[23] || chk2 != (int)IncomingDataBuffer[24])
                 {
                     OnBadPacketReceived(
                        new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid battery status packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
-                       (Convert.ToUInt16(IncomingDataBuffer[23]) << 8) + IncomingDataBuffer[24], sum))
+                       string.Format("Invalid battery status packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[23]) << 8) + (int)IncomingDataBuffer[24], sum))
                        );
                     ClearBuffer();
                 }
@@ -1349,8 +1355,8 @@ namespace CommProtocolLib
                     PFP.Lat = new Latitude();
                     PFP.Lat.Degrees = (byte)IncomingDataBuffer[5];
                     PFP.Lat.Minutes = (byte)IncomingDataBuffer[6];
-                    PFP.Lat.SecondsH = (byte)(IncomingDataBuffer[7] & 0x00FC);//upper 6 bits for seconds
-                    PFP.Lat.SecondsL = Convert.ToUInt16((IncomingDataBuffer[7] & 0x03) << 10 + IncomingDataBuffer[8]);//10 bit decimal portion of seconds
+                    PFP.Lat.SecondsH = (byte)((int)IncomingDataBuffer[7] & 0x00FC);//upper 6 bits for seconds
+                    PFP.Lat.SecondsL = Convert.ToUInt16(((int)IncomingDataBuffer[7] & 0x03) << 10 + (int)IncomingDataBuffer[8]);//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[9] == 0x45)
                     {
                         PFP.Lat.North = true;
@@ -1368,8 +1374,8 @@ namespace CommProtocolLib
                     PFP.Long = new Longitude();
                     PFP.Long.Degrees = (byte)IncomingDataBuffer[10];
                     PFP.Long.Minutes = (byte)IncomingDataBuffer[11];
-                    PFP.Long.SecondsH = (byte)(IncomingDataBuffer[12] & 0x00FC);//upper 6 bits for seconds
-                    PFP.Long.SecondsL = Convert.ToUInt16((IncomingDataBuffer[12] & 0x03) << 10 + IncomingDataBuffer[13]);//10 bit decimal portion of seconds
+                    PFP.Long.SecondsH = (byte)((int)IncomingDataBuffer[12] & 0x00FC);//upper 6 bits for seconds
+                    PFP.Long.SecondsL = Convert.ToUInt16(((int)IncomingDataBuffer[12] & 0x03) << 10 + (int)IncomingDataBuffer[13]);//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[14] == 0x4E)
                     {
                         PFP.Long.East = true;
@@ -1384,10 +1390,10 @@ namespace CommProtocolLib
                         ClearBuffer();
                         return;
                     }
-                    PFP.GPSAltitude = (ushort)((IncomingDataBuffer[15]<<8) + IncomingDataBuffer[16]);
-                    PFP.SonarAltitude = (ushort)((IncomingDataBuffer[17] << 8) + IncomingDataBuffer[18]);
-                    PFP.BatteryVoltage = (ushort)((IncomingDataBuffer[19] << 8) + IncomingDataBuffer[20]);
-                    PFP.BatteryTemp = (ushort)((IncomingDataBuffer[21] << 8) + IncomingDataBuffer[22]);
+                    PFP.GPSAltitude = (ushort)(((int)IncomingDataBuffer[15]<<8) + (int)IncomingDataBuffer[16]);
+                    PFP.SonarAltitude = (ushort)(((int)IncomingDataBuffer[17] << 8) + (int)IncomingDataBuffer[18]);
+                    PFP.BatteryVoltage = (ushort)(((int)IncomingDataBuffer[19] << 8) + (int)IncomingDataBuffer[20]);
+                    PFP.BatteryTemp = (ushort)(((int)IncomingDataBuffer[21] << 8) + (int)IncomingDataBuffer[22]);
                     PFP.SensorStatus = (byte)IncomingDataBuffer[23];
                     //invoke the event
                     OnPreFlightPacketRecieved(new PreFlightPacketRecievedEventArgs(PFP));
@@ -1421,22 +1427,22 @@ namespace CommProtocolLib
            8 0xCC
            9 0x33 //footer
            */
-            if (IncomingDataBuffer.Length == 9 && IncomingDataBuffer[7] == 0xCC && IncomingDataBuffer[8] == 0x33)
+            if (IncomingDataBuffer.Length == 9 && (int)IncomingDataBuffer[7] == 0xCC && (int)IncomingDataBuffer[8] == 0x33)
             {               
                 //calculate checksum
                 UInt16 sum = 0;
                 for (int i = 3; i < 10; i++)
                 {
-                    sum += IncomingDataBuffer[i];
+                    sum += (ushort)IncomingDataBuffer[i];
                 }
                 byte chk1 = (byte)((sum & 0xFF00) >> 8);
                 byte chk2 = (byte)(sum & 0x00FF);
-                if (chk1 != IncomingDataBuffer[10] || chk2 != IncomingDataBuffer[11])
+                if (chk1 != (int)IncomingDataBuffer[10] || chk2 != (int)IncomingDataBuffer[11])
                 {
                     OnBadPacketReceived(
                        new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid attitude packet: invalid checksum: recieved {0:X4}, expected {0:X4}",
-                       (Convert.ToUInt16(IncomingDataBuffer[10]) << 8) + IncomingDataBuffer[11], sum))
+                       string.Format("Invalid attitude packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[10]) << 8) + (int)IncomingDataBuffer[11], sum))
                        );
                     ClearBuffer();
                 }
@@ -1508,11 +1514,12 @@ namespace CommProtocolLib
         {
             if (ExpectedResponse.ResponseExpected)
             {
+                ResponseTimer.Stop();
                 //this means a response has timed out
                 //invoke the timeout event
                 OnResponseTimeout(new ResponseTimeoutEventArgs(ExpectedResponse.Name));
                 ClearBuffer();
-                ResponseTimer.Stop();
+
             }
         }
         private void ClearBuffer()
