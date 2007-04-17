@@ -1474,16 +1474,16 @@ namespace CommProtocolLib
         /// </summary>
         /// <param name="OutgoingPacket">The Packet sent by the base station</param>
         /// <returns>the expected response by the helicopter</returns>
-        private byte[] BuildExpectedResponse(byte[] OutgoingPacket)
+        private string BuildExpectedResponse(byte[] OutgoingPacket)
         {
-            byte[] ExpectedResponse = new byte[OutGoingPacket.Length + 1];
-            ExpectedResponse[0] = 0xA5;//packet header high
-            ExpectedResponse[1] = 0x5A;//packet header low
-            ExpectedResponse[2] = OutGoingPacket[2];//length byte
-            ExpectedResponse[3] = 0x06;//ack
+            string ExpectedResponse = "";
+            ExpectedResponse += 0xA5;//packet header high
+            ExpectedResponse += 0x5A;//packet header low
+            ExpectedResponse += OutGoingPacket[2];//length byte
+            ExpectedResponse += 0x06;//ack
             for (int j = 4; j < OutGoingPacket.Length - 1; j++)
             {
-                ExpectedResponse[j] = OutGoingPacket[j - 1];//copy the sent packet to match with the recieved packet
+                ExpectedResponse += OutGoingPacket[j - 1];//copy the sent packet to match with the recieved packet
             }
             return ExpectedResponse;
         }
@@ -1491,7 +1491,8 @@ namespace CommProtocolLib
         {
             if (type == ExpectedResponses.type.FullPacketResponse)
             {
-                ExpectedResponse.ExpectedPacket = Convert.ToString(BuildExpectedResponse(OutGoingPacket));
+
+                ExpectedResponse.ExpectedPacket = BuildExpectedResponse(OutGoingPacket);
                 ExpectedResponse.ResponseExpected = true;
                 ExpectedResponse.Name = Name;
                 ExpectedResponse.ResponseType = type;
