@@ -327,7 +327,7 @@ namespace CommProtocolLib
                 OutGoingPacket[3] = 0x43;//communications command type
                 OutGoingPacket[4] = 0x48;//handshake
                 OutGoingPacket[5] = 0x00;//checksum high
-                OutGoingPacket[6] = 0x8B;//checksum low
+                OutGoingPacket[6] = 0x8D;//checksum low
                 OutGoingPacket[7] = 0xCC;
                 OutGoingPacket[8] = 0x33;//footer
                 SendPacket("CommsHandShakeInitiate", ExpectedResponses.type.DataResponse);
@@ -347,7 +347,7 @@ namespace CommProtocolLib
                 OutGoingPacket[3] = 0x43;//communications command type
                 OutGoingPacket[4] = 0x54;//terminate handshake
                 OutGoingPacket[5] = 0x00;//checksum high
-                OutGoingPacket[6] = 0x97;//checksum low
+                OutGoingPacket[6] = 0x99;//checksum low
                 OutGoingPacket[7] = 0xCC;
                 OutGoingPacket[8] = 0x33;//footer
                 SendPacket("CommsHandShakeTerminate", ExpectedResponses.type.none);//helicopter is not required to respond to this packet
@@ -375,9 +375,9 @@ namespace CommProtocolLib
                     //value from 0x00 to 0x64 representing the desired percentage of engine speed.
                     OutGoingPacket[5] = RPM;
                     //Calculate checksum high byte
-                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0xFF00) >> 8);
+                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + RPM) & 0xFF00) >> 8);
                     //Calculate checksum low byte
-                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);
+                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + RPM) & 0x00FF);
                     OutGoingPacket[8] = 0xCC;//End of transmission 1
                     OutGoingPacket[9] = 0x33;//End of transmission 2
                     SendPacket("SetMotorRPM",ExpectedResponses.type.FullPacketResponse);
@@ -409,9 +409,9 @@ namespace CommProtocolLib
                     //value from 0x00 to 0x64 representing the desired percentage of cyclic pitch.
                     OutGoingPacket[5] = CyclicPitch;
                     //Calculate checksum high byte
-                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0xFF00) >> 8);
+                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + CyclicPitch) & 0xFF00) >> 8);
                     //Calculate checksum low byte
-                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);
+                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + CyclicPitch) & 0x00FF);
                     OutGoingPacket[8] = 0xCC;//End of transmission 1
                     OutGoingPacket[9] = 0x33;//End of transmission 2
                     SendPacket("SetCyclicPitch", ExpectedResponses.type.FullPacketResponse);
@@ -442,9 +442,9 @@ namespace CommProtocolLib
                     //value from 0x00 to 0x64 representing the desired percentage of cyclic roll.
                     OutGoingPacket[5] = CyclicRoll;
                     //Calculate checksum high byte
-                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0xFF00) >> 8);
+                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + CyclicRoll) & 0xFF00) >> 8);
                     //Calculate checksum low byte
-                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);
+                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + CyclicRoll) & 0x00FF);
                     OutGoingPacket[8] = 0xCC;//End of transmission 1
                     OutGoingPacket[9] = 0x33;//End of transmission 2
                     SendPacket("SetCyclicRoll", ExpectedResponses.type.FullPacketResponse);
@@ -475,9 +475,9 @@ namespace CommProtocolLib
                     //value from 0x00 to 0x64 representing the desired percentage of collective.
                     OutGoingPacket[5] = Collective;
                     //Calculate checksum high byte
-                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0xFF00) >> 8);
+                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + Collective) & 0xFF00) >> 8);
                     //Calculate checksum low byte
-                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);
+                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + Collective) & 0x00FF);
                     OutGoingPacket[8] = 0xCC;//End of transmission 1
                     OutGoingPacket[9] = 0x33;//End of transmission 2
                     SendPacket("SetCollective", ExpectedResponses.type.FullPacketResponse);
@@ -508,9 +508,9 @@ namespace CommProtocolLib
                     //value from 0x00 to 0x64 representing the desired percentage of collective.
                     OutGoingPacket[5] = AntiTorque;
                     //Calculate checksum high byte
-                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0xFF00) >> 8);
+                    OutGoingPacket[6] = Convert.ToByte(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + AntiTorque) & 0xFF00) >> 8);
                     //Calculate checksum low byte
-                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);
+                    OutGoingPacket[7] = Convert.ToByte((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + AntiTorque) & 0x00FF);
                     OutGoingPacket[8] = 0xCC;//End of transmission 1
                     OutGoingPacket[9] = 0x33;//End of transmission 2
                     SendPacket("SetAntiTorque", ExpectedResponses.type.FullPacketResponse);
@@ -550,6 +550,7 @@ namespace CommProtocolLib
                     OutGoingPacket[9] = AntiTorqueServo;
                     OutGoingPacket[10] = 
                         (byte)(((
+                        OutGoingPacket[2] +
                         OutGoingPacket[3] +
                         OutGoingPacket[4] +
                         OutGoingPacket[5] +
@@ -560,6 +561,7 @@ namespace CommProtocolLib
                         ) & 0xFF00) >> 8);//checksum high
                     OutGoingPacket[11] = 
                         (byte)((
+                        OutGoingPacket[2] +
                         OutGoingPacket[3] +
                         OutGoingPacket[4] +
                         OutGoingPacket[5] +
@@ -589,8 +591,8 @@ namespace CommProtocolLib
         {
             if (ExpectedResponse.ResponseExpected == false)
             {
-                //packet formation: header(0xA55A, numbytes(0x02), command(0x4645), checksum(0x004B), footer(0xCC33)
-                OutGoingPacket = new byte[]{ 0xA5, 0x5A, 0x02, 0x46, 0x45, 0x00, 0x4B, 0xCC, 0x33 };
+                //packet formation: header(0xA55A, numbytes(0x02), command(0x4645), checksum(0x008D), footer(0xCC33)
+                OutGoingPacket = new byte[]{ 0xA5, 0x5A, 0x02, 0x46, 0x45, 0x00, 0x8D, 0xCC, 0x33 };
                 SendPacket("EngageEngine", ExpectedResponses.type.FullPacketResponse);
             }
         }
@@ -618,8 +620,8 @@ namespace CommProtocolLib
                     OutGoingPacket[3] = 0x46;//Command type “Flight Ops”
                     OutGoingPacket[4] = 0x48;//Command “Hover”
                     OutGoingPacket[5] = mode;//Parameter set: 0x50 = Use preset altitude, 0x43 = hover at current altitude, 0x4D = use following altitude 
-                    OutGoingPacket[6] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) >> 8);//checksum high
-                    OutGoingPacket[7] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4]) & 0x00FF);//checksum low
+                    OutGoingPacket[6] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + mode) >> 8);//checksum high
+                    OutGoingPacket[7] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + mode) & 0x00FF);//checksum low
                     OutGoingPacket[8] = 0xCC;
                     OutGoingPacket[9] = 0x33;//Footer
                     SendPacket("Hover", ExpectedResponses.type.FullPacketResponse);
@@ -636,8 +638,8 @@ namespace CommProtocolLib
                     OutGoingPacket[5] = mode;//Parameter set: 0x50 = Use preset altitude, 0x43 = hover at current altitude, 0x4D = use following altitude 
                     OutGoingPacket[6] = (byte)((Altitude & 0xFF00) >> 8);
                     OutGoingPacket[7] = (byte)(Altitude & 0x00FF);
-                    OutGoingPacket[8] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5] + OutGoingPacket[6]) >> 8);//checksum high
-                    OutGoingPacket[9] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5] + OutGoingPacket[6]) & 0x00FF);//checksum low
+                    OutGoingPacket[8] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5] + OutGoingPacket[6] + OutGoingPacket[7]) >> 8);//checksum high
+                    OutGoingPacket[9] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5] + OutGoingPacket[6] + OutGoingPacket[7]) & 0x00FF);//checksum low
                     OutGoingPacket[10] = 0xCC;
                     OutGoingPacket[11] = 0x33;//Footer
                     SendPacket("Hover", ExpectedResponses.type.FullPacketResponse);                 
@@ -737,7 +739,7 @@ namespace CommProtocolLib
                 OutGoingPacket[17] = (byte)(Altitude & 0x00FF);//altitude low byte
                 //calculate checksum
                 short checksum = 0;
-                for (int i = 3; i < 18; i++)//calculate checksum
+                for (int i = 2; i < 18; i++)//calculate checksum
                 {
                     checksum += OutGoingPacket[i];
                 }
@@ -758,7 +760,7 @@ namespace CommProtocolLib
             if (ExpectedResponse.ResponseExpected == false)
             {
                 //header(0xA55A), number bytes(0x02),command(0x4652),checksum(0x0098),footer(0xCC33)
-                OutGoingPacket = new byte[] { 0xA5, 0x5A, 0x02, 0x46, 0x52, 0x00, 0x98, 0xCC, 0x33 };
+                OutGoingPacket = new byte[] { 0xA5, 0x5A, 0x02, 0x46, 0x52, 0x00, 0x9A, 0xCC, 0x33 };
                 SendPacket("ReturnToBase", ExpectedResponses.type.FullPacketResponse);
             }
         }
@@ -770,7 +772,7 @@ namespace CommProtocolLib
             if (ExpectedResponse.ResponseExpected == false)
             {
                 //header(0xA55A), number bytes(0x02),command(0x4650),checksum(0x0096),footer(0xCC33)
-                OutGoingPacket = new byte[] { 0xA5, 0x5A, 0x02, 0x46, 0x50, 0x00, 0x96, 0xCC, 0x33 };
+                OutGoingPacket = new byte[] { 0xA5, 0x5A, 0x02, 0x46, 0x50, 0x00, 0x98, 0xCC, 0x33 };
                 SendPacket("RequestPreFlightPacket", ExpectedResponses.type.DataResponse);
             }
         }
@@ -792,8 +794,8 @@ namespace CommProtocolLib
                     OutGoingPacket[3] = 0x46;
                     OutGoingPacket[4] = 0x50;
                     OutGoingPacket[5] = Direction;
-                    OutGoingPacket[6] = (byte)(((OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0xFF00) >> 8);
-                    OutGoingPacket[7] = (byte)((OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0x00FF);
+                    OutGoingPacket[6] = (byte)(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0xFF00) >> 8);
+                    OutGoingPacket[7] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0x00FF);
                     OutGoingPacket[8] = 0xCC;
                     OutGoingPacket[9] = 0x33;
                     SendPacket("DiscreetMovementControl", ExpectedResponses.type.FullPacketResponse);
@@ -822,8 +824,8 @@ namespace CommProtocolLib
                     OutGoingPacket[3] = 0x46;//flight ops command
                     OutGoingPacket[4] = 0x49;//ROI
                     OutGoingPacket[5] = info;
-                    OutGoingPacket[6] = (byte)(((OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0xFF00) >> 8);//checksum high
-                    OutGoingPacket[7] = (byte)((OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0x00FF);//checksum low
+                    OutGoingPacket[6] = (byte)(((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0xFF00) >> 8);//checksum high
+                    OutGoingPacket[7] = (byte)((OutGoingPacket[2] + OutGoingPacket[3] + OutGoingPacket[4] + OutGoingPacket[5]) & 0x00FF);//checksum low
                     OutGoingPacket[8] = 0xCC;
                     OutGoingPacket[9] = 0x33;
                     SendPacket("RequestForInformation", ExpectedResponses.type.DataResponse);
@@ -1519,7 +1521,7 @@ namespace CommProtocolLib
                 //invoke the timeout event
                 OnResponseTimeout(new ResponseTimeoutEventArgs(ExpectedResponse.Name));
                 ClearBuffer();
-
+                
             }
         }
         private void ClearBuffer()
