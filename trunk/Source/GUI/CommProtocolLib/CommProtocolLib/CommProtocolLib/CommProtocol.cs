@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO.Ports;
 using System.Timers;
-using System.Threading;
+
+
 
 namespace CommProtocolLib
 {
@@ -1528,7 +1529,8 @@ namespace CommProtocolLib
                 ResponseTimer.Stop();
                 //this means a response has timed out
                 //invoke the timeout event
-                OnResponseTimeout(new ResponseTimeoutEventArgs(ExpectedResponse.Name));
+                
+                OnResponseTimeout(new ResponseTimeoutEventArgs(ExpectedResponse,IncomingDataBuffer));
                 ClearBuffer();
                 
             }
@@ -1677,10 +1679,12 @@ namespace CommProtocolLib
             /// <summary>
             /// Name of the function that inititated the transaction, and for which the response was expected.
             /// </summary>
-            public string Name;
-            public ResponseTimeoutEventArgs(string Name)
+            public ExpectedResponses ExpectedResponse;
+            public string BufferContents;
+            public ResponseTimeoutEventArgs(ExpectedResponses ExpectedResponse, string BufferContents)
             {
-                this.Name = Name;
+                this.BufferContents = BufferContents;
+                this.ExpectedResponse =  ExpectedResponse;
             }
         }
  
