@@ -98,12 +98,12 @@ int main ( void )
 	GP_errorEOT = 0;
 	GP_hs = 0;
 	
-	//TRISBbits.TRISB0 = 0;
 	TRISD = 0;
 	LATDbits.LATD0 = 1;
 	LATDbits.LATD1 = 1;
 	LATDbits.LATD2 = 1;
 	LATDbits.LATD3 = 1;
+	
 	while(1)
 	{
 		GP_state_machine();
@@ -172,7 +172,7 @@ void GP_state_machine ( void )
 
 	if (GP_bytercvd)
 	{
-		LATDbits.LATD0 ^= 1;
+		
 		GP_bytercvd = 0;
 	
 		switch (state)
@@ -620,4 +620,5 @@ void __attribute__(( interrupt, no_auto_psv )) _U1RXInterrupt(void)
 	GP_bytercvd = 1;		// indicate a byte was received
 	GP_dump = U1RXREG;		// read the byte from the receive register
 	IEC0bits.U1RXIE = 1;	// re-enable the receive interrupt
+	LATDbits.LATD0 ^= 1;
 }
