@@ -860,6 +860,7 @@ namespace CommProtocolLib
                 if (IncomingDataBuffer == ExpectedResponse.ExpectedPacket)
                 {
                     OnExpectedResponseRecieved(new ExpectedResponseRecievedEventArgs(ExpectedResponse.Name,IncomingDataBuffer));
+                    ClearBuffer();
                     //the response is successfully recieved
                 }
                 if (IncomingDataBuffer.Length >= ExpectedResponse.ExpectedPacket.Length)
