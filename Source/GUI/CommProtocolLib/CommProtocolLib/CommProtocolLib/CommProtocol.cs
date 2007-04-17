@@ -1479,7 +1479,7 @@ namespace CommProtocolLib
             char[] ExpectedResponse = new char[OutGoingPacket.Length + 1];
             ExpectedResponse[0] = (char)0xA5;//packet header high
             ExpectedResponse[1] = (char)0x5A;//packet header low
-            ExpectedResponse[2] = (char)OutGoingPacket[2];//length byte
+            ExpectedResponse[2] = (char)(OutGoingPacket[2] + 1);//length byte
             ExpectedResponse[3] = (char)0x06;//ack
             for (int j = 4; j < OutGoingPacket.Length - 1; j++)
             {
