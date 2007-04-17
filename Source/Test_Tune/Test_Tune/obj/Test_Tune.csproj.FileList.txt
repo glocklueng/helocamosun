@@ -8,3 +8,4 @@ bin\Debug\CommProtocolLib.dll
 bin\Debug\CommProtocolLib.pdb
 obj\Debug\Test_Tune.exe
 obj\Debug\Test_Tune.pdb
+bin\Debug\CommProtocolLib.xml

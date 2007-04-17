@@ -39,18 +39,18 @@ namespace Test_Tune
             txtFBTemp.Text = "UNK";
             txtFBVoltage.Text = "UNK";
 
-            SP.ResponseTimeout += new CommProtocol.ResponseTimeoutEventHandler(SP_ResponseTimeout);
+           
         }
 
         void SP_ResponseTimeout(object sender, CommProtocol.ResponseTimeoutEventArgs e)
         {
             //throw new Exception("The method or operation is not implemented.");
             //MessageBox.Show("This is buggered: " + e.Name);
-            if (e.Name == "SetCyclicRoll")
+            /*if (e.Name == "SetCyclicRoll")
             {
                 MessageBox.Show("This is buggered: " + e.Name);
-            }
-              
+            }*/
+            MessageBox.Show("This is buggered: " + e.Name);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -63,7 +63,7 @@ namespace Test_Tune
             txtPitchVal.Text = Convert.ToString(pitchServo.Value);
             if (ckbTXPackets.Checked)
             {
-                SP.SetCyclicPitch((ushort)pitchServo.Value);
+                SP.SetCyclicPitch((byte)pitchServo.Value);
                
             }
         }
@@ -73,7 +73,7 @@ namespace Test_Tune
             txtRollVal.Text = Convert.ToString(rollServo.Value);
             if (ckbTXPackets.Checked)
             {
-                SP.SetCyclicRoll((ushort)rollServo.Value);
+                SP.SetCyclicRoll((byte)rollServo.Value);
             }
         }
 
@@ -82,8 +82,8 @@ namespace Test_Tune
             txtYawVal.Text = Convert.ToString(yawServo.Value);
             if (ckbTXPackets.Checked)
             {
-                SP.SetYaw((ushort)yawServo.Value);
-               
+              
+                SP.SetAntiTorque((byte)yawServo.Value);
             }
         }
 
@@ -92,7 +92,7 @@ namespace Test_Tune
             txtColVal.Text = Convert.ToString(colServo.Value);
             if (ckbTXPackets.Checked)
             {
-                SP.SetCollective((ushort)colServo.Value);
+                SP.SetCollective((byte)colServo.Value);
 
             }
         }
@@ -102,7 +102,7 @@ namespace Test_Tune
             txtEngineSpeed.Text = Convert.ToString(engineSpeed.Value);
             if (ckbTXPackets.Checked)
             {
-                SP.SetMotorRPM((ushort)engineSpeed.Value);
+                SP.SetMotorRPM((byte)engineSpeed.Value);
 
             }
         }
@@ -115,7 +115,9 @@ namespace Test_Tune
 
         private void bnOpen_Click(object sender, EventArgs e)
         {
-            SP = new CommProtocol(Settings.PortName, Settings.BaudRate);
+            //SP = new CommProtocol(Settings.PortName, Settings.BaudRate);
+            SP = new CommProtocol(Settings.PortName, Settings.BaudRate, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One, 10000);
+            SP.ResponseTimeout += new CommProtocol.ResponseTimeoutEventHandler(SP_ResponseTimeout);
             //SP = new CommProtocol("COM6", 9600);
         }
 
