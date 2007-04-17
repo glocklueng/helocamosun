@@ -859,6 +859,7 @@ namespace CommProtocolLib
                 //a full packet response is requested
                 if (IncomingDataBuffer == ExpectedResponse.ExpectedPacket)
                 {
+                    OnExpectedResponseRecieved(new ExpectedResponseRecievedEventArgs(ExpectedResponse.Name,IncomingDataBuffer));
                     //the response is successfully recieved
                 }
                 if (IncomingDataBuffer.Length >= ExpectedResponse.ExpectedPacket.Length)
@@ -1741,6 +1742,33 @@ namespace CommProtocolLib
             }
         }
 
+        #endregion
+
+        #region Expected response recieved
+        public delegate void ExpectedResponseRecievedEventHandler(object sender, ExpectedResponseRecievedEventArgs e);
+        public event ExpectedResponseRecievedEventHandler ExpectedResponseRecieved;
+        protected virtual void OnExpectedResponseRecieved(ExpectedResponseRecievedEventArgs e)
+        {
+            if (ExpectedResponseRecieved != null)
+            {
+                ExpectedResponseRecieved(this, e);
+            }
+
+        }
+
+        public class ExpectedResponseRecievedEventArgs : EventArgs
+        {
+            public string RecievedPacket;
+            public string Name;
+
+            public ExpectedResponseRecievedEventArgs(string Name, string RecievedPacket)
+            {
+                this.RecievedPacket = RecievedPacket;
+                this.Name = Name;
+            }
+
+
+        }
         #endregion
         #endregion
     }
