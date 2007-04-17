@@ -1476,16 +1476,17 @@ namespace CommProtocolLib
         /// <returns>the expected response by the helicopter</returns>
         private string BuildExpectedResponse(byte[] OutgoingPacket)
         {
-            string ExpectedResponse = "";
-            ExpectedResponse += 0xA5;//packet header high
-            ExpectedResponse += 0x5A;//packet header low
-            ExpectedResponse += OutGoingPacket[2];//length byte
-            ExpectedResponse += 0x06;//ack
+            char[] ExpectedResponse = new char[OutGoingPacket.Length + 1];
+            ExpectedResponse[0] = (char)0xA5;//packet header high
+            ExpectedResponse[1] = (char)0x5A;//packet header low
+            ExpectedResponse[2] = (char)OutGoingPacket[2];//length byte
+            ExpectedResponse[3] = (char)0x06;//ack
             for (int j = 4; j < OutGoingPacket.Length - 1; j++)
             {
-                ExpectedResponse += OutGoingPacket[j - 1];//copy the sent packet to match with the recieved packet
+                ExpectedResponse[j] = (char)OutGoingPacket[j - 1];//copy the sent packet to match with the recieved packet
             }
-            return ExpectedResponse;
+            string ExpectedResponseStr = new string(ExpectedResponse);
+            return ExpectedResponseStr;
         }
         private void SendPacket(string Name, ExpectedResponses.type type)
         {
