@@ -13,7 +13,7 @@
 void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
 // The UART1 RX ISR. Fires when a character is received on UART1
 
-void GP_init_UART( unsigned short );
+void GP_init_UART( unsigned int );
 // GP_init_UART initializes UART1 to 8 data bits, no parity, 1 stop bit
 // at the baud rate passed to 'baud'
 
@@ -126,7 +126,7 @@ int main ( void )
 }
 //***************************************************************************
 
-void GP_init_UART( unsigned short baud )
+void GP_init_UART( unsigned int baud )
 // GP_init_UART initializes UART1 to 8 data bits, no parity, 1 stop bit
 // at the baud rate passed to 'baud'
 {
@@ -137,6 +137,7 @@ void GP_init_UART( unsigned short baud )
 
 	U1BRG = ( FCY / (16 * baud) ) - 1; // calculate the BRG value for a
 									   // given baud rate
+	//U1BRG = 1;
 	U1MODEbits.UARTEN = 1;		// enable the UART
 }
 
@@ -153,10 +154,12 @@ void GP_TX_char ( char ch )
 void GP_TX_packet ( char packet[MAXPACKLEN], unsigned short len )
 {
 	unsigned short lcv;
+	IEC0bits.U1RXIE = 0;
 	for (lcv = 0; lcv < len; lcv++)
 	{
 		GP_TX_char ( packet[lcv] );
 	}
+	IEC0bits.U1RXIE = 1;
 }
 
 void GP_state_machine ( void )
