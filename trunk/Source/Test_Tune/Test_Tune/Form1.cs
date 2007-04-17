@@ -38,6 +38,19 @@ namespace Test_Tune
             txtFBCurrent.Text = "UNK";
             txtFBTemp.Text = "UNK";
             txtFBVoltage.Text = "UNK";
+
+            SP.ResponseTimeout += new CommProtocol.ResponseTimeoutEventHandler(SP_ResponseTimeout);
+        }
+
+        void SP_ResponseTimeout(object sender, CommProtocol.ResponseTimeoutEventArgs e)
+        {
+            //throw new Exception("The method or operation is not implemented.");
+            //MessageBox.Show("This is buggered: " + e.Name);
+            if (e.Name == "SetCyclicRoll")
+            {
+                MessageBox.Show("This is buggered: " + e.Name);
+            }
+              
         }
 
         private void Form1_Load(object sender, EventArgs e)
