@@ -6,151 +6,68 @@
 !_TAG_PROGRAM_VERSION	5.5.4	//
 !_TAG_REVISION_NAME	MCHPTags	//
 !_TAG_REVISION_VERSION	6.0.1	//
-BLINK_OFF::0x0e	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	79;"	d	line:79
-BLINK_ON::0x0f	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	78;"	d	line:78
-BusyXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	138;"	p	line:138	signature:(void)
-BusyXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\BusyXLCD.c	15;"	f	line:15	signature:(void)
-CLEAR_XLCD::0x01	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	82;"	d	line:82
-COM16_COM1::0x3f	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	116;"	d	line:116
-COM1_COM16::0x3e	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	114;"	d	line:114
-CURSOR_OFF::0x0d	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	77;"	d	line:77
-CURSOR_ON::0x0f	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	76;"	d	line:76
-DATA_PIN_0::LATDbits.LATD0	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	38;"	d	line:38
-DATA_PIN_1::LATDbits.LATD1	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	37;"	d	line:37
-DATA_PIN_2::LATDbits.LATD2	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	36;"	d	line:36
-DATA_PIN_3::LATDbits.LATD3	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	35;"	d	line:35
-DATA_PIN_4::LATDbits.LATD4	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	27;"	d	line:27
-DATA_PIN_5::LATDbits.LATD5	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	26;"	d	line:26
-DATA_PIN_6::LATDbits.LATD6	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	25;"	d	line:25
-DATA_PIN_7::LATDbits.LATD7	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	24;"	d	line:24
-DECR_MODE::0x05	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	88;"	d	line:88
-DOFF::0x0b	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	75;"	d	line:75
-DON::0x0F	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	74;"	d	line:74
-Delay200usXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c	59;"	f	line:59	signature:(void)
-Delay600nsXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	173;"	p	line:173	signature:()
-Delay600nsXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c	48;"	f	line:48	signature:(void)
-DelayEPulseWidth	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	170;"	p	line:170	signature:()
-DelayEPulseWidth	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c	21;"	f	line:21	signature:(void)
-DelayPORXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	171;"	p	line:171	signature:()
-DelayPORXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c	31;"	f	line:31	signature:(void)
-DelayXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	172;"	p	line:172	signature:()
-DelayXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c	41;"	f	line:41	signature:(void)
-EIGHT_BIT::0x3f	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	100;"	d	line:100
-EIGHT_BIT_INTERFACE	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	20;"	d	line:20
-ENTIRE_SHIFT_OFF::0x06	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	89;"	d	line:89
-ENTIRE_SHIFT_ON::0x07	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	90;"	d	line:90
-E_PIN::LATDbits.LATD8	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	63;"	d	line:63
-FCY::1842500	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	13;"	d	line:13	file:
-FOUR_BIT::0x2f	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	99;"	d	line:99
-INCR_MODE::0x07	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	87;"	d	line:87
-Leonard1	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\WriteDataXLCD.c	18;"	v	line:18
-MAXPACKLEN::256	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	14;"	d	line:14	file:
-OpenXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	123;"	p	line:123	signature:(char)
-OpenXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\OpenXLCD.c	15;"	f	line:15	signature:(char lcdType)
-PutsXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\PutsXLCD.c	15;"	f	line:15	signature:(char *buffer)
-READ_PIN_0::PORTDbits.RD0	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	43;"	d	line:43
-READ_PIN_1::PORTDbits.RD1	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	42;"	d	line:42
-READ_PIN_2::PORTDbits.RD2	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	41;"	d	line:41
-READ_PIN_3::PORTDbits.RD3	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	40;"	d	line:40
-READ_PIN_4::PORTDbits.RD4	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	32;"	d	line:32
-READ_PIN_5::PORTDbits.RD5	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	31;"	d	line:31
-READ_PIN_6::PORTDbits.RD6	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	30;"	d	line:30
-READ_PIN_7::PORTDbits.RD7	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	29;"	d	line:29
-RETURN_CURSOR_HOME::0x02	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	83;"	d	line:83
-RS_PIN::LATDbits.LATD10	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	65;"	d	line:65
-RW_PIN::LATDbits.LATD9	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	64;"	d	line:64
-ReadAddrXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	143;"	p	line:143	signature:(void)
-ReadAddrXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\ReadAddrXLCD.c	16;"	f	line:16	signature:(void)
-ReadDataXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	148;"	p	line:148	signature:(void)
-ReadDataXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\ReadDataXLCD.c	19;"	f	line:19	signature:(void)
-SEG100_51_SEG1_50::0x3f	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	110;"	d	line:110
-SEG100_51_SEG50_1::0x3b	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	109;"	d	line:109
-SEG1_50_SEG100_51::0x3d	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	108;"	d	line:108
-SEG1_50_SEG51_100::0x39	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	107;"	d	line:107
-SHIFT_CUR_LEFT::0x13	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	93;"	d	line:93
-SHIFT_CUR_RIGHT::0x17	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	94;"	d	line:94
-SHIFT_DISP_LEFT::0x1b	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	95;"	d	line:95
-SHIFT_DISP_RIGHT::0x1f	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	96;"	d	line:96
-SINGLE_LINE::0x37	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	103;"	d	line:103
-SetCGRamAddr	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	128;"	p	line:128	signature:(char)
-SetCGRamAddr	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\setCGRamAddr.c	16;"	f	line:16	signature:( char address)
-SetDDRamAddr	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	133;"	p	line:133	signature:(char)
-SetDDRamAddr	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\setDDRamAddr.c	17;"	f	line:17	signature:( char address)
-TRIS_DATA_PIN_0::TRISDbits.TRISD0	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	57;"	d	line:57
-TRIS_DATA_PIN_1::TRISDbits.TRISD1	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	56;"	d	line:56
-TRIS_DATA_PIN_2::TRISDbits.TRISD2	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	55;"	d	line:55
-TRIS_DATA_PIN_3::TRISDbits.TRISD3	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	54;"	d	line:54
-TRIS_DATA_PIN_4::TRISDbits.TRISD4	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	51;"	d	line:51
-TRIS_DATA_PIN_5::TRISDbits.TRISD5	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	50;"	d	line:50
-TRIS_DATA_PIN_6::TRISDbits.TRISD6	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	49;"	d	line:49
-TRIS_DATA_PIN_7::TRISDbits.TRISD7	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	48;"	d	line:48
-TRIS_E::TRISDbits.TRISD8	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	67;"	d	line:67
-TRIS_RS::TRISDbits.TRISD10	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	69;"	d	line:69
-TRIS_RW::TRISDbits.TRISD9	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	68;"	d	line:68
-TWO_LINE::0x3F	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	104;"	d	line:104
-TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	131;"	f	line:131	signature:( char ch )
-TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	22;"	p	line:22	file:	signature:( char )
-TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	140;"	f	line:140	signature:( char packet[256], unsigned short len )
-TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	25;"	p	line:25	file:	signature:( char *packet, unsigned short len )
-WriteCmdXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	153;"	p	line:153	signature:(char)
-WriteCmdXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\WriteCmdXLCD.c	16;"	f	line:16	signature:(char cmd)
-WriteDataXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	158;"	p	line:158	signature:(char)
-WriteDataXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\WriteDataXLCD.c	19;"	f	line:19	signature:( char data)
-_U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	16;"	p	line:16	file:	signature:(void)
-_U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	389;"	f	line:389	signature:(void)
-_XLCD_H	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	17;"	d	line:17
-address	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\ReadAddrXLCD.c	18;"	l	line:18
-bytercvd	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	37;"	v	line:37
-check	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	159;"	l	line:159	file:
-checksum	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	158;"	l	line:158	file:
-chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	154;"	l	line:154	file:
-coll	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	44;"	v	line:44
-coll_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	317;"	l	line:317
-data	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\ReadDataXLCD.c	21;"	l	line:21
-data	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	39;"	v	line:39
-datavalid	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	38;"	v	line:38
-debug_dv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	54;"	v	line:54
-dump	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	47;"	v	line:47
-engRPM	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	40;"	v	line:40
-engRPM_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	313;"	l	line:313
-err_EOT	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	52;"	v	line:52
-err_SOT	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	51;"	v	line:51
-err_chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	50;"	v	line:50
-errorEOT	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	46;"	v	line:46
-errorSOT	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	45;"	v	line:45
-getcXLCD::ReadDataXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	166;"	d	line:166
-i	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\ReadAddrXLCD.c	19;"	l	line:19
-i	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\ReadDataXLCD.c	22;"	l	line:22
-i	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c	26;"	l	line:26
-i	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c	36;"	l	line:36
-i	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c	43;"	l	line:43
-i	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c	52;"	l	line:52
-i	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c	61;"	l	line:61
-init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	117;"	f	line:117	signature:( unsigned short baud )
-init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	18;"	p	line:18	file:	signature:( unsigned short )
-itoa	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	34;"	p	line:34	file:	signature:(char *buffer, int i)
-lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	142;"	l	line:142
-lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	160;"	l	line:160
-main	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	60;"	f	line:60	signature:( void )
-msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	311;"	l	line:311
-packet	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	157;"	l	line:157	file:
-packet_cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	156;"	l	line:156	file:
-packet_length	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	155;"	l	line:155	file:
-packet_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	312;"	l	line:312
-parse_data	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	309;"	f	line:309	signature:( char vdata[MAXPACKLEN] )
-parse_data	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	31;"	p	line:31	file:	signature:( char vdata[MAXPACKLEN] )
-pitch	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	41;"	v	line:41
-pitch_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	314;"	l	line:314
-putcXLCD::WriteDataXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	167;"	d	line:167
-putrsXLCD::putsXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	165;"	d	line:165
-putsXLCD	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h	163;"	p	line:163	signature:(char *)
-roll	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	42;"	v	line:42
-roll_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	316;"	l	line:316
-state	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	153;"	l	line:153	file:
-state_machine	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	151;"	f	line:151	signature:( void )
-state_machine	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	28;"	p	line:28	file:	signature:( void )
-temp	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\ReadAddrXLCD.c	19;"	l	line:19
-temp	C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\ReadDataXLCD.c	22;"	l	line:22
-val	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	318;"	l	line:318
-yaw	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	43;"	v	line:43
-yaw_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	315;"	l	line:315
+ACK	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	32;"	p	line:32	file:	signature:( char vdata[MAXPACKLEN], char len )
+ACK	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	474;"	f	line:474	signature:( char vdata[MAXPACKLEN], char len )
+FCY::1842500	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	10;"	d	line:10	file:
+MAXPACKLEN::256	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	11;"	d	line:11	file:
+TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	141;"	f	line:141	signature:( char ch )
+TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	20;"	p	line:20	file:	signature:( char )
+TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	151;"	f	line:151	signature:( char packet[MAXPACKLEN], unsigned short len )
+TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	23;"	p	line:23	file:	signature:( char *packet, unsigned short len )
+_U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	13;"	p	line:13	file:	signature:(void)
+_U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	498;"	f	line:498	signature:(void)
+ack	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	476;"	l	line:476
+bytercvd	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	40;"	v	line:40
+check	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	168;"	l	line:168	file:
+checksum	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	167;"	l	line:167	file:
+chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	163;"	l	line:163	file:
+chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	478;"	l	line:478
+coll	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	48;"	v	line:48
+coll_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	329;"	l	line:329
+collsp	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	53;"	v	line:53
+data	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	42;"	v	line:42
+data_len	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	43;"	v	line:43
+datavalid	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	41;"	v	line:41
+debug_dv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	63;"	v	line:63
+dump	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	56;"	v	line:56
+engRPM	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	44;"	v	line:44
+engRPM_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	325;"	l	line:325
+engRPMsp	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	49;"	v	line:49
+err_EOT	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	61;"	v	line:61
+err_SOT	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	60;"	v	line:60
+err_chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	59;"	v	line:59
+errorEOT	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	55;"	v	line:55
+errorSOT	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	54;"	v	line:54
+handshake	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	64;"	v	line:64
+hover_alt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	332;"	l	line:332
+hs	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	57;"	v	line:57
+i2c_setup	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	38;"	p	line:38	file:	signature:( void )
+i2c_setup	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	508;"	f	line:508	signature:( void )
+init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	127;"	f	line:127	signature:( unsigned short baud )
+init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	16;"	p	line:16	file:	signature:( unsigned short )
+it_works	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	62;"	v	line:62
+itoa	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	35;"	p	line:35	file:	signature:(char *buffer, int i)
+lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	153;"	l	line:153
+lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	169;"	l	line:169
+lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	477;"	l	line:477
+main	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	69;"	f	line:69	signature:( void )
+msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	323;"	l	line:323
+packet	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	166;"	l	line:166	file:
+packet_cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	165;"	l	line:165	file:
+packet_length	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	164;"	l	line:164	file:
+packet_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	324;"	l	line:324
+parse_data	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	29;"	p	line:29	file:	signature:( char vdata[MAXPACKLEN], char len )
+parse_data	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	321;"	f	line:321	signature:( char vdata[MAXPACKLEN], char len )
+pitch	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	45;"	v	line:45
+pitch_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	326;"	l	line:326
+pitchsp	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	50;"	v	line:50
+roll	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	46;"	v	line:46
+roll_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	328;"	l	line:328
+rollsp	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	51;"	v	line:51
+state	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	162;"	l	line:162	file:
+state_machine	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	160;"	f	line:160	signature:( void )
+state_machine	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	26;"	p	line:26	file:	signature:( void )
+val	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	333;"	l	line:333
+yaw	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	47;"	v	line:47
+yaw_msg	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	327;"	l	line:327
+yawsp	D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c	52;"	v	line:52

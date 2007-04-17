@@ -1,12 +1,1 @@
 D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\BusyXLCD.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\delay.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\OpenXLCD.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\PutsXLCD.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\ReadAddrXLCD.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\ReadDataXLCD.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\setCGRamAddr.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\setDDRamAddr.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\WriteCmdXLCD.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\src\pmc\xlcd\WriteDataXLCD.c
-C:\Program Files\Microchip\MPLAB C30\src\peripheral_30F_24H_33F\include\xlcd.h
