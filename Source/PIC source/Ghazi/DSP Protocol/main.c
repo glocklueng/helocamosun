@@ -13,74 +13,90 @@
 void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
 // The UART1 RX ISR. Fires when a character is received on UART1
 
-void init_UART( unsigned short );
-// init_UART initializes UART1 to 8 data bits, no parity, 1 stop bit
+void GP_init_UART( unsigned short );
+// GP_init_UART initializes UART1 to 8 data bits, no parity, 1 stop bit
 // at the baud rate passed to 'baud'
 
-void TX_char ( char );
+void GP_TX_char ( char );
 // transmit 1 byte on the open UART port 
 
-void TX_packet ( char *packet, unsigned short len );
+void GP_TX_packet ( char *packet, unsigned short len );
 // transmit a packet of length 'len'
 
-void state_machine ( void );
+void GP_state_machine ( void );
 // advances the state machine through a received packet
 
-void parse_data ( char vdata[MAXPACKLEN], char len );
+void GP_parse_data ( char vdata[MAXPACKLEN], char len );
 // parses the data portion of a valid packet
 
-void ACK( char vdata[MAXPACKLEN], char len );
+void GP_ACK( char vdata[MAXPACKLEN], char len );
 // builds an acknowledgement packet based on the contents of data
 
-char *itoa(char *buffer, int i);
+char *GP_itoa(char *buffer, int i);
 // converts an integer into a string
 
-void i2c_setup( void );
+typedef struct
+{
+	char deg;
+	char min;
+	short sec;
+	char hemi;
+} GPT_latlong;
+
+typedef struct
+{
+     GPT_latlong latitude;
+     GPT_latlong longitude;
+     char action;
+     short data;	// either an altitude to hover at, or a search pattern to conduct
+} GPT_goto_position;
+
+
 //-------------------------- Global Variables -------------------------------
-unsigned char bytercvd = 0;  	// 0 = no byte in buffer, 1 = byte in buffer
-unsigned char datavalid = 0;	// 0 = no valid data ready, 1 = valid data ready
-char data[MAXPACKLEN] = "";
-char data_len = 0;
-unsigned char engRPM = 0;
-unsigned char pitch = 0;
-unsigned char roll = 0;
-unsigned char yaw = 0;
-unsigned char coll = 0;
-unsigned char engRPMsp[3] = "";
-unsigned char pitchsp[3] = "";
-unsigned char rollsp[3] = "";
-unsigned char yawsp[3] = "";
-unsigned char collsp[3] = "";
-char errorSOT;
-char errorEOT;
-unsigned char dump;
-unsigned char hs = 0;
+unsigned char GP_bytercvd = 0;  	// 0 = no byte in buffer, 1 = byte in buffer
+unsigned char GP_datavalid = 0;	// 0 = no valid data ready, 1 = valid data ready
+char GP_data[MAXPACKLEN] = "";
+char GP_data_len = 0;
+unsigned char GP_engRPM = 0;
+unsigned char GP_pitch = 0;
+unsigned char GP_roll = 0;
+unsigned char GP_yaw = 0;
+unsigned char GP_coll = 0;
+unsigned char GP_engRPMsp[3] = "";	// Set Points. 0 = Zero, 1 = 50%, 2 = 100%
+unsigned char GP_pitchsp[3] = "";
+unsigned char GP_rollsp[3] = "";
+unsigned char GP_yawsp[3] = "";
+unsigned char GP_collsp[3] = "";
+char GP_errorSOT;
+char GP_errorEOT;
+unsigned char GP_dump;
+unsigned char GP_hs = 0;
+GPT_goto_position GP_goto;
+
 //--------------------------- Messages --------------------------------
-char err_chksum[] = "Error: Checksum incorrect\n";
-char err_SOT[] = "Error: SOT Invalid\n";
-char err_EOT[] = "Error: EOR Invalid\n";
-char it_works[] = "It works!";
-char debug_dv[] = "Data is Valid\n";
-char handshake[] = { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 } ;
+char GP_err_chksum[] = "Error: Checksum incorrect\n";
+char GP_err_SOT[] = "Error: SOT Invalid\n";
+char GP_err_EOT[] = "Error: EOR Invalid\n";
+char GP_it_works[] = "It works!";
+char GP_debug_dv[] = "Data is Valid\n";
+char GP_handshake[] = { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 } ;
 
 //---------------------------------------------------------------------------
 
 //*******************************   MAIN   **********************************
 int main ( void )
 {
-
-
 	IEC0bits.U1RXIE = 1;
-	init_UART( 19200 );
+	GP_init_UART( 19200 );
 	TRISB = 0;
-	pitch = 0;
-	roll = 0;
-	yaw = 0;
-	coll = 0;
-	engRPM = 0;
-	errorSOT = 0;
-	errorEOT = 0;
-	hs = 0;
+	GP_pitch = 0;
+	GP_roll = 0;
+	GP_yaw = 0;
+	GP_coll = 0;
+	GP_engRPM = 0;
+	GP_errorSOT = 0;
+	GP_errorEOT = 0;
+	GP_hs = 0;
 	
 	//TRISBbits.TRISB0 = 0;
 	TRISD = 0;
@@ -90,42 +106,28 @@ int main ( void )
 	LATDbits.LATD3 = 1;
 	while(1)
 	{
-		//LATBbits.LATB0 ^= 1;
-		
-		state_machine();
-		if (datavalid)
+		GP_state_machine();
+		if (GP_datavalid)
 		{
-			datavalid = 0;
-			parse_data(data, data_len);
-			
+			GP_datavalid = 0;
+			GP_parse_data(GP_data, GP_data_len);
 		}
 		else
 		{
-			if (hs)
+			if (GP_hs)
 			{
 				// have to use time slicing, and only send this at intervals
-				TX_packet(handshake, 9);	
+				GP_TX_packet(GP_handshake, 9);	
 			}
 		}
 	
 	}
-
-	//OpenXLCD( EIGHT_BIT );
-		
-	//OpenXLCD();
-	//OpenXLCD( FOUR_BIT & TWO_LINE & INCR_MODE );
-	//putcXLCD(0x42);
-	/*while(1)
-	{
-		TX_packet( err_EOT, strlen(err_EOT) );
-	}*/
-	
 	return 0;
 }
 //***************************************************************************
 
-void init_UART( unsigned short baud )
-// init_UART initializes UART1 to 8 data bits, no parity, 1 stop bit
+void GP_init_UART( unsigned short baud )
+// GP_init_UART initializes UART1 to 8 data bits, no parity, 1 stop bit
 // at the baud rate passed to 'baud'
 {
 	U1MODEbits.ALTIO = 0;		// use U1TX and U1RX as tx/rx pins
@@ -138,7 +140,7 @@ void init_UART( unsigned short baud )
 	U1MODEbits.UARTEN = 1;		// enable the UART
 }
 
-void TX_char ( char ch )
+void GP_TX_char ( char ch )
 // transmit 1 byte on the open UART port 
 {
 	
@@ -148,16 +150,16 @@ void TX_char ( char ch )
 	U1TXREG = ch;				// load the transmit shift register
 }
 
-void TX_packet ( char packet[MAXPACKLEN], unsigned short len )
+void GP_TX_packet ( char packet[MAXPACKLEN], unsigned short len )
 {
 	unsigned short lcv;
 	for (lcv = 0; lcv < len; lcv++)
 	{
-		TX_char ( packet[lcv] );
+		GP_TX_char ( packet[lcv] );
 	}
 }
 
-void state_machine ( void )
+void GP_state_machine ( void )
 {
 	static unsigned short state = 0;
 	static unsigned short chksum = 0;
@@ -168,35 +170,35 @@ void state_machine ( void )
 	static unsigned short check = 0;
 	short lcv; 
 
-	if (bytercvd)
+	if (GP_bytercvd)
 	{
 		LATDbits.LATD0 ^= 1;
-		bytercvd = 0;
+		GP_bytercvd = 0;
 	
 		switch (state)
 		{
 		
 			case 0:
 			{
-				if (dump == 0xA5)
+				if (GP_dump == 0xA5)
 				{
 					chksum = 0;
 					state++;
 					LATDbits.LATD1 ^= 1;
-					//TX_packet(err_SOT, strlen(err_SOT));
+					//GP_TX_packet(GP_err_SOT, strlen(GP_err_SOT));
 				}
 			
 				else
 				{
-					errorSOT = 1;
-					//TX_packet(err_SOT, strlen(err_SOT));
+					GP_errorSOT = 1;
+					//GP_TX_packet(GP_err_SOT, strlen(GP_err_SOT));
 				}
 				break;
 			}
 
 			case 1:
 			{
-				if (dump == 0x5A)
+				if (GP_dump == 0x5A)
 				{
 					state++;
 					//LATDbits.LATD1 ^= 1;
@@ -204,7 +206,7 @@ void state_machine ( void )
 
 				else 
 				{
-					errorSOT = 1;
+					GP_errorSOT = 1;
 					state = 0;
 				}
 				break;
@@ -212,8 +214,8 @@ void state_machine ( void )
 			
 			case 2:
 			{
-				chksum += dump;
-				packet_length = dump;
+				chksum += GP_dump;
+				packet_length = GP_dump;
 				state++;
 				break;
 			}
@@ -222,8 +224,8 @@ void state_machine ( void )
 			{				
 				if (packet_cnt < packet_length)
 				{
-					chksum += dump;
-					packet[packet_cnt] = dump;
+					chksum += GP_dump;
+					packet[packet_cnt] = GP_dump;
 					packet_cnt++;
 					if (packet_cnt == packet_length)
 					{
@@ -239,14 +241,14 @@ void state_machine ( void )
 
 			case 4:
 			{
-				checksum[0] = dump;
+				checksum[0] = GP_dump;
 				
 				state++;
 				break;
 			}
 			case 5:
 			{
-				checksum[1] = dump;
+				checksum[1] = GP_dump;
 				check = checksum[0] * 256 + checksum[1];
 				LATDbits.LATD2 ^= 1;
 				
@@ -256,7 +258,7 @@ void state_machine ( void )
 
 			case 6:
 			{
-				if (dump == 0xCC) 
+				if (GP_dump == 0xCC) 
 				{
 					state++;
 					packet_cnt--;
@@ -269,7 +271,7 @@ void state_machine ( void )
 					chksum = 0;
 					packet_length = 0;
 					packet_cnt = 0;
-					//TX_packet( err_EOT, strlen(err_EOT) );
+					//GP_TX_packet( GP_err_EOT, strlen(GP_err_EOT) );
 				}
 				break;
 			}
@@ -278,20 +280,20 @@ void state_machine ( void )
 
 			case 7:
 			{
-				if (dump == 0x33) 
+				if (GP_dump == 0x33) 
 				{
 					if (check == chksum)
 					{	
-						strcpy(data, packet);
-						datavalid = 1;
+						strcpy(GP_data, packet);
+						GP_datavalid = 1;
 						LATDbits.LATD3 ^= 1;
-						data_len = packet_length;
-						//TX_packet( it_works, strlen(it_works) );
+						GP_data_len = packet_length;
+						//GP_TX_packet( GP_it_works, strlen(GP_it_works) );
 					}
 					else
 					{
 						// The calculated checksum did not match the transmitted one:
-						TX_packet(err_chksum, strlen(err_chksum));
+						GP_TX_packet(GP_err_chksum, strlen(GP_err_chksum));
 					
 					}
 					state = 0;
@@ -305,7 +307,7 @@ void state_machine ( void )
 	
 				else
 				{
-					//TX_packet( err_EOT, strlen(err_EOT) );
+					//GP_TX_packet( GP_err_EOT, strlen(GP_err_EOT) );
 				}
 			
 				break;
@@ -318,7 +320,7 @@ void state_machine ( void )
 	}	
 }
 
-void parse_data ( char vdata[MAXPACKLEN], char len )
+void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 {
 	char msg[MAXPACKLEN] = "";
 	char packet_msg[] = "Packet Received: ";
@@ -341,69 +343,69 @@ void parse_data ( char vdata[MAXPACKLEN], char len )
 			{
 				case 0x45:		// Engine RPM
 				{
-					engRPM = vdata[2];
-					ACK(vdata, len);
+					GP_engRPM = vdata[2];
+					GP_ACK(vdata, len);
 					break;
 				}
 				
 				case 0x50:		// Pitch
 				{
-					pitch = vdata[2];
-					ACK(vdata, len);
+					GP_pitch = vdata[2];
+					GP_ACK(vdata, len);
 					break;
 				}
 			
 				case 0x52:		// Roll
 				{
-					roll = vdata[2];
-					ACK(vdata, len);
+					GP_roll = vdata[2];
+					GP_ACK(vdata, len);
 					break;
 				}
 
 				case 0x51:		// Yaw
 				{
-					yaw = vdata[2];
-					ACK(vdata, len);
+					GP_yaw = vdata[2];
+					GP_ACK(vdata, len);
 					break;
 				}	
 
 				case 0x43:		// Collective
 				{
-					coll = vdata[2];
-					ACK(vdata, len);
+					GP_coll = vdata[2];
+					GP_ACK(vdata, len);
 					break;
 				}
 				
 				case 0x5A:		// Set Zero Points
 				{
-					engRPMsp[0] = vdata[2];
-					pitchsp[0] = vdata[3];
-					rollsp[0] = vdata[4];
-					collsp[0] = vdata[5];
-					yawsp[0] = vdata[6];
-					ACK(vdata, len);
+					GP_engRPMsp[0] = vdata[2];
+					GP_pitchsp[0] = vdata[3];
+					GP_rollsp[0] = vdata[4];
+					GP_collsp[0] = vdata[5];
+					GP_yawsp[0] = vdata[6];
+					GP_ACK(vdata, len);
 					break;	
 				}
 				
 				case 0x46:		// Set 50% Points
 				{
-					engRPMsp[1] = vdata[2];
-					pitchsp[1] = vdata[3];
-					rollsp[1] = vdata[4];
-					collsp[1] = vdata[5];
-					yawsp[1] = vdata[6];
-					ACK(vdata, len);
+					GP_engRPMsp[1] = vdata[2];
+					GP_pitchsp[1] = vdata[3];
+					GP_rollsp[1] = vdata[4];
+					GP_collsp[1] = vdata[5];
+					GP_yawsp[1] = vdata[6];
+					GP_ACK(vdata, len);
 					break;	
 				}
 				
 				case 0x4D:		// Set MAX Points
 				{
-					engRPMsp[2] = vdata[2];
-					pitchsp[2] = vdata[3];
-					rollsp[2] = vdata[4];
-					collsp[2] = vdata[5];
-					yawsp[2] = vdata[6];
-					ACK(vdata, len);
+					GP_engRPMsp[2] = vdata[2];
+					GP_pitchsp[2] = vdata[3];
+					GP_rollsp[2] = vdata[4];
+					GP_collsp[2] = vdata[5];
+					GP_yawsp[2] = vdata[6];
+					GP_ACK(vdata, len);
 					break;	
 				}
 			}
@@ -415,7 +417,7 @@ void parse_data ( char vdata[MAXPACKLEN], char len )
 			{
 				case 0x45:	// Engage Engine
 				{
-					ACK(vdata, len);
+					GP_ACK(vdata, len);
 					break;
 				}	
 				
@@ -425,26 +427,142 @@ void parse_data ( char vdata[MAXPACKLEN], char len )
 					{
 						case 0x50:	// Use preset altitude
 						{
-							ACK(vdata, len);
+							GP_ACK(vdata, len);
 							break;
 						}
 						
 						case 0x43: // hover at current altitude
 						{
-							ACK(vdata, len);
+							GP_ACK(vdata, len);
 							break;	
 						}
 						
 						case 0x4D: // hover at following altitude
 						{
 							hover_alt = vdata[3] * 256 + vdata[4];
-							ACK(vdata, len);
+							GP_ACK(vdata, len);
 							break;
 						}
 					}
 					break;	
 				}
+				
+				case 0x47:	// GOTO
+				{
+					GP_goto.latitude.deg = vdata[2];
+					GP_goto.latitude.min = vdata[3];
+					GP_goto.latitude.sec = vdata[4] * 256 + vdata[5];
+					GP_goto.latitude.hemi = vdata[6];
+					
+					GP_goto.longitude.deg = vdata[7];
+					GP_goto.longitude.min = vdata[8];
+					GP_goto.longitude.sec = vdata[9] * 256 + vdata[10];
+					GP_goto.longitude.hemi = vdata[11];	
+					
+					GP_goto.action = vdata[12];
+					
+					switch(vdata[12])	
+					{
+						case 0x48:		// Hover at altitude	
+						{
+							GP_goto.data = vdata[13] * 256 + vdata[14];
+							break;	
+						}
+						
+						case 0x53:		// conduct search pattern	
+						{
+							GP_goto.data = vdata[13];
+							break;	
+						}
+					}
+				
+					break;	
+				}
+				
+				case 0x52:	// Return to Base
+				{
+					GP_ACK(vdata, len);
+					break;	
+				}
+				
+				case 0x50:	// Return to Base
+				{
+					GP_ACK(vdata, len);
+					break;	
+				}
+				
+				case 0x4D:	// Discreet movement control
+				{
+					switch(vdata[2])
+					{
+						case 0x46:	// Forward
+						{
+							// Move forward one "unit"
+							GP_ACK(vdata, len);
+							break;
+						}
+						
+						case 0x52:	// Reverse
+						{
+							// Move backward one "unit"
+							GP_ACK(vdata, len);
+							break;
+						}
+						
+						case 0x50:	// left
+						{
+							// Move left one "unit"
+							GP_ACK(vdata, len);
+							break;
+						}
+						
+						case 0x53:	// right
+						{
+							// Move right one "unit"
+							GP_ACK(vdata, len);
+							break;
+						}
+					}
+					break;	
+				}
+				
+				case 0x49:	// Request for info
+				{
+					switch(vdata[2])
+					{
+						case 0x4C:	// location
+						{
+							// Send location packet
+							GP_ACK(vdata, len);
+							break;
+						}
+						
+						case 0x48:	// Heading/Speed/Altitude
+						{
+							// send HSA packet
+							GP_ACK(vdata, len);
+							break;
+						}
+						
+						case 0x5A:	// attitude
+						{
+							// send attitude packet
+							GP_ACK(vdata, len);
+							break;
+						}
+						
+						case 0x42:	// battery status
+						{
+							// send battery status packet
+							GP_ACK(vdata, len);
+							break;
+						}
+					}
+					break;	
+				}
+				
 			}
+			
 			break;	
 		}
 		
@@ -454,14 +572,14 @@ void parse_data ( char vdata[MAXPACKLEN], char len )
 			{
 				case 0x48:
 				{
-					TX_packet(handshake, 2);
-					hs = 1;	
+					GP_TX_packet(GP_handshake, 2);
+					GP_hs = 1;	
 					break;
 				}	
 				
 				case 0x54:
 				{
-					hs = 0;	
+					GP_hs = 0;	
 				}
 			}
 			break;	
@@ -471,7 +589,7 @@ void parse_data ( char vdata[MAXPACKLEN], char len )
 		
 }
 
-void ACK( char vdata[MAXPACKLEN], char len )
+void GP_ACK( char vdata[MAXPACKLEN], char len )
 {
 	char ack[MAXPACKLEN] = "";
 	unsigned char lcv = 0;
@@ -492,20 +610,14 @@ void ACK( char vdata[MAXPACKLEN], char len )
 	ack[lcv + 2] = 0xCC;
 	ack[lcv + 3] = 0x33;
 	
-	TX_packet(ack, len + 8);
+	GP_TX_packet(ack, len + 8);
 }
 
 void __attribute__(( interrupt, no_auto_psv )) _U1RXInterrupt(void)
 {
 	IEC0bits.U1RXIE = 0;	// disable the receive interrupt
 	IFS0bits.U1RXIF = 0;	// clear the receive interrupt flag
-	bytercvd = 1;			// indicate a byte was received
-	dump = U1RXREG;			// read the byte from the receive register
+	GP_bytercvd = 1;		// indicate a byte was received
+	GP_dump = U1RXREG;		// read the byte from the receive register
 	IEC0bits.U1RXIE = 1;	// re-enable the receive interrupt
-	
-}
-
-void i2c_setup( void )
-{
-	OpenI2C(1,1);
 }
