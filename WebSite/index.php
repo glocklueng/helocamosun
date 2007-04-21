@@ -2,7 +2,7 @@
 <head>
 <title>index.gif</title>
 <meta http-equiv="Content-Type" content="text/html;">
-<!--Fireworks MX 2004 Dreamweaver MX 2004 target.  Created Fri Apr 20 09:07:53 GMT-0700 (Pacific Daylight Time) 2007-->
+<!--Fireworks MX 2004 Dreamweaver MX 2004 target.  Created Sat Apr 21 13:47:30 GMT-0700 (Pacific Daylight Time) 2007-->
 </head>
 <body bgcolor="#ffffff">
 <table border="0" cellpadding="0" cellspacing="0" width="900">
@@ -77,7 +77,7 @@
 <area shape="rect" coords="-121,96,15,128" href="about.html" target="content" title="About the Project" alt="About the Project" >
 <area shape="rect" coords="-123,273,15,305" href="http://code.google.com/p/helocamosun/" target="_blank" title="Google Code Repository" alt="Google Code Repository" >
 <area shape="rect" coords="-123,183,15,214" href="specs.html" target="content" title="Helicopter Specs" alt="Helicopter Specs" >
-<area shape="rect" coords="-122,140,15,170" href="http://airwulf.blogspot.com" target="content" title="Designers' Blog" alt="Designers' Blog" >
+<area shape="rect" coords="-122,140,15,170" href="http://airwulf.blogspot.com" target="_blank" title="Designers' Blog" alt="Designers' Blog" >
 </map>
 <map name="m_index_r5_c2">
 <area shape="rect" coords="1,210,138,242" href="photos.html" target="content" title="Photos" alt="Photos" >
@@ -85,7 +85,7 @@
 <area shape="rect" coords="1,79,137,111" href="about.html" target="content" title="About the Project" alt="About the Project" >
 <area shape="rect" coords="-1,256,137,288" href="http://code.google.com/p/helocamosun/" target="_blank" title="Google Code Repository" alt="Google Code Repository" >
 <area shape="rect" coords="-1,166,137,197" href="specs.html" target="content" title="Helicopter Specs" alt="Helicopter Specs" >
-<area shape="rect" coords="0,123,137,153" href="http://airwulf.blogspot.com" target="content" title="Designers' Blog" alt="Designers' Blog" >
+<area shape="rect" coords="0,123,137,153" href="http://airwulf.blogspot.com" target="_blank" title="Designers' Blog" alt="Designers' Blog" >
 </map>
 <map name="m_index_r5_c3">
 <area shape="rect" coords="-95,210,42,242" href="photos.html" target="content" title="Photos" alt="Photos" >
@@ -93,7 +93,7 @@
 <area shape="rect" coords="-95,79,41,111" href="about.html" target="content" title="About the Project" alt="About the Project" >
 <area shape="rect" coords="-97,256,41,288" href="http://code.google.com/p/helocamosun/" target="_blank" title="Google Code Repository" alt="Google Code Repository" >
 <area shape="rect" coords="-97,166,41,197" href="specs.html" target="content" title="Helicopter Specs" alt="Helicopter Specs" >
-<area shape="rect" coords="-96,123,41,153" href="http://airwulf.blogspot.com" target="content" title="Designers' Blog" alt="Designers' Blog" >
+<area shape="rect" coords="-96,123,41,153" href="http://airwulf.blogspot.com" target="_blank" title="Designers' Blog" alt="Designers' Blog" >
 </map>
 <map name="m_index_r7_c6">
 <area shape="rect" coords="443,30,516,51" href="bios/wong.html" target="content" title="Kyle Wong's Bio" alt="Kyle Wong's Bio" >
