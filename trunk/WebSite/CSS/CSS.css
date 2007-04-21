@@ -1,48 +1,5 @@
 /* CSS Document */
 body 
 {
-  	margin: 0px;
-  	padding: 10px;
-  	background: #555555;
-}
 
-#header 
-{
-  	background: #BBBBBB;
-  	width: 100%;
-	border-bottom: black thin solid;
-	border-right: black thin solid;
-	border-top: black thin solid;
-	border-left: black thin solid;
-	margin-bottom: 5px;
-}
-
-#leftcol 
-{
-  	background: #BBBBBB;
-  	float: left;
-  	width: 10%;
-  	border-right: black thin solid;
-	border-top: black thin solid;
-	border-left: black thin solid;
-	border-bottom: black thin solid;
-	margin-right: 5px;
-}
-
-#content 
-{
-  	background: #BBBBBB;
-  	float: right;
-  	width: 89%;
-  	border-right: black thin solid;
-	border-top: black thin solid;
-	border-left: black thin solid;
-	border-bottom: black thin solid; 
-}
-
-#footer 
-{
-  	background: #BBBBBB;
-  	clear: both;
-  	width: 100%;
 }
