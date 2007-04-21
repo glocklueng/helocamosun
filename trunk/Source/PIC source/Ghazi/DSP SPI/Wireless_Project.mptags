@@ -1,0 +1,29 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.5.4	//
+!_TAG_REVISION_NAME	MCHPTags	//
+!_TAG_REVISION_VERSION	6.0.1	//
+Delay	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\delay.h	5;"	p	line:5	signature:( unsigned int delay_count )
+Delay200uS_count::(Fcy*0.0002)/1080	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\delay.h	8;"	d	line:8
+Delay_15mS_Cnt::(Fcy*0.015)/2950	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\delay.h	12;"	d	line:12
+Delay_1S_Cnt::(Fcy*1)/2950	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\delay.h	13;"	d	line:13
+Delay_1mS_Cnt::(Fcy*0.001)/2950	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\delay.h	9;"	d	line:9
+Delay_2mS_Cnt::(Fcy*0.002)/2950	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\delay.h	10;"	d	line:10
+Delay_5mS_Cnt::(Fcy*0.005)/2950	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\delay.h	11;"	d	line:11
+Delay_Us	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\delay.h	6;"	p	line:6	signature:( unsigned int delayUs_count )
+FCY::1842500	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	10;"	d	line:10	file:
+Fcy::1842500	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\delay.h	3;"	d	line:3
+MAXPACKLEN::256	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	11;"	d	line:11	file:
+SPI_init	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	21;"	p	line:21	file:	signature:( void )
+SPI_init	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	51;"	f	line:51
+SPI_tx	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	22;"	p	line:22	file:	signature:( unsigned char )
+SPI_tx	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	65;"	f	line:65	signature:( unsigned char ch)
+_T1Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	18;"	p	line:18	file:	signature:(void)
+_T1Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	77;"	f	line:77	signature:(void)
+_U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	15;"	p	line:15	file:	signature:(void)
+_U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	72;"	f	line:72	signature:(void)
+i	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	29;"	l	line:29
+main	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	27;"	f	line:27	signature:( void )
