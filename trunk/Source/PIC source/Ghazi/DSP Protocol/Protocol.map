@@ -116,7 +116,7 @@ External Symbols in Program Memory (by address):
                   0x0001b0                  ___divsi3
                   0x0001ce                  ___udivsi3
                   0x0001ee                  _main
-                  0x00024c                  _GP_init_UART
+                  0x00024a                  _GP_init_UART
                   0x00027c                  _GP_TX_char
                   0x000292                  _GP_TX_packet
                   0x0002b8                  _GP_state_machine
@@ -130,7 +130,7 @@ External Symbols in Program Memory (by name):
                   0x00091a                  _GP_ACK
                   0x00027c                  _GP_TX_char
                   0x000292                  _GP_TX_packet
-                  0x00024c                  _GP_init_UART
+                  0x00024a                  _GP_init_UART
                   0x0004b4                  _GP_parse_data
                   0x0002b8                  _GP_state_machine
                   0x000d24                  __DefaultInterrupt
@@ -220,7 +220,7 @@ LOAD c:/program files/microchip/mplab c30/lib\libc-coff.a
  *(.text)
  .text            0x0001ee        0x81e D:\Helicopter\Source\PIC source\Ghazi\DSP Protocol\main.o
                   0x0001ee                  main
-                  0x00024c                  GP_init_UART
+                  0x00024a                  GP_init_UART
                   0x00027c                  GP_TX_char
                   0x000292                  GP_TX_packet
                   0x0002b8                  GP_state_machine
