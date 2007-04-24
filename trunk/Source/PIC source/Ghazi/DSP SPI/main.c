@@ -1,24 +1,16 @@
 #include <p30fxxxx.h>
 #include <string.h>
 
+#define FCY			1842500 // Instruction cycle freq = xtal / 4
+
+
 #include "LCD Display.h"	// can be removed in release version
 #include "../Libraries/RFprotocol.h"
+#include "../Libraries/SPI.h"
 
-#define FCY			1842500 // Instruction cycle freq = xtal / 4
-#define MAXPACKLEN 	256		// maximum packet length
+
 //#define baud		19200
 
-void SPI_init ( void );
-// Initialize the SPI module
-
-void SPI_tx_ch ( char );
-// transmit 1 byte on the SPI bus
-
-void SPI_tx_s ( char[MAXPACKLEN], char len );
-//transmit a string of character on the SPI bus, expect no response
-
-void SPI_tx_req ( char[MAXPACKLEN], char data[MAXPACKLEN] );
-//transmit a request for info on the SPI bus, record the response in "data"
 
 void GP_init_UART( unsigned int baud );
 
@@ -26,34 +18,6 @@ void GP_TX_char ( char ch );
 
 void GP_TX_packet ( char packet[MAXPACKLEN], unsigned short len );
 
-char GSPI_packet[MAXPACKLEN] = ""; 
-char GSPI_test[] = "Test Packet";
-
-char GSPI_AccReq[] = { 'A', 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00 };
-char GSPI_AccData[6] = "";
-
-char GSPI_2GyroReq[] = { 'G', 0x01, 0x01, 0x01, 0x01, 0x00 };
-char GSPI_2GyroData[4] = "";
-	
-char GSPI_YawGyroData[2] = "";
-
-char GSPI_CompReq[] = { 'C', 0x01, 0x01, 0x00 };
-char GSPI_CompData[2] = "";
-
-char GSPI_AcousticReq[] = { 'O', 0x01, 0x01, 0x00 };
-char GSPI_AcousticData[2] = "";
-
-char GSPI_VoltReq[] = { 'V', 0x01, 0x01, 0x01, 0x01, 0x00 };
-char GSPI_VoltData[4] = "";
-
-char GSPI_TempReq[] = { 'T', 0x01, 0x01, 0x00 };
-char GSPI_TempData[2] = "";
-
-char GSPI_RpmReq[] = { 'R', 0x01, 0x01, 0x00 };
-char GSPI_RpmData[2] = "";
-
-char GSPI_StatusReq[] = { 'S', 0x01, 0x01, 0x00 };
-char GSPI_StatusData[2] = "";
 
 
 
@@ -73,7 +37,6 @@ int main ( void )
 	TRISFbits.TRISF7 = 1;	// SDI = RF7
 	TRISFbits.TRISF8 = 0;	// SDO = RF8
 	
-	//SPI1BUF = 0;
 	SPI_init();
 	
 	//Display_Setup();
@@ -107,7 +70,6 @@ int main ( void )
 					lcv++;
 					break;
 					
-			
 				case 1:
 					SPI_tx_req(GSPI_CompReq, GSPI_CompData); // transmit the request
 					GP_TX_packet(GSPI_CompData, strlen(GSPI_CompReq)-1);
@@ -150,8 +112,6 @@ int main ( void )
 					lcv = 0;
 					break;	
 					
-					
-						
 			}
 		
 		}
@@ -173,7 +133,6 @@ void GP_init_UART( unsigned int baud )
 
 	U1BRG = ( FCY / (16 * baud) ) - 1; // calculate the BRG value for a
 									   // given baud rate
-	//U1BRG = 1;
 	U1MODEbits.UARTEN = 1;		// enable the UART
 	IEC0bits.U1RXIE = 1;		// enable the UART RX interrupt
 }
@@ -197,71 +156,4 @@ void GP_TX_packet ( char packet[MAXPACKLEN], unsigned short len )
 		GP_TX_char ( packet[lcv] );
 	}
 	IEC0bits.U1RXIE = 1;
-}
-
-void SPI_init ()
-{
-	SPI1STATbits.SPIROV = 0;
-	
-	SPI1CONbits.MODE16 = 0;
-	SPI1CONbits.SMP = 0;
-	SPI1CONbits.CKP = 1;
-	SPI1CONbits.CKE = 0;		// might need to change this
-	SPI1CONbits.MSTEN = 1;
-	SPI1CONbits.SSEN = 0;
-	SPI1CONbits.SPRE = 0;
-	SPI1CONbits.PPRE = 0b00;
-	
-}
-
-void SPI_tx_ch ( char ch)
-{
-	char c;
-	
-	
-	SPI1STATbits.SPIEN = 1;
-	SPI1BUF = ch;
-	c = SPI1BUF;
-
-	//SPI1STATbits.SPIEN = 0;
-}
-
-void SPI_tx_s ( char packet[MAXPACKLEN], char len )
-{
-	char cnt = 0;
-	
-	for (cnt = 0; cnt < (len - 1); cnt++)
-	{
-		while (SPI1STATbits.SPITBF);
-		SPI_tx_ch( packet[cnt] );	
-	} 
-}
-
-void SPI_tx_req ( char packet[MAXPACKLEN], char data[MAXPACKLEN] )
-{
-	char cnt = 0;
-	char dummy = strlen(packet);
-	char dummy2 = strlen(data);
-	char i;
-	char rcv[7] = "";
-	
-	for (cnt = 0; cnt < strlen(packet); cnt++)
-	{
-		
-		while (SPI1STATbits.SPITBF);
-		SPI_tx_ch( packet[cnt] );	
-		
-		while (!SPI1STATbits.SPIRBF);
-	
-		if (cnt > 0)
-		{
-			data[cnt - 1] = SPI1BUF;
-		}
-		
-		
-		for (i = 0; i < 100; i++);
-		
-	} 
-	//GP_TX_packet(rcv, 7);
-	LATDbits.LATD0 ^= 1;
 }

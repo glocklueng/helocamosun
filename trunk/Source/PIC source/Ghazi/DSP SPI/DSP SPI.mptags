@@ -24,33 +24,33 @@ Display_Setup	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.c	48;"	f
 Display_Setup	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.h	41;"	p	line:41	signature:( void)
 Display_String	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.c	121;"	f	line:121	signature:( unsigned char *Data )
 Display_String	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.h	43;"	p	line:43	signature:( unsigned char * )
-FCY::1842500	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	7;"	d	line:7	file:
+FCY::1842500	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	4;"	d	line:4	file:
 Fcy::1842500	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\delay.h	3;"	d	line:3
-GP_TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	181;"	f	line:181	signature:( char ch )
-GP_TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	25;"	p	line:25	file:	signature:( char ch )
-GP_TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	191;"	f	line:191	signature:( char packet[MAXPACKLEN], unsigned short len )
-GP_TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	27;"	p	line:27	file:	signature:( char packet[MAXPACKLEN], unsigned short len )
-GP_init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	165;"	f	line:165	signature:( unsigned int baud )
-GP_init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	23;"	p	line:23	file:	signature:( unsigned int baud )
-GSPI_2GyroData	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	36;"	v	line:36
-GSPI_2GyroReq	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	35;"	v	line:35
-GSPI_AccData	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	33;"	v	line:33
-GSPI_AccReq	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	32;"	v	line:32
-GSPI_AcousticData	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	44;"	v	line:44
-GSPI_AcousticReq	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	43;"	v	line:43
-GSPI_CompData	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	41;"	v	line:41
-GSPI_CompReq	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	40;"	v	line:40
-GSPI_RpmData	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	53;"	v	line:53
-GSPI_RpmReq	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	52;"	v	line:52
-GSPI_StatusData	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	56;"	v	line:56
-GSPI_StatusReq	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	55;"	v	line:55
-GSPI_TempData	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	50;"	v	line:50
-GSPI_TempReq	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	49;"	v	line:49
-GSPI_VoltData	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	47;"	v	line:47
-GSPI_VoltReq	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	46;"	v	line:46
-GSPI_YawGyroData	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	38;"	v	line:38
-GSPI_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	29;"	v	line:29
-GSPI_test	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	30;"	v	line:30
+GP_TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	140;"	f	line:140	signature:( char ch )
+GP_TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	17;"	p	line:17	file:	signature:( char ch )
+GP_TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	150;"	f	line:150	signature:( char packet[MAXPACKLEN], unsigned short len )
+GP_TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	19;"	p	line:19	file:	signature:( char packet[MAXPACKLEN], unsigned short len )
+GP_init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	125;"	f	line:125	signature:( unsigned int baud )
+GP_init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	15;"	p	line:15	file:	signature:( unsigned int baud )
+GSPI_2GyroData	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	25;"	v	line:25
+GSPI_2GyroReq	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	24;"	v	line:24
+GSPI_AccData	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	22;"	v	line:22
+GSPI_AccReq	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	21;"	v	line:21
+GSPI_AcousticData	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	33;"	v	line:33
+GSPI_AcousticReq	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	32;"	v	line:32
+GSPI_CompData	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	30;"	v	line:30
+GSPI_CompReq	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	29;"	v	line:29
+GSPI_RpmData	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	42;"	v	line:42
+GSPI_RpmReq	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	41;"	v	line:41
+GSPI_StatusData	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	45;"	v	line:45
+GSPI_StatusReq	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	44;"	v	line:44
+GSPI_TempData	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	39;"	v	line:39
+GSPI_TempReq	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	38;"	v	line:38
+GSPI_VoltData	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	36;"	v	line:36
+GSPI_VoltReq	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	35;"	v	line:35
+GSPI_YawGyroData	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	27;"	v	line:27
+GSPI_packet	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	18;"	v	line:18
+GSPI_test	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	19;"	v	line:19
 LCD_CharPos::(col,row){Display_Byte(0xc5);D	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.h	52;"	d	line:52
 LCD_ClearEOL::{Display_Byte(0x8a);}	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.h	54;"	d	line:54
 LCD_CursorOff::{Display_Byte(0x8b);}	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.h	56;"	d	line:56
@@ -58,26 +58,28 @@ LCD_CursorOn::{Display_Byte(0x8c);}	D:\Helicopter\Source\PIC source\Ghazi\DSP SP
 LCD_Home::{Display_Byte(0x81);}	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.h	51;"	d	line:51
 LCD_HomeClear::{Display_Byte(0x82);Display_By	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.h	50;"	d	line:50
 LCD_WriteNext::(data){Display_Byte(0xa8);Disp	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.h	53;"	d	line:53
-MAXPACKLEN::256	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	8;"	d	line:8	file:
-SPI_init	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	11;"	p	line:11	file:	signature:( void )
-SPI_init	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	202;"	f	line:202
-SPI_tx_ch	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	14;"	p	line:14	file:	signature:( char )
-SPI_tx_ch	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	217;"	f	line:217	signature:( char ch)
-SPI_tx_req	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	20;"	p	line:20	file:	signature:( char[MAXPACKLEN], char data[MAXPACKLEN] )
-SPI_tx_req	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	240;"	f	line:240	signature:( char packet[MAXPACKLEN], char data[MAXPACKLEN] )
-SPI_tx_s	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	17;"	p	line:17	file:	signature:( char[MAXPACKLEN], char len )
-SPI_tx_s	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	229;"	f	line:229	signature:( char packet[MAXPACKLEN], char len )
-c	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	219;"	l	line:219
-cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	231;"	l	line:231
-cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	242;"	l	line:242
+MAXPACKLEN::256	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	5;"	d	line:5	file:
+SPI_init	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	7;"	f	line:7
+SPI_init	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	4;"	p	line:4	signature:( void )
+SPI_tx_byte	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	22;"	f	line:22	signature:( char ch)
+SPI_tx_byte	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	7;"	p	line:7	signature:( char )
+SPI_tx_command	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	34;"	f	line:34	signature:( char packet[MAXPACKLEN], char len )
+SPI_tx_command	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	10;"	p	line:10	signature:( char[MAXPACKLEN], char len )
+SPI_tx_req	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	45;"	f	line:45	signature:( char packet[MAXPACKLEN], char data[MAXPACKLEN] )
+SPI_tx_req	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	13;"	p	line:13	signature:( char[MAXPACKLEN], char data[MAXPACKLEN] )
+bite	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	53;"	l	line:53
+c	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	24;"	l	line:24
+check	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	52;"	l	line:52
+cnt	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	36;"	l	line:36
+cnt	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	47;"	l	line:47
 counter	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.c	91;"	l	line:91
 dummy	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.c	50;"	l	line:50
 dummy	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\LCD Display.c	71;"	l	line:71
-dummy	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	243;"	l	line:243
-dummy2	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	244;"	l	line:244
-i	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	245;"	l	line:245
-i	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	63;"	l	line:63
-lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	193;"	l	line:193
-lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	64;"	l	line:64
-main	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	61;"	f	line:61	signature:( void )
-rcv	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	246;"	l	line:246
+dummy	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	48;"	l	line:48
+dummy2	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	49;"	l	line:49
+i	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	27;"	l	line:27
+i	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	50;"	l	line:50
+lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	152;"	l	line:152
+lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	28;"	l	line:28
+main	D:\Helicopter\Source\PIC source\Ghazi\DSP SPI\main.c	25;"	f	line:25	signature:( void )
+rcv	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	51;"	l	line:51
