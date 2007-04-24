@@ -22,13 +22,17 @@ file_002=no
 file_003=no
 file_004=no
 file_005=no
+file_006=no
+file_007=no
 [FILE_INFO]
 file_000=main.c
 file_001=LCD Display.c
-file_002=delay.h
-file_003=LCD Display.h
-file_004=C:\Program Files\Microchip\MPLAB C30\lib\libp30F3011-coff.a
-file_005=linkerscript.gld
+file_002=D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c
+file_003=delay.h
+file_004=LCD Display.h
+file_005=D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h
+file_006=C:\Program Files\Microchip\MPLAB C30\lib\libp30F3011-coff.a
+file_007=linkerscript.gld
 [SUITE_INFO]
 suite_guid={479DDE59-4D56-455E-855E-FFF59A3DB57E}
 suite_state=
