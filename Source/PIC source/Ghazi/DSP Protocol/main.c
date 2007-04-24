@@ -1,11 +1,11 @@
 #include <p30fxxxx.h>
 #include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <xlcd.h>
-#include <delay.h>
-#include <uart.h>
-#include <i2c.h>
+//#include <stdlib.h>
+//#include <stdio.h>
+//#include <xlcd.h>
+//#include <delay.h>
+//#include <uart.h>
+//#include <i2c.h>
 
 #define FCY			1842500 // Instruction cycle freq = xtal / 4
 #define MAXPACKLEN 	256		// maximum packet length
@@ -86,7 +86,7 @@ char GP_handshake[] = { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 } ;
 //*******************************   MAIN   **********************************
 int main ( void )
 {
-	IEC0bits.U1RXIE = 1;
+	
 	GP_init_UART( 19200 );
 	TRISB = 0;
 	GP_pitch = 0;
@@ -139,6 +139,7 @@ void GP_init_UART( unsigned int baud )
 									   // given baud rate
 	//U1BRG = 1;
 	U1MODEbits.UARTEN = 1;		// enable the UART
+	IEC0bits.U1RXIE = 1;		// enable the UART RX interrupt
 }
 
 void GP_TX_char ( char ch )
