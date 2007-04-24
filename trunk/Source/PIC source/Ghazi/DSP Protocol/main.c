@@ -9,6 +9,9 @@
 void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
 // The UART1 RX ISR. Fires when a character is received on UART1
 
+void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void);
+// Hopefully the TIMER1 UART
+
 //*******************************   MAIN   **********************************
 int main ( void )
 {
