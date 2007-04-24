@@ -1,0 +1,41 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.5.4	//
+!_TAG_REVISION_NAME	MCHPTags	//
+!_TAG_REVISION_VERSION	6.0.1	//
+ACCELEROMETER_COMMAND::'A'	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	13;"	d	line:13	file:
+ACCELEROMETER_COMMAND_STATE::1	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	4;"	d	line:4	file:
+ACCOUSTIC_COMMAND::'O'	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	16;"	d	line:16	file:
+ACCOUSTIC_COMMAND_STATE::4	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	7;"	d	line:7	file:
+ByteNum	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	121;"	l	line:121	file:
+COMPASS_COMMAND::'C'	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	15;"	d	line:15	file:
+COMPASS_COMMAND_STATE::3	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	6;"	d	line:6	file:
+RPM_COMMAND::'R'	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	19;"	d	line:19	file:
+RPM_COMMAND_STATE::7	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	10;"	d	line:10	file:
+ReturnValue	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	122;"	l	line:122
+SPI_Close	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	84;"	f	line:84	signature:(void)
+SPI_Close	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.h	4;"	p	line:4	signature:(void)
+SPI_Init	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	25;"	f	line:25	signature:(void)
+SPI_Init	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.h	3;"	p	line:3	signature:(void)
+SPI_Read_Byte	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	112;"	f	line:112	signature:(void)
+SPI_Read_Byte	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.h	7;"	p	line:7	signature:(void)
+SPI_State_Machine	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	118;"	f	line:118	signature:(unsigned char Input)
+SPI_State_Machine	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.h	6;"	p	line:6	signature:(unsigned char Input)
+SPI_Write	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	93;"	f	line:93	signature:(unsigned char out)
+SPI_Write	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.h	5;"	p	line:5	signature:(unsigned char out)
+SPI_isr	E:\helo\Source\PIC source\Morken\18f4431 SPI\main.c	12;"	p	line:12	file:	signature:(void)
+STATUS_COMMAND::'S'	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	20;"	d	line:20	file:
+STATUS_COMMAND_STATE::8	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	11;"	d	line:11	file:
+TEMPERATURE_COMMAND::'T'	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	18;"	d	line:18	file:
+TEMPERATURE_COMMAND_STATE::6	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	9;"	d	line:9	file:
+TWO_AXIS_GYRO_COMMAND::'G'	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	14;"	d	line:14	file:
+TWO_AXIS_GYRO_COMMAND_STATE::2	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	5;"	d	line:5	file:
+VOLTAGES_COMMAND::'V'	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	17;"	d	line:17	file:
+VOLTAGES_COMMAND_STATE::5	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	8;"	d	line:8	file:
+WAITING_FOR_COMMAND_STATE::0	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	3;"	d	line:3	file:
+dummydata	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	23;"	v	line:23
+interrupt_at_low_vector	E:\helo\Source\PIC source\Morken\18f4431 SPI\main.c	14;"	f	line:14	signature:(void)
+state	E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c	120;"	l	line:120	file:
