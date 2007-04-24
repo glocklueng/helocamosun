@@ -1,0 +1,22 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.5.4	//
+!_TAG_REVISION_NAME	MCHPTags	//
+!_TAG_REVISION_VERSION	6.0.1	//
+GetNormalizedGyroValue	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	16;"	p	line:16	file:	signature:(char ADC_CHx)
+GetNormalizedGyroValue	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	84;"	f	line:84	signature:(char ADC_CHx)
+NormalizedGyroValueX	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	14;"	v	line:14
+NormalizedGyroValueY	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	15;"	v	line:15
+NumSamples	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	88;"	l	line:88
+NumString	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	13;"	v	line:13
+VLSB::2.44	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	10;"	d	line:10	file:
+Vn	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	20;"	l	line:20
+Vq	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	20;"	l	line:20
+adcVal	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	12;"	v	line:12
+adcVal	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	87;"	l	line:87
+main	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	17;"	f	line:17	signature:(void)
+mod	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	89;"	l	line:89
+rate	E:\helo\Source\PIC source\Morken\18f4431 Gyro AtoD\main.c	19;"	l	line:19
