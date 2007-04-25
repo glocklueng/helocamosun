@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO.Ports;
 using System.Timers;
-
+using System.Windows.Forms;
 
 
 namespace CommProtocolLib
@@ -160,6 +160,7 @@ namespace CommProtocolLib
     {
 
         #region datamembers
+        Form ParentForm;
         /// <summary>
         /// serial port encoding
         /// </summary>
@@ -169,16 +170,16 @@ namespace CommProtocolLib
         /// it is a full packet (with ACK)response or a data response.  This struct keeps track of the state.
         /// </summary>
         public ExpectedResponses ExpectedResponse = new ExpectedResponses();
-        /// <summary>
-        /// any serial port exceptions raised by this class are stored here
-        /// </summary>
-        public ArrayList ClassExceptions = new ArrayList();
         private SerialPort SP;
-        private string IncomingDataBuffer;
+        private string IncomingDataBuffer = "";
+        /// <summary>
+        /// This variable contains all incoming bytes from the serial port.
+        /// </summary>
+        public string NonVolatileIncomingDataBuffer = "";
         private byte[] OutGoingPacket;
         /// <summary>
         /// Time to wait for a response after sending a data packet.  
-        /// If the timer expires before the expected packet is recieved the OnResponseTimeout event is invoked.
+        /// If the timer expires before the expected packet is received the OnResponseTimeout event is invoked.
         /// </summary>
         private int TimeOut = 100;
         private System.Timers.Timer ResponseTimer;
@@ -189,7 +190,7 @@ namespace CommProtocolLib
         public struct ExpectedResponses
         {
             /// <summary>
-            /// If true a response is expected and no datapackets can be sent out until a response is recieved or a timeout occurs
+            /// If true a response is expected and no datapackets can be sent out until a response is received or a timeout occurs
             /// </summary>
             public bool ResponseExpected;
             /// <summary>
@@ -233,7 +234,8 @@ namespace CommProtocolLib
         /// </summary>
         /// <param name="PortName">the serial port name e.g. "COM1"</param>
         /// <param name="BaudRate">a valid serial port baud rate e.g. 9600</param>
-        public CommProtocol(string PortName, int BaudRate)
+        /// <param name="ParentForm">The the form instantiating this class</param>
+        public CommProtocol(string PortName, int BaudRate, Form ParentForm)
         {
             try
             {
@@ -246,7 +248,7 @@ namespace CommProtocolLib
             }
             catch (Exception ex)
             {
-                ClassExceptions.Add(ex);
+                MessageBox.Show("This error was raised when trying to open the serial port: "+ex.Message, "CommProtocol Error");
             }
         }
         /// <summary>
@@ -257,7 +259,8 @@ namespace CommProtocolLib
         /// <param name="parity">a valid parity</param>
         /// <param name="DataBits">the number of data bits per frame</param>
         /// <param name="stopBits">the number of stop bits per frame</param>
-        public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits )
+        /// <param name="ParentForm">The the form instantiating this class</param>
+        public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits, Form ParentForm)
         {
             try
             {
@@ -270,7 +273,7 @@ namespace CommProtocolLib
             }
             catch (Exception ex)
             {
-                ClassExceptions.Add(ex);
+                MessageBox.Show("This error was raised when trying to open the serial port: " + ex.Message, "CommProtocol Error");
             }
         }
         /// <summary>
@@ -282,8 +285,9 @@ namespace CommProtocolLib
         /// <param name="DataBits">the number of data bits per frame</param>
         /// <param name="stopBits">the number of stop bits per frame</param>
         /// <param name="Timeout">Time to wait for a response after sending a data packet.  
-        /// If the timer expires before the expected packet is recieved the OnResponseTimeout event is invoked.</param>
-        public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits, int Timeout)
+        /// If the timer expires before the expected packet is received the OnResponseTimeout event is invoked.</param>
+        /// <param name="ParentForm">The the form instantiating this class</param>
+        public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits, int Timeout, Form ParentForm)
         {
             try
             {
@@ -297,7 +301,7 @@ namespace CommProtocolLib
             }
             catch (Exception ex)
             {
-                ClassExceptions.Add(ex);
+                MessageBox.Show("This error was raised when trying to open the serial port: " + ex.Message, "CommProtocol Error");
             }
         }
         /// <summary>
@@ -842,6 +846,7 @@ namespace CommProtocolLib
         private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             IncomingDataBuffer += SP.ReadExisting();
+            NonVolatileIncomingDataBuffer += IncomingDataBuffer;
             if (ExpectedResponse.ResponseExpected == false)
             {
                 //this means the helicopter has spoken without being asked to, probably an error message
@@ -860,14 +865,19 @@ namespace CommProtocolLib
                 //a full packet response is requested
                 if (IncomingDataBuffer == ExpectedResponse.ExpectedPacket)
                 {
-                    OnExpectedResponseRecieved(new ExpectedResponseRecievedEventArgs(ExpectedResponse.Name,IncomingDataBuffer));
+                    ParentForm.Invoke(ResponseTimeout, new object[] { this, new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name, IncomingDataBuffer) });
+                  //  OnExpectedResponseReceived(new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name,IncomingDataBuffer));
                     ClearBuffer();
-                    //the response is successfully recieved
+                    //the response is successfully received
                 }
                 if (IncomingDataBuffer.Length >= ExpectedResponse.ExpectedPacket.Length)
                 {
                     //throw the event
-                    OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Recieved a bad packet response for command: " + ExpectedResponse.Name));
+                    ParentForm.Invoke(BadPacketReceived, 
+                        new object[] { this,
+                            new BadPacketReceivedEventArgs(IncomingDataBuffer, "Received a bad packet response for command: " + ExpectedResponse.Name)
+                        });
+
                     //the packet was bad dump it
                     ClearBuffer();
                 }
@@ -911,30 +921,30 @@ namespace CommProtocolLib
                         }
                         else
                         {
-                            OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown telemetry command"));
+                            ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown telemetry command") });
                             ClearBuffer();
                         }
                     }
-                    else if ((int)IncomingDataBuffer[3] == 0x43 && (int)IncomingDataBuffer[4] == 0x06)//comms handshake, ack recieved
+                    else if ((int)IncomingDataBuffer[3] == 0x43 && (int)IncomingDataBuffer[4] == 0x06)//comms handshake, ack received
                     {
                         ParseCommHandShakeAck();
                     }
                     else
                     {
-                        OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown command"));
+                        ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown command") });
                         ClearBuffer();
                     }
                 }
                 else
                 {
-                    OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header"));
+                    ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header") });
                     ClearBuffer();
                 }
             }
         }
 
        
-        #region Location Packet recieved
+        #region Location Packet received
         private void ParseLocationPacket()
         {
             /*
@@ -974,11 +984,13 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x000000FF);
                 if (chk1 != (int)IncomingDataBuffer[15] || chk2 != (int)IncomingDataBuffer[16])
                 {
-                    OnBadPacketReceived(
+                    ParentForm.Invoke(BadPacketReceived, new object[] { 
+                        this,
                         new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                        string.Format("Invalid Location packet: invalid checksum recieved: {0:x4}, expected: {1:x4}",
+                        string.Format("Invalid Location packet: invalid checksum received: {0:x4}, expected: {1:x4}",
                         (Convert.ToUInt16((int)IncomingDataBuffer[15]) << 8) + (int)IncomingDataBuffer[16], sum))
-                        );
+                    }
+                    );
                     ClearBuffer();
                 }
                 else
@@ -999,7 +1011,7 @@ namespace CommProtocolLib
                     }
                     else
                     {
-                        OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The north south byte of the Latitude in a recieved location packet is invalid."));
+                        ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The north south byte of the Latitude in a received location packet is invalid.") });
                         ClearBuffer();
                         return;
                     }
@@ -1019,24 +1031,26 @@ namespace CommProtocolLib
                     }
                     else
                     {
-                        OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The east west byte of the Longitude in a recieved location packet is invalid."));
+                        ParentForm.Invoke(BadPacketReceived, new object[] {this, 
+                            new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The east west byte of the Longitude in a received location packet is invalid.")});
                         ClearBuffer();
                         return;
                     }
                     //invoke the event
-                    OnLocationPacketRecieved(new LocationPacketRecievedEventArgs(Lat, Long));
+                    ParentForm.Invoke(LocationPacketReceived, new object[] { this, new LocationPacketReceivedEventArgs(Lat, Long) });
+
                     ClearBuffer();
                 }
             }
             if (IncomingDataBuffer.Length >= 18)
             {
-                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad location packet recieved"));
+                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad location packet received") });
                 ClearBuffer();
             }
         }
         #endregion
        
-        #region Heading Speed altitude recieved
+        #region Heading Speed altitude received
         private void ParseHeadingSpeedAltitudePacket()
         {
             /*
@@ -1073,11 +1087,12 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x000000FF);
                 if (chk1 != (int)IncomingDataBuffer[10] || chk2 != (int)IncomingDataBuffer[11])
                 {
-                    OnBadPacketReceived(
+
+                    ParentForm.Invoke(BadPacketReceived, new object[] {this,
                        new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid heading speed altitude packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
-                       (Convert.ToUInt16((int)IncomingDataBuffer[10]) << 8) + (int)IncomingDataBuffer[11], sum))
-                       );
+                       string.Format("Invalid heading speed altitude packet: invalid checksum: received {0:x4}, expected {1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[10]) << 8) + (int)IncomingDataBuffer[11], sum))});
+
                     ClearBuffer();
                 }
                 else
@@ -1088,13 +1103,15 @@ namespace CommProtocolLib
                     HSA.Speed = Convert.ToByte((int)IncomingDataBuffer[7]);
                     HSA.Altitude = Convert.ToUInt16((int)IncomingDataBuffer[8] << 8 + (int)IncomingDataBuffer[9]);
                     //invoke the event
-                    OnHeadingSpeedAltitudePacketRecieved(new HeadingSpeedAltitudePacketRecievedEventArgs(HSA));
+                    ParentForm.Invoke(HeadingSpeedAltitudePacketReceived, 
+                        new object[] { this, new HeadingSpeedAltitudePacketReceivedEventArgs(HSA)});
+
                     ClearBuffer();
                 }
             }
             else if (IncomingDataBuffer.Length >= 14)
             {
-                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad heading/speed/altitude packetrecieved"));
+                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad heading/speed/altitude packetreceived") });
                 ClearBuffer();
             }
         }
@@ -1141,11 +1158,10 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x00FF);
                 if (chk1 != (int)IncomingDataBuffer[11] || chk2 != (int)IncomingDataBuffer[12])
                 {
-                    OnBadPacketReceived(
-                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid attitude packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
-                       (Convert.ToUInt16((int)IncomingDataBuffer[11]) << 8) + (int)IncomingDataBuffer[12], sum))
-                       );
+                    ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid attitude packet: invalid checksum: received {0:x4}, expected {1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[11]) << 8) + (int)IncomingDataBuffer[12], sum))});
+
                     ClearBuffer();
                 }
                 else
@@ -1156,13 +1172,15 @@ namespace CommProtocolLib
                     a.Pitch = (ushort)(((int)IncomingDataBuffer[7] << 8) + (int)IncomingDataBuffer[8]);
                     a.Yaw = (ushort)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
                     //invoke the event
-                    OnAttitudePacketRecieved(new AttitudePacketRecievedEventArgs(a)); 
+                    ParentForm.Invoke(AttitudePacketReceived, new object[] { this, new AttitudePacketReceivedEventArgs(a) });
                     ClearBuffer();
                 }
             }
             else if (IncomingDataBuffer.Length >= 14)
             {
-                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer,"Bad attitude packet recieved"));
+                ParentForm.Invoke(BadPacketReceived, 
+                    new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad attitude packet received") });
+
                 ClearBuffer();
             }
 
@@ -1170,7 +1188,7 @@ namespace CommProtocolLib
         }
         #endregion
 
-        #region Battery status packet recieved
+        #region Battery status packet received
         private void ParseBatteryStatusPacket()
         {
             /*
@@ -1208,11 +1226,12 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x00FF);
                 if (chk1 != (int)IncomingDataBuffer[11] || chk2 != (int)IncomingDataBuffer[12])
                 {
-                    OnBadPacketReceived(
-                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid battery status packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
-                       (Convert.ToUInt16((int)IncomingDataBuffer[11]) << 8) + (int)IncomingDataBuffer[12], sum))
+                    ParentForm.Invoke(BadPacketReceived, new object[] {this,
+                        new BadPacketReceivedEventArgs(IncomingDataBuffer, 
+                        string.Format("Invalid battery status packet: invalid checksum: received {0:x4}, expected {1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[11]) << 8) + (int)IncomingDataBuffer[12], sum))}
                        );
+   
                     ClearBuffer();
                 }
                 else
@@ -1223,13 +1242,13 @@ namespace CommProtocolLib
                     b.CurrentDraw = (ushort)(((int)IncomingDataBuffer[7] << 8) + (int)IncomingDataBuffer[8]);
                     b.Temperature = (ushort)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
                     //invoke the event
-                    OnBatteryStatusPacketRecieved(new BatteryStatusPacketRecievedEventArgs(b));
+                    ParentForm.Invoke(BatteryStatusPacketReceived, new object[] { this, new BatteryStatusPacketReceivedEventArgs(b) });
                     ClearBuffer();
                 }
             }
             else if (IncomingDataBuffer.Length >= 14)
             {
-                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad battery status packet recieved"));
+                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad battery status packet received") });
                 ClearBuffer();
             }
         }
@@ -1269,30 +1288,30 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x00FF);
                 if (chk1 != (int)IncomingDataBuffer[6] || chk2 != (int)IncomingDataBuffer[7])
                 {
-                    OnBadPacketReceived(
-                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid on board error packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
-                       (((int)IncomingDataBuffer[6]) << 8) + (int)IncomingDataBuffer[7], sum))
-                       );
+                    ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid on board error packet: invalid checksum: received {0:x4}, expected {1:x4}",
+                       (((int)IncomingDataBuffer[6]) << 8) + (int)IncomingDataBuffer[7], sum))});
+
                     ClearBuffer();
                 }
                 else
                 {
                     //checksum ok
                     //invoke the event
-                    OnBoardErrorPacketRecieved(this, new OnBoardErrorPacketRecievedEventArgs((byte)IncomingDataBuffer[5]));
+                    OnBoardErrorPacketReceived(this, new OnBoardErrorPacketReceivedEventArgs((byte)IncomingDataBuffer[5]));
                     ClearBuffer();
                 }
             }
             else if (IncomingDataBuffer.Length >= 10)
             {
-                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad on board error packet recieved"));
+                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad on board error packet received") });
+
                 ClearBuffer();
             }
         }
         #endregion
 
-        #region pre-flight packet recieved
+        #region pre-flight packet received
         private void ParsePreFlightPacket()
         {
             /*
@@ -1346,11 +1365,10 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x00FF);
                 if (chk1 != (int)IncomingDataBuffer[23] || chk2 != (int)IncomingDataBuffer[24])
                 {
-                    OnBadPacketReceived(
-                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid battery status packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
-                       (Convert.ToUInt16((int)IncomingDataBuffer[23]) << 8) + (int)IncomingDataBuffer[24], sum))
-                       );
+                    ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid battery status packet: invalid checksum: received {0:x4}, expected {1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[23]) << 8) + (int)IncomingDataBuffer[24], sum))});
+
                     ClearBuffer();
                 }
                 else
@@ -1372,7 +1390,7 @@ namespace CommProtocolLib
                     }
                     else
                     {
-                        OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The north south byte of the Latitude in a recieved pre-flight packet is invalid."));
+                        ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The north south byte of the Latitude in a received pre-flight packet is invalid.") });
                         ClearBuffer();
                         return;
                     }
@@ -1391,7 +1409,8 @@ namespace CommProtocolLib
                     }
                     else
                     {
-                        OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The east west byte of the Latitude in a recieved pre-flight packet is invalid."));
+                        ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The east west byte of the Latitude in a received pre-flight packet is invalid.") });
+
                         ClearBuffer();
                         return;
                     }
@@ -1401,19 +1420,19 @@ namespace CommProtocolLib
                     PFP.BatteryTemp = (ushort)(((int)IncomingDataBuffer[21] << 8) + (int)IncomingDataBuffer[22]);
                     PFP.SensorStatus = (byte)IncomingDataBuffer[23];
                     //invoke the event
-                    OnPreFlightPacketRecieved(new PreFlightPacketRecievedEventArgs(PFP));
+                    ParentForm.Invoke(PreFlightPacketReceived, new object[] { this, new PreFlightPacketReceivedEventArgs(PFP) });
                     ClearBuffer();
                 }
             }
             else if (IncomingDataBuffer.Length >= 27)
             {
-                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad pre flight packet recieved"));
+                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The east west byte of the Latitude in a received pre-flight packet is invalid.") });
                 ClearBuffer();
             }
         }
         #endregion
 
-        #region communication handshake "ACK" recieved
+        #region communication handshake "ACK" received
         private void ParseCommHandShakeAck()
         {
             /*
@@ -1444,23 +1463,23 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x00FF);
                 if (chk1 != (int)IncomingDataBuffer[10] || chk2 != (int)IncomingDataBuffer[11])
                 {
-                    OnBadPacketReceived(
-                       new BadPacketReceivedEventArgs(IncomingDataBuffer,
-                       string.Format("Invalid attitude packet: invalid checksum: recieved {0:x4}, expected {1:x4}",
-                       (Convert.ToUInt16((int)IncomingDataBuffer[10]) << 8) + (int)IncomingDataBuffer[11], sum))
-                       );
+                    ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid attitude packet: invalid checksum: received {0:x4}, expected {1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[10]) << 8) + (int)IncomingDataBuffer[11], sum))});
+
                     ClearBuffer();
                 }
                 else
                 {
                     //checksum ok
-                    OnHandShakeAckRecieved(new EventArgs());
+                    ParentForm.Invoke(HandShakeAckReceived, new object[] { this, new EventArgs() });
                     ClearBuffer();
                 }
             }
             else if (IncomingDataBuffer.Length >= 9)
             {
-                OnBadPacketReceived(new BadPacketReceivedEventArgs(IncomingDataBuffer,"Bad hand shake acknowledgement packet received"));
+                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad hand shake acknowledgement packet received") });
+
                 ClearBuffer();
             }
         }
@@ -1485,7 +1504,7 @@ namespace CommProtocolLib
             ExpectedResponse[3] = (char)0x06;//ack
             for (int j = 4; j < OutGoingPacket.Length+1; j++)
             {
-                ExpectedResponse[j] = (char)OutGoingPacket[j - 1];//copy the sent packet to match with the recieved packet
+                ExpectedResponse[j] = (char)OutGoingPacket[j - 1];//copy the sent packet to match with the received packet
             }
             ushort Chk = 0;
             Chk = (ushort)((OutGoingPacket[OutGoingPacket.Length - 4] << 8) + OutGoingPacket[OutGoingPacket.Length - 3]);
@@ -1499,7 +1518,7 @@ namespace CommProtocolLib
         {
             if (type == ExpectedResponses.type.FullPacketResponse)
             {
-
+                
                 ExpectedResponse.ExpectedPacket = BuildExpectedResponse(OutGoingPacket);
                 ExpectedResponse.ResponseExpected = true;
                 ExpectedResponse.Name = Name;
@@ -1529,10 +1548,9 @@ namespace CommProtocolLib
                 ResponseTimer.Stop();
                 //this means a response has timed out
                 //invoke the timeout event
-                
-                OnResponseTimeout(new ResponseTimeoutEventArgs(ExpectedResponse,IncomingDataBuffer));
+                ParentForm.Invoke(ResponseTimeout, new object[] { this, new ResponseTimeoutEventArgs(ExpectedResponse, IncomingDataBuffer) });
                 ClearBuffer();
-                
+
             }
         }
         private void ClearBuffer()
@@ -1544,28 +1562,37 @@ namespace CommProtocolLib
 
         #region custom event code
 
-        #region location Packet recieved
-        public delegate void LocationPacketRecievedEventHandler(object sender, LocationPacketRecievedEventArgs e);
-        public event LocationPacketRecievedEventHandler LocationPacketRecieved;
+        #region location Packet received
         /// <summary>
-        /// Raised when a location packet is recieved by the base station
+        /// Delegate for the event raised when a location packet is received.
         /// </summary>
-        /// <param name="e">This parameter stores the location data.</param>
-        protected virtual void OnLocationPacketRecieved(LocationPacketRecievedEventArgs e)
-        {
-            if (LocationPacketRecieved != null)
-            {
-                LocationPacketRecieved(this, e);
-            }
-        }
+        /// <param name="sender">The class raising the event</param>
+        /// <param name="e">An instance of the LocationPacketReceivedEvent args class containing latitude and longitude</param>
+        public delegate void LocationPacketReceivedEventHandler(object sender, LocationPacketReceivedEventArgs e);
         /// <summary>
-        /// event args definition for a location recieved packet
+        /// event raised when a location packet is received
         /// </summary>
-        public class LocationPacketRecievedEventArgs : System.EventArgs
+        public event LocationPacketReceivedEventHandler LocationPacketReceived;
+
+        /// <summary>
+        /// event args definition for a location received packet
+        /// </summary>
+        public class LocationPacketReceivedEventArgs : System.EventArgs
         {
+            /// <summary>
+            /// The latitude sent by the event
+            /// </summary>
             public Latitude Lat;
+            /// <summary>
+            /// The longitude sent by the event
+            /// </summary>
             public Longitude Long;
-            public LocationPacketRecievedEventArgs(Latitude Lat, Longitude Long)
+            /// <summary>
+            /// Class containing the latitude and longitude sent through the protocol.
+            /// </summary>
+            /// <param name="Lat"></param>
+            /// <param name="Long"></param>
+            public LocationPacketReceivedEventArgs(Latitude Lat, Longitude Long)
             {
                 this.Lat = Lat;
                 this.Long = Long;
@@ -1573,79 +1600,73 @@ namespace CommProtocolLib
         }
         #endregion
 
-        #region HeadingSpeedAltitude Packet recieved
+        #region HeadingSpeedAltitude Packet received
+        /// <summary>
+        /// Delegate for the event raised when HeadingSpeedAltitudePacketReceivedEvent is raised
+        /// </summary>
+        /// <param name="sender">the class that raised the event</param>
+        /// <param name="e">instance of a HeadingSpeedAltitudePacketReceivedEventArgs class containing the heading speed and altitude</param>
+        public delegate void HeadingSpeedAltitudePacketReceivedEventHandler(object sender, HeadingSpeedAltitudePacketReceivedEventArgs e);
+        /// <summary>
+        /// Event raised when a heading/speed/altitude packed is received
+        /// </summary>
+        public event HeadingSpeedAltitudePacketReceivedEventHandler HeadingSpeedAltitudePacketReceived;
 
-        public delegate void HeadingSpeedAltitudePacketRecievedEventHandler(object sender, HeadingSpeedAltitudePacketRecievedEventArgs e);
-        public event HeadingSpeedAltitudePacketRecievedEventHandler HeadingSpeedAltitudePacketRecieved;
-        protected virtual void OnHeadingSpeedAltitudePacketRecieved(HeadingSpeedAltitudePacketRecievedEventArgs e)
+        /// <summary>
+        /// Class holding the the heading speed and altitude
+        /// </summary>
+        public class HeadingSpeedAltitudePacketReceivedEventArgs : System.EventArgs
         {
-            if (HeadingSpeedAltitudePacketRecieved != null)
-            {
-                HeadingSpeedAltitudePacketRecieved(this, e);
-            }
-
-        }
-
-        public class HeadingSpeedAltitudePacketRecievedEventArgs : System.EventArgs
-        {
+            /// <summary>
+            /// structure containing the heading speed and altitude
+            /// </summary>
             public HeadingSpeedAltitude HSA;
-
-            public HeadingSpeedAltitudePacketRecievedEventArgs(HeadingSpeedAltitude HSA)
+            /// <summary>
+            /// Constructer for the HeadingSpeedAltitudePacketReceivedEventArgs class, needs a filled HeadingSpeedAltitude struct
+            /// </summary>
+            /// <param name="HSA"></param>
+            public HeadingSpeedAltitudePacketReceivedEventArgs(HeadingSpeedAltitude HSA)
             {
                 this.HSA = HSA;
             }
         }
         #endregion
 
-        #region Attitude packet recieved
+        #region Attitude packet received
+        /// <summary>
+        /// Event handler for a attitude packet being received.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public delegate void AttitudePacketReceivedEventHandler(object sender, AttitudePacketReceivedEventArgs e);
+        public event AttitudePacketReceivedEventHandler AttitudePacketReceived;
 
-        public delegate void AttitudePacketRecievedEventHandler(object sender, AttitudePacketRecievedEventArgs e);
-        public event AttitudePacketRecievedEventHandler AttitudePacketRecieved;
-        protected virtual void OnAttitudePacketRecieved(AttitudePacketRecievedEventArgs e)
-        {
-            if (AttitudePacketRecieved != null)
-            {
-                AttitudePacketRecieved(this, e);
-            }
-        }
 
-        public class AttitudePacketRecievedEventArgs
+        public class AttitudePacketReceivedEventArgs
         {
             public Attitude attitude;
 
-            public AttitudePacketRecievedEventArgs(Attitude a)
+            public AttitudePacketReceivedEventArgs(Attitude a)
             {
                 attitude = a;
             }
         }
         #endregion
 
-        #region Hand shake ack recieved
+        #region Hand shake ack received
 
-        public delegate void HandShakeAckRecievedEventHandler(object sender, EventArgs e);
-        public event HandShakeAckRecievedEventHandler HandShakeAckRecieved;
-        protected virtual void OnHandShakeAckRecieved(EventArgs e)
-        {
-            if (HandShakeAckRecieved != null)
-            {
-                HandShakeAckRecieved(this, e);
-            }
-        }
+        public delegate void HandShakeAckReceivedEventHandler(object sender, EventArgs e);
+        public event HandShakeAckReceivedEventHandler HandShakeAckReceived;
+
         #endregion
 
-        #region bad packet recieved
-        public delegate void BadPacketRecievedEventHandler(object sender, BadPacketReceivedEventArgs e);
+        #region bad packet received
+        public delegate void BadPacketReceivedEventHandler(object sender, BadPacketReceivedEventArgs e);
         /// <summary>
-        /// Thrown when a bad packet is recieved, see BadPacketRecievedEventArgs.ErrorMessage for the details
+        /// Thrown when a bad packet is received, see BadPacketReceivedEventArgs.ErrorMessage for the details
         /// </summary>
-        public event BadPacketRecievedEventHandler BadPacketReceived;
-        protected virtual void OnBadPacketReceived(BadPacketReceivedEventArgs e)
-        {
-            if (BadPacketReceived != null)
-            {
-                BadPacketReceived(this, e);
-            }
-        }
+        public event BadPacketReceivedEventHandler BadPacketReceived;
+
 
         public class BadPacketReceivedEventArgs : System.EventArgs
         {
@@ -1666,13 +1687,7 @@ namespace CommProtocolLib
         /// and there was not a correct repsonse as defined in the protocol
         /// </summary>
         public event ResponseTimeoutEventHandler ResponseTimeout;
-        protected virtual void OnResponseTimeout(ResponseTimeoutEventArgs e)
-        {
-            if (ResponseTimeout != null)
-            {
-                ResponseTimeout(this, e);
-            }
-        }
+
 
         public class ResponseTimeoutEventArgs : EventArgs
         {
@@ -1690,65 +1705,47 @@ namespace CommProtocolLib
  
         #endregion
 
-        #region battery status packet recieved
-        public delegate void BatteryStatusPacketRecievedEventHandler(object sender, BatteryStatusPacketRecievedEventArgs e);
-        public event BatteryStatusPacketRecievedEventHandler BatteryStatusPacketRecieved;
-        protected virtual void OnBatteryStatusPacketRecieved(BatteryStatusPacketRecievedEventArgs e)
-        {
-            if (BatteryStatusPacketRecieved != null)
-            {
-                BatteryStatusPacketRecieved(this, e);
-            }
-        }
-        public class BatteryStatusPacketRecievedEventArgs : EventArgs
+        #region battery status packet received
+        public delegate void BatteryStatusPacketReceivedEventHandler(object sender, BatteryStatusPacketReceivedEventArgs e);
+        public event BatteryStatusPacketReceivedEventHandler BatteryStatusPacketReceived;
+
+        public class BatteryStatusPacketReceivedEventArgs : EventArgs
         {
             public BatteryStatus BattStat;
 
-            public BatteryStatusPacketRecievedEventArgs(BatteryStatus BattStat)
+            public BatteryStatusPacketReceivedEventArgs(BatteryStatus BattStat)
             {
                 this.BattStat = BattStat;
             }
         }
         #endregion
 
-        #region on board errror packet recieved
-        public delegate void OnBoardErrorPacketRecievedEventHandler(object sender, OnBoardErrorPacketRecievedEventArgs e);
-        public event OnBoardErrorPacketRecievedEventHandler OnBoardErrorPacketRecieved;
-        protected virtual void OnOnBoardErrorPacketRecieved(OnBoardErrorPacketRecievedEventArgs e)
-        {
-            if (OnBoardErrorPacketRecieved != null)
-            {
-                OnBoardErrorPacketRecieved(this, e);
-            }
-        }
+        #region on board errror packet received
+        public delegate void OnBoardErrorPacketReceivedEventHandler(object sender, OnBoardErrorPacketReceivedEventArgs e);
+        public event OnBoardErrorPacketReceivedEventHandler OnBoardErrorPacketReceived;
 
-        public class OnBoardErrorPacketRecievedEventArgs : EventArgs
+
+        public class OnBoardErrorPacketReceivedEventArgs : EventArgs
         {
             public byte ErrorCode;
 
-            public OnBoardErrorPacketRecievedEventArgs(byte ErrorCode)
+            public OnBoardErrorPacketReceivedEventArgs(byte ErrorCode)
             {
                 this.ErrorCode = ErrorCode;
             }
         }
         #endregion
 
-        #region pre-flight packet recieved
-        public delegate void PreFlightPacketRecievedEventHandler(object sender, PreFlightPacketRecievedEventArgs e);
-        public event PreFlightPacketRecievedEventHandler PreFlightPacketRecieved;
-        protected virtual void OnPreFlightPacketRecieved(PreFlightPacketRecievedEventArgs e)
-        {
-            if (PreFlightPacketRecieved != null)
-            {
-                PreFlightPacketRecieved(this, e);
-            }
-        }
+        #region pre-flight packet received
+        public delegate void PreFlightPacketReceivedEventHandler(object sender, PreFlightPacketReceivedEventArgs e);
+        public event PreFlightPacketReceivedEventHandler PreFlightPacketReceived;
 
-        public class PreFlightPacketRecievedEventArgs : EventArgs
+
+        public class PreFlightPacketReceivedEventArgs : EventArgs
         {
             public PreFlightPacketData PFP;
 
-            public PreFlightPacketRecievedEventArgs(PreFlightPacketData PFP)
+            public PreFlightPacketReceivedEventArgs(PreFlightPacketData PFP)
             {
                 this.PFP = PFP;
             }
@@ -1756,26 +1753,19 @@ namespace CommProtocolLib
 
         #endregion
 
-        #region Expected response recieved
-        public delegate void ExpectedResponseRecievedEventHandler(object sender, ExpectedResponseRecievedEventArgs e);
-        public event ExpectedResponseRecievedEventHandler ExpectedResponseRecieved;
-        protected virtual void OnExpectedResponseRecieved(ExpectedResponseRecievedEventArgs e)
-        {
-            if (ExpectedResponseRecieved != null)
-            {
-                ExpectedResponseRecieved(this, e);
-            }
+        #region Expected response received
+        public delegate void ExpectedResponseReceivedEventHandler(object sender, ExpectedResponseReceivedEventArgs e);
+        public event ExpectedResponseReceivedEventHandler ExpectedResponseReceived;
 
-        }
 
-        public class ExpectedResponseRecievedEventArgs : EventArgs
+        public class ExpectedResponseReceivedEventArgs : EventArgs
         {
-            public string RecievedPacket;
+            public string ReceivedPacket;
             public string Name;
 
-            public ExpectedResponseRecievedEventArgs(string Name, string RecievedPacket)
+            public ExpectedResponseReceivedEventArgs(string Name, string ReceivedPacket)
             {
-                this.RecievedPacket = RecievedPacket;
+                this.ReceivedPacket = ReceivedPacket;
                 this.Name = Name;
             }
 
