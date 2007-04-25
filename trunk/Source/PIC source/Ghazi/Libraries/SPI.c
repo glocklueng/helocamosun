@@ -68,7 +68,7 @@ void SPI_tx_command ( char packet[MAXPACKLEN], char len )
 {
 	char cnt = 0;
 	
-	for (cnt = 0; cnt < (len - 1); cnt++)
+	for (cnt = 0; cnt < len; cnt++)
 	{
 		while (SPI1STATbits.SPITBF);
 		SPI_tx_byte( packet[cnt] );	
@@ -80,7 +80,7 @@ void SPI_tx_req ( char packet[MAXPACKLEN], char data[MAXPACKLEN] )
 	char cnt = 0;
 	char dummy = strlen(packet);
 	char dummy2 = strlen(data);
-	char i;
+	int i;
 	char rcv[7] = "";
 	unsigned char check = 0;
 	char bite = 0;
@@ -107,8 +107,8 @@ void SPI_tx_req ( char packet[MAXPACKLEN], char data[MAXPACKLEN] )
 		}
 		
 		
-		for (i = 0; i < 100; i++);
+		for (i = 0; i < 500; i++);
 		
 	} 
-	LATDbits.LATD0 ^= 1;
+	//LATDbits.LATD0 ^= 1;
 }
