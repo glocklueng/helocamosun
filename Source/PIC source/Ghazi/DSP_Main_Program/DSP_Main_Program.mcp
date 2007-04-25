@@ -28,8 +28,8 @@ file_000=main.c
 file_001=D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c
 file_002=D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c
 file_003=D:\Helicopter\Source\PIC source\Ghazi\Libraries\defines.h
-file_004=D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h
-file_005=D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h
+file_004=D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h
+file_005=D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h
 file_006=linkerscript.gld
 [SUITE_INFO]
 suite_guid={479DDE59-4D56-455E-855E-FFF59A3DB57E}

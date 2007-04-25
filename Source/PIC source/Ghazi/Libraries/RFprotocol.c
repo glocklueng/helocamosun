@@ -31,7 +31,7 @@ char GP_it_works[] = "It works!";
 char GP_debug_dv[] = "Data is Valid\n";
 char GP_handshake[]= { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 } ;
 
-
+unsigned char newPWM = 0;
 
 
 void GP_init_UART( unsigned int baud )
@@ -264,6 +264,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 				{
 					GP_pitch = vdata[2];
 					GP_ACK(vdata, len);
+					newPWM = 1;
 					break;
 				}
 			
@@ -271,6 +272,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 				{
 					GP_roll = vdata[2];
 					GP_ACK(vdata, len);
+					newPWM = 1;
 					break;
 				}
 
@@ -278,6 +280,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 				{
 					GP_yaw = vdata[2];
 					GP_ACK(vdata, len);
+					newPWM = 1;
 					break;
 				}	
 
@@ -285,6 +288,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 				{
 					GP_coll = vdata[2];
 					GP_ACK(vdata, len);
+					newPWM = 1;
 					break;
 				}
 				
@@ -486,12 +490,16 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 				{
 					GP_TX_packet(GP_handshake, 2);
 					GP_hs = 1;	
+					TMR1 = 0;
+					T1CONbits.TON = 1;
 					break;
 				}	
 				
 				case 0x54:
 				{
 					GP_hs = 0;	
+					TMR1 = 0;
+					T1CONbits.TON = 0;
 				}
 			}
 			break;	
