@@ -19,13 +19,12 @@ namespace commprotocoltester
         Longitude Lon = new Longitude();
         PreFlightPacketData PFP = new PreFlightPacketData();
         Attitude attitude = new Attitude();
-        string PacketName;
-
+        
         CommProtocol cp;
         public Form1()
         {
             InitializeComponent();
-            cp = new CommProtocol("COM8", 9600, Parity.None, 8, StopBits.One);
+            cp = new CommProtocol("COM6", 19200, Parity.None, 8, StopBits.One, this);
             
             //event handlers
             cp.LocationPacketReceived += new CommProtocol.LocationPacketReceivedEventHandler(cp_LocationPacketReceived);
@@ -43,8 +42,8 @@ namespace commprotocoltester
 
         void cp_ExpectedResponseReceived(object sender, CommProtocol.ExpectedResponseReceivedEventArgs e)
         {
-            e.ReceivedPacket;
-            e.Name;
+            //e.ReceivedPacket;
+            textBox1.Text+="Expected response recieved: "+e.Name+"\r\n";
         }
 
         void cp_PreFlightPacketReceived(object sender, CommProtocol.PreFlightPacketReceivedEventArgs e)
@@ -54,7 +53,7 @@ namespace commprotocoltester
 
         void cp_HandShakeAckReceived(object sender, EventArgs e)
         {
-            
+            cp.CommsHandShakeTerminate();
         }
 
         void cp_AttitudePacketReceived(object sender, CommProtocol.AttitudePacketReceivedEventArgs e)
@@ -74,6 +73,17 @@ namespace commprotocoltester
 
         void cp_ResponseTimeout(object sender, CommProtocol.ResponseTimeoutEventArgs e)
         {
+            textBox1.Text += "Timeout for "+e.ExpectedResponse.Name+". Expected: ";
+            foreach (char c in e.ExpectedResponse.ExpectedPacket)
+            {
+                textBox1.Text += CharToHex(c);
+            }
+            textBox1.Text += " Buffer contents:";
+            foreach (char c in e.BufferContents)
+            {
+                textBox1.Text += CharToHex(c);
+            }
+            textBox1.Text +="\r\n";
             //e.BufferContents;
            // e.ExpectedResponse;
         }
@@ -86,20 +96,114 @@ namespace commprotocoltester
 
         private void cp_BadPacketReceived(object sender, CommProtocol.BadPacketReceivedEventArgs e)
         {
-            //e.BadPacket;
-            //e.ErrorMessage;
+            textBox1.Text += e.ErrorMessage+ ". Contents of bad packet: ";
+            foreach (char c in e.BadPacket)
+            {
+                textBox1.Text += CharToHex(c);
+            }
+            textBox1.Text += "\r\n";
+
         }
 
         private void cp_OnBoardErrorPacketReceived(object sender, CommProtocol.OnBoardErrorPacketReceivedEventArgs e)
         {
-            //e.ErrorCode;
+            textBox1.Text = e.ErrorCode.ToString();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+
+        private void btnCommsHandShakeInitiate_Click(object sender, EventArgs e)
+        {
+           cp.CommsHandShakeInitiate();
+
+        }
+
+        private void btnCommsHandShakeTerminate_Click(object sender, EventArgs e)
+        {
+            cp.CommsHandShakeTerminate();
+        }
+
+        private void btnDiscreetMovementControl_Click(object sender, EventArgs e)
         {
 
+            cp.DiscreetMovementControl(0x46);
         }
 
+        private void btnEngageEngine_Click(object sender, EventArgs e)
+        {
+            cp.EngageEngine();
+        }
 
+        private void btnGoto_Click(object sender, EventArgs e)
+        {
+            Latitude lat = new Latitude();
+            lat.Degrees= 0;
+            lat.Minutes = 30;
+            lat.North = true;
+            lat.SecondsH = 60;
+            lat.SecondsL = 4;
+            
+            Longitude lon = new Longitude();
+            lon.Degrees = 0;
+            lon.Minutes = 30;
+            lon.East = true;
+            lon.SecondsH = 60;
+            lon.SecondsL = 4;
+
+            cp.Goto(lat,lon,0x48,50);
+        }
+
+        private void btnHover_Click(object sender, EventArgs e)
+        {
+            cp.Hover(0x50,(ushort)0);
+        }
+
+        private void btnRequestForInformation_Click(object sender, EventArgs e)
+        {
+            cp.RequestForInformation((byte)0x42);
+        }
+
+        private void btnRequestPreFlightPacket_Click(object sender, EventArgs e)
+        {
+            cp.RequestPreFlightPacket();
+        }
+
+        private void btnReturnToBase_Click(object sender, EventArgs e)
+        {
+            cp.ReturnToBase();
+        }
+
+        private void btnSetAntiTorque_Click(object sender, EventArgs e)
+        {
+            cp.SetAntiTorque(0x00);
+        }
+
+        private void btnSetCollective_Click(object sender, EventArgs e)
+        {
+            cp.SetCollective(0x00);
+        }
+
+        private void btnSetCyclicPitch_Click(object sender, EventArgs e)
+        {
+            cp.SetCyclicPitch(0x00);
+        }
+
+        private void btnSetCyclicRoll_Click(object sender, EventArgs e)
+        {
+            cp.SetCyclicRoll(0x00);
+        }
+
+        private void btnSetMotorRPM_Click(object sender, EventArgs e)
+        {
+            cp.SetMotorRPM(0x00);
+        }
+
+        private void btnSetTunePoints_Click(object sender, EventArgs e)
+        {
+            cp.SetTunePoints(0x5A,0x00,0x00,0x00,0x00,0x00);
+        }
+        public string CharToHex(char c)
+        {
+            return string.Format("{0:x2}", (int)c);
+        }
     }
 }

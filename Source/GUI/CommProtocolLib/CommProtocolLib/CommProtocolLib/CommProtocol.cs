@@ -348,7 +348,7 @@ namespace CommProtocolLib
         {
             if (ExpectedResponse.ResponseExpected == false)
             {
-                OutGoingPacket = new byte[7];
+                OutGoingPacket = new byte[9];
                 OutGoingPacket[0] = 0xA5;//header
                 OutGoingPacket[1] = 0x5A;
                 OutGoingPacket[2] = 0x02;//2 bytes
@@ -823,7 +823,7 @@ namespace CommProtocolLib
         {
             if (ExpectedResponse.ResponseExpected == false)
             {
-                if (info == 0x4C || info == 0x48 || info == 0x5A || info == 42)
+                if (info == 0x4C || info == 0x48 || info == 0x5A || info == 0x42)
                 {
                     OutGoingPacket = new byte[10];
                     OutGoingPacket[0] = 0xA5;//packet header
@@ -868,7 +868,7 @@ namespace CommProtocolLib
                 //a full packet response is requested
                 if (IncomingDataBuffer == ExpectedResponse.ExpectedPacket)
                 {
-                    ParentForm.Invoke(ResponseTimeout, new object[] { this, new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name, IncomingDataBuffer) });
+                    ParentForm.Invoke(ExpectedResponseReceived, new object[] { this, new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name, IncomingDataBuffer) });
                   //  OnExpectedResponseReceived(new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name,IncomingDataBuffer));
                     ClearBuffer();
                     //the response is successfully received
@@ -1458,17 +1458,17 @@ namespace CommProtocolLib
             {               
                 //calculate checksum
                 UInt16 sum = 0;
-                for (int i = 3; i < 10; i++)
+                for (int i = 3; i < 5; i++)
                 {
                     sum += (ushort)IncomingDataBuffer[i];
                 }
                 byte chk1 = (byte)((sum & 0xFF00) >> 8);
                 byte chk2 = (byte)(sum & 0x00FF);
-                if (chk1 != (int)IncomingDataBuffer[10] || chk2 != (int)IncomingDataBuffer[11])
+                if (chk1 != (int)IncomingDataBuffer[5] || chk2 != (int)IncomingDataBuffer[6])
                 {
                     ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
                        string.Format("Invalid attitude packet: invalid checksum: received {0:x4}, expected {1:x4}",
-                       (Convert.ToUInt16((int)IncomingDataBuffer[10]) << 8) + (int)IncomingDataBuffer[11], sum))});
+                       (Convert.ToUInt16((int)IncomingDataBuffer[5]) << 8) + (int)IncomingDataBuffer[6], sum))});
 
                     ClearBuffer();
                 }
