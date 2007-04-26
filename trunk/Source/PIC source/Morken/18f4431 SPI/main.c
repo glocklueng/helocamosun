@@ -60,9 +60,6 @@ void SPI_isr (void)
 	PIR1bits.SSPIF = 0;//clear the interrupt flag
 }
 
-
-
-
 void main (void)
 {	
 	TRISB = 0x00;
