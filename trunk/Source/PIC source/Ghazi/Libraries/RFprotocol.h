@@ -62,7 +62,7 @@ extern char GP_errorEOT;
 extern unsigned char GP_dump;
 extern unsigned char GP_hs;
 extern GPT_goto_position GP_goto;
-
+extern unsigned char GP_engON;
 //--------------------------- Messages --------------------------------
 extern char GP_err_chksum[];
 extern char GP_err_SOT[];
