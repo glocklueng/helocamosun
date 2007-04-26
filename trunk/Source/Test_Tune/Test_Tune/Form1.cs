@@ -54,14 +54,14 @@ namespace Test_Tune
 
         void SP_ResponseTimeout(object sender, CommProtocol.ResponseTimeoutEventArgs e)
         {
-            /*string hexbuffer = "";
+            string hexbuffer = "";
 
             foreach (char c in e.BufferContents)
             { hexbuffer += string.Format("{0:x2} ", (int)c); }
 
-            bad_text += hexbuffer + "\r\n";*/
+            /*bad_text += hexbuffer + "\r\n";*/
 
-            txt_bad.Text += e.BufferContents;
+            txt_bad.Text += hexbuffer + "\r\n";
 
         }
 
@@ -134,13 +134,13 @@ namespace Test_Tune
 
         void SP_ExpectedResponseReceived(object sender, CommProtocol.ExpectedResponseReceivedEventArgs e)
         {
-            /*string hexbuffer = "";
+            string hexbuffer = "";
         
             foreach (char c in e.ReceivedPacket)
             { hexbuffer += string.Format("{0:x2} ", (int)c); }
-            text += e.Name + "\t" + hexbuffer + "\r\n";*/
+            //text += e.Name + "\t" + hexbuffer + "\r\n";
 
-            txt_rcvd.Text += e.ReceivedPacket;
+            txt_rcvd.Text += e.Name + "\t" + hexbuffer + "\r\n";
         }
 
         private void timer1_Tick(object sender, EventArgs e)
