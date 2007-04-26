@@ -181,7 +181,7 @@ namespace CommProtocolLib
         /// Time to wait for a response after sending a data packet.  
         /// If the timer expires before the expected packet is received the OnResponseTimeout event is invoked.
         /// </summary>
-        private int TimeOut = 100;
+        private int TimeOut = 1000;
         private System.Timers.Timer ResponseTimer;
         /// <summary>
         /// When a packet is sent there is an expected response from the helicopter
@@ -828,7 +828,7 @@ namespace CommProtocolLib
                     OutGoingPacket = new byte[10];
                     OutGoingPacket[0] = 0xA5;//packet header
                     OutGoingPacket[1] = 0x5A;
-                    OutGoingPacket[2] = 0x05;//number of bytes
+                    OutGoingPacket[2] = 0x03;//number of bytes
                     OutGoingPacket[3] = 0x46;//flight ops command
                     OutGoingPacket[4] = 0x49;//ROI
                     OutGoingPacket[5] = info;
@@ -848,7 +848,11 @@ namespace CommProtocolLib
 
         private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            IncomingDataBuffer += SP.ReadExisting();
+
+            for (int i = 0; i <= SP.BytesToRead; i++)
+            {
+               IncomingDataBuffer += (char)(byte)SP.ReadByte();
+            }
             NonVolatileIncomingDataBuffer += IncomingDataBuffer;
             if (ExpectedResponse.ResponseExpected == false)
             {
