@@ -59,6 +59,7 @@ int main ( void )
 			GP_datavalid = 0;
 			GP_parse_data(GP_data, GP_data_len);
 		}
+		
 		if (newPWM)
 		{
 			newPWM = 0;

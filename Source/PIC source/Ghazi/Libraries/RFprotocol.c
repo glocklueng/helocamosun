@@ -24,6 +24,9 @@ unsigned char GP_dump;
 unsigned char GP_hs = 0;
 GPT_goto_position GP_goto;
 
+unsigned char GP_engON = 0;
+
+
 char GP_err_chksum[] = "Error: Checksum incorrect\n";
 char GP_err_SOT[] = "Error: SOT Invalid\n";
 char GP_err_EOT[] = "Error: EOR Invalid\n";
@@ -334,6 +337,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 				case 0x45:	// Engage Engine
 				{
 					GP_ACK(vdata, len);
+					GP_engON = 1;
 					break;
 				}	
 				
@@ -401,7 +405,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 					break;	
 				}
 				
-				case 0x50:	// Return to Base
+				case 0x50:	// Request Pre-flight Packet
 				{
 					GP_ACK(vdata, len);
 					break;	
@@ -532,5 +536,3 @@ void GP_ACK( char vdata[MAXPACKLEN], char len )
 	
 	GP_TX_packet(ack, len + 8);
 }
-
-
