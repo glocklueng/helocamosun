@@ -237,6 +237,7 @@ namespace CommProtocolLib
         /// <param name="ParentForm">The the form instantiating this class</param>
         public CommProtocol(string PortName, int BaudRate, Form ParentForm)
         {
+            this.ParentForm = ParentForm;
             try
             {
                 SP = new SerialPort(PortName, BaudRate);
@@ -262,6 +263,7 @@ namespace CommProtocolLib
         /// <param name="ParentForm">The the form instantiating this class</param>
         public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits, Form ParentForm)
         {
+            this.ParentForm = ParentForm;
             try
             {
                 
@@ -289,6 +291,7 @@ namespace CommProtocolLib
         /// <param name="ParentForm">The the form instantiating this class</param>
         public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits, int Timeout, Form ParentForm)
         {
+            this.ParentForm = ParentForm;
             try
             {
 
