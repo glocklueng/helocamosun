@@ -37,7 +37,7 @@ namespace commprotocoltester
             cp.ExpectedResponseReceived += new CommProtocol.ExpectedResponseReceivedEventHandler(cp_ExpectedResponseReceived);
             cp.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(cp_HandShakeAckReceived);
             cp.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(cp_PreFlightPacketReceived);
-            
+
         }
 
         void cp_ExpectedResponseReceived(object sender, CommProtocol.ExpectedResponseReceivedEventArgs e)
@@ -76,12 +76,12 @@ namespace commprotocoltester
             textBox1.Text += "Timeout for "+e.ExpectedResponse.Name+". Expected: ";
             foreach (char c in e.ExpectedResponse.ExpectedPacket)
             {
-                textBox1.Text += CharToHex(c);
+                textBox1.Text += CharToHex(c) + " ";
             }
             textBox1.Text += " Buffer contents:";
             foreach (char c in e.BufferContents)
             {
-                textBox1.Text += CharToHex(c);
+                textBox1.Text += CharToHex(c) + " ";
             }
             textBox1.Text +="\r\n";
             //e.BufferContents;
@@ -99,7 +99,7 @@ namespace commprotocoltester
             textBox1.Text += e.ErrorMessage+ ". Contents of bad packet: ";
             foreach (char c in e.BadPacket)
             {
-                textBox1.Text += CharToHex(c);
+                textBox1.Text += CharToHex(c) + " ";
             }
             textBox1.Text += "\r\n";
 
@@ -137,17 +137,17 @@ namespace commprotocoltester
         {
             Latitude lat = new Latitude();
             lat.Degrees= 0;
-            lat.Minutes = 30;
+            lat.Minutes = 0;
             lat.North = true;
-            lat.SecondsH = 60;
-            lat.SecondsL = 4;
+            lat.SecondsH = 0;
+            lat.SecondsL = 0;
             
             Longitude lon = new Longitude();
             lon.Degrees = 0;
-            lon.Minutes = 30;
+            lon.Minutes = 0;
             lon.East = true;
-            lon.SecondsH = 60;
-            lon.SecondsL = 4;
+            lon.SecondsH = 0;
+            lon.SecondsL = 0;
 
             cp.Goto(lat,lon,0x48,50);
         }
@@ -179,7 +179,7 @@ namespace commprotocoltester
 
         private void btnSetCollective_Click(object sender, EventArgs e)
         {
-            cp.SetCollective(0x00);
+            cp.SetCollective(0x04);
         }
 
         private void btnSetCyclicPitch_Click(object sender, EventArgs e)
