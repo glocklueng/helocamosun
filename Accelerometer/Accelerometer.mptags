@@ -56,6 +56,7 @@ BRG16	C:\MCC18\h\p18f4431.h	636;"	m	line:636
 BRGH	C:\MCC18\h\p18f4431.h	656;"	m	line:656
 BusyXLCD	C:\MCC18\h\xlcd.h	89;"	p	line:89	signature:(void)
 BusyXLCD	C:\MCC18\src\traditional\pmc\XLCD\busyxlcd.c	12;"	f	line:12	signature:(void)
+C	C:\MCC18\h\p18f4431.h	524;"	m	line:524
 C	C:\MCC18\h\p18f4431.h	998;"	m	line:998
 CAP1M0	C:\MCC18\h\p18f4431.h	43;"	m	line:43
 CAP1M1	C:\MCC18\h\p18f4431.h	44;"	m	line:44
@@ -603,7 +604,6 @@ TMR0IP	C:\MCC18\h\p18f4431.h	1058;"	m	line:1058
 TMR0ON	C:\MCC18\h\p18f4431.h	987;"	m	line:987
 TMR1CS	C:\MCC18\h\p18f4431.h	888;"	m	line:888
 TMR1IE	C:\MCC18\h\p18f4431.h	508;"	m	line:508
-TMR1IF	C:\MCC18\h\p18f4431.h	524;"	m	line:524
 TMR1IP	C:\MCC18\h\p18f4431.h	540;"	m	line:540
 TMR1ON	C:\MCC18\h\p18f4431.h	887;"	m	line:887
 TMR2IE	C:\MCC18\h\p18f4431.h	509;"	m	line:509
