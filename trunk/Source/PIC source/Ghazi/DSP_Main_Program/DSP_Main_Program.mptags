@@ -9,7 +9,7 @@
 FCY::1842500	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	5;"	d	line:5	file:
 GPT_goto_position	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h	42;"	t	line:42
 GPT_latlong	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h	34;"	t	line:34
-GP_ACK	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	516;"	f	line:516	signature:( char vdata[MAXPACKLEN], char len )
+GP_ACK	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	518;"	f	line:518	signature:( char vdata[MAXPACKLEN], char len )
 GP_ACK	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h	22;"	p	line:22	signature:( char vdata[MAXPACKLEN], char len )
 GP_TX_char	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	56;"	f	line:56	signature:( char ch )
 GP_TX_char	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h	10;"	p	line:10	signature:( char )
@@ -78,19 +78,19 @@ SPI_tx_command	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	67;"	f	line
 SPI_tx_command	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	9;"	p	line:9	signature:( char[MAXPACKLEN], char len )
 SPI_tx_req	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	78;"	f	line:78	signature:( char packet[MAXPACKLEN], char data[MAXPACKLEN] )
 SPI_tx_req	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.h	12;"	p	line:12	signature:( char[MAXPACKLEN], char data[MAXPACKLEN] )
-_T1Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	137;"	f	line:137	signature:(void)
+_T1Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	138;"	f	line:138	signature:(void)
 _T1Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	19;"	p	line:19	file:	signature:(void)
-_U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	127;"	f	line:127	signature:(void)
+_U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	128;"	f	line:128	signature:(void)
 _U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	16;"	p	line:16	file:	signature:(void)
 _U1RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h	3;"	p	line:3	signature:(void)
-ack	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	518;"	l	line:518
+ack	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	520;"	l	line:520
 action	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h	40;"	m	line:40
 bite	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	86;"	l	line:86
 c	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	57;"	l	line:57
 check	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	85;"	l	line:85	file:
 check	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	85;"	l	line:85
 checksum	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	84;"	l	line:84	file:
-chksum	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	520;"	l	line:520
+chksum	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	522;"	l	line:522
 chksum	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	80;"	l	line:80	file:
 cnt	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	69;"	l	line:69
 cnt	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	80;"	l	line:80
@@ -102,19 +102,19 @@ dummy	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	81;"	l	line:81
 dummy2	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	82;"	l	line:82
 engRPM_msg	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	242;"	l	line:242
 fillpwmCommand	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	22;"	p	line:22	file:	signature:( void )
-fillpwmCommand	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	77;"	f	line:77	signature:( void )
+fillpwmCommand	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	78;"	f	line:78	signature:( void )
 hemi	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h	33;"	m	line:33
 hover_alt	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	249;"	l	line:249
 i	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	43;"	l	line:43
 i	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	83;"	l	line:83
 init_GVars	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	10;"	p	line:10	file:	signature:( void )
-init_GVars	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	96;"	f	line:96	signature:( void )
-init_LEDs	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	118;"	f	line:118	signature:( void )
+init_GVars	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	97;"	f	line:97	signature:( void )
+init_LEDs	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	119;"	f	line:119	signature:( void )
 init_LEDs	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	14;"	p	line:14	file:	signature:( void )
-init_T1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	108;"	f	line:108	signature:( void )
+init_T1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	109;"	f	line:109	signature:( void )
 init_T1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	12;"	p	line:12	file:	signature:( void )
 latitude	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h	38;"	m	line:38
-lcv	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	519;"	l	line:519
+lcv	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	521;"	l	line:521
 lcv	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	68;"	l	line:68
 lcv	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	86;"	l	line:86
 longitude	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h	39;"	m	line:39
@@ -131,7 +131,7 @@ pwmCommand	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	35;"	v	
 rcv	D:\Helicopter\Source\PIC source\Ghazi\Libraries\SPI.c	84;"	l	line:84
 roll_msg	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	245;"	l	line:245
 sec	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.h	32;"	m	line:32
-setupTRIS	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	85;"	f	line:85	signature:( void )
+setupTRIS	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	86;"	f	line:86	signature:( void )
 setupTRIS	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_Program\main.c	8;"	p	line:8	file:	signature:( void )
 state	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	79;"	l	line:79	file:
 val	D:\Helicopter\Source\PIC source\Ghazi\Libraries\RFprotocol.c	250;"	l	line:250
