@@ -341,7 +341,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 					break;
 				}	
 				
-				case 0x46: 	// Hover
+				case 0x48: 	// Hover
 				{
 					switch(vdata[2])
 					{
@@ -386,12 +386,14 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 						case 0x48:		// Hover at altitude	
 						{
 							GP_goto.data = vdata[13] * 256 + vdata[14];
+							GP_ACK(vdata, len);
 							break;	
 						}
 						
 						case 0x53:		// conduct search pattern	
 						{
 							GP_goto.data = vdata[13];
+							GP_ACK(vdata, len);
 							break;	
 						}
 					}
