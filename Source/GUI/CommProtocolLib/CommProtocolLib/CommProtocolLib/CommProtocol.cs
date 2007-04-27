@@ -238,13 +238,14 @@ namespace CommProtocolLib
         public CommProtocol(string PortName, int BaudRate, Form ParentForm)
         {
             this.ParentForm = ParentForm;
+            Setup();
             try
             {
                 SP = new SerialPort(PortName, BaudRate);
                 SP.Encoding = encoding;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
-                Setup();
+
                
             }
             catch (Exception ex)
@@ -264,6 +265,7 @@ namespace CommProtocolLib
         public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits, Form ParentForm)
         {
             this.ParentForm = ParentForm;
+            Setup();
             try
             {
                 
@@ -271,7 +273,7 @@ namespace CommProtocolLib
                 SP.Encoding = encoding;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
-                Setup();
+
             }
             catch (Exception ex)
             {
@@ -292,6 +294,8 @@ namespace CommProtocolLib
         public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits, int Timeout, Form ParentForm)
         {
             this.ParentForm = ParentForm;
+            this.TimeOut = Timeout;
+            Setup();
             try
             {
 
@@ -299,8 +303,7 @@ namespace CommProtocolLib
                 SP.Encoding = encoding;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
-                this.TimeOut = Timeout;
-                Setup();
+
             }
             catch (Exception ex)
             {
@@ -853,42 +856,54 @@ namespace CommProtocolLib
             {
                IncomingDataBuffer += (char)(byte)SP.ReadByte();
             }
-            NonVolatileIncomingDataBuffer += IncomingDataBuffer;
-            if (ExpectedResponse.ResponseExpected == false)
+            foreach (char c in IncomingDataBuffer)
             {
-                //this means the helicopter has spoken without being asked to, probably an error message
-                MatchIncomingPacket();
+                NonVolatileIncomingDataBuffer += CharToHex(c) + " ";
             }
-            else if (ExpectedResponse.ResponseExpected == true && ExpectedResponse.ResponseType == ExpectedResponses.type.DataResponse)
+            NonVolatileIncomingDataBuffer += "\n";
+            if (IncomingDataBuffer.Length >= 2 && (int)IncomingDataBuffer[0] == 0xA5 && (int)IncomingDataBuffer[1] == 0x5A)//check for packet header
             {
-                //if WaitingForResponse is true then we are waiting for a response for a sent packet
-                //otherwise it is probably a regular data packet
-
-                //match the incoming packet against known data packets
-                MatchIncomingPacket();
-            }
-            else if (ExpectedResponse.ResponseExpected == true && ExpectedResponse.ResponseType == ExpectedResponses.type.FullPacketResponse)
-            {
-                //a full packet response is requested
-                if (IncomingDataBuffer == ExpectedResponse.ExpectedPacket)
+                if (ExpectedResponse.ResponseExpected == false)
                 {
-                    ParentForm.Invoke(ExpectedResponseReceived, new object[] { this, new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name, IncomingDataBuffer) });
-                  //  OnExpectedResponseReceived(new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name,IncomingDataBuffer));
-                    ClearBuffer();
-                    //the response is successfully received
+                    //this means the helicopter has spoken without being asked to, probably an error message
+                    MatchIncomingPacket();
                 }
-                if (IncomingDataBuffer.Length >= ExpectedResponse.ExpectedPacket.Length)
+                else if (ExpectedResponse.ResponseExpected == true && ExpectedResponse.ResponseType == ExpectedResponses.type.DataResponse)
                 {
-                    //throw the event
-                    ParentForm.Invoke(BadPacketReceived, 
-                        new object[] { this,
+                    //if WaitingForResponse is true then we are waiting for a response for a sent packet
+                    //otherwise it is probably a regular data packet
+
+                    //match the incoming packet against known data packets
+                    MatchIncomingPacket();
+                }
+                else if (ExpectedResponse.ResponseExpected == true && ExpectedResponse.ResponseType == ExpectedResponses.type.FullPacketResponse)
+                {
+                    //a full packet response is requested
+                    if (IncomingDataBuffer == ExpectedResponse.ExpectedPacket)
+                    {
+                        ParentForm.Invoke(ExpectedResponseReceived, new object[] { this, new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name, IncomingDataBuffer) });
+                        //  OnExpectedResponseReceived(new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name,IncomingDataBuffer));
+                        ClearBuffer();
+                        //the response is successfully received
+                    }
+                    if (IncomingDataBuffer.Length >= ExpectedResponse.ExpectedPacket.Length)
+                    {
+                        //throw the event
+                        ParentForm.Invoke(BadPacketReceived,
+                            new object[] { this,
                             new BadPacketReceivedEventArgs(IncomingDataBuffer, "Received a bad packet response for command: " + ExpectedResponse.Name)
                         });
 
-                    //the packet was bad dump it
-                    ClearBuffer();
+                        //the packet was bad dump it
+                        ClearBuffer();
+                    }
                 }
             }
+            else
+            {
+                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header") });
+                ClearBuffer();
+            }         
         }
 
         /// <summary>
@@ -898,59 +913,50 @@ namespace CommProtocolLib
         {
             if (IncomingDataBuffer.Length >= 5)//5 is the minimum size that contains the command 
             {
-                if ((int)IncomingDataBuffer[0] == 0xA5 && (int)IncomingDataBuffer[1] == 0x5A)//packet header
+                if ((int)IncomingDataBuffer[3] == 0x74)//telemetry command
                 {
-                    if ((int)IncomingDataBuffer[3] == 0x74)//telemetry command
+                    if ((int)IncomingDataBuffer[4] == 0x4C)//location command
                     {
-                        if ((int)IncomingDataBuffer[4] == 0x4C)//location command
-                        {
-                            ParseLocationPacket();
-                        }
-                        else if ((int)IncomingDataBuffer[4] == 0x48)//heading/speed/altitude command
-                        {
-                            ParseHeadingSpeedAltitudePacket();
-                        }
-                        else if ((int)IncomingDataBuffer[4] == 0x5A)//attitude command
-                        {
-                            ParseAttitudePacket();
-                        }
-                        else if ((int)IncomingDataBuffer[4] == 0x42)//battery status
-                        {
-                            ParseBatteryStatusPacket();
-                        }
-                        else if ((int)IncomingDataBuffer[4] == 0x45)//onboard error
-                        {
-                            ParseOnBoardErrorPacket();
-                        }
-                        else if ((int)IncomingDataBuffer[4] == 0x50)//pre-flight packet
-                        {
-                            ParsePreFlightPacket();
-                        }
-                        else
-                        {
-                            ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown telemetry command") });
-                            ClearBuffer();
-                        }
+                        ParseLocationPacket();
                     }
-                    else if ((int)IncomingDataBuffer[3] == 0x43 && (int)IncomingDataBuffer[4] == 0x06)//comms handshake, ack received
+                    else if ((int)IncomingDataBuffer[4] == 0x48)//heading/speed/altitude command
                     {
-                        ParseCommHandShakeAck();
+                        ParseHeadingSpeedAltitudePacket();
+                    }
+                    else if ((int)IncomingDataBuffer[4] == 0x5A)//attitude command
+                    {
+                        ParseAttitudePacket();
+                    }
+                    else if ((int)IncomingDataBuffer[4] == 0x42)//battery status
+                    {
+                        ParseBatteryStatusPacket();
+                    }
+                    else if ((int)IncomingDataBuffer[4] == 0x45)//onboard error
+                    {
+                        ParseOnBoardErrorPacket();
+                    }
+                    else if ((int)IncomingDataBuffer[4] == 0x50)//pre-flight packet
+                    {
+                        ParsePreFlightPacket();
                     }
                     else
                     {
-                        ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown command") });
+                        ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown telemetry command") });
                         ClearBuffer();
                     }
                 }
+                else if ((int)IncomingDataBuffer[3] == 0x43 && (int)IncomingDataBuffer[4] == 0x06)//comms handshake, ack received
+                {
+                    ParseCommHandShakeAck();
+                }
                 else
                 {
-                    ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header") });
+                    ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown command") });
                     ClearBuffer();
                 }
             }
         }
 
-       
         #region Location Packet received
         private void ParseLocationPacket()
         {
@@ -1039,7 +1045,9 @@ namespace CommProtocolLib
                     else
                     {
                         ParentForm.Invoke(BadPacketReceived, new object[] {this, 
-                            new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The east west byte of the Longitude in a received location packet is invalid.")});
+                            new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                            "Invalid packet: The east west byte of the Longitude in a received location packet is invalid.")
+                        });
                         ClearBuffer();
                         return;
                     }
@@ -1051,7 +1059,9 @@ namespace CommProtocolLib
             }
             if (IncomingDataBuffer.Length >= 18)
             {
-                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad location packet received") });
+                ParentForm.Invoke(BadPacketReceived, new object[] { 
+                    this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad location packet received") 
+                });
                 ClearBuffer();
             }
         }
@@ -1523,29 +1533,53 @@ namespace CommProtocolLib
         }
         private void SendPacket(string Name, ExpectedResponses.type type)
         {
-            if (type == ExpectedResponses.type.FullPacketResponse)
-            {
-                
-                ExpectedResponse.ExpectedPacket = BuildExpectedResponse(OutGoingPacket);
-                ExpectedResponse.ResponseExpected = true;
-                ExpectedResponse.Name = Name;
-                ExpectedResponse.ResponseType = type;
-                SP.Write(OutGoingPacket, 0, OutGoingPacket.Length);
-                ResponseTimer.Start();
-            }
-            else if (type == ExpectedResponses.type.DataResponse)
-            {
-                ExpectedResponse.ExpectedPacket = "UNDEFINED";//a data packet is expected, we can't define it here
-                ExpectedResponse.ResponseExpected = true;
-                ExpectedResponse.Name = Name;
-                ExpectedResponse.ResponseType = type;
-                SP.Write(OutGoingPacket, 0, OutGoingPacket.Length);
-                ResponseTimer.Start();
-            }
-            else if (type == ExpectedResponses.type.none)
-            {
-                SP.Write(OutGoingPacket, 0, OutGoingPacket.Length);//no response is expected, just write the packet
-            }
+
+                if (type == ExpectedResponses.type.FullPacketResponse)
+                {
+
+                    ExpectedResponse.ExpectedPacket = BuildExpectedResponse(OutGoingPacket);
+                    ExpectedResponse.ResponseExpected = true;
+                    ExpectedResponse.Name = Name;
+                    ExpectedResponse.ResponseType = type;
+                    try
+                    {
+                        SP.Write(OutGoingPacket, 0, OutGoingPacket.Length);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("While trying to send out serial port data, CommProtocol had this error: " + ex.Message, "CommProtocol Error");
+                    }
+                    ResponseTimer.Start();
+                }
+                else if (type == ExpectedResponses.type.DataResponse)
+                {
+                    ExpectedResponse.ExpectedPacket = "UNDEFINED";//a data packet is expected, we can't define it here
+                    ExpectedResponse.ResponseExpected = true;
+                    ExpectedResponse.Name = Name;
+                    ExpectedResponse.ResponseType = type;
+                    try
+                    {
+                        SP.Write(OutGoingPacket, 0, OutGoingPacket.Length);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("While trying to send out serial port data, CommProtocol had this error: " + ex.Message, "CommProtocol Error");
+                    }
+                    ResponseTimer.Start();
+                }
+                else if (type == ExpectedResponses.type.none)
+                {
+                    try
+                    {
+                        SP.Write(OutGoingPacket, 0, OutGoingPacket.Length);//no response is expected, just write the packet
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("While trying to send out serial port data, CommProtocol had this error: " + ex.Message, "CommProtocol Error");
+                    }
+                }
+            
+
 
         }
         private void ResponseTimer_Elapsed(Object Sender, EventArgs e)
@@ -1564,6 +1598,10 @@ namespace CommProtocolLib
         {
             IncomingDataBuffer = "";
             ExpectedResponse.ResponseExpected = false;
+        }
+        private string CharToHex(char c)
+        {
+            return string.Format("0x{0:x2}", (int)c);
         }
         #endregion
 
