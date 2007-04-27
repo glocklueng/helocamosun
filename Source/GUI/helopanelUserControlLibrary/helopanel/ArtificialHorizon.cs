@@ -158,7 +158,7 @@ namespace helopanel
             gp.CloseFigure();
             gp.AddLine(centerX + 20 * ScaleFactor, centerY + 24 * ScaleFactor, centerX - 20 * ScaleFactor, centerY + 24 * ScaleFactor);
             gp.CloseFigure();
-
+            
             TranslationTransform = new Matrix(1, 0, 0, 1, 0, 0); // translation matrix
             TranslationTransform.Translate(0, -pitch);
             gp.Transform(TranslationTransform);

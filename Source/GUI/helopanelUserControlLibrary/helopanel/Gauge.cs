@@ -68,7 +68,7 @@ namespace helopanel
         {
             InitializeComponent();
 
-            // Activates double buffering
+            // Activates double buffering so the controls dont flicker
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true); 
