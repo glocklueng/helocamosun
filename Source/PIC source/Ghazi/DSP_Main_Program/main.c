@@ -132,6 +132,7 @@ void __attribute__(( interrupt, no_auto_psv )) _U1RXInterrupt(void)
 	GP_bytercvd = 1;		// indicate a byte was received
 	GP_dump = U1RXREG;		// read the byte from the receive register
 	IEC0bits.U1RXIE = 1;	// re-enable the receive interrupt
+	
 	//LATDbits.LATD0 ^= 1;
 }
 

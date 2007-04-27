@@ -33,7 +33,7 @@ char GP_err_EOT[] = "Error: EOR Invalid\n";
 char GP_it_works[] = "It works!";
 char GP_debug_dv[] = "Data is Valid\n";
 char GP_handshake[]= { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 } ;
-
+char GP_unk_AA[]= "Error: Unknown AoA";
 unsigned char newPWM = 0;
 
 
@@ -87,6 +87,7 @@ void GP_state_machine ( void )
 
 	if (GP_bytercvd)
 	{
+		//GP_TX_char(GP_dump);
 		
 		GP_bytercvd = 0;
 	
@@ -140,7 +141,8 @@ void GP_state_machine ( void )
 				if (packet_cnt < packet_length)
 				{
 					chksum += GP_dump;
-					packet[packet_cnt] = GP_dump;
+					//packet[packet_cnt] = GP_dump;
+					GP_data[packet_cnt] = GP_dump;
 					packet_cnt++;
 					if (packet_cnt == packet_length)
 					{
@@ -199,11 +201,11 @@ void GP_state_machine ( void )
 				{
 					if (check == chksum)
 					{	
-						strcpy(GP_data, packet);
+						//strcpy(GP_data, packet);
 						GP_datavalid = 1;
 						LATDbits.LATD3 ^= 1;
 						GP_data_len = packet_length;
-						//GP_TX_packet( GP_it_works, strlen(GP_it_works) );
+						//GP_TX_packet( packet, GP_data_len );
 					}
 					else
 					{
@@ -244,7 +246,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 	char yaw_msg[] = "Yaw set to ";
 	char roll_msg[] = "Roll set to ";
 	char coll_msg[] = "Collective set to ";
-	
+	unsigned short k;
 	
 	unsigned short hover_alt = 0;
 	char val[5] = "";
@@ -396,6 +398,9 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 							GP_ACK(vdata, len);
 							break;	
 						}
+						default:
+							GP_TX_packet(GP_unk_AA, strlen(GP_unk_AA));
+							break;
 					}
 				
 					break;	
@@ -512,7 +517,12 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 		}
 		
 	}
-		
+	
+	for (k = 0; k <= 255; k++)
+	{
+		vdata[k] = 1;	
+	}
+	
 }
 
 void GP_ACK( char vdata[MAXPACKLEN], char len )
