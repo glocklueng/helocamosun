@@ -522,7 +522,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 
 void GP_TX_telemetry( unsigned char type )
 {
-	char packet[MAXPACKLEN] = "";
+	unsigned char packet[MAXPACKLEN] = "";
 	unsigned char cnt = 0;
 	unsigned short chksum = 0;
 	
@@ -714,19 +714,23 @@ void GP_init_chopper( void )
 {
 	GP_helicopter.goto_position.latitude.deg = 48;
 	GP_helicopter.goto_position.latitude.min = 30;
-	GP_helicopter.goto_position.latitude.deg = 0;
+	GP_helicopter.goto_position.latitude.sec = 0;
+	GP_helicopter.goto_position.latitude.hemi = 0x4E;
 	
 	GP_helicopter.goto_position.longitude.deg = 124;
 	GP_helicopter.goto_position.longitude.min = 30;
-	GP_helicopter.goto_position.longitude.deg = 0;
+	GP_helicopter.goto_position.longitude.sec = 0;
+	GP_helicopter.goto_position.longitude.hemi = 0x57;
 	
 	GP_helicopter.position.latitude.deg = 48;
 	GP_helicopter.position.latitude.min = 30;
-	GP_helicopter.position.latitude.deg = 0;
+	GP_helicopter.position.latitude.sec = 0;
+	GP_helicopter.position.latitude.hemi = 0x4E;
 	
 	GP_helicopter.position.longitude.deg = 124;
 	GP_helicopter.position.longitude.min = 30;
-	GP_helicopter.position.longitude.deg = 0;
+	GP_helicopter.position.longitude.sec = 0;
+	GP_helicopter.position.longitude.hemi = 0x57;
 	
 	GP_helicopter.hsa.heading = 0;
 	GP_helicopter.hsa.speed = 0;
