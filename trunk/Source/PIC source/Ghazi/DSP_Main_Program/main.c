@@ -105,7 +105,7 @@ void init_GVars ( void )
 
 void init_T1 ( void )
 {
-	PR1 = 1796;				// 50us
+	PR1 = 65535;				// 50us
 	IEC0bits.T1IE = 1;
 	T1CONbits.TCS = 0;   //1.8425 MHz = 542.7 ns / tick
 	T1CONbits.TCKPS = 0b11;
