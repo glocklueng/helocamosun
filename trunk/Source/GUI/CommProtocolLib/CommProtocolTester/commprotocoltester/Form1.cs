@@ -24,7 +24,7 @@ namespace commprotocoltester
         public Form1()
         {
             InitializeComponent();
-            cp = new CommProtocol("COM6", 19200, Parity.None, 8, StopBits.One, this);
+            cp = new CommProtocol("COM8", 19200, Parity.None, 8, StopBits.One, this);
             
             //event handlers
             cp.LocationPacketReceived += new CommProtocol.LocationPacketReceivedEventHandler(cp_LocationPacketReceived);
@@ -49,26 +49,46 @@ namespace commprotocoltester
         void cp_PreFlightPacketReceived(object sender, CommProtocol.PreFlightPacketReceivedEventArgs e)
         {
             PFP = e.PFP;
+
+            MessageBox.Show("Pre-flight packet received: \r\n" +
+                "battery temperature: " + PFP.BatteryTemp + "\r\n" +
+                "GPS Altitude: " + PFP.GPSAltitude + "\r\n" +
+                "Lat degrees: " + PFP.Lat.Degrees + "\r\n" +
+                "Lat minutes: " + PFP.Lat.Minutes + "\r\n" +
+                "Lat seconds: " + (float)(PFP.Lat.SecondsH)+(PFP.Lat.SecondsL/1024f) + "\r\n" +
+                "North degrees: " + PFP.Lat.North + "\r\n" +
+                "Long degrees: " + PFP.Long.Degrees + "\r\n" +
+                "Long minutes: " + PFP.Long.Minutes + "\r\n" +
+                "Long seconds: " + (float)(PFP.Long.SecondsH) + (PFP.Long.SecondsL / 1024f) + "\r\n" +
+                "East degrees: " + PFP.Long.East + "\r\n" +
+                "sensor status: " + string.Format("{0:x2}",PFP.SensorStatus) + "\r\n" +
+                "sonar altitude: " + PFP.SonarAltitude
+                );
         }
 
         void cp_HandShakeAckReceived(object sender, EventArgs e)
         {
-            cp.CommsHandShakeTerminate();
+            //cp.CommsHandShakeTerminate();
+            textBox1.AppendText("Hand shake ack received");
         }
 
         void cp_AttitudePacketReceived(object sender, CommProtocol.AttitudePacketReceivedEventArgs e)
         {
             attitude = e.attitude;
+            MessageBox.Show("Attitude packet received: PITCH: " + attitude.Pitch + " ROLL: " + attitude.Roll + " YAW: " + attitude.Yaw);
         }
 
         void cp_HeadingSpeedAltitudePacketReceived(object sender, CommProtocol.HeadingSpeedAltitudePacketReceivedEventArgs e)
         {
             HSA = e.HSA;
+
+            MessageBox.Show("Heading/Speed/Altitude packet received: Altitude: " + HSA.Altitude + " Heading: " + HSA.Heading + " Speed: " + HSA.Speed);
         }
 
         void cp_BatteryStatusPacketReceived(object sender, CommProtocol.BatteryStatusPacketReceivedEventArgs e)
         {
             Battery_Status = e.BattStat;
+            MessageBox.Show("Battery status packet received: Current: " + Battery_Status.CurrentDraw + " Temperature: " + Battery_Status.Temperature + " Voltage: " + Battery_Status.Voltage);
         }
 
         void cp_ResponseTimeout(object sender, CommProtocol.ResponseTimeoutEventArgs e)
@@ -92,6 +112,17 @@ namespace commprotocoltester
             Lat = e.Lat;
             Lon = e.Long;
             
+            MessageBox.Show(
+                            "Location packet received: \r\n" +
+                            "Lat degrees: " + Lat.Degrees + "\r\n" +
+                            "Lat minutes: " + Lat.Minutes + "\r\n" +
+                            "Lat seconds: " + (float)(Lat.SecondsH) + (Lat.SecondsL / 1024f) + "\r\n" +
+                            "North: " + Lat.North + "\r\n" +
+                            "Long degrees: " + Lon.Degrees + "\r\n" +
+                            "Long minutes: " + Lon.Minutes + "\r\n" +
+                            "Long seconds: " + (float)(Lon.SecondsH) + (Lon.SecondsL / 1024f) + "\r\n" +
+                            "East: " + Lon.East + "\r\n"
+                            );
         }
 
         private void cp_BadPacketReceived(object sender, CommProtocol.BadPacketReceivedEventArgs e)
@@ -157,10 +188,7 @@ namespace commprotocoltester
             cp.Hover(0x50,(ushort)0);
         }
 
-        private void btnRequestForInformation_Click(object sender, EventArgs e)
-        {
-            cp.RequestForInformation((byte)0x42);
-        }
+
 
         private void btnRequestPreFlightPacket_Click(object sender, EventArgs e)
         {
@@ -204,6 +232,37 @@ namespace commprotocoltester
         public string CharToHex(char c)
         {
             return string.Format("{0:x2}", (int)c);
+        }
+        private void btnRequestLocation_Click(object sender, EventArgs e)
+        {
+            /*		0x4C	Locartion
+		            0x48	Heading/Speed/Altitude
+		            0x5A 	Attitude
+		            0x42	Battery Status
+             */
+            cp.RequestForInformation(0x4C);
+
+        }
+        private void btnRequestBatteryStatus_Click(object sender, EventArgs e)
+        {
+            /*		0x4C	Locartion
+        0x48	Heading/Speed/Altitude
+        0x5A 	Attitude
+        0x42	Battery Status
+ */
+
+
+            cp.RequestForInformation(0x42);
+        }
+
+        private void btnRequestHSA_Click(object sender, EventArgs e)
+        {
+            cp.RequestForInformation(0x48);
+        }
+
+        private void btnRequestAttitude_Click(object sender, EventArgs e)
+        {
+            cp.RequestForInformation(0x5A);
         }
     }
 }
