@@ -51,6 +51,8 @@ int main ( void )
 	SPI_init();	
 	GP_init_UART(19200);
 	
+	GP_init_chopper();
+	
 	while(1)
 	{
 		GP_state_machine();
@@ -66,11 +68,6 @@ int main ( void )
 			fillpwmCommand();
 			SPI_tx_command(pwmCommand, 5);	
 		}
-		
-		/*SPI_tx_req(GSPI_AccReq, GSPI_AccData);
-		GP_TX_packet(GSPI_AccData, 6);
-		for (i=0;i<100000;i++);*/
-		
 	}
 	return 0;
 }
