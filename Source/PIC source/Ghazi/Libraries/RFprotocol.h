@@ -19,8 +19,14 @@ void GP_state_machine ( void );
 void GP_parse_data ( char vdata[MAXPACKLEN], char len );
 // parses the data portion of a valid packet
 
+void GP_TX_telemetry( unsigned char type );
+// transmits a telemetry packet IAW "type"
+
 void GP_ACK( char vdata[MAXPACKLEN], char len );
 // builds an acknowledgement packet based on the contents of data
+
+void GP_init_chopper( void );
+// initializes the helicopter variables
 
 char *GP_itoa(char *buffer, int i);
 // converts an integer into a string
@@ -41,6 +47,40 @@ typedef struct
      short data;	// either an altitude to hover at, or a search pattern to conduct
 } GPT_goto_position;
 
+typedef struct
+{
+	unsigned short heading;
+	unsigned char speed;
+	unsigned short altitude;	
+} GPT_HSA;
+
+typedef struct
+{
+	signed short pitch, roll, yaw;	
+} GPT_attitude;
+
+typedef struct
+{
+	signed short voltage, current, temp;	
+} GPT_batterystatus;
+
+typedef struct
+{
+	GPT_latlong latitude, longitude;	
+} GPT_position;
+
+typedef struct
+{
+	GPT_goto_position goto_position;
+	GPT_HSA hsa;
+	GPT_attitude attitude;
+	GPT_batterystatus batterystatus;
+	GPT_position position;	
+	
+	unsigned short GPS_alt, SON_alt;
+	unsigned char sensors;
+	
+} GPT_helicopter;
 
 //-------------------------- Global Variables -------------------------------
 extern unsigned char GP_bytercvd;  	// 0 = no byte in buffer, 1 = byte in buffer
@@ -61,7 +101,12 @@ extern char GP_errorSOT;
 extern char GP_errorEOT;
 extern unsigned char GP_dump;
 extern unsigned char GP_hs;
-extern GPT_goto_position GP_goto;
+//extern GPT_goto_position GP_goto;
+//extern GPT_position GP_position;
+//extern GPT_HSA GP_hsa;
+//extern GPT_attitude GP_attitude;
+//extern GPT_batterystatus GP_batterystatus;
+//extern GPT_helicopter GP_helicopter;
 extern unsigned char GP_engON;
 //--------------------------- Messages --------------------------------
 extern char GP_err_chksum[];

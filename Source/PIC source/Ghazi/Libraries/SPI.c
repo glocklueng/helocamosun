@@ -55,13 +55,9 @@ void SPI_init ()
 void SPI_tx_byte ( char ch)
 {
 	char c;
-	
-	
 	SPI1STATbits.SPIEN = 1;
 	SPI1BUF = ch;
 	c = SPI1BUF;
-
-	//SPI1STATbits.SPIEN = 0;
 }
 
 void SPI_tx_command ( char packet[MAXPACKLEN], char len )

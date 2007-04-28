@@ -6,8 +6,8 @@
 
 unsigned char GP_bytercvd = 0;  	// 0 = no byte in buffer, 1 = byte in buffer
 unsigned char GP_datavalid = 0;	// 0 = no valid data ready, 1 = valid data ready
-char GP_data[MAXPACKLEN] = "";
-char GP_data_len = 0;
+char GP_data[MAXPACKLEN] = "";	// the stored data portion of the packet (length to checksum exclusive)
+char GP_data_len = 0;			// length of GP_data
 unsigned char GP_engRPM = 0;
 unsigned char GP_pitch = 0;
 unsigned char GP_roll = 0;
@@ -20,18 +20,23 @@ unsigned char GP_yawsp[3] = "";
 unsigned char GP_collsp[3] = "";
 char GP_errorSOT;
 char GP_errorEOT;
-unsigned char GP_dump;
-unsigned char GP_hs = 0;
-GPT_goto_position GP_goto;
+unsigned char GP_dump;				// holds the byte received on the UART
+unsigned char GP_hs = 0;			// 1 = we are in handshake mode
 
+//GPT_goto_position GP_goto;
+//GPT_position GP_position = { 48, 30, 0, 0x4E, 124, 30, 0, 0x57 };
+//GPT_HSA GP_hsa = {0,0,0};
+//GPT_attitude GP_attitude = {0,0,0};
+//GPT_batterystatus GP_batterystatus = {100,100,100};
+GPT_helicopter GP_helicopter;
 unsigned char GP_engON = 0;
 
 
-char GP_err_chksum[] = "Error: Checksum incorrect\n";
-char GP_err_SOT[] = "Error: SOT Invalid\n";
-char GP_err_EOT[] = "Error: EOR Invalid\n";
+char GP_err_chksum[] = "Error: Checksum incorrect";
+char GP_err_SOT[] = "Error: SOT Invalid";
+char GP_err_EOT[] = "Error: EOR Invalid";
 char GP_it_works[] = "It works!";
-char GP_debug_dv[] = "Data is Valid\n";
+char GP_debug_dv[] = "Data is Valid";
 char GP_handshake[]= { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 } ;
 char GP_unk_AA[]= "Error: Unknown AoA";
 unsigned char newPWM = 0;
@@ -87,8 +92,6 @@ void GP_state_machine ( void )
 
 	if (GP_bytercvd)
 	{
-		//GP_TX_char(GP_dump);
-		
 		GP_bytercvd = 0;
 	
 		switch (state)
@@ -101,13 +104,11 @@ void GP_state_machine ( void )
 					chksum = 0;
 					state++;
 					LATDbits.LATD1 ^= 1;
-					//GP_TX_packet(GP_err_SOT, strlen(GP_err_SOT));
 				}
 			
 				else
 				{
 					GP_errorSOT = 1;
-					//GP_TX_packet(GP_err_SOT, strlen(GP_err_SOT));
 				}
 				break;
 			}
@@ -117,7 +118,6 @@ void GP_state_machine ( void )
 				if (GP_dump == 0x5A)
 				{
 					state++;
-					//LATDbits.LATD1 ^= 1;
 				}
 
 				else 
@@ -141,7 +141,6 @@ void GP_state_machine ( void )
 				if (packet_cnt < packet_length)
 				{
 					chksum += GP_dump;
-					//packet[packet_cnt] = GP_dump;
 					GP_data[packet_cnt] = GP_dump;
 					packet_cnt++;
 					if (packet_cnt == packet_length)
@@ -201,11 +200,10 @@ void GP_state_machine ( void )
 				{
 					if (check == chksum)
 					{	
-						//strcpy(GP_data, packet);
+					
 						GP_datavalid = 1;
 						LATDbits.LATD3 ^= 1;
 						GP_data_len = packet_length;
-						//GP_TX_packet( packet, GP_data_len );
 					}
 					else
 					{
@@ -225,6 +223,13 @@ void GP_state_machine ( void )
 				else
 				{
 					//GP_TX_packet( GP_err_EOT, strlen(GP_err_EOT) );
+					state = 0;
+					packet_length = 0;
+					packet_cnt = 0;
+					chksum = 0;
+					checksum[0] = 0;
+					checksum[1] = 0;
+					check = 0;
 				}
 			
 				break;
@@ -371,30 +376,30 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 				
 				case 0x47:	// GOTO
 				{
-					GP_goto.latitude.deg = vdata[2];
-					GP_goto.latitude.min = vdata[3];
-					GP_goto.latitude.sec = vdata[4] * 256 + vdata[5];
-					GP_goto.latitude.hemi = vdata[6];
+					GP_helicopter.goto_position.latitude.deg = vdata[2];
+					GP_helicopter.goto_position.latitude.min = vdata[3];
+					GP_helicopter.goto_position.latitude.sec = vdata[4] * 256 + vdata[5];
+					GP_helicopter.goto_position.latitude.hemi = vdata[6];
 					
-					GP_goto.longitude.deg = vdata[7];
-					GP_goto.longitude.min = vdata[8];
-					GP_goto.longitude.sec = vdata[9] * 256 + vdata[10];
-					GP_goto.longitude.hemi = vdata[11];	
+					GP_helicopter.goto_position.longitude.deg = vdata[7];
+					GP_helicopter.goto_position.longitude.min = vdata[8];
+					GP_helicopter.goto_position.longitude.sec = vdata[9] * 256 + vdata[10];
+					GP_helicopter.goto_position.longitude.hemi = vdata[11];	
 					
-					GP_goto.action = vdata[12];
+					GP_helicopter.goto_position.action = vdata[12];
 					
 					switch(vdata[12])	
 					{
 						case 0x48:		// Hover at altitude	
 						{
-							GP_goto.data = vdata[13] * 256 + vdata[14];
+							GP_helicopter.goto_position.data = vdata[13] * 256 + vdata[14];
 							GP_ACK(vdata, len);
 							break;	
 						}
 						
 						case 0x53:		// conduct search pattern	
 						{
-							GP_goto.data = vdata[13];
+							GP_helicopter.goto_position.data = vdata[13];
 							GP_ACK(vdata, len);
 							break;	
 						}
@@ -414,7 +419,8 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 				
 				case 0x50:	// Request Pre-flight Packet
 				{
-					GP_ACK(vdata, len);
+					//GP_ACK(vdata, len);
+					GP_TX_telemetry(vdata[1]);
 					break;	
 				}
 				
@@ -458,32 +464,20 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 					switch(vdata[2])
 					{
 						case 0x4C:	// location
-						{
-							// Send location packet
-							GP_ACK(vdata, len);
-							break;
-						}
-						
 						case 0x48:	// Heading/Speed/Altitude
-						{
-							// send HSA packet
-							GP_ACK(vdata, len);
-							break;
-						}
-						
 						case 0x5A:	// attitude
-						{
-							// send attitude packet
-							GP_ACK(vdata, len);
-							break;
-						}
-						
 						case 0x42:	// battery status
 						{
-							// send battery status packet
-							GP_ACK(vdata, len);
+							
+							GP_TX_telemetry(vdata[2]);
 							break;
 						}
+						default:
+						{
+							// SEND ERROR
+							break;
+						}	
+						
 					}
 					break;	
 				}
@@ -525,6 +519,173 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 	
 }
 
+
+void GP_TX_telemetry( unsigned char type )
+{
+	char packet[MAXPACKLEN] = "";
+	unsigned char cnt = 0;
+	unsigned short chksum = 0;
+	
+	packet[0] = 0xa5;
+	packet[1] = 0x5a;
+	packet[3] = 0x74;
+	packet[4] = type;
+	
+	switch (type)
+	{
+		case 0x4C:	// location
+		{
+			packet[2] = 12;
+			
+			packet[5] = GP_helicopter.position.latitude.deg;
+			packet[6] = GP_helicopter.position.latitude.min;
+			packet[7] = (GP_helicopter.position.latitude.sec & 0xFF00) >> 8;
+			packet[8] = (GP_helicopter.position.latitude.sec & 0x00FF);
+			packet[9] = GP_helicopter.position.latitude.hemi;
+			
+			packet[10] = GP_helicopter.position.longitude.deg;
+			packet[11] = GP_helicopter.position.longitude.min;
+			packet[12] = (GP_helicopter.position.longitude.sec & 0xFF00) >> 8;
+			packet[13] = (GP_helicopter.position.longitude.sec & 0x00FF);
+			packet[14] = GP_helicopter.position.longitude.hemi;
+			
+			for (cnt = 2; cnt < 15; cnt++)
+			{
+				chksum += packet[cnt];	
+			}
+			
+			packet[15] = (chksum & 0xFF00) >> 8;
+			packet[16] = chksum & 0x00FF;
+			
+			packet[17] = 0xCC;
+			packet[18] = 0x33;
+			
+			GP_TX_packet(packet, 19);
+			break;
+		}
+		
+		case 0x48:	// Heading/Speed/Altitude	
+		{
+			packet[2] = 7;
+			
+			packet[5] = (GP_helicopter.hsa.heading & 0xff00) >> 8;
+			packet[6] = GP_helicopter.hsa.heading & 0x00ff;
+			packet[7] = GP_helicopter.hsa.speed;
+			packet[8] = (GP_helicopter.hsa.altitude & 0xff00) >> 8;
+			packet[9] = GP_helicopter.hsa.altitude & 0x00ff;
+			
+			for (cnt = 2; cnt < 10; cnt++)
+			{
+				chksum += packet[cnt];	
+			}
+			
+			packet[10] = (chksum & 0xFF00) >> 8;
+			packet[11] = chksum & 0x00FF;
+			
+			packet[12] = 0xCC;
+			packet[13] = 0x33;
+			
+			GP_TX_packet(packet, 14);
+			break;
+		}
+		case 0x5A:	// Attitude
+		{
+			packet[2] = 8;
+			
+			packet[5] = (GP_helicopter.attitude.roll & 0xff00) >> 8;
+			packet[6] = GP_helicopter.attitude.roll & 0x00ff;
+			packet[7] = (GP_helicopter.attitude.pitch & 0xff00) >> 8;
+			packet[8] = GP_helicopter.attitude.pitch & 0x00ff;
+			packet[9] = (GP_helicopter.attitude.yaw & 0xff00) >> 8;
+			packet[10] = GP_helicopter.attitude.yaw & 0x00ff;
+			
+			for (cnt = 2; cnt < 11; cnt++)
+			{
+				chksum += packet[cnt];	
+			}
+			
+			packet[11] = (chksum & 0xFF00) >> 8;
+			packet[12] = chksum & 0x00FF;
+			
+			packet[13] = 0xCC;
+			packet[14] = 0x33;
+			
+			GP_TX_packet(packet, 15);
+			break;
+		}
+		case 0x42:	// Battery Status
+		{
+			packet[2] = 8;
+		
+			packet[5] = (GP_helicopter.batterystatus.voltage & 0xff00) >> 8;
+			packet[6] = GP_helicopter.batterystatus.voltage & 0x00ff;
+			packet[7] = (GP_helicopter.batterystatus.current & 0xff00) >> 8;
+			packet[8] = GP_helicopter.batterystatus.current & 0x00ff;
+			packet[9] = (GP_helicopter.batterystatus.temp & 0xff00) >> 8;
+			packet[10] = GP_helicopter.batterystatus.temp & 0x00ff;
+			
+			for (cnt = 2; cnt < 11; cnt++)
+			{
+				chksum += packet[cnt];	
+			}
+			
+			packet[11] = (chksum & 0xFF00) >> 8;
+			packet[12] = chksum & 0x00FF;
+			
+			packet[13] = 0xCC;
+			packet[14] = 0x33;
+			
+			GP_TX_packet(packet, 15);
+			break;	
+		}
+		
+		case 0x50:
+		{
+			packet[2] = 21;
+			
+			packet[5] = GP_helicopter.position.latitude.deg;
+			packet[6] = GP_helicopter.position.latitude.min;
+			packet[7] = (GP_helicopter.position.latitude.sec & 0xFF00) >> 8;
+			packet[8] = (GP_helicopter.position.latitude.sec & 0x00FF);
+			packet[9] = GP_helicopter.position.latitude.hemi;
+			
+			packet[10] = GP_helicopter.position.longitude.deg;
+			packet[11] = GP_helicopter.position.longitude.min;
+			packet[12] = (GP_helicopter.position.longitude.sec & 0xFF00) >> 8;
+			packet[13] = (GP_helicopter.position.longitude.sec & 0x00FF);
+			packet[14] = GP_helicopter.position.longitude.hemi;
+			
+			packet[15] = (GP_helicopter.GPS_alt & 0xFF00) >> 8;
+			packet[16] = (GP_helicopter.GPS_alt & 0x00FF);
+			
+			packet[17] = (GP_helicopter.SON_alt & 0xFF00) >> 8;
+			packet[18] = (GP_helicopter.SON_alt & 0x00FF);
+			
+			packet[19] = (GP_helicopter.batterystatus.voltage & 0xff00) >> 8;
+			packet[20] = GP_helicopter.batterystatus.voltage & 0x00ff;
+			
+			packet[21] = (GP_helicopter.batterystatus.temp & 0xff00) >> 8;
+			packet[22] = GP_helicopter.batterystatus.temp & 0x00ff;
+			
+			packet[23] = GP_helicopter.sensors;
+			
+			for (cnt = 2; cnt < 24; cnt++)
+			{
+				chksum += packet[cnt];	
+			}
+			
+			packet[24] = (chksum & 0xFF00) >> 8;
+			packet[25] = chksum & 0x00FF;
+			
+			packet[26] = 0xCC;
+			packet[27] = 0x33;
+			
+			GP_TX_packet(packet, 28);
+			break;	
+		}
+	}
+	
+}
 void GP_ACK( char vdata[MAXPACKLEN], char len )
 {
 	char ack[MAXPACKLEN] = "";
@@ -547,4 +708,40 @@ void GP_ACK( char vdata[MAXPACKLEN], char len )
 	ack[lcv + 3] = 0x33;
 	
 	GP_TX_packet(ack, len + 8);
+}
+
+void GP_init_chopper( void )
+{
+	GP_helicopter.goto_position.latitude.deg = 48;
+	GP_helicopter.goto_position.latitude.min = 30;
+	GP_helicopter.goto_position.latitude.deg = 0;
+	
+	GP_helicopter.goto_position.longitude.deg = 124;
+	GP_helicopter.goto_position.longitude.min = 30;
+	GP_helicopter.goto_position.longitude.deg = 0;
+	
+	GP_helicopter.position.latitude.deg = 48;
+	GP_helicopter.position.latitude.min = 30;
+	GP_helicopter.position.latitude.deg = 0;
+	
+	GP_helicopter.position.longitude.deg = 124;
+	GP_helicopter.position.longitude.min = 30;
+	GP_helicopter.position.longitude.deg = 0;
+	
+	GP_helicopter.hsa.heading = 0;
+	GP_helicopter.hsa.speed = 0;
+	GP_helicopter.hsa.altitude = 0;
+	
+	GP_helicopter.attitude.pitch = 0;
+	GP_helicopter.attitude.roll = 0;
+	GP_helicopter.attitude.yaw = 0;
+	
+	GP_helicopter.batterystatus.voltage = 100;
+	GP_helicopter.batterystatus.current = 0;
+	GP_helicopter.batterystatus.temp = 20;
+	
+	GP_helicopter.GPS_alt = 0;
+	GP_helicopter.SON_alt = 0;
+	GP_helicopter.sensors = 0xFF;
+	
 }
