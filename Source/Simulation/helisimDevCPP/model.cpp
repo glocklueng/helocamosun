@@ -307,8 +307,9 @@ void ModelInit(void)
 
 
 	// Tail Gyro Gain
-	xcell.c.gyro_gain = 80.0;
-
+	xcell.c.gyro_gain = 0;//80.0;
+    ///we dont have a tail rotor gyro
+    
 /************** COMPUTE CG RELATIVE POSITIONS **********************************/
 	// Main Rotor
 	xcell.m.h = (xcell.cg.wl_cg - xcell.m.wl)/12.0;	// vertical distance to CG (ft)

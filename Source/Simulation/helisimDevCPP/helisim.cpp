@@ -8,14 +8,52 @@
 
 #include "helisim.h"
 #include <stdio.h>
-#include "control.h"
+
+//#define FUZZYCONTROL
+
+#define PIDCONTROL
+
+#ifdef PIDCONTROL
+#include "PIDcontrol.h"
+#endif
+
+#ifdef FUZZYCONTROL
+#include "FuzzyControl.h"
+#endif
 
 double windows_dt = 0.05;
 
 int simWindow;
 int hudWindow;
 
-HelicopterController HC;
+
+#ifdef PIDCONTROL
+HelicopterController HC; //create a PID control object
+#endif
+
+#ifdef FUZZYCONTROL
+    double negative, zero, positive;
+    
+        fMember pitch_mf[3];
+    fMember *pitch_angle_mf = &pitch_mf[0], 
+		*pitch_rate_mf  = &pitch_mf[1], 
+		*pitch_accel_mf = &pitch_mf[2];
+		
+    fMember roll_mf[3];
+    fMember *roll_angle_mf = &roll_mf[0], 
+		*roll_rate_mf  = &roll_mf[1], 
+		*roll_accel_mf = &roll_mf[2];
+		
+    fMember yaw_mf[3];
+    fMember *yaw_angle_mf = &yaw_mf[0], 
+		*yaw_rate_mf  = &yaw_mf[1], 
+		*yaw_accel_mf = &yaw_mf[2];
+
+    fMember collective_mf[3];
+    fMember *collective_height_mf = &collective_mf[0], 
+		*collective_rate_mf  = &collective_mf[1], 
+		*collective_accel_mf = &collective_mf[2];
+#endif
 /********* SCOPE FUNCTIONS *************/
 static void ResizeSimWindow(GLsizei w, GLsizei h);
 static void ResizeHudWindow(GLsizei w, GLsizei h);
@@ -121,17 +159,53 @@ void Dynamics(void)
 	int n;
 	double U[4];
         
+
+#ifdef PIDCONTROL
     HC.UpdateSensorValues(xcell.sixdofX);
-    
 	U[0] = HC.CollectiveCorrection(10);			                // main rotor collective
-	U[1] = HC.RollCorrection(0*C_DEG2RAD)*C_DEG2RAD;			// A1 (roll)
-	U[2] = HC.PitchCorrection(0*C_DEG2RAD)*C_DEG2RAD;		// B1 (pitch)
-	U[3] = HC.YawCorrection(1)*C_DEG2RAD;			// tail rotor collective
-	//system("cls");
+	U[1] = HC.RollCorrection(-10*C_DEG2RAD)*C_DEG2RAD;			// A1 (roll)
+	U[2] = HC.PitchCorrection(10*C_DEG2RAD)*C_DEG2RAD;		    // B1 (pitch)
+	U[3] = HC.YawCorrection(1)*C_DEG2RAD;			            // tail rotor collective
+#endif
+
+#ifdef FUZZYCONTROL
+    
+    	pitch_angle_mf->sensor = 1.0f;//xcell.sixdofX.THETA[1];
+		pitch_rate_mf->sensor = 1.0f;//xcell.sixdofX.rate[0];
+		
+		roll_angle_mf->sensor = 330;
+		roll_rate_mf->sensor = 200;
+		
+		yaw_angle_mf->sensor = 200;
+		yaw_rate_mf->sensor = 203;
+		
+		collective_height_mf->sensor = 320;
+		collective_rate_mf->sensor = 500;
+		
+		Fuzzification( pitch_param, pitch_angle_mf);
+		Fuzzification( tilt_rate_param, pitch_rate_mf);
+		
+		Fuzzification( roll_param, roll_angle_mf);
+		Fuzzification( tilt_rate_param, roll_rate_mf);
+		
+		Fuzzification( yaw_param, yaw_angle_mf);
+		Fuzzification( yaw_rate_param, yaw_rate_mf);
+		
+		Fuzzification( collective_param, collective_height_mf);
+		Fuzzification( collective_rate_param, collective_rate_mf);
+		
+        U[2] = doRules(pitch_mf, PitchRule);    
+        U[1] = 0;//doRules(roll_mf, RollRule);  
+        U[3] = 0;//doRules(yaw_mf, YawRule);	   
+        U[0] = 0;//doRules(collective_mf, CollectiveRule);	 
+      
+#endif
+
+
 	printf("YAW: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[2]* C_FT2M, xcell.sixdofX.THETA[2],U[3]);
 	printf("PITCH: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[1]* C_FT2M,xcell.sixdofX.THETA[1],U[2]);	    
    	printf("ROLL: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[0]* C_FT2M,xcell.sixdofX.THETA[0],U[1]);
-   	printf("COLL: \tRATE: %f, \tALTITUDE: %f, \tCORRECTION: %f\n",-xcell.sixdofX.Ve[2], -xcell.sixdofX.NED[2], U[0]);
+  	printf("COLL: \tRATE: %f, \tALTITUDE: %f, \tCORRECTION: %f\n",-xcell.sixdofX.Ve[2], -xcell.sixdofX.NED[2], U[0]);
    	printf("ACCEL0: %f, ACCEL1: %f, ACCEL2: %f\n",xcell.sixdofX.accel[0]* C_FT2M,xcell.sixdofX.accel[1]* C_FT2M,xcell.sixdofX.accel[2]* C_FT2M);        	
     for(n=0; n<(int)(windows_dt/model_dt); ++n)
 	{
