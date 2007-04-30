@@ -12,8 +12,9 @@ typedef union _WORD
 }WORD;
 
 // main.c
-#define AVERAGEVALUE	4
-		 
+#define AVERAGEVALUE	8
+#define AXISOFFSET		0x00
+
 // SPIComms.c
 extern char Accelerator[6];
 extern char Gyro[4];

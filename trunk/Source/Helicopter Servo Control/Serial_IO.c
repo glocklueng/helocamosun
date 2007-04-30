@@ -1,7 +1,7 @@
 #include <p18f4431.h>
 #include "variables.h"
 #include "Serial_IO.h"
-
+#include "USART.h"
 	WORD X_axis;
 	WORD Y_axis;
 	WORD Z_axis;
@@ -207,11 +207,13 @@ void GetAxisValues(void)
 	TAA = 0;
 	ShiftIO(byte_out, out_bits, &X_axis, in_bits);
 	TAA = 1;
-
+	
 	byte_out.byte[0] = TAA_Y_AXIS;	// Get the Y axis values
 	TAA = 0;
 	ShiftIO(byte_out, out_bits, &Y_axis, in_bits);
 	TAA = 1;
+
+	
 	
 	byte_out.byte[0] = TAA_Z_AXIS;	// Get the Z axis values
 	TAA = 0;
@@ -230,57 +232,99 @@ void GetAxisAverage(void)
 	static int XAxisData[AVERAGEVALUE],
 			   YAxisData[AVERAGEVALUE],
 			   ZAxisData[AVERAGEVALUE];
+
+	X_axis.D_byte &= 0x0FFF;
+	Y_axis.D_byte &= 0x0FFF;
+	Z_axis.D_byte &= 0x0FFF;
 	
-	X_axis.byte[1] &= 0x0F;
-	Y_axis.byte[1] &= 0x0F;
-	Z_axis.byte[1] &= 0x0F;
+	X_axis.D_byte = X_axis.D_byte >> 3;
+	Y_axis.D_byte = Y_axis.D_byte >> 3;
+	Z_axis.D_byte = Z_axis.D_byte >> 3;
 	
-	XAxisData[AxisCount] = X_axis.byte[0];
-	YAxisData[AxisCount] = Y_axis.byte[0];
-	ZAxisData[AxisCount] = Z_axis.byte[0];
-	
-	AxisCount++;	// stores the newest value over the oldest value
-	
+//	WriteUSART('Y');
+//	while(BusyUSART());
+//	WriteUSART(X_axis.byte[1]);
+//	while(BusyUSART());
+//	WriteUSART(X_axis.byte[0]);
+//	while(BusyUSART());
+/*		
 	// Take the average of the new value with the previous values
 	for(ArrayCount = 0; ArrayCount < AVERAGEVALUE; ArrayCount++)
 	{
-		if(X_axis.byte[1] == 0x01)
+		if(X_axis.byte[1])
 		{
-			XAxisAverage -= (0xFF - XAxisData[ArrayCount]);
+			XAxisAverage += (XAxisData[AxisCount] + AXISOFFSET);
 		} 
 		else
 		{
-			XAxisAverage += XAxisData[ArrayCount];
+			XAxisAverage -= ((0xFF - XAxisData[ArrayCount]) + AXISOFFSET);
 		}
 		
-		if(Y_axis.byte[1] == 0x01)
+		if(Y_axis.byte[1])
 		{
-			YAxisAverage -= (0xFF - YAxisData[ArrayCount]);
+			YAxisAverage += (YAxisData[AxisCount] + AXISOFFSET);
 		} 
 		else
 		{
-			YAxisAverage += YAxisData[ArrayCount];
+			YAxisAverage -= ((0xFF - YAxisData[ArrayCount]) + AXISOFFSET);
 		}
 		
-		if(Z_axis.byte[1] == 0x01)
+		if(Z_axis.byte[1])
 		{
-			ZAxisAverage -= (0xFF - ZAxisData[ArrayCount]);
+			ZAxisAverage += (ZAxisData[AxisCount] + AXISOFFSET);
 		} 
 		else
 		{
-			ZAxisAverage += ZAxisData[ArrayCount];
+			ZAxisAverage -= ((0xFF - ZAxisData[ArrayCount]) + AXISOFFSET);
 		}
 	}
 	
-	XAxisAverage = XAxisAverage / ArrayCount;
-	YAxisAverage = YAxisAverage / ArrayCount;
-	ZAxisAverage = ZAxisAverage / ArrayCount;
-	Accelerator[0] = (char)XAxisAverage;
-	Accelerator[1] = (char)XAxisAverage >> 8;
-	Accelerator[2] = (char)YAxisAverage;
-	Accelerator[3] = (char)YAxisAverage >> 8;
-	Accelerator[4] = (char)ZAxisAverage;
-	Accelerator[5] = (char)ZAxisAverage >> 8;
+	XAxisAverage = XAxisAverage / AVERAGEVALUE;
+	YAxisAverage = YAxisAverage / AVERAGEVALUE;
+	ZAxisAverage = ZAxisAverage / AVERAGEVALUE;
+*/	
+	if(X_axis.byte[0] & 0x80)
+	{
+		X_axis.byte[0] = (0xFF - X_axis.byte[0] + 1);
+		Accelerator[0] = X_axis.byte[1];
+	}
+	else
+	{
+		Accelerator[0] = 0x00;
+	}
+	
+	if(Y_axis.byte[0] & 0x80)
+	{
+		Y_axis.byte[0] = (0xFF - Y_axis.byte[0] + 1);
+		Accelerator[2] = Y_axis.byte[1];
+	}
+	else
+	{
+		Accelerator[2] = 0x00;
+	}
+
+	if(Z_axis.byte[0] & 0x80)
+	{
+		Z_axis.byte[0] = (0xFF - Z_axis.byte[0] + 1);
+		Accelerator[4] = Z_axis.byte[1];
+	}
+	else
+	{
+		Accelerator[4] = 0x00;
+	}
+		
+	Accelerator[1] = X_axis.byte[0];
+	Accelerator[3] = Y_axis.byte[0];
+	Accelerator[5] = Z_axis.byte[0];
+	
+//	WriteUSART('X');
+//	while(BusyUSART());
+//	WriteUSART(Accelerator[0]);
+//	while(BusyUSART());
+//	WriteUSART(Accelerator[1]);
+//	while(BusyUSART());
+	
+	AxisCount++;	// stores the newest value over the oldest value
 	if(AxisCount > AVERAGEVALUE)
 	{
 		AxisCount = 0;
