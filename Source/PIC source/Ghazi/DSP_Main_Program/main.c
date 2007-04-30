@@ -17,21 +17,40 @@ void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
 // The UART1 RX ISR. Fires when a character is received on UART1
 
 void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void);
-// Hopefully the TIMER1 UART
+// Timer1 ISR
 
 void fillpwmCommand ( void );
 
-/*unsigned char GP_engRPM = 0;
-unsigned char GP_pitch = 0;
-unsigned char GP_roll = 0;
-unsigned char GP_yaw = 0;
-unsigned char GP_coll = 0;
-unsigned char GP_engRPMsp[3] = "";	// Set Points. 0 = Zero, 1 = 50%, 2 = 100%
-unsigned char GP_pitchsp[3] = "";
-unsigned char GP_rollsp[3] = "";
-unsigned char GP_yawsp[3] = "";
-unsigned char GP_collsp[3] = "";*/
+GPT_helicopter GP_helicopter;
+/*
+GP_helicopter.position.latitude.deg 		(1)
+GP_helicopter.position.latitude.min 		(1)
+GP_helicopter.position.latitude.sec 		(2)
 
+GP_helicopter.position.longitude.deg 		(1)
+GP_helicopter.position.longitude.min 		(1)
+GP_helicopter.position.longitude.sec 		(2)
+
+GP_helicopter.goto_position.latitude.deg 	(1)
+GP_helicopter.goto_position.latitude.min 	(1)
+GP_helicopter.goto_position.latitude.sec 	(2)
+
+GP_helicopter.goto_position.longitude.deg 	(1)
+GP_helicopter.goto_position.longitude.min 	(1)
+GP_helicopter.goto_position.longitude.sec 	(2)
+
+GP_helicopter.hsa.heading 					(2)
+GP_helicopter.hsa.speed 					(2)
+GP_helicopter.hsa.altitude 					(2)
+
+GP_helicopter.attitude.pitch				(2)
+GP_helicopter.attitude.roll					(2)
+GP_helicopter.attitude.yaw					(2)
+
+GP_helicopter.batterystatus.voltage			(2)
+GP_helicopter.batterystatus.current			(2)
+GP_helicopter.batterystatus.temp			(2)
+*/
 char pwmCommand[] = { 'P', 0x01, 0x01, 0x01, 0x01 };
 
 extern unsigned char newPWM;
@@ -47,6 +66,8 @@ int main ( void )
 	init_T1();
 	init_LEDs();
 	
+	//TRISBbits.TRISB7 = 0;
+	LATBbits.LATB0 = 1;
 	
 	SPI_init();	
 	GP_init_UART(19200);
@@ -68,16 +89,22 @@ int main ( void )
 			fillpwmCommand();
 			SPI_tx_command(pwmCommand, 5);	
 		}
+		
+		
+		/*LATBbits.LATB0 = 0;
+		SPI_readYawGyro();
+		LATBbits.LATB0 = 1;
+		for (i = 0; i < 5000; i++);*/
 	}
 	return 0;
 }
 //***************************************************************************
 void fillpwmCommand ( void )
 {
-	pwmCommand[1] = GP_pitch;
-	pwmCommand[2] = GP_roll;
-	pwmCommand[3] = GP_yaw;
-	pwmCommand[4] = GP_coll;
+	pwmCommand[1] = GP_helicopter.pwm.pitch;
+	pwmCommand[2] = GP_helicopter.pwm.roll;
+	pwmCommand[3] = GP_helicopter.pwm.yaw;
+	pwmCommand[4] = GP_helicopter.pwm.coll;
 }
 
 void setupTRIS ( void )
@@ -93,11 +120,11 @@ void setupTRIS ( void )
 
 void init_GVars ( void )
 {
-	GP_pitch = 0;
-	GP_roll = 0;
-	GP_yaw = 0;
-	GP_coll = 0;
-	GP_engRPM = 0;
+	GP_helicopter.pwm.pitch = 0;
+	GP_helicopter.pwm.roll = 0;
+	GP_helicopter.pwm.yaw = 0;
+	GP_helicopter.pwm.coll = 0;
+	GP_helicopter.pwm.engRPM = 0;
 	GP_errorSOT = 0;
 	GP_errorEOT = 0;
 	GP_hs = 0;	
@@ -105,10 +132,10 @@ void init_GVars ( void )
 
 void init_T1 ( void )
 {
-	PR1 = 65535;				// 50us
+	PR1 = 65535;		 		// 35.6ms
 	IEC0bits.T1IE = 1;
-	T1CONbits.TCS = 0;   //1.8425 MHz = 542.7 ns / tick
-	T1CONbits.TCKPS = 0b11;
+	T1CONbits.TCS = 0;   		//1.8425 MHz = 542.7 ns / tick
+	T1CONbits.TCKPS = 0b11;		
 	TMR1 = 0;
 	T1CONbits.TON = 0;	
 }
@@ -129,16 +156,15 @@ void __attribute__(( interrupt, no_auto_psv )) _U1RXInterrupt(void)
 	GP_bytercvd = 1;		// indicate a byte was received
 	GP_dump = U1RXREG;		// read the byte from the receive register
 	IEC0bits.U1RXIE = 1;	// re-enable the receive interrupt
-	
-	//LATDbits.LATD0 ^= 1;
 }
 
 void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void)
 {
 	IFS0bits.T1IF = 0;
-	if (GP_hs)
+	if (GP_hs)						
 	{
-		// have to use time slicing, and only send this at intervals
+		// When the timer expires and a handshake terminate has not been 
+		// received we need to ACK the handshake
 		GP_TX_packet(GP_handshake, 9);	
 	}
 }
