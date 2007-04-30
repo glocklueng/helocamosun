@@ -114,8 +114,6 @@ void main(void)
 			TickCounter++;				// cycles 50ms period
 			TimeKeeping();
 
-			GetAxisValues();
-			GetAxisAverage();
 			switch(TickCounter)
 			{
 				case 1:		
@@ -131,7 +129,11 @@ void main(void)
 					{
 						GetCompassAverage();
 					}
-					SendVariables();	// for debugging
+					break;
+				case 5:
+					GetAxisValues();
+					GetAxisAverage();
+						
 					TickCounter = 0;	// Reset Tick Counter
 					break;
 				default:
@@ -140,7 +142,7 @@ void main(void)
 			if(tFlag.new1sTickFlag)
 			{
 				LedStates();
-				
+				SendVariables();	// for debugging
 			}
 		}
 	}
@@ -148,21 +150,4 @@ void main(void)
 }
 /*****************************  End of Main code *********************/
 
-/***************************** Functions *****************************/
-
-
-/*
-	WriteUSART('x');
-	while(BusyUSART());
-	WriteUSART(Compass_X.byte[1]);
-	while(BusyUSART());
-	WriteUSART(Compass_X.byte[0]);
-	while(BusyUSART());
-	WriteUSART('y');
-	while(BusyUSART());
-	WriteUSART(Compass_Y.byte[1]);
-	while(BusyUSART());
-	WriteUSART(Compass_Y.byte[0]);
-	while(BusyUSART());	
-*/
 

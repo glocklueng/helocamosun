@@ -94,81 +94,63 @@ void prepscreen(void)
 	putsUSART(dottedline);
 }
 
+void convertstring(char *string, int value)
+{
+	char dif;
+	string[0] = value / 1000;
+	value -= ( string[0] * 1000);
+	string[1] = value / 100;
+	value -= ( string[1] * 100);
+	value &= 0x00FF;
+	string[2] = value / 10;
+	
+	string[3] = value % 10;
+	for(dif = 0; dif < 4; dif++)
+	{
+		string[dif] += '0';
+	}
+}
 
 void SendVariables(void)
 {
+	char outputstring[5];
+	TRISCbits.TRISC2 = 0;
+	LATCbits.LATC2 = 1;
 	setCursor(4,3);
-	WriteUSART(((X_axis.byte[1] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( X_axis.byte[1] & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(((X_axis.byte[0] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( X_axis.byte[0] & 0x0F)+0x30);
-	while(BusyUSART());
-	
+	convertstring(outputstring, X_axis.D_byte);
+	putsUSART(outputstring);
+		
 	setCursor(13,3);
-
-	WriteUSART(((Y_axis.byte[1] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( Y_axis.byte[1] & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(((Y_axis.byte[0] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( Y_axis.byte[0] & 0x0F)+0x30);
-	while(BusyUSART());
+	convertstring(outputstring, Y_axis.D_byte);
+	putsUSART(outputstring);
 	
 	setCursor(22,3);
-
-	WriteUSART(((Z_axis.byte[1] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( Z_axis.byte[1] & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(((Z_axis.byte[0] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( Z_axis.byte[0] & 0x0F)+0x30);
-	while(BusyUSART());
+	convertstring(outputstring, Z_axis.D_byte);
+	putsUSART(outputstring);
 
 	setCursor(33,3);
 
-	WriteUSART(((Compass_X.byte[1] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( Compass_X.byte[1] & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(((Compass_X.byte[0] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( Compass_X.byte[0] & 0x0F)+0x30);
-	while(BusyUSART());
-		
+	convertstring(outputstring, Compass_X.D_byte);
+	putsUSART(outputstring);
+			
 	setCursor(45,3);
 
-	WriteUSART(((Compass_Y.byte[1] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( Compass_Y.byte[1] & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(((Compass_Y.byte[0] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( Compass_Y.byte[0] & 0x0F)+0x30);
-	while(BusyUSART());
-
+	convertstring(outputstring, Compass_Y.D_byte);
+	putsUSART(outputstring);
+	
 	setCursor(4,8);
 
-	WriteUSART(((RangeFinder.byte[1] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( RangeFinder.byte[1] & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(((RangeFinder.byte[0] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART(( RangeFinder.byte[0] & 0x0F)+0x30);
-	while(BusyUSART());
+	convertstring(outputstring, RangeFinder.D_byte);
+	putsUSART(outputstring);
+		
+	setCursor(13,8);
 	
-	setCursor(14,8);
 	WriteUSART(((servos[1] >> 4) & 0x0F)+0x30);
 	while(BusyUSART());
 	WriteUSART((servos[1] & 0x0F)+0x30);
 	while(BusyUSART());
 	
-	setCursor(23,8);
+	setCursor(22,8);
 	WriteUSART(((servos[2] >> 4) & 0x0F)+0x30);
 	while(BusyUSART());
 	WriteUSART((servos[1] & 0x0F)+0x30);
@@ -185,6 +167,7 @@ void SendVariables(void)
 	while(BusyUSART());
 	WriteUSART((servos[1] & 0x0F)+0x30);
 	while(BusyUSART());
+	LATCbits.LATC2 = 0;
 }
 
 

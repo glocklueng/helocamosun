@@ -27,6 +27,7 @@ char ReadUSART (void);
 void prepscreen(void);
 void SendVariables(void);
 void setCursor( char x, char y);
+void convertstring(char *string, int value);
 
 #define DataRdyUSART( ) (PIR1bits.RCIF)
 #define getcUSART ReadUSART
