@@ -31,6 +31,8 @@ void GP_init_chopper( void );
 char *GP_itoa(char *buffer, int i);
 // converts an integer into a string
 
+
+
 typedef struct
 {
 	char deg;
@@ -71,6 +73,11 @@ typedef struct
 
 typedef struct
 {
+	unsigned char pitch, roll, yaw, coll, engRPM;	
+} GPT_pwm;
+
+typedef struct
+{
 	GPT_goto_position goto_position;
 	GPT_HSA hsa;
 	GPT_attitude attitude;
@@ -79,6 +86,7 @@ typedef struct
 	
 	unsigned short GPS_alt, SON_alt;
 	unsigned char sensors;
+	GPT_pwm pwm;
 	
 } GPT_helicopter;
 
@@ -87,11 +95,6 @@ extern unsigned char GP_bytercvd;  	// 0 = no byte in buffer, 1 = byte in buffer
 extern unsigned char GP_datavalid;	// 0 = no valid data ready, 1 = valid data ready
 extern char GP_data[MAXPACKLEN];
 extern char GP_data_len;
-extern unsigned char GP_engRPM;
-extern unsigned char GP_pitch;
-extern unsigned char GP_roll;
-extern unsigned char GP_yaw;
-extern unsigned char GP_coll;
 extern unsigned char GP_engRPMsp[3];	// Set Points. 0 = Zero, 1 = 50%, 2 = 100%
 extern unsigned char GP_pitchsp[3];
 extern unsigned char GP_rollsp[3];
@@ -101,12 +104,6 @@ extern char GP_errorSOT;
 extern char GP_errorEOT;
 extern unsigned char GP_dump;
 extern unsigned char GP_hs;
-//extern GPT_goto_position GP_goto;
-//extern GPT_position GP_position;
-//extern GPT_HSA GP_hsa;
-//extern GPT_attitude GP_attitude;
-//extern GPT_batterystatus GP_batterystatus;
-//extern GPT_helicopter GP_helicopter;
 extern unsigned char GP_engON;
 //--------------------------- Messages --------------------------------
 extern char GP_err_chksum[];

@@ -8,11 +8,13 @@ unsigned char GP_bytercvd = 0;  	// 0 = no byte in buffer, 1 = byte in buffer
 unsigned char GP_datavalid = 0;	// 0 = no valid data ready, 1 = valid data ready
 char GP_data[MAXPACKLEN] = "";	// the stored data portion of the packet (length to checksum exclusive)
 char GP_data_len = 0;			// length of GP_data
-unsigned char GP_engRPM = 0;
-unsigned char GP_pitch = 0;
-unsigned char GP_roll = 0;
-unsigned char GP_yaw = 0;
-unsigned char GP_coll = 0;
+
+/*unsigned char GP_engRPM = 0;	// motor RPM stored on DSP
+unsigned char GP_pitch = 0;		// pitch servo PWM (0-100)
+unsigned char GP_roll = 0;		// roll servo PWM (0-100)
+unsigned char GP_yaw = 0;		// yaw servo PWM (0-100)
+unsigned char GP_coll = 0;		// collective servo PWM (0-100)*/
+
 unsigned char GP_engRPMsp[3] = "";	// Set Points. 0 = Zero, 1 = 50%, 2 = 100%
 unsigned char GP_pitchsp[3] = "";
 unsigned char GP_rollsp[3] = "";
@@ -23,12 +25,8 @@ char GP_errorEOT;
 unsigned char GP_dump;				// holds the byte received on the UART
 unsigned char GP_hs = 0;			// 1 = we are in handshake mode
 
-//GPT_goto_position GP_goto;
-//GPT_position GP_position = { 48, 30, 0, 0x4E, 124, 30, 0, 0x57 };
-//GPT_HSA GP_hsa = {0,0,0};
-//GPT_attitude GP_attitude = {0,0,0};
-//GPT_batterystatus GP_batterystatus = {100,100,100};
-GPT_helicopter GP_helicopter;
+
+extern GPT_helicopter GP_helicopter;		// global helicopter structure
 unsigned char GP_engON = 0;
 
 
@@ -265,14 +263,14 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 			{
 				case 0x45:		// Engine RPM
 				{
-					GP_engRPM = vdata[2];
+					GP_helicopter.pwm.engRPM = vdata[2];
 					GP_ACK(vdata, len);
 					break;
 				}
 				
 				case 0x50:		// Pitch
 				{
-					GP_pitch = vdata[2];
+					GP_helicopter.pwm.pitch = vdata[2];
 					GP_ACK(vdata, len);
 					newPWM = 1;
 					break;
@@ -280,7 +278,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 			
 				case 0x52:		// Roll
 				{
-					GP_roll = vdata[2];
+					GP_helicopter.pwm.roll = vdata[2];
 					GP_ACK(vdata, len);
 					newPWM = 1;
 					break;
@@ -288,7 +286,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 
 				case 0x51:		// Yaw
 				{
-					GP_yaw = vdata[2];
+					GP_helicopter.pwm.yaw = vdata[2];
 					GP_ACK(vdata, len);
 					newPWM = 1;
 					break;
@@ -296,7 +294,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 
 				case 0x43:		// Collective
 				{
-					GP_coll = vdata[2];
+					GP_helicopter.pwm.coll = vdata[2];
 					GP_ACK(vdata, len);
 					newPWM = 1;
 					break;

@@ -49,7 +49,6 @@ void SPI_init ()
 	SPI1CONbits.SSEN = 0;
 	SPI1CONbits.SPRE = 0;
 	SPI1CONbits.PPRE = 0b00;
-	
 }
 
 void SPI_tx_byte ( char ch)
@@ -106,5 +105,12 @@ void SPI_tx_req ( char packet[MAXPACKLEN], char data[MAXPACKLEN] )
 		for (i = 0; i < 500; i++);
 		
 	} 
-	//LATDbits.LATD0 ^= 1;
+}
+
+void SPI_readYawGyro ( void )
+{
+	//LATBbits.LATB0 = 0;
+	SPI_tx_byte( 0xA5 );
+	SPI_tx_byte( 0xA5 );
+	//LATBbits.LATB0 = 1;
 }

@@ -12,6 +12,9 @@ void SPI_tx_command ( char[MAXPACKLEN], char len );
 void SPI_tx_req ( char[MAXPACKLEN], char data[MAXPACKLEN] );
 //transmit a request for info on the SPI bus, record the response in "data"
 
+void SPI_readYawGyro ( void );
+// reads the Yaw gyro
+
 
 // Info Requests
 extern char GSPI_packet[MAXPACKLEN]; 
