@@ -8,8 +8,8 @@ USART.c
 #include "variables.h"
 
 char clearscreen[5] = {0x1B,0x5B,'2','J',0x00};
-char outputstring[65] = "| X Axix | Y Axis | Z Axis | Compass X | Compass Y |";
-char dottedline[65]   = "----------------------------------------------------";
+char outputstring[65] = "| X Axix | Y Axis | Z Axis | Compass X | Compass Y | Angle |";
+char dottedline[65]   = "------------------------------------------------------------";
 char datastring[65]   = "| Range  | Pitch  |  Roll  |    Yaw    | Collective| ";
 
 /*
@@ -138,6 +138,10 @@ void SendVariables(void)
 	convertstring(outputstring, Compass_Y.D_byte);
 	putsUSART(outputstring);
 	
+	setCursor(55,3);
+	convertstring(outputstring, CompassXAverage);
+	putsUSART(outputstring);
+/*	
 	setCursor(4,8);
 
 	convertstring(outputstring, RangeFinder.D_byte);
@@ -168,6 +172,7 @@ void SendVariables(void)
 	WriteUSART((servos[1] & 0x0F)+0x30);
 	while(BusyUSART());
 	LATCbits.LATC2 = 0;
+*/
 }
 
 

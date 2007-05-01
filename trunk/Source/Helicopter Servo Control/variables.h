@@ -12,7 +12,7 @@ typedef union _WORD
 }WORD;
 
 // main.c
-#define AVERAGEVALUE	8
+#define AVERAGEVALUE	2
 #define AXISOFFSET		0x00
 
 // SPIComms.c

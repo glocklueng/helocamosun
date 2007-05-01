@@ -1,4 +1,5 @@
 #include <p18f4431.h>
+#include <math.h>
 #include "variables.h"
 #include "Serial_IO.h"
 #include "USART.h"
@@ -7,8 +8,9 @@
 	WORD Z_axis;
 	WORD Compass_X, 
 		 Compass_Y;	
-	int CompassXAverage, 
+signed int CompassXAverage, 
 		CompassYAverage,
+		CompassAngle,
 		XAxisAverage,
 		YAxisAverage,
 		ZAxisAverage;
@@ -156,39 +158,50 @@ Description: Calculates a moving average of the X and Y values received by the c
 //void GetCompassAverage(WORD Compass_X, WORD Compass_Y, int *CompassXAverage, int *CompassYAverage)
 void GetCompassAverage(void)
 {
-	char loopCounter;
+	char loopcounter;
+	long CompassXtemp,
+		CompassYtemp;
 	static int CompassXData[AVERAGEVALUE],
 			   CompassYData[AVERAGEVALUE];
 	static char CompassCount = 0;
+	CompassXAverage = 0;
+	CompassYAverage = 0;
+	CompassXtemp = Compass_X.D_byte;
+	CompassYtemp = Compass_Y.D_byte;
+
+    if (( CompassXtemp >= 1024) && (CompassYtemp >= 1024))
+    {
+          CompassXtemp = -1 * (2048.0 - CompassXtemp);
+          CompassYtemp = -1 * (2048.0 - CompassYtemp);
+    } else
+    
+    if (( CompassXtemp >= 1024) && (CompassYtemp < 1024))
+    {
+          CompassYtemp = -1 * (2048.0 - CompassXtemp);
+
+    } else
+ 
+    if (( CompassXtemp < 1024) && (CompassYtemp >= 1024))
+    {
+          CompassYtemp = -1 * (2048.0 - CompassYtemp);
+
+    } 
+    CompassXData[CompassCount] = CompassXtemp;
+    CompassYData[CompassCount] = CompassYtemp;
+    
+    for(loopcounter = 0; loopcounter < AVERAGEVALUE; loopcounter++)
+    {
+	    CompassXAverage += CompassXData[loopcounter];
+	    CompassYAverage += CompassYData[loopcounter];
+	}
 	
-	Compass[0] = Compass_X.byte[0];	
-	Compass[1] = Compass_X.byte[1];	
-	Compass[2] = Compass_Y.byte[0];	
-	Compass[3] = Compass_Y.byte[1];	
+	CompassXAverage = CompassXAverage /(int) loopcounter;
+	CompassYAverage = CompassYAverage /(int) loopcounter;
 	
-//	CompassXData[CompassCount] = Compass_X.D_byte;
-//	CompassYData[CompassCount] = Compass_Y.D_byte;
-	
-//	CompassCount++;	
-	
-//	for(loopCounter = 0; loopCounter < AVERAGEVALUE; loopCounter++)
-//	{
-//		CompassXAverage += CompassXData[loopCounter];
-//		CompassYAverage += CompassYData[loopCounter];
-//	}
-	
-//	CompassXAverage = CompassXAverage / loopCounter;
-//	CompassYAverage = CompassYAverage / loopCounter;
-	
-//	Compass[0] = (char)CompassXAverage;
-//	Compass[1] = (char)CompassXAverage >> 8;
-//	Compass[2] = (char)CompassYAverage;
-//	Compass[3] = (char)CompassYAverage >> 8;
-	
-//	if(CompassCount > AVERAGEVALUE)
-//	{
-//		CompassCount = 0;
-//	}
+	if(CompassCount > AVERAGEVALUE)
+	{
+		CompassCount = 0;
+	}
 }
 
 /*
