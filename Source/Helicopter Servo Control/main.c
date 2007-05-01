@@ -23,6 +23,7 @@
 /************************** Include Section **************************/
 #include <p18f4431.h>
 #include <delays.h>
+#include <math.h>
 #include "variables.h"
 #include "Serial_IO.h"
 #include "adc.h"
@@ -98,7 +99,7 @@ void main(void)
 	TickCounter = 0;
 	tDelay.delay1s = 0;
 	tDelay.delay100ms = 0;
-	
+
 	cFlag.bist = 0;
 	cFlag.startup = 0;
 	cFlag.main = 1;
@@ -133,7 +134,7 @@ void main(void)
 				case 5:
 					GetAxisValues();
 					GetAxisAverage();
-						
+					SendVariables();	// for debugging
 					TickCounter = 0;	// Reset Tick Counter
 					break;
 				default:
@@ -142,7 +143,6 @@ void main(void)
 			if(tFlag.new1sTickFlag)
 			{
 				LedStates();
-				SendVariables();	// for debugging
 			}
 		}
 	}
