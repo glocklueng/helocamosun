@@ -745,5 +745,4 @@ void GP_init_chopper( void )
 	GP_helicopter.GPS_alt = 0;
 	GP_helicopter.SON_alt = 0;
 	GP_helicopter.sensors = 0xFF;
-	
 }
