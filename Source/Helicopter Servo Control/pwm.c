@@ -44,18 +44,18 @@ void UpdatePWM(void)
 {
 	// PITCH
 	PDC0L = servos[1];		// 1.43ms, minimum duty cycle 0x0620
-	putcUSART(servos[1]);
+//	putcUSART(servos[1]);
 	while(BusyUSART());	
 	// ROLL
 	PDC1L = servos[2];		// 536us, maximum duty cycle
-	putcUSART(servos[2]);
+//	putcUSART(servos[2]);
 	while(BusyUSART());	
 	// YAW
 	PDC2L = servos[3];		// 526us, 50% duty cycle
-	putcUSART(servos[3]);
+//	putcUSART(servos[3]);
 	while(BusyUSART());	
 	// COLLECTIVE
 	PDC3L = servos[4];		// some random value
-	putcUSART(servos[4]);
+//	putcUSART(servos[4]);
 	while(BusyUSART());	
 }

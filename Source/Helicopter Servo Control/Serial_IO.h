@@ -27,7 +27,6 @@
 #define TAA_DIR		TRISBbits.TRISB5	// Tri-Axis Accellerometer
 #define COMPASS_DIR	TRISBbits.TRISB2	// Compass module
 
-#define AVERAGEVALUE	2
 #define AXISOFFSET		0x00
 
 extern	WORD X_axis,
@@ -38,11 +37,12 @@ extern	WORD X_axis,
 		 	 
 extern	signed int CompassXAverage, 
 			CompassYAverage,
-			CompassAngle,
 			XAxisAverage,
 			YAxisAverage,
 			ZAxisAverage;
-		
+			
+//extern signed float fCompassAngle;
+extern unsigned int CompassAngle;
 void ResetCompass(void);
 
 void GetAxisAverage(void);

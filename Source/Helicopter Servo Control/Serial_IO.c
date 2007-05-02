@@ -10,10 +10,11 @@
 		 Compass_Y;	
 signed int CompassXAverage, 
 		CompassYAverage,
-		CompassAngle,
 		XAxisAverage,
 		YAxisAverage,
 		ZAxisAverage;
+signed float fCompassAngle;
+unsigned int CompassAngle;
 /*
 Function:	ShiftIO
 Description: This function will serially communicate to a Tri-axis accelerometer and magnetic 
@@ -159,49 +160,86 @@ Description: Calculates a moving average of the X and Y values received by the c
 void GetCompassAverage(void)
 {
 	char loopcounter;
-	long CompassXtemp,
-		CompassYtemp;
+	static int CompassXtemp = 0,
+			   CompassYtemp = 0;
 	static int CompassXData[AVERAGEVALUE],
 			   CompassYData[AVERAGEVALUE];
 	static char CompassCount = 0;
-	CompassXAverage = 0;
-	CompassYAverage = 0;
-	CompassXtemp = Compass_X.D_byte;
-	CompassYtemp = Compass_Y.D_byte;
-
-    if (( CompassXtemp >= 1024) && (CompassYtemp >= 1024))
+	signed int Xtemp = Compass_X.D_byte,
+		   	   Ytemp = Compass_Y.D_byte;
+	
+	if (( Xtemp < 1024) && (Ytemp < 1024))
     {
-          CompassXtemp = -1 * (2048.0 - CompassXtemp);
-          CompassYtemp = -1 * (2048.0 - CompassYtemp);
+
+    } else
+     
+    if (( Xtemp >= 1024) && (Ytemp >= 1024))
+    {
+          Xtemp = -1 * (2048.0 - Xtemp);
+          Ytemp = -1 * (2048.0 - Ytemp);
     } else
     
-    if (( CompassXtemp >= 1024) && (CompassYtemp < 1024))
+    if (( Xtemp >= 1024) && (Ytemp < 1024))
     {
-          CompassYtemp = -1 * (2048.0 - CompassXtemp);
-
+          Xtemp = -1 * (2048.0 - Xtemp);
     } else
  
-    if (( CompassXtemp < 1024) && (CompassYtemp >= 1024))
+    if (( Xtemp < 1024) && (Ytemp >= 1024))
     {
-          CompassYtemp = -1 * (2048.0 - CompassYtemp);
-
+          Ytemp = -1 * (2048.0 - Ytemp);
     } 
-    CompassXData[CompassCount] = CompassXtemp;
-    CompassYData[CompassCount] = CompassYtemp;
-    
-    for(loopcounter = 0; loopcounter < AVERAGEVALUE; loopcounter++)
-    {
-	    CompassXAverage += CompassXData[loopcounter];
-	    CompassYAverage += CompassYData[loopcounter];
-	}
 	
-	CompassXAverage = CompassXAverage /(int) loopcounter;
-	CompassYAverage = CompassYAverage /(int) loopcounter;
-	
-	if(CompassCount > AVERAGEVALUE)
+	if(CompassCount > AVERAGEVALUE-1)
 	{
 		CompassCount = 0;
+		CompassYtemp /= AVERAGEVALUE;
+		CompassXtemp /= AVERAGEVALUE;
+		CompassYAverage = CompassYtemp;
+		CompassXAverage = CompassXtemp;
+		CompassXtemp = 0;
+		CompassYtemp = 0;
+		
+		if (( CompassXAverage >= 0) && (CompassYAverage >= 0))
+	    {
+	          fCompassAngle = atan( -1.0 * (float)CompassYAverage /(float) CompassXAverage );
+	          fCompassAngle *= (180.0 / pi);
+	          fCompassAngle += 360.0;
+	          CompassAngle = (unsigned int) fCompassAngle;
+	    } else
+	     
+	    if (( CompassXAverage < 0) && (CompassYAverage < 0))
+	    {
+	          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
+	          fCompassAngle *= (180.0 / pi);
+	          fCompassAngle += 180.0;
+	          CompassAngle = (unsigned int) fCompassAngle;
+	    } else
+	    
+	    if (( CompassXAverage < 0) && (CompassYAverage >= 0))
+	    {
+	          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
+	          fCompassAngle *= (180.0 / pi);
+	          fCompassAngle += 180.0;
+	          CompassAngle = (unsigned int) fCompassAngle;
+	    } else
+	 
+	    if (( CompassXAverage >= 0) && (CompassYAverage < 0))
+	    {
+	          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
+	          fCompassAngle *= (180.0 / pi);
+	          CompassAngle = (unsigned int) fCompassAngle;
+	          Compass[0] = (char) CompassAngle>>8;
+	          Compass[1] = (char) CompassAngle;
+	    } 
 	}
+	else
+	{
+		CompassCount++;
+		CompassXtemp += Xtemp;
+		CompassYtemp += Ytemp;
+	}
+	
+
 }
 
 /*
@@ -241,105 +279,56 @@ void GetAxisAverage(void)
 //void GetAxisAverage(WORD *X_axis, WORD *Y_axis, WORD *Z_axis, int *XAxisAverage, int *YAxisAverage, int *ZAxisAverage)
 {
 	char ArrayCount;
+	static int Xaxistemp = 0,
+			   Yaxistemp = 0,
+			   Zaxistemp = 0;
 	static int AxisCount = 0;
 	static int XAxisData[AVERAGEVALUE],
 			   YAxisData[AVERAGEVALUE],
 			   ZAxisData[AVERAGEVALUE];
 
-	X_axis.D_byte &= 0x0FFF;
-	Y_axis.D_byte &= 0x0FFF;
-	Z_axis.D_byte &= 0x0FFF;
-	
 	X_axis.D_byte = X_axis.D_byte >> 3;
 	Y_axis.D_byte = Y_axis.D_byte >> 3;
 	Z_axis.D_byte = Z_axis.D_byte >> 3;
 	
-//	WriteUSART('Y');
-//	while(BusyUSART());
-//	WriteUSART(X_axis.byte[1]);
-//	while(BusyUSART());
-//	WriteUSART(X_axis.byte[0]);
-//	while(BusyUSART());
-/*		
-	// Take the average of the new value with the previous values
-	for(ArrayCount = 0; ArrayCount < AVERAGEVALUE; ArrayCount++)
-	{
-		if(X_axis.byte[1])
-		{
-			XAxisAverage += (XAxisData[AxisCount] + AXISOFFSET);
-		} 
-		else
-		{
-			XAxisAverage -= ((0xFF - XAxisData[ArrayCount]) + AXISOFFSET);
-		}
-		
-		if(Y_axis.byte[1])
-		{
-			YAxisAverage += (YAxisData[AxisCount] + AXISOFFSET);
-		} 
-		else
-		{
-			YAxisAverage -= ((0xFF - YAxisData[ArrayCount]) + AXISOFFSET);
-		}
-		
-		if(Z_axis.byte[1])
-		{
-			ZAxisAverage += (ZAxisData[AxisCount] + AXISOFFSET);
-		} 
-		else
-		{
-			ZAxisAverage -= ((0xFF - ZAxisData[ArrayCount]) + AXISOFFSET);
-		}
-	}
+	X_axis.D_byte &= 0x00FF;
+	Y_axis.D_byte &= 0x00FF;
+	Z_axis.D_byte &= 0x00FF;
 	
-	XAxisAverage = XAxisAverage / AVERAGEVALUE;
-	YAxisAverage = YAxisAverage / AVERAGEVALUE;
-	ZAxisAverage = ZAxisAverage / AVERAGEVALUE;
-*/	
-	if(X_axis.byte[0] & 0x80)
+	if(X_axis.D_byte >= 128)
 	{
-		X_axis.byte[0] = (0xFF - X_axis.byte[0] + 1);
-		Accelerator[0] = X_axis.byte[1];
+		X_axis.D_byte = -1*(256 - X_axis.D_byte);
 	}
-	else
+	if(Y_axis.D_byte >= 128)
 	{
-		Accelerator[0] = 0x00;
+		Y_axis.D_byte = -1*(256 - Y_axis.D_byte);
 	}
-	
-	if(Y_axis.byte[0] & 0x80)
+	if(Y_axis.D_byte >= 128)
 	{
-		Y_axis.byte[0] = (0xFF - Y_axis.byte[0] + 1);
-		Accelerator[2] = Y_axis.byte[1];
-	}
-	else
-	{
-		Accelerator[2] = 0x00;
+		Z_axis.D_byte = -1*(256 - Z_axis.D_byte);
 	}
 
-	if(Z_axis.byte[0] & 0x80)
-	{
-		Z_axis.byte[0] = (0xFF - Z_axis.byte[0] + 1);
-		Accelerator[4] = Z_axis.byte[1];
-	}
-	else
-	{
-		Accelerator[4] = 0x00;
-	}
-		
-	Accelerator[1] = X_axis.byte[0];
-	Accelerator[3] = Y_axis.byte[0];
-	Accelerator[5] = Z_axis.byte[0];
-	
-//	WriteUSART('X');
-//	while(BusyUSART());
-//	WriteUSART(Accelerator[0]);
-//	while(BusyUSART());
-//	WriteUSART(Accelerator[1]);
-//	while(BusyUSART());
-	
-	AxisCount++;	// stores the newest value over the oldest value
-	if(AxisCount > AVERAGEVALUE)
+	if(AxisCount > AVERAGEVALUE - 1)
 	{
 		AxisCount = 0;
+		XAxisAverage = Xaxistemp / AVERAGEVALUE;
+		YAxisAverage = Yaxistemp / AVERAGEVALUE;
+		ZAxisAverage = Zaxistemp / AVERAGEVALUE;
+		Accelerator[0] = XAxisAverage>>8;
+		Accelerator[1] = (char)XAxisAverage;
+		Accelerator[2] = YAxisAverage>>8;
+		Accelerator[3] = (char)YAxisAverage;
+		Accelerator[4] = ZAxisAverage>>8;
+		Accelerator[5] = (char)ZAxisAverage;
+		Xaxistemp = 0;
+		Yaxistemp = 0;
+		Zaxistemp = 0;
+	}
+	else
+	{	
+		AxisCount++;	// stores the newest value over the oldest value
+		Xaxistemp += X_axis.D_byte;
+		Yaxistemp += Y_axis.D_byte;
+		Zaxistemp += Z_axis.D_byte;
 	}
 }
