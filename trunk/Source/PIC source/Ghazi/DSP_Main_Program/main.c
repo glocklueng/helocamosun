@@ -59,23 +59,26 @@ extern unsigned char newPWM;
 int main ( void )
 {
 	unsigned char dummy;
-	long i = 0;
+	long i = 0, q = 0;
 	
 	setupTRIS();
 	init_GVars();
 	init_T1();
 	init_LEDs();
 	
-	//TRISBbits.TRISB7 = 0;
 	LATBbits.LATB0 = 1;
 	
 	SPI_init();	
 	GP_init_UART(19200);
 	
 	GP_init_chopper();
-	
+	q = 0;
+	GSPI_CompData[0] = 0;
+	GSPI_CompData[0] = 0;
 	while(1)
 	{
+		q++;
+		
 		GP_state_machine();
 		if (GP_datavalid)
 		{
@@ -90,11 +93,46 @@ int main ( void )
 			SPI_tx_command(pwmCommand, 5);	
 		}
 		
+		if (q > 1000000)
+		{
+			q = 0;
+			
+			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
+			GP_TX_packet(GSPI_AccData, 6);
+			GP_TX_char('\n');
+			
+			for (i = 0; i < 10000; i++);
+			
+			SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
+			GP_TX_packet(GSPI_CompData, 2);
+			GP_TX_char('\n');
+			
+			for (i = 0; i < 10000; i++);
+			
+			SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+			GP_TX_packet(GSPI_AcousticData, 2);
+			GP_TX_char('\n');
+			
+			
+			
+		}
 		
-		/*LATBbits.LATB0 = 0;
-		SPI_readYawGyro();
-		LATBbits.LATB0 = 1;
-		for (i = 0; i < 5000; i++);*/
+		/*if(!PORTAbits.RA12)
+		{
+			while(!PORTAbits.RA12);
+			GP_TX_error(q++);
+			if (q > 21)
+			{ q = 1; }
+		}*/
+		/*for (i = 0; i < 50000; i++)
+		{
+			//LATBbits.LATB0 = 0;
+			SPI_readYawGyro();
+			//for (q = 0; q < 1000; q++);
+			//LATBbits.LATB0 = 1;
+		}*/
+		
+		
 	}
 	return 0;
 }
