@@ -28,6 +28,7 @@ namespace commprotocoltester
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnCommsHandShakeInitiate = new System.Windows.Forms.Button();
             this.btnCommsHandShakeTerminate = new System.Windows.Forms.Button();
@@ -48,6 +49,8 @@ namespace commprotocoltester
             this.btnRequestHSA = new System.Windows.Forms.Button();
             this.btnRequestAttitude = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +60,7 @@ namespace commprotocoltester
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(438, 499);
+            this.textBox1.Size = new System.Drawing.Size(438, 617);
             this.textBox1.TabIndex = 0;
             // 
             // btnCommsHandShakeInitiate
@@ -253,11 +256,27 @@ namespace commprotocoltester
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Info requests";
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(684, 14);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox2.Size = new System.Drawing.Size(438, 617);
+            this.textBox2.TabIndex = 20;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 500;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(663, 582);
+            this.ClientSize = new System.Drawing.Size(1145, 641);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnSetTunePoints);
             this.Controls.Add(this.btnSetMotorRPM);
@@ -304,6 +323,8 @@ namespace commprotocoltester
         private System.Windows.Forms.Button btnRequestHSA;
         private System.Windows.Forms.Button btnRequestAttitude;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        public System.Windows.Forms.Timer timer1;
 
     }
 }
