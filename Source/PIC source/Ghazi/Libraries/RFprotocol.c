@@ -37,13 +37,16 @@ char GP_it_works[] = "It works!";
 char GP_debug_dv[] = "Data is Valid";
 char GP_handshake[]= { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 } ;
 char GP_unk_AA[]= "Error: Unknown AoA";
+
+//char error[] = { 0x01, 0x02, 0x03, 0x04 };
+
 unsigned char newPWM = 0;
 
 
 void GP_init_UART( unsigned int baud )
-// GP_init_UART initializes UART1 to 8 data bits, no parity, 1 stop bit
-// at the baud rate passed to 'baud'
 {
+	// GP_init_UART initializes UART1 to 8 data bits, no parity, 1 stop bit
+	// at the baud rate passed to 'baud'
 	U1MODEbits.ALTIO = 0;		// use U1TX and U1RX as tx/rx pins
 	U1MODEbits.LPBACK = 0;		// disable loopback mode
 	U1MODEbits.PDSEL = 0b00;	// 8 data bits, no parity
@@ -57,13 +60,33 @@ void GP_init_UART( unsigned int baud )
 }
 
 void GP_TX_char ( char ch )
-// transmit 1 byte on the open UART port 
+
 {
-	
+	// transmit 1 byte on the open UART port 
 	while ( !U1STAbits.TRMT );	// wait until the Transmit Shift Register is not full
 													
 	U1STAbits.UTXEN = 1;		// enable the transmitter
 	U1TXREG = ch;				// load the transmit shift register
+}
+
+void GP_TX_error ( char code )
+
+{
+	// Builds and transmits an error packet
+	char packet[10] = "";
+	
+	packet[0] = 0xA5;
+	packet[1] = 0x5A;
+	packet[2] = 0x03;
+	packet[3] = 0x74;
+	packet[4] = 0x45;
+	packet[5] = code;
+	packet[6] = ( (0x03+0x74+0x45 + code) & 0xff00) >> 8; // chksumH
+	packet[7] = (0x03+0x74+0x45+ code) & 0x00ff;		  // chksumL
+	packet[8] = 0xCC;
+	packet[9] = 0x33;
+	
+	GP_TX_packet(packet, 10);
 }
 
 void GP_TX_packet ( char packet[MAXPACKLEN], unsigned short len )

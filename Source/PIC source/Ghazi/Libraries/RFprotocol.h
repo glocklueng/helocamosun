@@ -1,5 +1,13 @@
 #define MAXPACKLEN 	256		// maximum packet length
 
+#define ERR_COMPASS_CONN		0x01;
+#define ERR_2GYRO_CONN			0x02;
+#define	ERR_YGYRO_CONN			0x03;
+#define ERR_ACC_CONN			0x04;
+#define ERR_GPS_CONN			0x05;
+#define ERR_MCU_CONN			0x06;
+
+
 void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
 // The UART1 RX ISR. Fires when a character is received on UART1
 
@@ -31,7 +39,8 @@ void GP_init_chopper( void );
 char *GP_itoa(char *buffer, int i);
 // converts an integer into a string
 
-
+void GP_TX_error ( char code );
+// build and transmit an error packet;
 
 typedef struct
 {
@@ -113,4 +122,5 @@ extern char GP_it_works[];
 extern char GP_debug_dv[];
 extern char GP_handshake[];
 
+extern char error[];
 //---------------------------------------------------------------------------

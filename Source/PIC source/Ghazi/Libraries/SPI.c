@@ -59,6 +59,14 @@ void SPI_tx_byte ( char ch)
 	c = SPI1BUF;
 }
 
+void SPI_tx_word ( unsigned short ch)
+{
+	char c;
+	SPI1STATbits.SPIEN = 1;
+	SPI1BUF = ch;
+	c = SPI1BUF;
+}
+
 void SPI_tx_command ( char packet[MAXPACKLEN], char len )
 {
 	char cnt = 0;
@@ -91,10 +99,10 @@ void SPI_tx_req ( char packet[MAXPACKLEN], char data[MAXPACKLEN] )
 		if (cnt > 0)
 		{
 			bite = SPI1BUF;
-			if (check == 0xA5) 
-			{ 
+			//if (check == 0xA5) 
+			//{ 
 				data[cnt - 1] = bite; 
-			}
+			//}
 		}
 		else
 		{
@@ -109,8 +117,27 @@ void SPI_tx_req ( char packet[MAXPACKLEN], char data[MAXPACKLEN] )
 
 void SPI_readYawGyro ( void )
 {
-	//LATBbits.LATB0 = 0;
-	SPI_tx_byte( 0xA5 );
-	SPI_tx_byte( 0xA5 );
-	//LATBbits.LATB0 = 1;
+	int i;
+	
+	SPI1CONbits.MODE16 = 1;
+	
+	LATBbits.LATB0 = 0;
+	SPI_tx_word( 0b1000001100000000 );
+	for (i = 0; i < 1700; i++);
+	
+	LATBbits.LATB0 = 1;
+	
+	for (i = 0; i < 1000; i++);
+	
+	
+	LATBbits.LATB0 = 0;
+	SPI_tx_word( 1 );
+	for (i = 0; i < 1700; i++);
+	LATBbits.LATB0 = 1;
+	
+	SPI1CONbits.MODE16 = 0;
+	
+	
+	for (i = 0; i < 10000; i++);
+	
 }
