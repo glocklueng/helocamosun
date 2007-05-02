@@ -341,7 +341,7 @@ namespace CommProtocolLib
                 OutGoingPacket[6] = 0x8D;//checksum low
                 OutGoingPacket[7] = 0xCC;
                 OutGoingPacket[8] = 0x33;//footer
-                SendPacket("CommsHandShakeInitiate", ExpectedResponses.type.DataResponse);
+                SendPacket("CommsHandShakeInitiate", ExpectedResponses.type.FullPacketResponse);
             }
         }
         /// <summary>
@@ -860,8 +860,8 @@ namespace CommProtocolLib
             {
                 NonVolatileIncomingDataBuffer += CharToHex(c) + " ";
             }
-            NonVolatileIncomingDataBuffer += "\n";
-            if (IncomingDataBuffer.Length == 1)
+
+            if (IncomingDataBuffer.Length >= 1)
             {
                 if ((int)IncomingDataBuffer[0] != 0xA5)
                 {
@@ -1300,7 +1300,7 @@ namespace CommProtocolLib
            3 0x03   bytes 
                        
            4 0x74	Report type “Telemetry”
-             0x45	Report “Attitude”
+             0x45	Report “On board error”
 
            6 0xEE   Error code
 
@@ -1332,8 +1332,12 @@ namespace CommProtocolLib
                 {
                     //checksum ok
                     //invoke the event
-                    OnBoardErrorPacketReceived(this, new OnBoardErrorPacketReceivedEventArgs((byte)IncomingDataBuffer[5]));
-                    ClearBuffer();
+
+                    ParentForm.Invoke(OnBoardErrorPacketReceived, 
+                        new object[] {this, new OnBoardErrorPacketReceivedEventArgs((byte)IncomingDataBuffer[5]) });
+
+                    ClearBuffer(); 
+
                 }
             }
             else if (IncomingDataBuffer.Length >= 10)

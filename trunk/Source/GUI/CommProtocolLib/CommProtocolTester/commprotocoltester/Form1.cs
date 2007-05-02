@@ -43,14 +43,16 @@ namespace commprotocoltester
         void cp_ExpectedResponseReceived(object sender, CommProtocol.ExpectedResponseReceivedEventArgs e)
         {
             //e.ReceivedPacket;
-            textBox1.Text+="Expected response recieved: "+e.Name+"\r\n";
+            textBox1.AppendText("Expected response recieved: "+e.Name+"\r\n");
+            textBox1.ScrollToCaret();
         }
 
         void cp_PreFlightPacketReceived(object sender, CommProtocol.PreFlightPacketReceivedEventArgs e)
         {
             PFP = e.PFP;
 
-            MessageBox.Show("Pre-flight packet received: \r\n" +
+            MessageBox.Show(
+                "Pre-flight packet received: \r\n" +
                 "battery temperature: " + PFP.BatteryTemp + "\r\n" +
                 "GPS Altitude: " + PFP.GPSAltitude + "\r\n" +
                 "Lat degrees: " + PFP.Lat.Degrees + "\r\n" +
@@ -70,6 +72,7 @@ namespace commprotocoltester
         {
             //cp.CommsHandShakeTerminate();
             textBox1.AppendText("Hand shake ack received");
+            textBox1.ScrollToCaret();
         }
 
         void cp_AttitudePacketReceived(object sender, CommProtocol.AttitudePacketReceivedEventArgs e)
@@ -93,19 +96,19 @@ namespace commprotocoltester
 
         void cp_ResponseTimeout(object sender, CommProtocol.ResponseTimeoutEventArgs e)
         {
-            textBox1.Text += "Timeout for "+e.ExpectedResponse.Name+". Expected: ";
+            textBox1.AppendText( "Timeout for "+e.ExpectedResponse.Name+". Expected: ");
             foreach (char c in e.ExpectedResponse.ExpectedPacket)
             {
-                textBox1.Text += CharToHex(c) + " ";
+                textBox1.AppendText( CharToHex(c) + " ");
             }
-            textBox1.Text += " Buffer contents:";
+            textBox1.AppendText(" Buffer contents:");
             foreach (char c in e.BufferContents)
             {
-                textBox1.Text += CharToHex(c) + " ";
+                textBox1.AppendText( CharToHex(c) + " ");
             }
-            textBox1.Text +="\r\n";
-            //e.BufferContents;
-           // e.ExpectedResponse;
+            textBox1.AppendText("\r\n");
+
+            textBox1.ScrollToCaret();
         }
         private void cp_LocationPacketReceived(object sender, CommProtocol.LocationPacketReceivedEventArgs e)
         {
@@ -127,18 +130,19 @@ namespace commprotocoltester
 
         private void cp_BadPacketReceived(object sender, CommProtocol.BadPacketReceivedEventArgs e)
         {
-            textBox1.Text += e.ErrorMessage+ ". Contents of bad packet: ";
+            textBox1.AppendText( e.ErrorMessage+ ". Contents of bad packet: ");
             foreach (char c in e.BadPacket)
             {
-                textBox1.Text += CharToHex(c) + " ";
+                textBox1.AppendText( CharToHex(c) + " ");
             }
-            textBox1.Text += "\r\n";
-
+            textBox1.AppendText( "\r\n");
+            textBox1.ScrollToCaret();
         }
 
         private void cp_OnBoardErrorPacketReceived(object sender, CommProtocol.OnBoardErrorPacketReceivedEventArgs e)
         {
-            textBox1.Text = e.ErrorCode.ToString();
+            textBox1.AppendText("Error received: "+ e.ErrorCode.ToString() + "\r\n");
+            textBox1.ScrollToCaret();
         }
 
 
@@ -264,5 +268,13 @@ namespace commprotocoltester
         {
             cp.RequestForInformation(0x5A);
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            textBox2.Clear();
+                textBox2.AppendText( cp.NonVolatileIncomingDataBuffer);
+            textBox2.ScrollToCaret();
+        }
+
     }
 }
