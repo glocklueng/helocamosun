@@ -2,13 +2,15 @@
 USART.c
 */
 #include <p18f4431.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "USART.h"
 #include "Serial_IO.h"
 #include "adc.h"
 #include "variables.h"
 
 char clearscreen[5] = {0x1B,0x5B,'2','J',0x00};
-char outputstring[65] = "| X Axix | Y Axis | Z Axis | Compass X | Compass Y | Angle |";
+char outputstring[65] = "| X Tilt | Y Tilt | Z Axis | Compass X | Compass Y | Angle |";
 char dottedline[65]   = "------------------------------------------------------------";
 char datastring[65]   = "| Range  | Pitch  |  Roll  |    Yaw    | Collective| ";
 
@@ -113,35 +115,39 @@ void convertstring(char *string, int value)
 
 void SendVariables(void)
 {
-	char outputstring[5];
+	char outputstring[6];
 	TRISCbits.TRISC2 = 0;
-	LATCbits.LATC2 = 1;
+
 	setCursor(4,3);
-	convertstring(outputstring, X_axis.D_byte);
+//	convertstring(outputstring, XAxisAverage);
+//	itoa(XAxisAverage,outputstring);
+	sprintf(outputstring, "%04d", XAxisAverage);
 	putsUSART(outputstring);
 		
 	setCursor(13,3);
-	convertstring(outputstring, Y_axis.D_byte);
+//	convertstring(outputstring, XAxisAverage);
+	sprintf(outputstring, "%04d", YAxisAverage);
 	putsUSART(outputstring);
 	
 	setCursor(22,3);
-	convertstring(outputstring, Z_axis.D_byte);
+//	convertstring(outputstring, Z_axis.D_byte);
+	sprintf(outputstring, "%04d", ZAxisAverage);
 	putsUSART(outputstring);
 
 	setCursor(33,3);
 
-	convertstring(outputstring, Compass_X.D_byte);
+	convertstring(outputstring, CompassXAverage);
 	putsUSART(outputstring);
 			
 	setCursor(45,3);
 
-	convertstring(outputstring, Compass_Y.D_byte);
+	convertstring(outputstring, CompassYAverage);
 	putsUSART(outputstring);
 	
 	setCursor(55,3);
-	convertstring(outputstring, CompassXAverage);
+	convertstring(outputstring, (int)CompassAngle);
 	putsUSART(outputstring);
-/*	
+	
 	setCursor(4,8);
 
 	convertstring(outputstring, RangeFinder.D_byte);
@@ -149,30 +155,22 @@ void SendVariables(void)
 		
 	setCursor(13,8);
 	
-	WriteUSART(((servos[1] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART((servos[1] & 0x0F)+0x30);
-	while(BusyUSART());
+	sprintf(outputstring, "%03d", servos[1]);
+	putsUSART(outputstring);
 	
 	setCursor(22,8);
-	WriteUSART(((servos[2] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART((servos[1] & 0x0F)+0x30);
-	while(BusyUSART());
+	sprintf(outputstring, "%03d", servos[2]);
+	putsUSART(outputstring);
 	
 	setCursor(34,8);
-	WriteUSART(((servos[3] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART((servos[1] & 0x0F)+0x30);
-	while(BusyUSART());
+	sprintf(outputstring, "%03d", servos[3]);
+	putsUSART(outputstring);
 	
 	setCursor(46,8);
-	WriteUSART(((servos[4] >> 4) & 0x0F)+0x30);
-	while(BusyUSART());
-	WriteUSART((servos[1] & 0x0F)+0x30);
-	while(BusyUSART());
-	LATCbits.LATC2 = 0;
-*/
+	sprintf(outputstring, "%03d", servos[4]);
+	putsUSART(outputstring);
+//	LATCbits.LATC2 = 0;
+
 }
 
 

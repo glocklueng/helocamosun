@@ -57,7 +57,7 @@ void SPI_isr (void)
 {
 	unsigned char Incoming_Data;
 	unsigned char Reply;
-	
+//	LATCbits.LATC2 ^= 1;
 	Incoming_Data = SPI_Read_Byte();
 //	putcUSART(Incoming_Data);//debugging
 	Reply = SPI_State_Machine(Incoming_Data);
@@ -95,7 +95,7 @@ void main(void)
 /******** VARIABLE INITIALIZATION ************/
 	INTCONbits.PEIE = 1;	// enable peripheral interrupt
 	INTCONbits.GIE = 1;		// enable global interrupt
-
+//	TRISCbits.TRISC2 = 0;
 	TickCounter = 0;
 	tDelay.delay1s = 0;
 	tDelay.delay100ms = 0;
@@ -126,10 +126,7 @@ void main(void)
 					break;
 				case 4:		// 30ms
 					GetCompassValues();
-					if(Compass_X.D_byte != 0x00)
-					{
-						GetCompassAverage();
-					}
+					GetCompassAverage();
 					break;
 				case 5:
 					GetAxisValues();
