@@ -358,7 +358,7 @@ namespace helopanel
                             {
                                 myPen.Color = r.TickLabelColor;
                                 myGraphics.DrawString(sValue, new Font(FontFamily.GenericSansSerif, 5f * this.Size.Width / 150, FontStyle.Regular), myPen.Brush, RotatedPoint.X, RotatedPoint.Y, stringFormat);
-                                TickDrawn = true;
+                                LabelDrawn = true;
                             }
                         }
                         if (TickDrawn && LabelDrawn)

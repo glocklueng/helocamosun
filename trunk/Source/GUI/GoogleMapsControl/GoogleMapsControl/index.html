@@ -98,7 +98,7 @@ table.control {
          </td>
       </tr>
          <tr><td>Display distance travelled</td><td><input type="checkbox" onClick="toggler('distTravelled')" id=distTravelled></td></tr>
-          <tr><td><font size=-1><a href="javascript:resetDistTravelled()">Reset distance travelled</a></font></td</tr>
+          <tr><td><font size=-1><a href="javascript:resetDistTravelled()">Reset distance travelled</a></font></td></tr>
 
           <tr><td>Go to lat/long coordinate</td></tr>
           <tr>
@@ -123,7 +123,7 @@ table.control {
              <table halign="center" border=0>
                <tr><td align="right"><font size=-1>Latitude</font></td><td><input type="text" value="37.803003" id=markerLatitude size="8"></td></tr>
                <tr><td align="right"><font size=-1>Longitude</font></td><td><input type="text" value="-122.468033" id=markerLongitude size="8"></td></tr>
-               <tr><td align="right"><font size=-1>Description</font></td><td><input type="text" id=markerDescription size="8"</td></tr>
+               <tr><td align="right"><font size=-1>Description</font></td><td><input type="text" id=markerDescription size="8"></td></tr>
                <tr><td align="right"><font size=-1><a href="javascript:setMarker()">Set marker</a></font></td></tr>
 
              </table>
@@ -132,7 +132,7 @@ table.control {
       <tr><td>Set marker at current location</td></tr> 
       <tr><td>
          <table halign="center" border=0>
-               <tr><td align="right"><font size=-1>Description</font></td><td><input type="text" id=clocDescription size="8"</td></tr>
+               <tr><td align="right"><font size=-1>Description</font></td><td><input type="text" id=clocDescription size="8"></td></tr>
          </table>
         </td>
 
@@ -182,7 +182,8 @@ table.control {
     //<![CDATA[
     <!-- Initial settings for our check boxes -->
     <!-- Dynamic dragging of the map window -->
-    document.control.enableDragging.checked=true
+    document.control.enableDragging.checked=false
+    
     <!-- Visibility of the small map control (sans slider bar) -->
     document.control.smallMapControl.checked=false
     <!-- Visibility of the large map control (+/- buttons w/ slider) -->
@@ -229,6 +230,7 @@ table.control {
     var disTravelKm = 0
     <!-- Required constant -->
     var d2r = Math.PI/180
+
 
     <!-- Function to handle checkbox toggling events -->
     function toggler(checkboxName) {
@@ -741,6 +743,8 @@ function calcDist(startLat, startLng, endLat, endLng, distType ) {
              map.addControl(typeControl);
              map.addControl(largeControl);
              map.centerAndZoom(new GPoint(startLat, startLong), lastZoom);
+	     toggler("enableDragging");
+
      } 
              var map = new GMap(document.getElementById("map"));
     //]]>

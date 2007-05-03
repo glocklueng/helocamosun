@@ -28,13 +28,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GoogleMapsControl, Version=1.0.2647.39702, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="GoogleMapsControl, Version=1.0.2659.23325, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\GoogleMapsControl\GoogleMapsControl\bin\Debug\GoogleMapsControl.dll</HintPath>
     </Reference>
-    <Reference Include="helopanel, Version=1.0.2609.32896, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="helopanel, Version=1.0.2673.22284, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\helopanel\bin\Release\helopanel.dll</HintPath>
+      <HintPath>..\..\helopanel\bin\Debug\helopanel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

@@ -14,7 +14,7 @@ namespace helopanel
         /// </summary>
         private Image AirPlane;
 
-        private float angle = 00;
+        private float angle = 0;
         /// <summary>
         /// The compass angle, a value between 0 and 360, rotating towards east as the value increases
         /// </summary>

@@ -41,6 +41,12 @@
     <Compile Include="GoogleMapControl.Designer.cs">
       <DependentUpon>GoogleMapControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="HelicopterIcon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HelicopterIcon.Designer.cs">
+      <DependentUpon>HelicopterIcon.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
@@ -48,6 +54,10 @@
     <EmbeddedResource Include="GoogleMapControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>GoogleMapControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelicopterIcon.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HelicopterIcon.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

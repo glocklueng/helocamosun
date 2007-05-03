@@ -51,6 +51,13 @@ namespace commprotocoltester
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.btnConnect = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,7 +67,7 @@ namespace commprotocoltester
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(438, 617);
+            this.textBox1.Size = new System.Drawing.Size(358, 617);
             this.textBox1.TabIndex = 0;
             // 
             // btnCommsHandShakeInitiate
@@ -157,7 +164,7 @@ namespace commprotocoltester
             // 
             this.btnSetAntiTorque.Location = new System.Drawing.Point(12, 407);
             this.btnSetAntiTorque.Name = "btnSetAntiTorque";
-            this.btnSetAntiTorque.Size = new System.Drawing.Size(174, 23);
+            this.btnSetAntiTorque.Size = new System.Drawing.Size(135, 23);
             this.btnSetAntiTorque.TabIndex = 10;
             this.btnSetAntiTorque.Text = "SetAntiTorque";
             this.btnSetAntiTorque.UseVisualStyleBackColor = true;
@@ -167,7 +174,7 @@ namespace commprotocoltester
             // 
             this.btnSetCollective.Location = new System.Drawing.Point(12, 437);
             this.btnSetCollective.Name = "btnSetCollective";
-            this.btnSetCollective.Size = new System.Drawing.Size(174, 23);
+            this.btnSetCollective.Size = new System.Drawing.Size(135, 23);
             this.btnSetCollective.TabIndex = 11;
             this.btnSetCollective.Text = "SetCollective";
             this.btnSetCollective.UseVisualStyleBackColor = true;
@@ -177,7 +184,7 @@ namespace commprotocoltester
             // 
             this.btnSetCyclicPitch.Location = new System.Drawing.Point(12, 466);
             this.btnSetCyclicPitch.Name = "btnSetCyclicPitch";
-            this.btnSetCyclicPitch.Size = new System.Drawing.Size(174, 23);
+            this.btnSetCyclicPitch.Size = new System.Drawing.Size(135, 23);
             this.btnSetCyclicPitch.TabIndex = 12;
             this.btnSetCyclicPitch.Text = "SetCyclicPitch";
             this.btnSetCyclicPitch.UseVisualStyleBackColor = true;
@@ -187,7 +194,7 @@ namespace commprotocoltester
             // 
             this.btnSetCyclicRoll.Location = new System.Drawing.Point(12, 495);
             this.btnSetCyclicRoll.Name = "btnSetCyclicRoll";
-            this.btnSetCyclicRoll.Size = new System.Drawing.Size(174, 23);
+            this.btnSetCyclicRoll.Size = new System.Drawing.Size(135, 23);
             this.btnSetCyclicRoll.TabIndex = 13;
             this.btnSetCyclicRoll.Text = "SetCyclicRoll";
             this.btnSetCyclicRoll.UseVisualStyleBackColor = true;
@@ -258,11 +265,11 @@ namespace commprotocoltester
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(684, 14);
+            this.textBox2.Location = new System.Drawing.Point(577, 12);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox2.Size = new System.Drawing.Size(438, 617);
+            this.textBox2.Size = new System.Drawing.Size(352, 617);
             this.textBox2.TabIndex = 20;
             // 
             // timer1
@@ -271,11 +278,74 @@ namespace commprotocoltester
             this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(156, 407);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(41, 20);
+            this.textBox3.TabIndex = 21;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(156, 437);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(41, 20);
+            this.textBox4.TabIndex = 22;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(156, 466);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(41, 20);
+            this.textBox5.TabIndex = 23;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(156, 492);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(41, 20);
+            this.textBox6.TabIndex = 24;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(838, 635);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(92, 22);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(213, 637);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 26;
+            // 
+            // btnConnect
+            // 
+            this.btnConnect.Location = new System.Drawing.Point(340, 635);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect.TabIndex = 27;
+            this.btnConnect.Text = "Connnect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1145, 641);
+            this.ClientSize = new System.Drawing.Size(942, 666);
+            this.Controls.Add(this.btnConnect);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnSetTunePoints);
@@ -325,6 +395,13 @@ namespace commprotocoltester
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox textBox2;
         public System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button btnConnect;
 
     }
 }

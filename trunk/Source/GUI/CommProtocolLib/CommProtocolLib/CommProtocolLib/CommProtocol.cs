@@ -70,7 +70,7 @@ namespace CommProtocolLib
         /// <summary>
         /// heading in degrees, North is zero degrees, increases in clockwise direction
         /// </summary>
-        public UInt16 Heading;
+        public Int16 Heading;
         /// <summary>
         /// Speed in meters per second, on the current heading
         /// </summary>
@@ -89,15 +89,15 @@ namespace CommProtocolLib
         /// <summary>
         /// Helicopter's current roll value: 0 degrees is upright; increases as helicopter rolls in the starboard direction
         /// </summary>
-        public UInt16 Roll;
+        public Int16 Roll;
         /// <summary>
         /// Helicopter's current pitch value: 0 degrees is upright; increases as helicopter pitches forward
         /// </summary>
-        public UInt16 Pitch;
+        public Int16 Pitch;
         /// <summary>
         /// Helicopters current yaw angle: 0 degrees is north; increases as helicopter rotates counter clockwise, as seen from above the helicopter
         /// </summary>
-        public UInt16 Yaw;
+        public Int16 Yaw;
     }
     /// <summary>
     /// data structure for battery information packets 
@@ -107,15 +107,15 @@ namespace CommProtocolLib
         /// <summary>
         /// battery voltage reading
         /// </summary>
-        public ushort Voltage;
+        public short Voltage;
         /// <summary>
         /// battery current draw reading
         /// </summary>
-        public ushort CurrentDraw;
+        public short CurrentDraw;
         /// <summary>
         /// battery temperature reading
         /// </summary>
-        public ushort Temperature;
+        public short Temperature;
     }
     /// <summary>
     /// Data structure containing pre-flight packet data
@@ -141,11 +141,11 @@ namespace CommProtocolLib
         /// <summary>
         /// Main battery voltage
         /// </summary>
-        public ushort BatteryVoltage;
+        public short BatteryVoltage;
         /// <summary>
         /// main battery temperature
         /// </summary>
-        public ushort BatteryTemp;
+        public short BatteryTemp;
         /// <summary>
         /// a bit field containing sensor status
         /// </summary>
@@ -245,6 +245,7 @@ namespace CommProtocolLib
                 SP.Encoding = encoding;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
+                SP.ReceivedBytesThreshold = 1;
 
                
             }
@@ -273,6 +274,8 @@ namespace CommProtocolLib
                 SP.Encoding = encoding;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
+                SP.ReceivedBytesThreshold = 1;
+                
 
             }
             catch (Exception ex)
@@ -303,6 +306,7 @@ namespace CommProtocolLib
                 SP.Encoding = encoding;
                 SP.Open();
                 SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
+                SP.ReceivedBytesThreshold = 1;
 
             }
             catch (Exception ex)
@@ -315,6 +319,7 @@ namespace CommProtocolLib
         /// </summary>
         private void Setup()
         {
+
             ResponseTimer = new System.Timers.Timer(TimeOut);
             ResponseTimer.Enabled = false;
             ResponseTimer.Elapsed += new ElapsedEventHandler(ResponseTimer_Elapsed);
@@ -852,7 +857,7 @@ namespace CommProtocolLib
         private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
 
-            for (int i = 0; i < SP.BytesToRead; i++)
+            for (int i = 0; i < SP.BytesToRead+1; i++)
             {
                 IncomingDataBuffer += (char)(byte)SP.ReadByte();
             }
@@ -1130,7 +1135,7 @@ namespace CommProtocolLib
                 {
                     //good checksum
                     HeadingSpeedAltitude HSA = new HeadingSpeedAltitude();
-                    HSA.Heading = Convert.ToUInt16((int)IncomingDataBuffer[5] << 8 + (int)IncomingDataBuffer[6]);
+                    HSA.Heading = Convert.ToInt16((int)IncomingDataBuffer[5] << 8 + (int)IncomingDataBuffer[6]);
                     HSA.Speed = Convert.ToByte((int)IncomingDataBuffer[7]);
                     HSA.Altitude = Convert.ToUInt16((int)IncomingDataBuffer[8] << 8 + (int)IncomingDataBuffer[9]);
                     //invoke the event
@@ -1163,11 +1168,11 @@ namespace CommProtocolLib
                4 0x74	Report type “Telemetry”
                  0x5A	Report “Attitude”
 
-               6 0xRRRR	Hex value (0x0000 – 0x0167) representing current roll angle, can potentially use extra bits for partial degrees 
+               6 0xPPPP	Hex value (0x0000 – 0x0167) representing current pitch angle, can potentially use extra bits for partial degrees      
+               (increases as helicopter pitches forward)
+             
+               8 0xRRRR	Hex value (0x0000 – 0x0167) representing current roll angle, can potentially use extra bits for partial degrees 
                  (increases as helicopter rolls in the starboard direction)
-                 
-               8 0xPPPP	Hex value (0x0000 – 0x0167) representing current pitch angle, can potentially use extra bits for partial degrees 
-                 (increases as helicopter pitches forward)
                 
               10 0xYYYY	Hex value (0x0000 – 0x0167) representing current yaw angle, can potentially use extra bits for partial degrees 
                  (increases as helicopter rotates counter clockwise, as seen from above the helicopter)
@@ -1200,9 +1205,9 @@ namespace CommProtocolLib
                 {
                     //checksum ok
                     Attitude a = new Attitude();
-                    a.Roll = (ushort)(((int)IncomingDataBuffer[5] << 8) + (int)IncomingDataBuffer[6]);
-                    a.Pitch = (ushort)(((int)IncomingDataBuffer[7] << 8) + (int)IncomingDataBuffer[8]);
-                    a.Yaw = (ushort)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
+                    a.Pitch = (short)(((int)IncomingDataBuffer[5] << 8) + (int)IncomingDataBuffer[6]);
+                    a.Roll = (short)(((int)IncomingDataBuffer[7] << 8) + (int)IncomingDataBuffer[8]);
+                    a.Yaw = (short)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
                     //invoke the event
                     ClearBuffer();
                     ParentForm.Invoke(AttitudePacketReceived, new object[] { this, new AttitudePacketReceivedEventArgs(a) });
@@ -1271,9 +1276,9 @@ namespace CommProtocolLib
                 {
                     //checksum ok
                     BatteryStatus b = new BatteryStatus();
-                    b.Voltage = (ushort)(((int)IncomingDataBuffer[5] << 8) + (int)IncomingDataBuffer[6]);
-                    b.CurrentDraw = (ushort)(((int)IncomingDataBuffer[7] << 8) + (int)IncomingDataBuffer[8]);
-                    b.Temperature = (ushort)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
+                    b.Voltage = (short)(((int)IncomingDataBuffer[5] << 8) + (int)IncomingDataBuffer[6]);
+                    b.CurrentDraw = (short)(((int)IncomingDataBuffer[7] << 8) + (int)IncomingDataBuffer[8]);
+                    b.Temperature = (short)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
                     //invoke the event
                     ClearBuffer();
                     ParentForm.Invoke(BatteryStatusPacketReceived, new object[] { this, new BatteryStatusPacketReceivedEventArgs(b) });
@@ -1461,8 +1466,8 @@ namespace CommProtocolLib
                     }
                     PFP.GPSAltitude = (ushort)(((int)IncomingDataBuffer[15]<<8) + (int)IncomingDataBuffer[16]);
                     PFP.SonarAltitude = (ushort)(((int)IncomingDataBuffer[17] << 8) + (int)IncomingDataBuffer[18]);
-                    PFP.BatteryVoltage = (ushort)(((int)IncomingDataBuffer[19] << 8) + (int)IncomingDataBuffer[20]);
-                    PFP.BatteryTemp = (ushort)(((int)IncomingDataBuffer[21] << 8) + (int)IncomingDataBuffer[22]);
+                    PFP.BatteryVoltage = (short)(((int)IncomingDataBuffer[19] << 8) + (int)IncomingDataBuffer[20]);
+                    PFP.BatteryTemp = (short)(((int)IncomingDataBuffer[21] << 8) + (int)IncomingDataBuffer[22]);
                     PFP.SensorStatus = (byte)IncomingDataBuffer[23];
                     //invoke the event
                     ClearBuffer();
