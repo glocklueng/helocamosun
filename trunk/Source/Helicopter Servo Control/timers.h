@@ -2,6 +2,8 @@
 timers.h
 */
 
+#define TIMER1FLAG	PIR1bits.C
+
 typedef struct 
 {
 	unsigned char newTickFlag:1;

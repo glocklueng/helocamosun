@@ -44,7 +44,7 @@ void interrupt_at_high_vector(void)
 	{
 		_asm GOTO SPI_isr _endasm
 	}
-	if(PIR1bits.C)			// capture compare interrupt
+	if(TIMER1FLAG)			// capture compare interrupt
 	{
 		_asm GOTO CCPINT _endasm
 	}
@@ -69,7 +69,7 @@ void SPI_isr (void)
 #pragma interrupt CCPINT
 void CCPINT(void)
 {
-	PIR1bits.C = 0; 		// clear the capture flag
+	TIMER1FLAG = 0; 		// clear the capture flag
 	Nop();					// additional padding
 	tFlag.newTickFlag = 1;	// Set Tick flag
 	TMR1H = 0xCF;			// reset timer values, for a 40MHz crystal 0x9E59 = 10ms
