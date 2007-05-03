@@ -95,7 +95,6 @@ void main(void)
 /******** VARIABLE INITIALIZATION ************/
 	INTCONbits.PEIE = 1;	// enable peripheral interrupt
 	INTCONbits.GIE = 1;		// enable global interrupt
-//	TRISCbits.TRISC2 = 0;
 	TickCounter = 0;
 	tDelay.delay1s = 0;
 	tDelay.delay100ms = 0;
