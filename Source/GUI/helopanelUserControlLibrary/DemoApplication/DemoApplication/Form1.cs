@@ -12,11 +12,13 @@ namespace DemoApplication
 {
     public partial class Form1 : Form
     {
-        int guageSzStd = 150;
+
+        int guageSzStd = 200;
         CenterDial Altitude;
         CenterDial BatteryLife;
         CenterDial RPM;
         ArtificialHorizon ArtHorizon;
+        Compass compass;
         GoogleMapControl gmc = new GoogleMapControl();
         float value = 0;
         public Form1()
@@ -29,6 +31,7 @@ namespace DemoApplication
             setUpRPM();
             setUpArtHorizon();
             setUpGoogleMap();
+            setUpCompass();
 
         }
         private void setUpAltimeter()
@@ -137,17 +140,24 @@ namespace DemoApplication
             ArtHorizon.Roll=(4.0f);
             ArtHorizon.Pitch=(-1f);
         }
-
+        private void setUpCompass()
+        {
+            compass = new Compass();
+            compass.Location = new Point(guageSzStd * 4, 0);
+            compass.Size = new Size(guageSzStd, guageSzStd);
+            this.Controls.Add(compass);
+        }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
-            gmc.GotoLoc(48.490928+ (double)value/1000000.0, -123.415958+ (double)value/1000000.0);
+            gmc.GotoLoc(48.490928 + (double)value / 1000000.0, -123.415958 + (double)value / 1000000.0);
 
 
             ArtHorizon.Roll += 0.2f;
+            compass.Angle += 0.2f;
             if (ArtHorizon.Roll > 30)
             {
+                compass.Angle = -15;
                 ArtHorizon.Roll = -15;
             }
             ArtHorizon.Pitch += 0.2f;
@@ -168,8 +178,7 @@ namespace DemoApplication
         {
             this.Controls.Add(gmc);
             gmc.Location = new Point(0, guageSzStd);
-            gmc.Show();
-
+            gmc.Show();           
         }
     }
 }

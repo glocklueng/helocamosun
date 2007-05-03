@@ -24,20 +24,12 @@ namespace commprotocoltester
         public Form1()
         {
             InitializeComponent();
-            cp = new CommProtocol("COM8", 19200, Parity.None, 8, StopBits.One, this);
-            
-            //event handlers
-            cp.LocationPacketReceived += new CommProtocol.LocationPacketReceivedEventHandler(cp_LocationPacketReceived);
-            cp.BadPacketReceived += new CommProtocol.BadPacketReceivedEventHandler(cp_BadPacketReceived);
-            cp.OnBoardErrorPacketReceived += new CommProtocol.OnBoardErrorPacketReceivedEventHandler(cp_OnBoardErrorPacketReceived);
-            cp.ResponseTimeout += new CommProtocol.ResponseTimeoutEventHandler(cp_ResponseTimeout);
-            cp.BatteryStatusPacketReceived += new CommProtocol.BatteryStatusPacketReceivedEventHandler(cp_BatteryStatusPacketReceived);
-            cp.HeadingSpeedAltitudePacketReceived += new CommProtocol.HeadingSpeedAltitudePacketReceivedEventHandler(cp_HeadingSpeedAltitudePacketReceived);
-            cp.AttitudePacketReceived += new CommProtocol.AttitudePacketReceivedEventHandler(cp_AttitudePacketReceived);
-            cp.ExpectedResponseReceived += new CommProtocol.ExpectedResponseReceivedEventHandler(cp_ExpectedResponseReceived);
-            cp.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(cp_HandShakeAckReceived);
-            cp.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(cp_PreFlightPacketReceived);
 
+            for (int i = 1; i < 10; i++)
+            {
+                comboBox1.Items.Add("COM" + i);
+            }
+            comboBox1.SelectedIndex = 0;
         }
 
         void cp_ExpectedResponseReceived(object sender, CommProtocol.ExpectedResponseReceivedEventArgs e)
@@ -206,22 +198,22 @@ namespace commprotocoltester
 
         private void btnSetAntiTorque_Click(object sender, EventArgs e)
         {
-            cp.SetAntiTorque(0x00);
+            cp.SetAntiTorque(Convert.ToByte(textBox3.Text));
         }
 
         private void btnSetCollective_Click(object sender, EventArgs e)
         {
-            cp.SetCollective(0x04);
+            cp.SetCollective(Convert.ToByte(textBox4.Text));
         }
 
         private void btnSetCyclicPitch_Click(object sender, EventArgs e)
         {
-            cp.SetCyclicPitch(0x00);
+            cp.SetCyclicPitch(Convert.ToByte(textBox5.Text));
         }
 
         private void btnSetCyclicRoll_Click(object sender, EventArgs e)
         {
-            cp.SetCyclicRoll(0x00);
+            cp.SetCyclicRoll(Convert.ToByte(textBox6.Text));
         }
 
         private void btnSetMotorRPM_Click(object sender, EventArgs e)
@@ -269,12 +261,49 @@ namespace commprotocoltester
             cp.RequestForInformation(0x5A);
         }
 
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-            textBox2.Clear();
-                textBox2.AppendText( cp.NonVolatileIncomingDataBuffer);
-            textBox2.ScrollToCaret();
+            if (cp != null)
+            {
+                string linebreaksadded = cp.NonVolatileIncomingDataBuffer.Replace("0x0a", "\r\n");
+                textBox2.Clear();
+
+                textBox2.AppendText(linebreaksadded);
+                textBox2.ScrollToCaret();
+            }
         }
+       
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cp.NonVolatileIncomingDataBuffer += "\r\n";
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+
+            cp = new CommProtocol(comboBox1.SelectedItem.ToString(), 19200, Parity.None, 8, StopBits.One, 5000, this);
+
+            if (cp != null)
+            {
+                //event handlers
+                cp.LocationPacketReceived += new CommProtocol.LocationPacketReceivedEventHandler(cp_LocationPacketReceived);
+                cp.BadPacketReceived += new CommProtocol.BadPacketReceivedEventHandler(cp_BadPacketReceived);
+                cp.OnBoardErrorPacketReceived += new CommProtocol.OnBoardErrorPacketReceivedEventHandler(cp_OnBoardErrorPacketReceived);
+                cp.ResponseTimeout += new CommProtocol.ResponseTimeoutEventHandler(cp_ResponseTimeout);
+                cp.BatteryStatusPacketReceived += new CommProtocol.BatteryStatusPacketReceivedEventHandler(cp_BatteryStatusPacketReceived);
+                cp.HeadingSpeedAltitudePacketReceived += new CommProtocol.HeadingSpeedAltitudePacketReceivedEventHandler(cp_HeadingSpeedAltitudePacketReceived);
+                cp.AttitudePacketReceived += new CommProtocol.AttitudePacketReceivedEventHandler(cp_AttitudePacketReceived);
+                cp.ExpectedResponseReceived += new CommProtocol.ExpectedResponseReceivedEventHandler(cp_ExpectedResponseReceived);
+                cp.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(cp_HandShakeAckReceived);
+                cp.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(cp_PreFlightPacketReceived);
+                
+            }
+        }
+
+
+
 
     }
 }
