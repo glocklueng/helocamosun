@@ -9,6 +9,7 @@ timers.c
 #define STATUS_LED2 LATBbits.LATB6
 #define SET_STATUS_LED2 TRISBbits.TRISB6
 
+
 TIMEFLAGS tFlag;
 CONTROL cFlag;
 TIMERS tDelay;
@@ -21,7 +22,7 @@ Description: Initializes the timer to interrupt every 100ms
 void TimerInit(void)
 {
 
-	PIR1bits.C = 0;			// clear timer1 int flag
+	TIMER1FLAG = 0;			// clear timer1 int flag
 	PIE1bits.TMR1IE = 1;	// enable timer 1 interrupt
 	IPR1bits.TMR1IP = 1;	// set to high priority interrupt
 	
