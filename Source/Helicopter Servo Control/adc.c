@@ -13,6 +13,9 @@ WORD RangeFinder,
 	 VoltageMeter;
 	 
 int RangeAverage;
+char Gyro[4];
+char Voltages[4];
+char Accoustic[2];
 
 void ADCInit(void)
 {
@@ -76,6 +79,8 @@ void ScanADC(void)
 {
 	ADCchannel(RANGEFINDER);
 	RangeFinder.D_byte = GetADC();
+	Accoustic[0] = RangeFinder.byte[0];
+	Accoustic[1] = RangeFinder.byte[1];
 	ADCchannel(GYRO1);
 	Gyro1.D_byte = GetADC();
 	ADCchannel(GYRO2);					
@@ -105,8 +110,8 @@ void GetADCAverage(void)
 	
 	RangeAverage = RangeAverage / loopCounter;
 	
-	Accoustic[0] = (char)RangeAverage;
-	Accoustic[1] = (char)RangeAverage >> 8;
+	Accoustic[0] = (RangeAverage & 0xFF00 )>> 8;
+	Accoustic[1] = RangeAverage & 0x00FF;
 	
 	if(Rangecount > AVERAGEVALUE)
 	{

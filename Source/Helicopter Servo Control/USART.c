@@ -145,12 +145,12 @@ void SendVariables(void)
 	putsUSART(outputstring);
 	
 	setCursor(55,3);
-	convertstring(outputstring, (int)CompassAngle);
+	sprintf(outputstring, "%03d", CompassAngle);
 	putsUSART(outputstring);
 	
 	setCursor(4,8);
 
-	convertstring(outputstring, RangeFinder.D_byte);
+	sprintf(outputstring, "%03d", RangeFinder.D_byte);
 	putsUSART(outputstring);
 		
 	setCursor(13,8);

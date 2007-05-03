@@ -26,11 +26,7 @@
 #define PWM_COMMAND				'P'
 
 char dummydata[11] ={"0123456789"};
-char Accelerator[6];
-char Gyro[4];
-char Compass[4];
-char Voltages[4];
-char Accoustic[2];
+//char Accelerator[6];
 char Temperature[2];
 char RPM[2];
 char command[2];
@@ -184,6 +180,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 		case ACCELEROMETER_COMMAND_STATE:
 				//send the accelerometer byte pointed to by bytenum
 				ReturnValue = Accelerator[ByteNum];
+//				ReturnValue = dummydata[ByteNum];
 				ByteNum++;
 				if(ByteNum > 6)//6 bytes in a accelerometer packet
 				{
@@ -205,6 +202,8 @@ unsigned char SPI_State_Machine(unsigned char Input)
 		case COMPASS_COMMAND_STATE:
 				//send the compass byte pointed to by bytenum
 				ReturnValue = Compass[ByteNum];
+//				TXREG = Compass[ByteNum];
+//				ReturnValue = dummydata[ByteNum];
 				ByteNum++;
 				if(ByteNum > 2)//2 bytes in a compass packet
 				{
@@ -215,6 +214,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 		case ACCOUSTIC_COMMAND_STATE:
 				//send the accoustic byte pointed to by bytenum
 				ReturnValue = Accoustic[ByteNum];
+//				ReturnValue = dummydata[ByteNum];
 				ByteNum++;
 				if(ByteNum > 2)//2 bytes in a accoustic packet
 				{
@@ -274,7 +274,8 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				}
 				break;
         default:
-				state = WAITING_FOR_COMMAND_STATE;				
+				state = WAITING_FOR_COMMAND_STATE;
+				ReturnValue = 0xA5;				
 				return 0xFF;
             break;
 	}

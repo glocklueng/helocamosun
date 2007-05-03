@@ -18,7 +18,7 @@ typedef union _WORD
 // SPIComms.c
 extern char Accelerator[6];
 extern char Gyro[4];
-extern char Compass[4];
+extern char Compass[2];
 extern char Voltages[4];
 extern char Accoustic[2];
 extern char Temperature[2];

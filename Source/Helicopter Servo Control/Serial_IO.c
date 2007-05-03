@@ -15,6 +15,10 @@ signed int CompassXAverage,
 		ZAxisAverage;
 signed float fCompassAngle;
 unsigned int CompassAngle;
+char Accelerator[6];
+char Compass[2];
+
+
 /*
 Function:	ShiftIO
 Description: This function will serially communicate to a Tri-axis accelerometer and magnetic 
@@ -228,9 +232,12 @@ void GetCompassAverage(void)
 	          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
 	          fCompassAngle *= (180.0 / pi);
 	          CompassAngle = (unsigned int) fCompassAngle;
-	          Compass[0] = (char) CompassAngle>>8;
+	          Compass[0] = CompassAngle>>8;
 	          Compass[1] = (char) CompassAngle;
-	    } 
+	          
+//	          Compass[0] = CompassAngle>>8;
+//	          Compass[1] = (char) CompassAngle;
+	    }
 	}
 	else
 	{
