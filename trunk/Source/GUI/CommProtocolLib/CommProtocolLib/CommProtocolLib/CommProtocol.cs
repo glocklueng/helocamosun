@@ -5,7 +5,7 @@ using System.Text;
 using System.IO.Ports;
 using System.Timers;
 using System.Windows.Forms;
-
+using System.Threading;
 
 namespace CommProtocolLib
 {
@@ -160,6 +160,8 @@ namespace CommProtocolLib
     {
 
         #region datamembers
+        private System.Timers.Timer SerialPortTimer;
+        private bool CheckingForPacket = false;
         Form ParentForm;
         /// <summary>
         /// serial port encoding
@@ -224,6 +226,7 @@ namespace CommProtocolLib
             /// instance of the type enum
             /// </summary>
             public type ResponseType;
+
         }
         #endregion
         
@@ -244,7 +247,7 @@ namespace CommProtocolLib
                 SP = new SerialPort(PortName, BaudRate);
                 SP.Encoding = encoding;
                 SP.Open();
-                SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
+               // SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
                 SP.ReceivedBytesThreshold = 1;
 
                
@@ -273,7 +276,7 @@ namespace CommProtocolLib
                 SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
                 SP.Encoding = encoding;
                 SP.Open();
-                SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
+            //    SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
                 SP.ReceivedBytesThreshold = 1;
                 
 
@@ -305,7 +308,7 @@ namespace CommProtocolLib
                 SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
                 SP.Encoding = encoding;
                 SP.Open();
-                SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
+           //     SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
                 SP.ReceivedBytesThreshold = 1;
 
             }
@@ -319,11 +322,15 @@ namespace CommProtocolLib
         /// </summary>
         private void Setup()
         {
-
+            SerialPortTimer = new System.Timers.Timer(50);
+            SerialPortTimer.Elapsed += new ElapsedEventHandler(SerialPortTimer_Elapsed);
+            SerialPortTimer.Start();
             ResponseTimer = new System.Timers.Timer(TimeOut);
             ResponseTimer.Enabled = false;
             ResponseTimer.Elapsed += new ElapsedEventHandler(ResponseTimer_Elapsed);
         }
+
+
         #endregion
         
         #region out-going packets
@@ -853,11 +860,21 @@ namespace CommProtocolLib
         #endregion
 
         #region incoming packets
-
-        private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        void SerialPortTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
 
-            for (int i = 0; i < SP.BytesToRead+1; i++)
+            if (!CheckingForPacket)
+            {
+                CheckingForPacket = true;
+                CheckForPacket();
+            }
+        }
+        
+        //private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void CheckForPacket()
+        {
+            
+            for (int i = 0; i < SP.BytesToRead; i++)
             {
                 IncomingDataBuffer += (char)(byte)SP.ReadByte();
             }
@@ -921,6 +938,7 @@ namespace CommProtocolLib
                     ClearBuffer();
                 }
             }
+            CheckingForPacket = false;
         }
 
         /// <summary>
@@ -1638,6 +1656,7 @@ namespace CommProtocolLib
         }
         private void ClearBuffer()
         {
+            ResponseTimer.Stop();
             IncomingDataBuffer = "";
             ExpectedResponse.ResponseExpected = false;
         }
