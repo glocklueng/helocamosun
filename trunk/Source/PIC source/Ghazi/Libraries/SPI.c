@@ -47,8 +47,8 @@ void SPI_init ()
 	SPI1CONbits.CKE = 0;		// might need to change this
 	SPI1CONbits.MSTEN = 1;
 	SPI1CONbits.SSEN = 0;
-	SPI1CONbits.SPRE = 0;
-	SPI1CONbits.PPRE = 0b00;
+	SPI1CONbits.SPRE = 7;
+	SPI1CONbits.PPRE = 3;
 }
 
 void SPI_tx_byte ( char ch)

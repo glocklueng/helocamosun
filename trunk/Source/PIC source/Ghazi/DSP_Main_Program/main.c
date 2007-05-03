@@ -54,7 +54,7 @@ GP_helicopter.batterystatus.temp			(2)
 char pwmCommand[] = { 'P', 0x01, 0x01, 0x01, 0x01 };
 
 extern unsigned char newPWM;
-
+extern char GSPI_AccData[];
 //*******************************   MAIN   **********************************
 int main ( void )
 {
@@ -93,28 +93,29 @@ int main ( void )
 			SPI_tx_command(pwmCommand, 5);	
 		}
 		
-		if (q > 1000000)
+		if(!PORTAbits.RA12)
+		//if (q > 1000000)
 		{
+			while(!PORTAbits.RA12);
 			q = 0;
 			
 			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
-			GP_TX_packet(GSPI_AccData, 6);
-			GP_TX_char('\n');
+			GP_TX_packet(GSPI_AccData, 6); // DEBUG
+			GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
+			GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
+			//GP_TX_char('\n');
 			
 			for (i = 0; i < 10000; i++);
 			
 			SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
 			GP_TX_packet(GSPI_CompData, 2);
-			GP_TX_char('\n');
+			//GP_TX_char('\n');
 			
 			for (i = 0; i < 10000; i++);
 			
 			SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
 			GP_TX_packet(GSPI_AcousticData, 2);
-			GP_TX_char('\n');
-			
-			
-			
+			//GP_TX_char('\n');
 		}
 		
 		/*if(!PORTAbits.RA12)
