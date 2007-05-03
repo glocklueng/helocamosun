@@ -25,7 +25,7 @@
 #define STATUS_COMMAND 			'S'
 #define PWM_COMMAND				'P'
 
-char dummydata[11] ={"0123456789"};
+//char dummydata[11] ={"0123456789"};
 //char Accelerator[6];
 char Temperature[2];
 char RPM[2];

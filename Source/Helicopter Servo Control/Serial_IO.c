@@ -232,12 +232,11 @@ void GetCompassAverage(void)
 	          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
 	          fCompassAngle *= (180.0 / pi);
 	          CompassAngle = (unsigned int) fCompassAngle;
-	          Compass[0] = CompassAngle>>8;
-	          Compass[1] = (char) CompassAngle;
-	          
 //	          Compass[0] = CompassAngle>>8;
 //	          Compass[1] = (char) CompassAngle;
 	    }
+   	    Compass[0] = CompassAngle>>8;
+        Compass[1] = (char) CompassAngle;
 	}
 	else
 	{
