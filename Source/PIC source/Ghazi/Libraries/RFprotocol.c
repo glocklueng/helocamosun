@@ -1,6 +1,7 @@
 #include <p30fxxxx.h>
 #include <string.h>
 #include "../Libraries/RFprotocol.h"
+#include "../Libraries/SPI.h"
 
 #define FCY			1842500 // Instruction cycle freq = xtal / 4
 
@@ -613,10 +614,19 @@ void GP_TX_telemetry( unsigned char type )
 		{
 			packet[2] = 8;
 			
-			packet[5] = (GP_helicopter.attitude.roll & 0xff00) >> 8;
-			packet[6] = GP_helicopter.attitude.roll & 0x00ff;
-			packet[7] = (GP_helicopter.attitude.pitch & 0xff00) >> 8;
-			packet[8] = GP_helicopter.attitude.pitch & 0x00ff;
+			//packet[5] = (GP_helicopter.attitude.roll & 0xff00) >> 8;
+			//packet[6] = GP_helicopter.attitude.roll & 0x00ff;
+			//packet[7] = (GP_helicopter.attitude.pitch & 0xff00) >> 8;
+			//packet[8] = GP_helicopter.attitude.pitch & 0x00ff;
+			
+			
+			
+			packet[5] = GSPI_AccData[0];
+			packet[6] = GSPI_AccData[1];
+			
+			packet[7] = GSPI_AccData[2];
+			packet[8] = GSPI_AccData[3];
+			
 			packet[9] = (GP_helicopter.attitude.yaw & 0xff00) >> 8;
 			packet[10] = GP_helicopter.attitude.yaw & 0x00ff;
 			
