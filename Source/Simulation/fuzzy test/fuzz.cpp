@@ -1,10 +1,13 @@
 //Fuzz.c
 
 #include <string.h>
+#include <iostream>
 #include <math.h>
 #include "fuzz.h"
 
-float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
+using namespace std;
+
+float roll_param[NUM_RANGE][3]={	//degrees member function parameters
       {410, 410, 455},
       {410, 455, 495},
       {455, 500, 545},
@@ -12,7 +15,7 @@ float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
       {545, 590, 590}
 };
 
-float roll_param[NUM_RANGE][3]={	//degrees member function parameters
+float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
       {410, 410, 455},
       {410, 455, 495},
       {455, 500, 545},
@@ -109,7 +112,7 @@ void Fuzzification( float input_param[][3], fMember *input_mf)
    input_mf->z  = 0;
    input_mf->p  = 0;
    input_mf->pl = 0;
-   
+
    //~~~~~~~~~~~~~~~~~~~~~~ Negative Large Triangle ~~~~~~~~~~~~~~~~~~~
    if( input_mf->sensor < input_param[NL][1] )
    {
@@ -122,7 +125,7 @@ void Fuzzification( float input_param[][3], fMember *input_mf)
       input_mf->nl=Equ_line((float)input_mf->sensor, input_param[NL][1],
                                    input_param[NL][2], 1, 0);
    }
-   
+
    //~~~~~~~~~~~~~~~~~~~~~~~~~~ Negative Triangle ~~~~~~~~~~~~~~~~~~~~~
    if( input_mf->sensor < input_param[N][1] &&
        input_mf->sensor >= input_param[N][0] )
@@ -151,7 +154,7 @@ void Fuzzification( float input_param[][3], fMember *input_mf)
       input_mf->z = Equ_line((float)input_mf->sensor, input_param[Z][1],
                                     input_param[Z][2], 1, 0);													
    }
-	
+
 	//~~~~~~~~~~~~~~~~~~~~~~~~	Positive Triangle ~~~~~~~~~~~~~~~~~~~~~~~
 	if( input_mf->sensor < input_param[P][1] &&
    	 input_mf->sensor >= input_param[P][0] )
@@ -165,7 +168,7 @@ void Fuzzification( float input_param[][3], fMember *input_mf)
       input_mf->p = Equ_line((float)input_mf->sensor, input_param[P][1],
                                     input_param[P][2], 1, 0); 												
    }
-   
+
    //~~~~~~~~~~~~~~~~~~~~~ Positive Large Triangle ~~~~~~~~~~~~~~~~~~~~
    if( input_mf->sensor < input_param[PL][1] &&
        input_mf->sensor >= input_param[PL][0] )
@@ -182,13 +185,13 @@ void Fuzzification( float input_param[][3], fMember *input_mf)
 //
 // The rule set for the fuzzy logic unit
 //
-char PitchRule[] =                          // SAMPLE RULE SET
+char RollRule[] =                          // SAMPLE RULE SET
 { 
 //   ANGLE, _NL, RATE, _NL, _THEN, _NL,
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
    ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
    ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-//   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
+   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
    
    ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
    ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
@@ -218,7 +221,7 @@ char PitchRule[] =                          // SAMPLE RULE SET
 //
 // The rule set for the fuzzy logic unit
 //
-char RollRule[] =                          // SAMPLE RULE SET
+char PitchRule[] =                          // SAMPLE RULE SET
 { 
 //   ANGLE, _NL, RATE, _NL, _THEN, _NL,
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
