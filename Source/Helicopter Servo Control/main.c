@@ -57,13 +57,9 @@ void SPI_isr (void)
 {
 	unsigned char Incoming_Data;
 	unsigned char Reply;
-//	LATCbits.LATC2 ^= 1;
 	Incoming_Data = SPI_Read_Byte();
-//	putcUSART(Incoming_Data);//debugging
 	Reply = SPI_State_Machine(Incoming_Data);
 	SPI_Write(Reply);//fill the buffer with data back to the SPI master, it will go out the next time an SPI packet is received
-//	putcUSART(Reply);//debugging
-	
 	PIR1bits.SSPIF = 0;//clear the interrupt flag
 }
 #pragma interrupt CCPINT

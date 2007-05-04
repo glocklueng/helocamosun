@@ -10,6 +10,7 @@
 		 Compass_Y;	
 signed int CompassXAverage, 
 		CompassYAverage,
+		CompassAverageAngle,
 		XAxisAverage,
 		YAxisAverage,
 		ZAxisAverage;
@@ -17,7 +18,6 @@ signed float fCompassAngle;
 unsigned int CompassAngle;
 char Accelerator[6];
 char Compass[2];
-
 
 /*
 Function:	ShiftIO
@@ -166,17 +166,12 @@ void GetCompassAverage(void)
 	char loopcounter;
 	static int CompassXtemp = 0,
 			   CompassYtemp = 0;
-	static int CompassXData[AVERAGEVALUE],
-			   CompassYData[AVERAGEVALUE];
+	static signed int CompassAverage[AVERAGEVALUE];
 	static char CompassCount = 0;
+	static char AverageCount = 0;
 	signed int Xtemp = Compass_X.D_byte,
 		   	   Ytemp = Compass_Y.D_byte;
 	
-	if (( Xtemp < 1024) && (Ytemp < 1024))
-    {
-
-    } else
-     
     if (( Xtemp >= 1024) && (Ytemp >= 1024))
     {
           Xtemp = -1 * (2048.0 - Xtemp);
@@ -196,6 +191,7 @@ void GetCompassAverage(void)
 	if(CompassCount > AVERAGEVALUE-1)
 	{
 		CompassCount = 0;
+		
 		CompassYtemp /= AVERAGEVALUE;
 		CompassXtemp /= AVERAGEVALUE;
 		CompassYAverage = CompassYtemp;
@@ -232,11 +228,25 @@ void GetCompassAverage(void)
 	          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
 	          fCompassAngle *= (180.0 / pi);
 	          CompassAngle = (unsigned int) fCompassAngle;
-//	          Compass[0] = CompassAngle>>8;
-//	          Compass[1] = (char) CompassAngle;
 	    }
-   	    Compass[0] = CompassAngle>>8;
-        Compass[1] = (char) CompassAngle;
+	    
+	    CompassAverage[AverageCount] = CompassAngle;
+	    
+	    AverageCount++;
+	    if( AverageCount > AVERAGEVALUE - 1 )
+	    {
+		    AverageCount = 0;
+		}
+		
+		for(loopcounter = 0; loopcounter < (AVERAGEVALUE - 1); loopcounter++)
+		{
+			CompassAverageAngle += CompassAverage[loopcounter];
+		}
+		
+		CompassAverageAngle = CompassAverageAngle / AVERAGEVALUE;
+		
+   	    Compass[0] = CompassAverageAngle>>8;
+        Compass[1] = (char) CompassAverageAngle;
 	}
 	else
 	{
@@ -244,8 +254,6 @@ void GetCompassAverage(void)
 		CompassXtemp += Xtemp;
 		CompassYtemp += Ytemp;
 	}
-	
-
 }
 
 /*
@@ -270,8 +278,6 @@ void GetAxisValues(void)
 	ShiftIO(byte_out, out_bits, &Y_axis, in_bits);
 	TAA = 1;
 
-	
-	
 	byte_out.byte[0] = TAA_Z_AXIS;	// Get the Z axis values
 	TAA = 0;
 	ShiftIO(byte_out, out_bits, &Z_axis, in_bits);
@@ -282,7 +288,6 @@ Function: GetAxisAverage
 Description: Calculates the moving average of the X, Y, and Z axis values
 */
 void GetAxisAverage(void)
-//void GetAxisAverage(WORD *X_axis, WORD *Y_axis, WORD *Z_axis, int *XAxisAverage, int *YAxisAverage, int *ZAxisAverage)
 {
 	char ArrayCount;
 	static int Xaxistemp = 0,

@@ -37,6 +37,7 @@ extern	WORD X_axis,
 		 	 
 extern	signed int CompassXAverage, 
 			CompassYAverage,
+			CompassAverageAngle,
 			XAxisAverage,
 			YAxisAverage,
 			ZAxisAverage;
