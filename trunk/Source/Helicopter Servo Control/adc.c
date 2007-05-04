@@ -12,7 +12,7 @@ WORD RangeFinder,
 	 CurrentMeter,
 	 VoltageMeter;
 	 
-int RangeAverage;
+signed int RangeAverage;
 char Gyro[4];
 char Voltages[4];
 char Accoustic[2];
@@ -74,13 +74,15 @@ void ADCchannel(char channel)
 		break;
 	}
 }
-
+/*
+ScanADC
+*/
 void ScanADC(void)
 {
 	ADCchannel(RANGEFINDER);
 	RangeFinder.D_byte = GetADC();
-	Accoustic[0] = RangeFinder.byte[0];
-	Accoustic[1] = RangeFinder.byte[1];
+	Accoustic[0] = RangeFinder.byte[1];
+	Accoustic[1] = RangeFinder.byte[0];
 	ADCchannel(GYRO1);
 	Gyro1.D_byte = GetADC();
 	ADCchannel(GYRO2);					
@@ -96,25 +98,21 @@ void ScanADC(void)
 void GetADCAverage(void)
 {
 	char loopCounter;
-	static int Range[AVERAGEVALUE];
+	static signed int Range[AVERAGEVALUE];
 	static char Rangecount = 0;
 	
 	Range[Rangecount] = RangeFinder.D_byte;
 	
 	Rangecount++;
+	if( Rangecount > AVERAGEVALUE - 1 )
+	{
+		Rangecount = 0;
+	}
 	
-	for(loopCounter = 0; loopCounter < AVERAGEVALUE; loopCounter++)
+	for(loopCounter = 0; loopCounter < (AVERAGEVALUE - 1); loopCounter++)
 	{
 		RangeAverage += Range[loopCounter];
 	}
 	
-	RangeAverage = RangeAverage / loopCounter;
-	
-	Accoustic[0] = (RangeAverage & 0xFF00 )>> 8;
-	Accoustic[1] = RangeAverage & 0x00FF;
-	
-	if(Rangecount > AVERAGEVALUE)
-	{
-		Rangecount = 0;
-	}
+	RangeAverage = RangeAverage / AVERAGEVALUE;
 }

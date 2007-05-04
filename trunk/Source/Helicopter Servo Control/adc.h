@@ -14,7 +14,7 @@ extern	WORD RangeFinder,
 			 Gyro3,
 			 CurrentMeter,
 			 VoltageMeter;
-extern int	RangeAverage;	
+extern signed int	RangeAverage;	
 	 
 void ADCInit(void);
 int GetADC(void);
