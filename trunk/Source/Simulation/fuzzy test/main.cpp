@@ -5,16 +5,16 @@
 
 using namespace std;
 
-fMember pitch_mf[3];
-fMember *pitch_angle_mf = &pitch_mf[0], 
-		*pitch_rate_mf  = &pitch_mf[1], 
-		*pitch_accel_mf = &pitch_mf[2];
-		
 fMember roll_mf[3];
 fMember *roll_angle_mf = &roll_mf[0], 
 		*roll_rate_mf  = &roll_mf[1], 
 		*roll_accel_mf = &roll_mf[2];
-		
+
+fMember pitch_mf[3];
+fMember *pitch_angle_mf = &pitch_mf[0], 
+		*pitch_rate_mf  = &pitch_mf[1], 
+		*pitch_accel_mf = &pitch_mf[2];
+        		
 fMember yaw_mf[3];
 fMember *yaw_angle_mf = &yaw_mf[0], 
 		*yaw_rate_mf  = &yaw_mf[1], 
@@ -50,23 +50,23 @@ int main(int argc, char *argv[])
 
 	while(run)
 	{
-        
         ///PITCH
         cout<<"Enter pitch angle\n";
         cin>>pitchAngle;
         cout<<"Enter pitch rate\n";
-        cin>>pitchAngle;
+        cin>>pitchRate;
+        
 		pitch_angle_mf->sensor = pitchAngle;
 		pitch_rate_mf->sensor = pitchRate;
-		
+
 		Fuzzification( pitch_param, pitch_angle_mf);
+		
 		Fuzzification( tilt_rate_param, pitch_rate_mf);
 		
         output = doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
         
 		cout<<"Correction Value: " << output << "\n";
-         
-         
+
         ///ROLL 
         cout<<"Enter roll angle\n";
         cin>>rollAngle;
@@ -78,11 +78,11 @@ int main(int argc, char *argv[])
 		
 		Fuzzification( roll_param, roll_angle_mf);
 		Fuzzification( tilt_rate_param, roll_rate_mf);
-		
+
 	    output = doRules(roll_mf, RollRule);	// Kyle - changed doRules
 		
 		cout<<"Correction Value: " << output << "\n";
-        		
+                 
         ///YAW
         cout<<"Enter yaw angle\n";
         cin>>yawAngle;
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 		Fuzzification( collective_rate_param, collective_rate_mf);
 		
         output = doRules(collective_mf, CollectiveRule);	// Kyle - changed doRules
-	   
+	    
         cout<<"Correction Value: " << output << "\n";
 	
         cout<<"Run again? Y/N";
