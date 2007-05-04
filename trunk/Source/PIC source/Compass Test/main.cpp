@@ -31,49 +31,48 @@ int GetHeading ( unsigned short x, unsigned short y )
 {
     int fudge;
     int result;
+    double angle;
     signed short x_adj, y_adj;
+    double dx = (double) x;
+    double dy = (double) y;
+    if (( dx < 1024) && (dy < 1024))
+    {
+          angle = atan( -1 * dy / dx );
+          angle *= 180 / pi;   
+          angle += 360;
+    } else
+     
+    if (( dx >= 1024) && (dy >= 1024))
+    {
+          dx = -1 * (2048.0 - dx);
+          dy = -1 * (2048.0 - dy);
+          
+          angle = atan(-1*dy/dx);
+          angle *= 180 / pi;   
+          angle += 180;
+    } else
     
-    if (x & 0xfc00)
+    if (( dx >= 1024) && (dy < 1024))
     {
-          x_adj = -1 * (x & 0x03ff);
-    }
-    else
+          dx = -1 * (2048.0 - dx);
+      
+          angle = atan(-1*dy/dx);
+          angle *= 180 / pi;   
+          angle += 180;
+    } else
+ 
+    if (( dx < 1024) && (dy >= 1024))
     {
-          x_adj = x & 0x03ff;
-    }
+          dy = -1 * (2048.0 - dy);
+          
+          angle = atan(-1*dy/dx);
+          angle *= 180 / pi;   
     
-    if (y & 0xfc00)
-    {
-          y_adj = -1 * (y & 0x03ff);
-    }
-    else
-    {
-          y_adj = y & 0x03ff;
-    }
+    } 
     
-    if (( x_adj >= 0) && (y_adj >= 0))
-    {
-       fudge = 360;     
-    }
-    else 
-    if (( x_adj >= 0) && (y_adj < 0))
-    {
-       fudge = 0;    
-    }
-    else 
-    if (( x_adj < 0) && (y_adj < 0))
-    {
-       fudge = 180;    
-    }
-    else 
-    if (( x_adj < 0) && (y_adj >= 0))
-    {
-        fudge = 180;
-    }
-    //fudge = 0;
-    cout << "X: " << x_adj << "\tY: " << y_adj << "\n" << "Result: " ;
+    cout << "X: " << dx << "\tY: " << dy << "\n" << "Result: " ;
     
-    result = fudge + (int) (( 180 / pi ) * (atan( ((float)y_adj * -1) / (float)x_adj)));
+    result = angle;
     if (result == 360) result = 0;
     return result;
     
