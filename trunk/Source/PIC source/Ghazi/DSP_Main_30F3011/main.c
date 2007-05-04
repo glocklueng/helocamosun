@@ -3,7 +3,7 @@
 #include "../Libraries/RFprotocol.h"
 #include "../Libraries/SPI.h"
 
-//#define FCY			1842500 // Instruction cycle freq = xtal / 4
+#define FCY			10000000 // Instruction cycle freq = xtal / 4
 
 void setupTRIS ( void );
 
@@ -12,6 +12,8 @@ void init_GVars ( void );
 void init_T1 ( void );
 
 void init_LEDs ( void );
+
+void GP_init_UART( unsigned int baud );
 
 void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
 // The UART1 RX ISR. Fires when a character is received on UART1
@@ -55,6 +57,8 @@ char pwmCommand[] = { 'P', 0x01, 0x01, 0x01, 0x01 };
 
 extern unsigned char newPWM;
 extern char GSPI_AccData[];
+
+
 //*******************************   MAIN   **********************************
 int main ( void )
 {
@@ -93,10 +97,10 @@ int main ( void )
 			SPI_tx_command(pwmCommand, 5);	
 		}
 		
-		if(!PORTAbits.RA12)
-		//if (q > 1000000)
+		//if(!_PORTABITS.RA12)
+		if (q > 1000000)
 		{
-			while(!PORTAbits.RA12);
+			//while(!PORTAbits.RA12);
 			q = 0;
 			
 			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
@@ -148,12 +152,12 @@ void fillpwmCommand ( void )
 
 void setupTRIS ( void )
 {	
-	TRISAbits.TRISA12 = 1;
+	//TRISAbits.TRISA12 = 1;
 	TRISD = 0x00;
 	TRISFbits.TRISF3 = 0;
 	TRISFbits.TRISF6 = 0;	// SCLK = RF6
-	TRISFbits.TRISF7 = 1;	// SDI = RF7
-	TRISFbits.TRISF8 = 0;	// SDO = RF8
+	TRISFbits.TRISF2 = 1;	// SDI = RF7
+	TRISFbits.TRISF3 = 0;	// SDO = RF8
 	TRISB = 0;
 }
 
@@ -164,8 +168,8 @@ void init_GVars ( void )
 	GP_helicopter.pwm.yaw = 0;
 	GP_helicopter.pwm.coll = 0;
 	GP_helicopter.pwm.engRPM = 0;
-	GP_errorSOT = 0;
-	GP_errorEOT = 0;
+	//GP_errorSOT = 0;
+	//GP_errorEOT = 0;
 	GP_hs = 0;	
 }
 
@@ -188,13 +192,13 @@ void init_LEDs ( void )
 	LATDbits.LATD3 = 1;	
 }
 
-void __attribute__(( interrupt, no_auto_psv )) _U1RXInterrupt(void)
+void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
 {
-	IEC0bits.U1RXIE = 0;	// disable the receive interrupt
-	IFS0bits.U1RXIF = 0;	// clear the receive interrupt flag
+	IEC1bits.U2RXIE = 0;	// disable the receive interrupt
+	IFS1bits.U2RXIF = 0;	// clear the receive interrupt flag
 	GP_bytercvd = 1;		// indicate a byte was received
-	GP_dump = U1RXREG;		// read the byte from the receive register
-	IEC0bits.U1RXIE = 1;	// re-enable the receive interrupt
+	GP_dump = U2RXREG;		// read the byte from the receive register
+	IEC1bits.U2RXIE = 1;	// re-enable the receive interrupt
 }
 
 void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void)
@@ -210,6 +214,40 @@ void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void)
 
 void Init_PWM( void )
 {
-	//PTCONbits.PTEN = 0;
-		
+
+	PTCONbits.PTSIDL = 0;
+	PTCONbits.PTOPS = 0;	// Postscale = 1:1
+	PTCONbits.PTCKPS = 0;	// Prescale = 1:1
+	PTCONbits.PTMOD = 0;	// Free-running mode
+	
+	PTMRbits.PTMR = 50;		// Timebase register
+	PTPERbits.PTPER = 100;	// Timebase period
+	
+	PWMCON1bits.PMOD1 = 1;	// PMW1 is in independant mode
+	
+	PWMCON1bits.PEN1H = 1;	// Enable PWM1H
+	PWMCON1bits.PEN2H = 0;	// Disable PWM2H
+	PWMCON1bits.PEN3H = 0;	// Disable PWM3H
+
+	PWMCON1bits.PEN1L = 0;	// Disable PWM1L
+	PWMCON1bits.PEN2L = 0;	// Disable PWM2L
+	PWMCON1bits.PEN3L = 0;	// Disable PWM3L
+	
+	PTCONbits.PTEN = 1;	// Disable PWM Time Base	
+}
+
+void GP_init_UART( unsigned int baud )
+{
+	// GP_init_UART initializes UART1 to 8 data bits, no parity, 1 stop bit
+	// at the baud rate passed to 'baud'
+	U2MODEbits.ALTIO = 0;		// use U1TX and U1RX as tx/rx pins
+	U2MODEbits.LPBACK = 0;		// disable loopback mode
+	U2MODEbits.PDSEL = 0b00;	// 8 data bits, no parity
+	U2MODEbits.STSEL = 0;		// 1 stop bit
+
+	U2BRG = ( FCY / (16 * baud) ) - 1; // calculate the BRG value for a
+									   // given baud rate
+	//U1BRG = 1;
+	U2MODEbits.UARTEN = 1;		// enable the UART
+	IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
 }
