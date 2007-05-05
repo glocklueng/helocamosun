@@ -1,7 +1,12 @@
 #include <p30fxxxx.h>
 #include <string.h>
-#include "../Libraries/RFprotocol.h"
-#include "../Libraries/SPI.h"
+
+#include "typedefs.h"
+#include "RF.h"
+#include "SPI.h"
+
+#include "commands.h"
+//#include "typedefs.h"
 
 #define FCY			10000000 // Instruction cycle freq = xtal / 4
 
@@ -11,9 +16,13 @@ void init_GVars ( void );
 
 void init_T1 ( void );
 
+void init_T2 ( void );
+
 void init_LEDs ( void );
 
 void GP_init_UART( unsigned int baud );
+
+void Init_PWM( void );
 
 void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
 // The UART1 RX ISR. Fires when a character is received on UART1
@@ -22,6 +31,8 @@ void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void);
 // Timer1 ISR
 
 void fillpwmCommand ( void );
+
+
 
 GPT_helicopter GP_helicopter;
 /*
@@ -53,22 +64,27 @@ GP_helicopter.batterystatus.voltage			(2)
 GP_helicopter.batterystatus.current			(2)
 GP_helicopter.batterystatus.temp			(2)
 */
-char pwmCommand[] = { 'P', 0x01, 0x01, 0x01, 0x01 };
+
+//char pwmCommand[] = { 'P', 0x01, 0x01, 0x01, 0x01 };
 
 extern unsigned char newPWM;
 extern char GSPI_AccData[];
-
-
+unsigned char T2flag;
+unsigned char clock;
 //*******************************   MAIN   **********************************
 int main ( void )
 {
 	unsigned char dummy;
 	long i = 0, q = 0;
 	
+	
+	
 	setupTRIS();
 	init_GVars();
 	init_T1();
+	init_T2();
 	init_LEDs();
+	Init_PWM();
 	
 	LATBbits.LATB0 = 1;
 	
@@ -79,64 +95,70 @@ int main ( void )
 	q = 0;
 	GSPI_CompData[0] = 0;
 	GSPI_CompData[0] = 0;
+	
+	//GP_hs = 1;
+	//T1CONbits.TON = 1;
+	
 	while(1)
 	{
-		q++;
-		
-		GP_state_machine();
-		if (GP_datavalid)
+		if(T2flag)
 		{
-			GP_datavalid = 0;
-			GP_parse_data(GP_data, GP_data_len);
+			clock++;	
+			T2flag = 0;
+		
+			switch (clock)
+			{
+				
+				case 1:			// run the RF state machine
+				{
+					GP_state_machine();
+					break;	
+				}
+				
+				case 2:			// if valid data was received, parse it out and act accordingly
+				{
+					if (GP_datavalid)
+					{
+						GP_datavalid = 0;
+						GP_parse_data(GP_data, GP_data_len);
+					}
+					break;	
+				}
+				
+				case 3:			// if the packet was to adjust servo or motor RPMs, send the command to the 4431
+				{
+					if (newPWM)
+					{
+						newPWM = 0;
+						fillpwmCommand();
+						SPI_tx_command(pwmCommand, 5);	
+					}
+					break;	
+				}
+				
+				case 4:			// update sensor readings from 4431
+				{
+				//	SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
+					GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
+					GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
+					
+					for (i = 0; i < 10000; i++);
+					
+				//	SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
+				
+					for (i = 0; i < 10000; i++);
+					
+				//	SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+					break;	
+				}
+				
+				case 5:
+				{
+					clock = 0;
+					break;
+				}
+			}
 		}
-		
-		if (newPWM)
-		{
-			newPWM = 0;
-			fillpwmCommand();
-			SPI_tx_command(pwmCommand, 5);	
-		}
-		
-		//if(!_PORTABITS.RA12)
-		if (q > 1000000)
-		{
-			//while(!PORTAbits.RA12);
-			q = 0;
-			
-			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
-			GP_TX_packet(GSPI_AccData, 6); // DEBUG
-			GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
-			GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
-			//GP_TX_char('\n');
-			
-			for (i = 0; i < 10000; i++);
-			
-			SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
-			GP_TX_packet(GSPI_CompData, 2);
-			//GP_TX_char('\n');
-			
-			for (i = 0; i < 10000; i++);
-			
-			SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
-			GP_TX_packet(GSPI_AcousticData, 2);
-			//GP_TX_char('\n');
-		}
-		
-		/*if(!PORTAbits.RA12)
-		{
-			while(!PORTAbits.RA12);
-			GP_TX_error(q++);
-			if (q > 21)
-			{ q = 1; }
-		}*/
-		/*for (i = 0; i < 50000; i++)
-		{
-			//LATBbits.LATB0 = 0;
-			SPI_readYawGyro();
-			//for (q = 0; q < 1000; q++);
-			//LATBbits.LATB0 = 1;
-		}*/
-		
 		
 	}
 	return 0;
@@ -183,6 +205,17 @@ void init_T1 ( void )
 	T1CONbits.TON = 0;	
 }
 
+void init_T2 ( void )
+{
+	PR2 = 12498;		 	
+	IEC0bits.T2IE = 1;
+	T2CONbits.TCS = 0;   		//1.8425 MHz = 542.7 ns / tick
+	T2CONbits.TCKPS = 0b01;		
+	TMR2 = 0;
+	T2flag = 0;
+	T2CONbits.TON = 1;	
+}
+
 void init_LEDs ( void )
 {
 	// Turn off the LEDs on the dsPICDEM board
@@ -212,6 +245,14 @@ void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void)
 	}
 }
 
+void __attribute__(( interrupt, no_auto_psv )) _T2Interrupt(void)
+{
+	IFS0bits.T2IF = 0;
+	T2flag = 1;
+	//clock++;
+	TMR2 = 0;
+}
+
 void Init_PWM( void )
 {
 
@@ -220,7 +261,7 @@ void Init_PWM( void )
 	PTCONbits.PTCKPS = 0;	// Prescale = 1:1
 	PTCONbits.PTMOD = 0;	// Free-running mode
 	
-	PTMRbits.PTMR = 50;		// Timebase register
+	PTMRbits.PTMR = 0;		// Timebase register
 	PTPERbits.PTPER = 100;	// Timebase period
 	
 	PWMCON1bits.PMOD1 = 1;	// PMW1 is in independant mode
@@ -233,7 +274,7 @@ void Init_PWM( void )
 	PWMCON1bits.PEN2L = 0;	// Disable PWM2L
 	PWMCON1bits.PEN3L = 0;	// Disable PWM3L
 	
-	PTCONbits.PTEN = 1;	// Disable PWM Time Base	
+	PTCONbits.PTEN = 1;	// Enable PWM Time Base	
 }
 
 void GP_init_UART( unsigned int baud )

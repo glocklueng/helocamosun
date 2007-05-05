@@ -6,7 +6,7 @@ dir_src=
 dir_bin=
 dir_tmp=
 dir_sin=
-dir_inc=
+dir_inc=C:\Program Files\Microchip\MPLAB C30\include
 dir_lib=C:\Program Files\Microchip\MPLAB C30\lib
 dir_lkr=
 [CAT_FILTERS]
@@ -22,13 +22,15 @@ file_002=no
 file_003=no
 file_004=no
 file_005=no
+file_006=no
 [FILE_INFO]
 file_000=main.c
 file_001=SPI.c
 file_002=RF.c
 file_003=SPI.h
 file_004=RF.h
-file_005=p30f3011.gld
+file_005=commands.h
+file_006=p30f3011.gld
 [SUITE_INFO]
 suite_guid={479DDE59-4D56-455E-855E-FFF59A3DB57E}
 suite_state=
