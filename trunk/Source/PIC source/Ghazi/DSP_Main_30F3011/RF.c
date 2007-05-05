@@ -1,10 +1,10 @@
 #include <p30fxxxx.h>
 #include <string.h>
+
 #include "RF.h"
 #include "SPI.h"
+#include "typedefs.h"
 
-//#define FCY			1842500 // Instruction cycle freq = xtal / 4
-//#define FCY			10000000 // Instruction cycle freq = xtal / 4
 unsigned char GP_bytercvd = 0;  	// 0 = no byte in buffer, 1 = byte in buffer
 unsigned char GP_datavalid = 0;	// 0 = no valid data ready, 1 = valid data ready
 char GP_data[MAXPACKLEN] = "";	// the stored data portion of the packet (length to checksum exclusive)
@@ -23,7 +23,7 @@ extern GPT_helicopter GP_helicopter;		// global helicopter structure
 unsigned char GP_engON = 0;
 
 
-char GP_handshake[]= { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 };
+//char GP_handshake[]= { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 };
 
 unsigned char newPWM = 0;
 
@@ -42,7 +42,7 @@ void GP_TX_error ( char code )
 
 {
 	// Builds and transmits an error packet
-	char packet[10] = "";
+	unsigned char packet[10] = "";
 	
 	packet[0] = 0xA5;
 	packet[1] = 0x5A;
@@ -58,7 +58,7 @@ void GP_TX_error ( char code )
 	GP_TX_packet(packet, 10);
 }
 
-void GP_TX_packet ( char packet[MAXPACKLEN], unsigned short len )
+void GP_TX_packet ( unsigned char packet[MAXPACKLEN], unsigned short len )
 {
 	unsigned short lcv;
 	IEC1bits.U2RXIE = 0;
@@ -457,6 +457,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 						case 0x48:	// Heading/Speed/Altitude
 						case 0x5A:	// attitude
 						case 0x42:	// battery status
+						case 0x52:	// motor RPM
 						{
 							
 							GP_TX_telemetry(vdata[2]);
@@ -483,7 +484,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 			{
 				case 0x48:
 				{
-					GP_TX_packet(GP_handshake, 2);
+					//GP_TX_packet(GP_handshake, 9);
 					GP_hs = 1;	
 					TMR1 = 0;
 					T1CONbits.TON = 1;
@@ -587,16 +588,16 @@ void GP_TX_telemetry( unsigned char type )
 			//packet[7] = (GP_helicopter.attitude.pitch & 0xff00) >> 8;
 			//packet[8] = GP_helicopter.attitude.pitch & 0x00ff;
 			
-			
-			
 			packet[5] = GSPI_AccData[0];
 			packet[6] = GSPI_AccData[1];
 			
 			packet[7] = GSPI_AccData[2];
 			packet[8] = GSPI_AccData[3];
 			
-			packet[9] = (GP_helicopter.attitude.yaw & 0xff00) >> 8;
-			packet[10] = GP_helicopter.attitude.yaw & 0x00ff;
+			packet[9] = GSPI_CompData[0];
+			packet[10] = GSPI_CompData[1];
+			//packet[9] = (GP_helicopter.attitude.yaw & 0xff00) >> 8;
+			//packet[10] = GP_helicopter.attitude.yaw & 0x00ff;
 			
 			for (cnt = 2; cnt < 11; cnt++)
 			{
@@ -638,7 +639,7 @@ void GP_TX_telemetry( unsigned char type )
 			break;	
 		}
 		
-		case 0x50:
+		case 0x50:		// Pre-flight packet
 		{
 			packet[2] = 21;
 			
@@ -682,27 +683,56 @@ void GP_TX_telemetry( unsigned char type )
 			GP_TX_packet(packet, 28);
 			break;	
 		}
+		case 0x52:	//motor RPM
+		{
+			packet[2] = 4;
+			
+			packet[5] = (GP_helicopter.motorRPM & 0xff00) >> 8;
+			packet[6] = GP_helicopter.motorRPM & 0x00ff;
+
+			
+			for (cnt = 2; cnt < 7; cnt++)
+			{
+				chksum += packet[cnt];	
+			}
+			
+			packet[7] = (chksum & 0xFF00) >> 8;
+			packet[8] = chksum & 0x00FF;
+			
+			packet[9] = 0xCC;
+			packet[10] = 0x33;
+			
+			GP_TX_packet(packet, 11);
+			break;	
+		}
 	}
 	
 }
 void GP_ACK( char vdata[MAXPACKLEN], char len )
 {
-	char ack[MAXPACKLEN] = "";
+	unsigned char ack[MAXPACKLEN] = "";
 	unsigned char lcv = 0;
 	unsigned short chksum = 0;
 
+	// packet header:
 	ack[0] = 0xA5;
 	ack[1] = 0x5A;
 	ack[2] = len + 1;
 	chksum = ack[2];
 	ack[3] = 0x06;
+	
+	// copy the data into the data portion of the ACK packet
 	for (lcv = 4; lcv < len + 4; lcv++)
 	{
 		ack[lcv] = vdata[lcv - 4];
 		chksum += ack[lcv];
 	}
+	
+	// checksum:
 	ack[lcv] = (chksum & 0xFF00) >> 8;
 	ack[lcv + 1] = (chksum & 0x00FF);
+	
+	// packet EOT
 	ack[lcv + 2] = 0xCC;
 	ack[lcv + 3] = 0x33;
 	
