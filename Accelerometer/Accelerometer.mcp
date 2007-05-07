@@ -39,8 +39,8 @@ file_006=C:\MCC18\src\traditional\pmc\XLCD\delayxlcd.c
 file_007=Accelerometer.h
 file_008=C:\MCC18\h\xlcd.h
 file_009=C:\MCC18\h\delays.h
-file_010=C:\MCC18\h\p18f4431.h
-file_011=C:\MCC18\lkr\18f4431.lkr
+file_010=C:\MCC18\h\p18f4620.h
+file_011=C:\MCC18\lkr\18f4620.lkr
 [SUITE_INFO]
 suite_guid={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
 suite_state=
