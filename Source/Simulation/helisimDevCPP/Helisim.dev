@@ -198,7 +198,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit17]
-FileName=fuzz.cpp
+FileName=FuzzyControl.h
 CompileCpp=1
 Folder=Helisim
 Compile=1
@@ -208,7 +208,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit16]
-FileName=fuzz.h
+FileName=FuzzyControl.cpp
 CompileCpp=1
 Folder=Helisim
 Compile=1
