@@ -156,13 +156,15 @@ void display(void)
 //	This is the function to propogate the model and the other stuff
 void Dynamics(void)
 {
-    static double rollAngle = 0;
+
 	int n;
 	double U[4];
         
 
 #ifdef PIDCONTROL
 
+    static double rollAngle = 0;
+    
     rollAngle += 1;
     if(rollAngle>45.0)
     {
