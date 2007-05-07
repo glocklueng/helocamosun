@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
         output = doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
         
 		cout<<"Correction Value: " << output << "\n";
-
+/*
         ///ROLL 
         cout<<"Enter roll angle\n";
         cin>>rollAngle;
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
         output = doRules(collective_mf, CollectiveRule);	// Kyle - changed doRules
 	    
         cout<<"Correction Value: " << output << "\n";
-	
+*/	
         cout<<"Run again? Y/N";
         cin>>run;
         if(run == 'N' || run == 'n')

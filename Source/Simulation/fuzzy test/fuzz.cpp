@@ -8,66 +8,66 @@
 using namespace std;
 
 float roll_param[NUM_RANGE][3]={	//degrees member function parameters
-      {410, 410, 455},
-      {410, 455, 495},
-      {455, 500, 545},
-      {505, 545, 590},
-      {545, 590, 590}
+      {41, 41, 44},
+      {42, 45, 48},
+      {46, 50, 54},
+      {52, 55, 58},
+      {56, 59, 59}
 };
 
 float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
-      {410, 410, 455},
-      {410, 455, 495},
-      {455, 500, 545},
-      {505, 545, 590},
-      {545, 590, 590}
-};			
+      {41, 41, 44},
+      {42, 45, 48},
+      {46, 50, 54},
+      {52, 55, 58},
+      {56, 59, 59}
+};
 
 float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
-      {427, 427, 457},
-      {427, 457, 525},
-      {457, 527, 597},
-      {529, 597, 627},
-      {597, 627, 627}
+      {41, 41, 44},
+      {41, 45, 49},
+      {46, 50, 54},
+      {51, 55, 59},
+      {56, 59, 59}
 };
 
 float yaw_param[NUM_RANGE][3]={	//degrees member function parameters
-      {410, 410, 455},
-      {410, 455, 495},
-      {455, 500, 545},
-      {505, 545, 590},
-      {545, 590, 590}
+      {41, 41, 44},
+      {42, 45, 48},
+      {46, 50, 54},
+      {52, 55, 58},
+      {56, 59, 59}
 };
 
 float yaw_rate_param[NUM_RANGE][3]={	//degrees member function parameters
-      {410, 410, 455},
-      {410, 455, 495},
-      {455, 500, 545},
-      {505, 545, 590},
-      {545, 590, 590}
+      {41, 41, 44},
+      {42, 45, 48},
+      {46, 50, 54},
+      {52, 55, 58},
+      {56, 59, 59}
 };
 
 float collective_param[NUM_RANGE][3]={	//degrees member function parameters
-      {410, 410, 455},
-      {410, 455, 495},
-      {455, 500, 545},
-      {505, 545, 590},
-      {545, 590, 590}
+      {41, 41, 44},
+      {42, 45, 48},
+      {46, 50, 54},
+      {52, 55, 58},
+      {56, 59, 59}
 };
 
 float collective_rate_param[NUM_RANGE][3]={	//degrees member function parameters
-      {410, 410, 455},
-      {410, 455, 495},
-      {455, 500, 545},
-      {505, 545, 590},
-      {545, 590, 590}
+      {41, 41, 44},
+      {42, 45, 48},
+      {46, 50, 54},
+      {52, 55, 58},
+      {56, 59, 59}
 };
 
-#define NL_WEIGHT (-200)         // output weightings
-#define N_WEIGHT (-60)
-#define Z_WEIGHT (0)
-#define P_WEIGHT (60)
-#define PL_WEIGHT (200)
+#define NL_WEIGHT (38)         // output weightings -200
+#define N_WEIGHT (20)           // -60
+#define Z_WEIGHT (0)             // 0
+#define P_WEIGHT (-20)            // 60
+#define PL_WEIGHT (-38)          // 200
 
 /************************************************************************
  *                                                                      *
@@ -187,11 +187,11 @@ void Fuzzification( float input_param[][3], fMember *input_mf)
 //
 char RollRule[] =                          // SAMPLE RULE SET
 { 
-//   ANGLE, _NL, RATE, _NL, _THEN, _NL,
+   ANGLE, _NL, RATE, _NL, _THEN, _NL,
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
    ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
    ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
+//   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
    
    ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
    ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
@@ -214,8 +214,8 @@ char RollRule[] =                          // SAMPLE RULE SET
 //   ANGLE, _NL, RATE, _PL, _THEN, _POS,
    ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
    ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
-   ANGLE, _POS,  RATE, _PL, _THEN, _PL
-//   ANGLE, _PL, RATE, _PL, _THEN, _PL
+   ANGLE, _POS,  RATE, _PL, _THEN, _PL,
+   ANGLE, _PL, RATE, _PL, _THEN, _PL
 };
 
 //
@@ -223,11 +223,11 @@ char RollRule[] =                          // SAMPLE RULE SET
 //
 char PitchRule[] =                          // SAMPLE RULE SET
 { 
-//   ANGLE, _NL, RATE, _NL, _THEN, _NL,
+   ANGLE, _NL, RATE, _NL, _THEN, _NL,
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
    ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
    ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
+//   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
    
    ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
    ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
@@ -250,8 +250,8 @@ char PitchRule[] =                          // SAMPLE RULE SET
 //   ANGLE, _NL, RATE, _PL, _THEN, _POS,
    ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
    ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
-   ANGLE, _POS,  RATE, _PL, _THEN, _PL
-//   ANGLE, _PL, RATE, _PL, _THEN, _PL
+   ANGLE, _POS,  RATE, _PL, _THEN, _PL,
+   ANGLE, _PL, RATE, _PL, _THEN, _PL
 };
 
 //
@@ -259,11 +259,11 @@ char PitchRule[] =                          // SAMPLE RULE SET
 //
 char YawRule[] =                          // SAMPLE RULE SET
 { 
-//   ANGLE, _NL, RATE, _NL, _THEN, _NL,
+   ANGLE, _NL, RATE, _NL, _THEN, _NL,
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
    ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
    ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
+//   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
    
    ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
    ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
@@ -286,17 +286,17 @@ char YawRule[] =                          // SAMPLE RULE SET
 //   ANGLE, _NL, RATE, _PL, _THEN, _POS,
    ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
    ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
-   ANGLE, _POS,  RATE, _PL, _THEN, _PL
-//   ANGLE, _PL, RATE, _PL, _THEN, _PL
+   ANGLE, _POS,  RATE, _PL, _THEN, _PL,
+   ANGLE, _PL, RATE, _PL, _THEN, _PL
 };
 
 char CollectiveRule[] =                          // SAMPLE RULE SET
 { 
-//   ANGLE, _NL, RATE, _NL, _THEN, _NL,
+   ANGLE, _NL, RATE, _NL, _THEN, _NL,
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
    ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
    ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
+//   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
    
    ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
    ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
@@ -319,8 +319,8 @@ char CollectiveRule[] =                          // SAMPLE RULE SET
 //   ANGLE, _NL, RATE, _PL, _THEN, _POS,
    ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
    ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
-   ANGLE, _POS,  RATE, _PL, _THEN, _PL
-//   ANGLE, _PL, RATE, _PL, _THEN, _PL
+   ANGLE, _POS,  RATE, _PL, _THEN, _PL,
+   ANGLE, _PL, RATE, _PL, _THEN, _PL
 };
 
 /************************************************************************
@@ -352,7 +352,7 @@ int doRules( fMember *all_mf, char *Rules )
    //
    // Process the ruleset like it was processor machine code
    //
-   while( rNum < NUM_RULES )
+  while( rNum < NUM_RULES )
    {
       //
       // Determine if the current rule is true

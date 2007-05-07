@@ -197,20 +197,20 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit16]
-FileName=FuzzyControl.cpp
+[Unit17]
+FileName=fuzz.cpp
 CompileCpp=1
-Folder=
+Folder=Helisim
 Compile=1
 Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit17]
-FileName=FuzzyControl.h
+[Unit16]
+FileName=fuzz.h
 CompileCpp=1
-Folder=
+Folder=Helisim
 Compile=1
 Link=1
 Priority=1000
