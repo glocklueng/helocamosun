@@ -24,8 +24,8 @@
 	and MPLAB ver 7.5
 */
 /************************** Include Section **************************/
-#include <p18f4431.h>
-//#include <p18f4620.h>
+//#include <p18f4431.h>
+#include <p18f4620.h>
 #include <delays.h>
 #include <xlcd.h>
 #include <spi.h>
@@ -35,11 +35,11 @@
 
 /*************************** Program Control *************************/
 #define LCD_DISPLAY 	1
-#define LCD_ON 		0
+#define LCD_ON 		1
 /*************************** Defines *********************************/
 #define TAA_X_AXIS	0x03		// X-Axis
-#define TAA_Y_AXIS	0x0B		// Z-Axis
-#define TAA_Z_AXIS	0x13		// Y-Axis
+#define TAA_Y_AXIS	0x13		// Y-Axis
+#define TAA_Z_AXIS	0x0B		// Z-Axis
 #define DIO_SEND	LATBbits.LATB7
 #define DIO_GET		PORTBbits.RB7
 #define CLK			LATBbits.LATB6
@@ -105,6 +105,12 @@ void main(void)
 	unsigned char data[4];
 	int angle;
 	WORD byte_out, byte_in, X_axis, Y_axis, Z_axis;
+	char X_axis_array[4] = {0};
+	int X_axis_average = 0;
+	char Y_axis_array[4] = {0};
+	int Y_axis_average = 0;
+	char array_count = 0;
+	char array_position = 0;
 	char out_bits, in_bits;
 	int value;
 
@@ -166,29 +172,123 @@ void main(void)
 	do
 	{
 /******** INITILIZE LOOP VARIABLES ***********/
-		byte_in.D_byte = 0;
-		X_axis.D_byte = 0;
-		Y_axis.D_byte = 0;
-		Z_axis.D_byte = 0;
+
 
 /******** Aquiring Tilt measurements *********/
 		byte_out.byte[0] = TAA_X_AXIS;
 		TAA = 0;
 		ShiftIO(byte_out, out_bits, &X_axis, in_bits);
 		TAA = 1;
+		X_axis.D_byte = X_axis.D_byte >> 2;
+		X_axis.byte[1] &= 0x0F;
+		if(X_axis.byte[1] == 0x01)
+		{
+			X_axis.byte[0] = 0xFF - X_axis.byte[0];
+		}
+#if 0 		
+		while(BusyUSART());
+		TXREG = 's';	
+		while(BusyUSART());
+		TXREG = X_axis.byte[1];	
+		while(BusyUSART());
+		TXREG = X_axis.byte[0];
+#endif
 
+#if 1
+		
+		X_axis_array[array_position] = X_axis.byte[0];
+		
+		array_position++;
+		if(array_position > 3)
+		{
+			array_position = 0;
+		}
+		
+		X_axis_average = 0;
+		
+		for(array_count = 0; array_count < 4; array_count++)
+		{
+			X_axis_average += X_axis_array[array_count];
+		}
+		
+		X_axis_average = X_axis_average / array_count;
+		
+		X_axis.D_byte += X_axis_average;
+
+		if(X_axis.byte[1] == 0x01)
+		{
+			string2[15] = '+';
+		}
+		else
+		{
+			string2[15] = '-';
+		}
+		
+		string2[16] = (X_axis.byte[0] >> 4)+0x30;
+		string2[17] = (X_axis.D_byte & 0x0F)+0x30;
+		
 		byte_out.byte[0] = TAA_Y_AXIS;
 		TAA = 0;
 		ShiftIO(byte_out, out_bits, &Y_axis, in_bits);
 		TAA = 1;
 		
+		Y_axis.D_byte = Y_axis.D_byte >> 2;
+		Y_axis.byte[1] &= 0x0F;
+		if(Y_axis.byte[1] == 0x01)
+		{
+			Y_axis.byte[0] = 0xFF - Y_axis.byte[0];
+		}
+		
+		Y_axis_array[array_position] = Y_axis.byte[0];
+		
+		array_position++;
+		if(array_position > 3)
+		{
+			array_position = 0;
+		}
+		
+		Y_axis_average = 0;
+		
+		for(array_count = 0; array_count < 4; array_count++)
+		{
+			Y_axis_average += Y_axis_array[array_count];
+		}
+		
+		Y_axis_average = Y_axis_average / array_count;
+		
+		Y_axis.D_byte += Y_axis_average;
+
+		if(Y_axis.byte[1] == 0x01)
+		{
+			string3[15] = '+';
+		}
+		else
+		{
+			string3[15] = '-';
+		}
+		
+		string3[16] = (Y_axis.byte[0] >> 4)+0x30;
+		string3[17] = (Y_axis.D_byte & 0x0F)+0x30;
+				
 		byte_out.byte[0] = TAA_Z_AXIS;
 		TAA = 0;
 		ShiftIO(byte_out, out_bits, &Z_axis, in_bits);
 		TAA = 1;
 		
-//
-//		Delay10KTCYx(200);
+		while(BusyXLCD());		// everything is OK
+		WriteCmdXLCD(LCD_LINE2);// write over whatever is on line 2 of the LCD
+
+		while(BusyXLCD());
+		putsXLCD(string2);
+		
+		while(BusyXLCD());		// everything is OK
+		WriteCmdXLCD(LCD_LINE3);// write over whatever is on line 2 of the LCD
+
+		while(BusyXLCD());
+		putsXLCD(string3);
+#endif
+
+		Delay10KTCYx(200);
 	}
 	while(1);
 
