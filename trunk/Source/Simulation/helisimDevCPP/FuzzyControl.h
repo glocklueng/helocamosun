@@ -35,7 +35,7 @@ typedef struct
 		float z;                      // Zero
 		float p;                      // Balance forward
 		float pl;                     // Accel forward
-		int sensor;
+		float sensor;
 } fMember;
 
 extern char PitchRule[];
@@ -61,6 +61,6 @@ extern float collective_rate_param[NUM_RANGE][3];
 float Equ_line( float x, float x1, float x2, float y1, float y2);		//Equation of a line y=mx+b
 void Fuzzification( float input_param[][3], fMember *input_mf);		//Fuzzify sensor values
 //int doRules(void);  //Applies the rule set defined in the array Rules[]
-int doRules(fMember *all_mf, char *Rule);  //Applies the rule set defined in the array Rules[]
+float doRules(fMember *all_mf, char *Rule);  //Applies the rule set defined in the array Rules[]
 
 #endif

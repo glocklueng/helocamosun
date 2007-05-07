@@ -18,7 +18,7 @@
 #endif
 
 #ifdef FUZZYCONTROL
-#include "Fuzz.h"
+#include "FuzzyControl.h"
 #endif
 
 double windows_dt = 0.05;
@@ -156,22 +156,31 @@ void display(void)
 //	This is the function to propogate the model and the other stuff
 void Dynamics(void)
 {
+    static double rollAngle = 0;
 	int n;
 	double U[4];
         
 
 #ifdef PIDCONTROL
+
+    rollAngle += 1;
+    if(rollAngle>45.0)
+    {
+     rollAngle = -45.0;   
+    }
+    
     HC.UpdateSensorValues(xcell.sixdofX);
 	U[0] = HC.CollectiveCorrection(10);			                // main rotor collective
-	U[1] = HC.RollCorrection(-10*C_DEG2RAD)*C_DEG2RAD;			// A1 (roll)
-	U[2] = HC.PitchCorrection(10*C_DEG2RAD)*C_DEG2RAD;		    // B1 (pitch)
+	U[1] = HC.RollCorrection(rollAngle*C_DEG2RAD)*C_DEG2RAD;			// A1 (roll)
+	U[2] = HC.PitchCorrection(0*C_DEG2RAD)*C_DEG2RAD;		    // B1 (pitch)
 	U[3] = HC.YawCorrection(1)*C_DEG2RAD;			            // tail rotor collective
 #endif
 
 #ifdef FUZZYCONTROL
     
-    	pitch_angle_mf->sensor = 50;//xcell.sixdofX.THETA[1];
-		pitch_rate_mf->sensor = 50;//xcell.sixdofX.rate[0];
+
+    	pitch_angle_mf->sensor = xcell.sixdofX.THETA[1];
+		pitch_rate_mf->sensor = xcell.sixdofX.rate[0];
 		
 		roll_angle_mf->sensor = 50;
 		roll_rate_mf->sensor = 50;
