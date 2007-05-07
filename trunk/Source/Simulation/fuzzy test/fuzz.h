@@ -3,7 +3,7 @@
 #ifndef __FUZZ_H
 #define __FUZZ_H
 
-#define NUM_RULES 21
+#define NUM_RULES 23
 #define NUM_RANGE 5
 
 #define NL Z-2

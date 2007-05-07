@@ -9,16 +9,16 @@
 #include "helisim.h"
 #include <stdio.h>
 
-//#define FUZZYCONTROL
+#define FUZZYCONTROL
 
-#define PIDCONTROL
+//#define PIDCONTROL
 
 #ifdef PIDCONTROL
 #include "PIDcontrol.h"
 #endif
 
 #ifdef FUZZYCONTROL
-#include "FuzzyControl.h"
+#include "Fuzz.h"
 #endif
 
 double windows_dt = 0.05;
@@ -170,17 +170,17 @@ void Dynamics(void)
 
 #ifdef FUZZYCONTROL
     
-    	pitch_angle_mf->sensor = 1.0f;//xcell.sixdofX.THETA[1];
-		pitch_rate_mf->sensor = 1.0f;//xcell.sixdofX.rate[0];
+    	pitch_angle_mf->sensor = 50;//xcell.sixdofX.THETA[1];
+		pitch_rate_mf->sensor = 50;//xcell.sixdofX.rate[0];
 		
-		roll_angle_mf->sensor = 330;
-		roll_rate_mf->sensor = 200;
+		roll_angle_mf->sensor = 50;
+		roll_rate_mf->sensor = 50;
 		
-		yaw_angle_mf->sensor = 200;
-		yaw_rate_mf->sensor = 203;
+		yaw_angle_mf->sensor = 50;
+		yaw_rate_mf->sensor = 41;
 		
-		collective_height_mf->sensor = 320;
-		collective_rate_mf->sensor = 500;
+		collective_height_mf->sensor = 47;
+		collective_rate_mf->sensor = 50;
 		
 		Fuzzification( pitch_param, pitch_angle_mf);
 		Fuzzification( tilt_rate_param, pitch_rate_mf);
@@ -194,10 +194,10 @@ void Dynamics(void)
 		Fuzzification( collective_param, collective_height_mf);
 		Fuzzification( collective_rate_param, collective_rate_mf);
 		
-        U[2] = doRules(pitch_mf, PitchRule);    
+        U[2] = 0;//doRules(pitch_mf, PitchRule);    
         U[1] = 0;//doRules(roll_mf, RollRule);  
-        U[3] = 0;//doRules(yaw_mf, YawRule);	   
-        U[0] = 0;//doRules(collective_mf, CollectiveRule);	 
+        U[3] = .105; //doRules(yaw_mf, YawRule);	   
+        U[0] = .1645;    //doRules(collective_mf, CollectiveRule);	 
       
 #endif
 
