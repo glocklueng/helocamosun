@@ -18,7 +18,7 @@
 #endif
 
 #ifdef FUZZYCONTROL
-#include "FuzzyControl.h"
+#include "../fuzzy test/fuzz.h"
 #endif
 
 double windows_dt = 0.05;
