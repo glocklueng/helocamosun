@@ -99,18 +99,18 @@ void main(void)
 	PTMRH = 0X00;	// PWM TIME BASE
 	PTMRL = 0X00;
 	
-	PTPERH = 0X0C;	// TIME BASE PERIOD
-	PTPERL = 0X35;	// NEED TO ADJUST FOR 20ms PERIOD 0x0C35
+	PTPERH = 0X16;	// TIME BASE PERIOD
+	PTPERL = 0X1A;	// NEED TO ADJUST FOR 20.2ms PERIOD 0x162A
 	
 	// PWM DUTY CYCLES
-	PDC0L = 0X39;	// 0.5ms, minimum duty cycle
 	PDC0H = 0X01;
-	PDC1L = 0X1B;	// 2.5ms, maximum duty cycle
-	PDC1H = 0X06;
-	PDC2L = 0XAA;	// 1.5ms, 50% duty cycle
-	PDC2H = 0X03;	
-	PDC3L = 0X10;	// some random value
-	PDC3H = 0X04;
+	PDC0L = 0XC0;	// 1.43ms, minimum duty cycle 0x0620
+	PDC1H = 0X00;
+	PDC1L = 0XA0;	// 536us, maximum duty cycle
+	PDC2H = 0X00;	
+	PDC2L = 0XA2;	// 526us, 50% duty cycle
+	PDC3L = 0X06;	// some random value
+	PDC3H = 0X50;
 	
 	// START TIMERS
 	PTCON0 = 0xFC;	// POSTSCALE 1:16, TIMEBASE INPUT CLOCK FOSC/256: EDGE TRIGGERED
@@ -119,13 +119,13 @@ void main(void)
 	do
 	{
 /******** INITILIZE LOOP VARIABLES ***********/
-	if(PORTBbits.RB4)
+	if(PORTBbits.RB7)
 	{
-		Nop();
+		LATBbits.LATB7 = 1;	// other bits on PORTB can still be used as I/O
 	}
-	if(!PORTBbits.RB4)
+	if(!PORTBbits.RB7)
 	{
-		Nop();
+		LATBbits.LATB7 = 0;
 	}
 
 	}
