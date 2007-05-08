@@ -58,6 +58,7 @@ namespace commprotocoltester
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.btnConnect = new System.Windows.Forms.Button();
+            this.btnRequestMotorRPM = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -142,7 +143,7 @@ namespace commprotocoltester
             // 
             // btnRequestPreFlightPacket
             // 
-            this.btnRequestPreFlightPacket.Location = new System.Drawing.Point(12, 349);
+            this.btnRequestPreFlightPacket.Location = new System.Drawing.Point(12, 424);
             this.btnRequestPreFlightPacket.Name = "btnRequestPreFlightPacket";
             this.btnRequestPreFlightPacket.Size = new System.Drawing.Size(174, 23);
             this.btnRequestPreFlightPacket.TabIndex = 8;
@@ -152,7 +153,7 @@ namespace commprotocoltester
             // 
             // btnReturnToBase
             // 
-            this.btnReturnToBase.Location = new System.Drawing.Point(12, 378);
+            this.btnReturnToBase.Location = new System.Drawing.Point(12, 453);
             this.btnReturnToBase.Name = "btnReturnToBase";
             this.btnReturnToBase.Size = new System.Drawing.Size(174, 23);
             this.btnReturnToBase.TabIndex = 9;
@@ -162,7 +163,7 @@ namespace commprotocoltester
             // 
             // btnSetAntiTorque
             // 
-            this.btnSetAntiTorque.Location = new System.Drawing.Point(12, 407);
+            this.btnSetAntiTorque.Location = new System.Drawing.Point(12, 482);
             this.btnSetAntiTorque.Name = "btnSetAntiTorque";
             this.btnSetAntiTorque.Size = new System.Drawing.Size(135, 23);
             this.btnSetAntiTorque.TabIndex = 10;
@@ -172,7 +173,7 @@ namespace commprotocoltester
             // 
             // btnSetCollective
             // 
-            this.btnSetCollective.Location = new System.Drawing.Point(12, 437);
+            this.btnSetCollective.Location = new System.Drawing.Point(12, 512);
             this.btnSetCollective.Name = "btnSetCollective";
             this.btnSetCollective.Size = new System.Drawing.Size(135, 23);
             this.btnSetCollective.TabIndex = 11;
@@ -182,7 +183,7 @@ namespace commprotocoltester
             // 
             // btnSetCyclicPitch
             // 
-            this.btnSetCyclicPitch.Location = new System.Drawing.Point(12, 466);
+            this.btnSetCyclicPitch.Location = new System.Drawing.Point(12, 541);
             this.btnSetCyclicPitch.Name = "btnSetCyclicPitch";
             this.btnSetCyclicPitch.Size = new System.Drawing.Size(135, 23);
             this.btnSetCyclicPitch.TabIndex = 12;
@@ -192,7 +193,7 @@ namespace commprotocoltester
             // 
             // btnSetCyclicRoll
             // 
-            this.btnSetCyclicRoll.Location = new System.Drawing.Point(12, 495);
+            this.btnSetCyclicRoll.Location = new System.Drawing.Point(12, 570);
             this.btnSetCyclicRoll.Name = "btnSetCyclicRoll";
             this.btnSetCyclicRoll.Size = new System.Drawing.Size(135, 23);
             this.btnSetCyclicRoll.TabIndex = 13;
@@ -202,7 +203,7 @@ namespace commprotocoltester
             // 
             // btnSetMotorRPM
             // 
-            this.btnSetMotorRPM.Location = new System.Drawing.Point(12, 524);
+            this.btnSetMotorRPM.Location = new System.Drawing.Point(12, 599);
             this.btnSetMotorRPM.Name = "btnSetMotorRPM";
             this.btnSetMotorRPM.Size = new System.Drawing.Size(174, 23);
             this.btnSetMotorRPM.TabIndex = 14;
@@ -212,7 +213,7 @@ namespace commprotocoltester
             // 
             // btnSetTunePoints
             // 
-            this.btnSetTunePoints.Location = new System.Drawing.Point(12, 553);
+            this.btnSetTunePoints.Location = new System.Drawing.Point(12, 628);
             this.btnSetTunePoints.Name = "btnSetTunePoints";
             this.btnSetTunePoints.Size = new System.Drawing.Size(174, 23);
             this.btnSetTunePoints.TabIndex = 15;
@@ -252,13 +253,14 @@ namespace commprotocoltester
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnRequestMotorRPM);
             this.groupBox1.Controls.Add(this.btnRequestLocation);
             this.groupBox1.Controls.Add(this.btnRequestAttitude);
             this.groupBox1.Controls.Add(this.btnRequestBatteryStatus);
             this.groupBox1.Controls.Add(this.btnRequestHSA);
             this.groupBox1.Location = new System.Drawing.Point(12, 186);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(185, 157);
+            this.groupBox1.Size = new System.Drawing.Size(185, 193);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Info requests";
@@ -275,33 +277,32 @@ namespace commprotocoltester
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(156, 407);
+            this.textBox3.Location = new System.Drawing.Point(156, 482);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(41, 20);
             this.textBox3.TabIndex = 21;
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(156, 437);
+            this.textBox4.Location = new System.Drawing.Point(156, 512);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(41, 20);
             this.textBox4.TabIndex = 22;
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(156, 466);
+            this.textBox5.Location = new System.Drawing.Point(156, 541);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(41, 20);
             this.textBox5.TabIndex = 23;
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(156, 492);
+            this.textBox6.Location = new System.Drawing.Point(156, 567);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(41, 20);
             this.textBox6.TabIndex = 24;
@@ -333,6 +334,16 @@ namespace commprotocoltester
             this.btnConnect.Text = "Connnect";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
+            // btnRequestMotorRPM
+            // 
+            this.btnRequestMotorRPM.Location = new System.Drawing.Point(5, 146);
+            this.btnRequestMotorRPM.Name = "btnRequestMotorRPM";
+            this.btnRequestMotorRPM.Size = new System.Drawing.Size(174, 23);
+            this.btnRequestMotorRPM.TabIndex = 19;
+            this.btnRequestMotorRPM.Text = "Request Motor RPM";
+            this.btnRequestMotorRPM.UseVisualStyleBackColor = true;
+            this.btnRequestMotorRPM.Click += new System.EventHandler(this.btnRequestMotorRPM_Click);
             // 
             // Form1
             // 
@@ -402,6 +413,7 @@ namespace commprotocoltester
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.Button btnRequestMotorRPM;
 
     }
 }

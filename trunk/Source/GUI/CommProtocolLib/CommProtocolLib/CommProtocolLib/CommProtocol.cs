@@ -162,6 +162,10 @@ namespace CommProtocolLib
         #region datamembers
         private System.Timers.Timer SerialPortTimer;
         private bool CheckingForPacket = false;
+        /// <summary>
+        /// Set to true when the serial port has been sucessfully opened
+        /// </summary>
+        public bool SerialPortOpen = false;
         Form ParentForm;
         /// <summary>
         /// serial port encoding
@@ -241,15 +245,14 @@ namespace CommProtocolLib
         public CommProtocol(string PortName, int BaudRate, Form ParentForm)
         {
             this.ParentForm = ParentForm;
-            Setup();
+
             try
             {
                 SP = new SerialPort(PortName, BaudRate);
                 SP.Encoding = encoding;
                 SP.Open();
-               // SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
                 SP.ReceivedBytesThreshold = 1;
-
+                Setup();
                
             }
             catch (Exception ex)
@@ -269,16 +272,14 @@ namespace CommProtocolLib
         public CommProtocol(string PortName, int BaudRate, Parity parity, int DataBits, StopBits stopBits, Form ParentForm)
         {
             this.ParentForm = ParentForm;
-            Setup();
             try
             {
                 
                 SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
                 SP.Encoding = encoding;
                 SP.Open();
-            //    SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
                 SP.ReceivedBytesThreshold = 1;
-                
+                Setup();
 
             }
             catch (Exception ex)
@@ -301,16 +302,15 @@ namespace CommProtocolLib
         {
             this.ParentForm = ParentForm;
             this.TimeOut = Timeout;
-            Setup();
+
             try
             {
 
                 SP = new SerialPort(PortName, BaudRate, parity, DataBits, stopBits);
                 SP.Encoding = encoding;
                 SP.Open();
-           //     SP.DataReceived += new SerialDataReceivedEventHandler(SP_DataReceived);
                 SP.ReceivedBytesThreshold = 1;
-
+                Setup();
             }
             catch (Exception ex)
             {
@@ -322,6 +322,7 @@ namespace CommProtocolLib
         /// </summary>
         private void Setup()
         {
+            SerialPortOpen = true;
             SerialPortTimer = new System.Timers.Timer(50);
             SerialPortTimer.Elapsed += new ElapsedEventHandler(SerialPortTimer_Elapsed);
             SerialPortTimer.Start();
@@ -353,7 +354,7 @@ namespace CommProtocolLib
                 OutGoingPacket[6] = 0x8D;//checksum low
                 OutGoingPacket[7] = 0xCC;
                 OutGoingPacket[8] = 0x33;//footer
-                SendPacket("CommsHandShakeInitiate", ExpectedResponses.type.FullPacketResponse);
+                SendPacket("CommsHandShakeInitiate", ExpectedResponses.type.none);
             }
         }
         /// <summary>
@@ -833,12 +834,12 @@ namespace CommProtocolLib
         /// Request a data packet from the helicopter
         /// </summary>
         /// <param name="info">byte representing the desired information: 0x4C Location,
-        /// 0x48 Heading/Speed/Altitude, 0x5A Attitude, 0x42 Battery Status</param>
+        /// 0x48 Heading/Speed/Altitude, 0x5A Attitude, 0x42 Battery Status, 0x52 Motor RPM</param>
         public void RequestForInformation(byte info)
         {
             if (ExpectedResponse.ResponseExpected == false)
             {
-                if (info == 0x4C || info == 0x48 || info == 0x5A || info == 0x42)
+                if (info == 0x4C || info == 0x48 || info == 0x5A || info == 0x42 || info == 0x52)
                 {
                     OutGoingPacket = new byte[10];
                     OutGoingPacket[0] = 0xA5;//packet header
@@ -852,6 +853,14 @@ namespace CommProtocolLib
                     OutGoingPacket[8] = 0xCC;
                     OutGoingPacket[9] = 0x33;
                     SendPacket("RequestForInformation", ExpectedResponses.type.DataResponse);
+                }
+                else
+                {
+                    throw new Exception("CommProtocol error: Invalid option " 
+                        + string.Format("0x{0:x2}", info) +
+                        "selected for RequestForInformation packet. "+
+                        "Valid options are 0x4C, 0x48, 0x5A, 0x42, and 0x52. "+
+                        "See the protocol specification for details");
                 }
             }
         }
@@ -869,8 +878,7 @@ namespace CommProtocolLib
                 CheckForPacket();
             }
         }
-        
-        //private void SP_DataReceived(object sender, SerialDataReceivedEventArgs e)
+
         private void CheckForPacket()
         {
             
@@ -889,6 +897,7 @@ namespace CommProtocolLib
                 {
                     ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header") });
                     ClearBuffer();
+                    CheckingForPacket = false;
                     return;
                 }
             }
@@ -973,6 +982,10 @@ namespace CommProtocolLib
                     else if ((int)IncomingDataBuffer[4] == 0x50)//pre-flight packet
                     {
                         ParsePreFlightPacket();
+                    }
+                    else if ((int)IncomingDataBuffer[4] == 0x52)//motor RPM packet
+                    {
+                        ParseMotorRPMPacket();
                     }
                     else
                     {
@@ -1562,6 +1575,67 @@ namespace CommProtocolLib
         }
         #endregion
 
+        #region Motor RPM packet received
+        private void ParseMotorRPMPacket()
+        {
+            /*
+           motor RPM packet received
+                        
+           1 0xA5
+             0x5A    Packet Header
+             
+             0x04   3 bytes length          
+           4 0x74	Command type “Telemetry”
+             0x52	'R' Report “Motor RPM”
+
+           6 0xRRRR unsigned value (0x0000 – 0xFFFF) representing motor RPM
+            
+           8 0xXX //checksum high
+             0xXX //checksum low
+                        
+          10 0xCC
+          11 0x33 //footer
+           */
+            if (IncomingDataBuffer.Length == 11 && (int)IncomingDataBuffer[9] == 0xCC && (int)IncomingDataBuffer[10] == 0x33)
+            {
+                //calculate checksum
+                UInt16 sum = 0;
+                for (int i = 2; i < 7; i++)
+                {
+                    sum += (ushort)IncomingDataBuffer[i];
+                }
+                byte chk1 = (byte)((sum & 0xFF00) >> 8);
+                byte chk2 = (byte)(sum & 0x00FF);
+                if (chk1 != (int)IncomingDataBuffer[7] || chk2 != (int)IncomingDataBuffer[8])
+                {
+
+                    ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                       string.Format("Invalid motor RPM packet: invalid checksum: received 0x{0:x4}, expected 0x{1:x4}",
+                       (Convert.ToUInt16((int)IncomingDataBuffer[7]) << 8) + (int)IncomingDataBuffer[8], sum))});
+                    ClearBuffer();
+
+                }
+                else
+                {
+                    ushort RPM = (ushort)((IncomingDataBuffer[5]<<8) + IncomingDataBuffer[6]);
+                    //checksum ok
+                    ClearBuffer();
+                    ParentForm.Invoke(MotorRPMPacketReceived, new object[] { this, new MotorRPMPacketReceivedEventArgs(RPM) });
+
+                }
+            }
+            else if (IncomingDataBuffer.Length >= 11)
+            {
+
+
+                ParentForm.Invoke(BadPacketReceived, new object[] { this, 
+                    new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad motor RPM packet received") });
+                ClearBuffer();
+
+            }
+        }
+        #endregion
+        
         #endregion
 
         #region Private class methods
@@ -1859,6 +1933,20 @@ namespace CommProtocolLib
 
         #endregion
 
+        #region motor RPM packet received
+        public delegate void MotorRPMPacketReceivedEventHandler(object sender, MotorRPMPacketReceivedEventArgs e);
+        public event MotorRPMPacketReceivedEventHandler MotorRPMPacketReceived;
+        public class MotorRPMPacketReceivedEventArgs : EventArgs
+        {
+            public ushort RPM;
+            public MotorRPMPacketReceivedEventArgs(ushort RPM)
+            {
+                this.RPM = RPM;
+            }
+
+        }
+        #endregion
+        
         #region Expected response received
         public delegate void ExpectedResponseReceivedEventHandler(object sender, ExpectedResponseReceivedEventArgs e);
         public event ExpectedResponseReceivedEventHandler ExpectedResponseReceived;

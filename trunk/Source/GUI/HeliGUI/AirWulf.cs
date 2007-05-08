@@ -35,6 +35,10 @@ namespace HeliGui
 
         int RequestState = 0;
 
+        int ReceivedPacketTimeout;
+        bool PacketReceived;
+        bool TimedOut = false;
+
         #region gauges
         //Gauges to display flight data
         
@@ -52,7 +56,15 @@ namespace HeliGui
 
         Size GaugeSize;
         #endregion
-
+        #region IndicatorLights
+        IndicatorLight ConnectionLight;
+        IndicatorLight CommPacketRXLight;
+        IndicatorLight BatteryLowLight;
+        IndicatorLight BatteryTempLight;
+        IndicatorLight BatteryVoltageLight;
+        IndicatorLight BatteryCurrentLight;
+        IndicatorLight RPMLight;
+        #endregion
         #endregion
 
         #region constructors
@@ -96,6 +108,8 @@ namespace HeliGui
             SetUpSpeedGauge();
             SetUpRPMGauge();
 
+            SetUpIndicatorLights();
+
             this.OnResize(new EventArgs());
         }
         #endregion
@@ -103,7 +117,7 @@ namespace HeliGui
 
         void frmAirWulf_Resize(object sender, EventArgs e)
         {
-            
+
             GaugeSize =
                 new Size(Convert.ToInt32((this.Size.Width - GoogleMapCtrl.Size.Width) / 3.1),
                 Convert.ToInt32((this.Size.Width - GoogleMapCtrl.Size.Width) / 3.1)
@@ -162,8 +176,39 @@ namespace HeliGui
             RPMGauge.Size = GaugeSize;
             RPMGauge.Location = Row3Col0;
             RPMGauge.Invalidate();
-        }
 
+            Point IndicatorLightTopLeftReference = new Point(GoogleMapCtrl.Width + GaugeSize.Width, GaugeSize.Height * 3);
+            float gapSize = 3.0f * (float)GaugeSize.Width / 150.0f;
+
+            Size IndicatorLightSize = new Size(
+                Convert.ToInt32(2 * GaugeSize.Width / 3.0f - gapSize),
+                Convert.ToInt32(GaugeSize.Height / 5.0f - gapSize));
+
+            BatteryLowLight.Size = IndicatorLightSize;
+            BatteryLowLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 0, 0);
+            BatteryLowLight.On = true;
+
+            BatteryTempLight.Size = IndicatorLightSize;
+            BatteryTempLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 0, 1);
+            BatteryTempLight.Blink = true;
+
+            BatteryVoltageLight.Size = IndicatorLightSize;
+            BatteryVoltageLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 0, 2);
+            BatteryVoltageLight.On = true;
+
+            BatteryCurrentLight.Size = IndicatorLightSize;
+            BatteryCurrentLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 1, 0);
+            BatteryCurrentLight.On = true;
+
+            RPMLight.Size = IndicatorLightSize;
+            RPMLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 1, 1);
+            RPMLight.Blink = true;
+        }
+        private Point GetIndicatorLocation(Point TopReference, Size IndicatorSize, float gapSize, int yOrder, int xOrder)
+        {
+            return new Point(Convert.ToInt32(TopReference.X + (gapSize * xOrder) + (IndicatorSize.Width * xOrder) + gapSize),
+                             Convert.ToInt32(TopReference.Y + (gapSize * yOrder) + (IndicatorSize.Height * yOrder) + gapSize));
+        }
         private void btnReloadGMC_Click(object sender, EventArgs e)
         {
             GoogleMapCtrl.Dispose();
@@ -174,33 +219,40 @@ namespace HeliGui
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-
-            ComProt = new CommProtocol(
-                cbxComPortSelect.SelectedItem.ToString(),
-                19200, System.IO.Ports.Parity.None,
-                8,
-                System.IO.Ports.StopBits.One,
-                500,
-                this);
-
-            if (ComProt != null)
+            if (ComProt == null)
             {
-                //event handlers
-                ComProt.LocationPacketReceived += new CommProtocol.LocationPacketReceivedEventHandler(ComProt_LocationPacketReceived);
-                ComProt.BadPacketReceived += new CommProtocol.BadPacketReceivedEventHandler(ComProt_BadPacketReceived);
-                ComProt.OnBoardErrorPacketReceived += new CommProtocol.OnBoardErrorPacketReceivedEventHandler(ComProt_OnBoardErrorPacketReceived);
-                ComProt.ResponseTimeout += new CommProtocol.ResponseTimeoutEventHandler(ComProt_ResponseTimeout);
-                ComProt.BatteryStatusPacketReceived += new CommProtocol.BatteryStatusPacketReceivedEventHandler(ComProt_BatteryStatusPacketReceived);
-                ComProt.HeadingSpeedAltitudePacketReceived += new CommProtocol.HeadingSpeedAltitudePacketReceivedEventHandler(ComProt_HeadingSpeedAltitudePacketReceived);
-                ComProt.AttitudePacketReceived += new CommProtocol.AttitudePacketReceivedEventHandler(ComProt_AttitudePacketReceived);
-                ComProt.ExpectedResponseReceived += new CommProtocol.ExpectedResponseReceivedEventHandler(ComProt_ExpectedResponseReceived);
-                ComProt.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(ComProt_HandShakeAckReceived);
-                ComProt.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(ComProt_PreFlightPacketReceived);
-                ComProt.MotorRPMPacketReceived += new CommProtocol.MotorRPMPacketReceivedEventHandler(ComProt_MotorRPMPacketReceived);
-                
-                RequestInfoTimer.Start();
+                ComProt = new CommProtocol(
+                    cbxComPortSelect.SelectedItem.ToString(),
+                    19200, System.IO.Ports.Parity.None,
+                    8,
+                    System.IO.Ports.StopBits.One,
+                    500,
+                    this);
+                if (ComProt.SerialPortOpen)
+                {
+
+                    //event handlers
+                    ComProt.LocationPacketReceived += new CommProtocol.LocationPacketReceivedEventHandler(ComProt_LocationPacketReceived);
+                    ComProt.BadPacketReceived += new CommProtocol.BadPacketReceivedEventHandler(ComProt_BadPacketReceived);
+                    ComProt.OnBoardErrorPacketReceived += new CommProtocol.OnBoardErrorPacketReceivedEventHandler(ComProt_OnBoardErrorPacketReceived);
+                    ComProt.ResponseTimeout += new CommProtocol.ResponseTimeoutEventHandler(ComProt_ResponseTimeout);
+                    ComProt.BatteryStatusPacketReceived += new CommProtocol.BatteryStatusPacketReceivedEventHandler(ComProt_BatteryStatusPacketReceived);
+                    ComProt.HeadingSpeedAltitudePacketReceived += new CommProtocol.HeadingSpeedAltitudePacketReceivedEventHandler(ComProt_HeadingSpeedAltitudePacketReceived);
+                    ComProt.AttitudePacketReceived += new CommProtocol.AttitudePacketReceivedEventHandler(ComProt_AttitudePacketReceived);
+                    ComProt.ExpectedResponseReceived += new CommProtocol.ExpectedResponseReceivedEventHandler(ComProt_ExpectedResponseReceived);
+                    ComProt.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(ComProt_HandShakeAckReceived);
+                    ComProt.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(ComProt_PreFlightPacketReceived);
+                    ComProt.MotorRPMPacketReceived += new CommProtocol.MotorRPMPacketReceivedEventHandler(ComProt_MotorRPMPacketReceived);
+
+                    RequestInfoTimer.Start();
+                }
+                else
+                {
+                    ComProt = null;
+                }
             }
         }
+
         #region gauge setup routines
         private void SetUpRPMGauge()
         {
@@ -393,31 +445,76 @@ namespace HeliGui
             this.Controls.Add(BatteryLevelGauge);
         }
         #endregion
+        
+        private void SetUpIndicatorLights()
+        {
+            ConnectionLight = new IndicatorLight("Not Connected");
+            ConnectionLight.OnColor = Color.Orange;
+            ConnectionLight.Location = new Point(315, 5);
+            ConnectionLight.Size = new Size(75, 25);
+            ConnectionLight.Blink = true;
+            this.Controls.Add(ConnectionLight);
 
+            CommPacketRXLight = new IndicatorLight("Received");
+            CommPacketRXLight.OnColor = Color.Orange;
+            CommPacketRXLight.Location = new Point(400, 5);
+            CommPacketRXLight.Size = new Size(75, 25);
+            this.Controls.Add(CommPacketRXLight);
+
+            BatteryLowLight = new IndicatorLight("Battery Low");
+            BatteryLowLight.OnColor = Color.Orange;
+            this.Controls.Add(BatteryLowLight);
+
+            BatteryTempLight = new IndicatorLight("Battery Over\r\n Temp");
+            BatteryTempLight.OnColor = Color.Red;
+            this.Controls.Add(BatteryTempLight);
+
+            BatteryVoltageLight = new IndicatorLight("Battery Low\r\n voltage");
+            BatteryVoltageLight.OnColor = Color.Orange;
+            this.Controls.Add(BatteryVoltageLight);
+
+            BatteryCurrentLight = new IndicatorLight("Battery over\r\n current");
+            BatteryCurrentLight.OnColor = Color.Orange;
+            this.Controls.Add(BatteryCurrentLight);
+
+            RPMLight = new IndicatorLight("Over RPM");
+            RPMLight.OnColor = Color.Orange;
+            this.Controls.Add(RPMLight);
+        }
         #region event handlers
         void ComProt_MotorRPMPacketReceived(object sender, CommProtocol.MotorRPMPacketReceivedEventArgs e)
         {
+            CommPacketRXLight.On = true;
+            PacketReceived = true;
             RPM = e.RPM;
             RPMGauge.Value = RPM;
         }
 
         void ComProt_PreFlightPacketReceived(object sender, CommProtocol.PreFlightPacketReceivedEventArgs e)
         {
+            CommPacketRXLight.On = true;
+            PacketReceived = true;
             pfp = e.PFP;
         }
 
         void ComProt_HandShakeAckReceived(object sender, EventArgs e)
         {
+            CommPacketRXLight.On = true;
+            PacketReceived = true;
             ComProt.CommsHandShakeTerminate();
         }
 
         void ComProt_ExpectedResponseReceived(object sender, CommProtocol.ExpectedResponseReceivedEventArgs e)
         {
+            CommPacketRXLight.On = true;
+            PacketReceived = true;
           //  throw new Exception("The method or operation is not implemented.");
         }
 
         void ComProt_AttitudePacketReceived(object sender, CommProtocol.AttitudePacketReceivedEventArgs e)
         {
+            CommPacketRXLight.On = true;
+            PacketReceived = true;
             Att = e.attitude;
             
             compass.Angle = Att.Yaw;
@@ -427,6 +524,8 @@ namespace HeliGui
 
         void ComProt_HeadingSpeedAltitudePacketReceived(object sender, CommProtocol.HeadingSpeedAltitudePacketReceivedEventArgs e)
         {
+            CommPacketRXLight.On = true;
+            PacketReceived = true;
             HSA = e.HSA;
 
             SpeedGauge.Value = HSA.Speed;
@@ -437,6 +536,8 @@ namespace HeliGui
 
         void ComProt_BatteryStatusPacketReceived(object sender, CommProtocol.BatteryStatusPacketReceivedEventArgs e)
         {
+            CommPacketRXLight.On = true;
+            PacketReceived = true;
             BattStat = e.BattStat;
 
             BatteryVoltageGauge.Value = BattStat.Voltage;
@@ -451,6 +552,8 @@ namespace HeliGui
 
         void ComProt_OnBoardErrorPacketReceived(object sender, CommProtocol.OnBoardErrorPacketReceivedEventArgs e)
         {
+            CommPacketRXLight.On = true;
+            PacketReceived = true;
           //  throw new Exception("The method or operation is not implemented.");
         }
 
@@ -461,6 +564,9 @@ namespace HeliGui
 
         void ComProt_LocationPacketReceived(object sender, CommProtocol.LocationPacketReceivedEventArgs e)
         {
+            CommPacketRXLight.On = true;
+            PacketReceived = true;
+
             Lon = e.Long;
             Lat = e.Lat;
 
@@ -475,27 +581,62 @@ namespace HeliGui
             switch (RequestState)
             {
                 case 0:
-                    ComProt.RequestForInformation(0x4C);
+                    ComProt.RequestForInformation(0x4C);//location
                     RequestState++;
                     break;
                 case 1:
-                    ComProt.RequestForInformation(0x48);
+                    ComProt.RequestForInformation(0x48);//heading speed altitude
                     RequestState++;
                     break;
                 case 2:
-                    ComProt.RequestForInformation(0x5A);
+                    ComProt.RequestForInformation(0x5A);//attitude
                     RequestState++;
                     break;
                 case 3:
-                    ComProt.RequestForInformation(0x42);
+                    ComProt.RequestForInformation(0x42);//battery status
                     RequestState++;
                     break;
                 case 4:
-                    ComProt.RequestForInformation(0x52);
+                    ComProt.RequestForInformation(0x52);//motor RPM
                     RequestState = 0;
                     break;
 
             }
+        }
+
+        private void PacketRXTimer_Tick(object sender, EventArgs e)
+        {
+
+            if (PacketReceived == true)
+            {
+                TimedOut = false;
+                ReceivedPacketTimeout = 0;
+                CommPacketRXLight.On = false;
+
+                ConnectionLight.OnColor = Color.Green;
+                ConnectionLight.Blink = false;
+                ConnectionLight.On = true;
+                ConnectionLight.WarningText = "Connected";
+            }
+            else
+            {
+                ReceivedPacketTimeout++;
+            }
+            PacketReceived = false;
+            if (ReceivedPacketTimeout >= 4 && !TimedOut)
+            {
+                ReceivedPacketTimeout = 0;
+                TimedOut = true;
+                ConnectionLight.OnColor = Color.Orange;
+                ConnectionLight.Blink = true;
+                ConnectionLight.On = true;
+                ConnectionLight.WarningText = "Not Connected";
+            }
+        }
+
+        private void IndicatorLightTimer_Tick(object sender, EventArgs e)
+        {
+
         }
 
 

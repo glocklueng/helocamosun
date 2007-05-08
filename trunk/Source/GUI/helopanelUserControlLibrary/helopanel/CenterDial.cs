@@ -431,6 +431,7 @@ namespace helopanel
         }
         private void DrawNeedle(float angle, Graphics myGraphics, Pen myPen)
         {
+            float RotatedAngle = angle + LowestValueAngle;
             myPen.Color = NeedleColor;
 
             if (needleType == NeedleType.Simple)
@@ -438,8 +439,8 @@ namespace helopanel
                 myPen.Width = 2.0f * this.Size.Width /150;
                 float Diameter = GaugeWidth;
                 Point InnerPoint = new Point(Convert.ToInt32(UpperLeftCornerX + Diameter / 2), Convert.ToInt32(UpperLeftCornerY + Diameter / 2));//centre
-                Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Cos(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
-                                                Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Sin(angle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
+                Point OuterPoint = new Point(-Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Cos(RotatedAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerX + Diameter / 2),
+                                                Convert.ToInt32((Diameter / 2 - 2 * ScaledMajorTickLength + ScaledMinorTickLength) * Math.Sin(RotatedAngle * 2 * Math.PI / 360)) + Convert.ToInt32(UpperLeftCornerY + Diameter / 2));
                 myGraphics.DrawLine(myPen, InnerPoint, OuterPoint);
             }
         }

@@ -34,11 +34,13 @@ namespace HeliGui
             this.lblComPort = new System.Windows.Forms.Label();
             this.btnReloadGMC = new System.Windows.Forms.Button();
             this.RequestInfoTimer = new System.Windows.Forms.Timer(this.components);
+            this.PacketRXTimer = new System.Windows.Forms.Timer(this.components);
+            this.IndicatorLightTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(228, 12);
+            this.btnConnect.Location = new System.Drawing.Point(228, 6);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 0;
@@ -49,7 +51,7 @@ namespace HeliGui
             // cbxComPortSelect
             // 
             this.cbxComPortSelect.FormattingEnabled = true;
-            this.cbxComPortSelect.Location = new System.Drawing.Point(101, 12);
+            this.cbxComPortSelect.Location = new System.Drawing.Point(101, 6);
             this.cbxComPortSelect.Name = "cbxComPortSelect";
             this.cbxComPortSelect.Size = new System.Drawing.Size(121, 21);
             this.cbxComPortSelect.TabIndex = 1;
@@ -57,7 +59,7 @@ namespace HeliGui
             // lblComPort
             // 
             this.lblComPort.AutoSize = true;
-            this.lblComPort.Location = new System.Drawing.Point(12, 15);
+            this.lblComPort.Location = new System.Drawing.Point(12, 9);
             this.lblComPort.Name = "lblComPort";
             this.lblComPort.Size = new System.Drawing.Size(83, 13);
             this.lblComPort.TabIndex = 2;
@@ -65,7 +67,7 @@ namespace HeliGui
             // 
             // btnReloadGMC
             // 
-            this.btnReloadGMC.Location = new System.Drawing.Point(12, 43);
+            this.btnReloadGMC.Location = new System.Drawing.Point(12, 37);
             this.btnReloadGMC.Name = "btnReloadGMC";
             this.btnReloadGMC.Size = new System.Drawing.Size(163, 23);
             this.btnReloadGMC.TabIndex = 3;
@@ -76,6 +78,17 @@ namespace HeliGui
             // RequestInfoTimer
             // 
             this.RequestInfoTimer.Tick += new System.EventHandler(this.RequestInfoTimer_Tick);
+            // 
+            // PacketRXTimer
+            // 
+            this.PacketRXTimer.Enabled = true;
+            this.PacketRXTimer.Interval = 500;
+            this.PacketRXTimer.Tick += new System.EventHandler(this.PacketRXTimer_Tick);
+            // 
+            // IndicatorLightTimer
+            // 
+            this.IndicatorLightTimer.Enabled = true;
+            this.IndicatorLightTimer.Tick += new System.EventHandler(this.IndicatorLightTimer_Tick);
             // 
             // frmAirWulf
             // 
@@ -101,6 +114,8 @@ namespace HeliGui
         private System.Windows.Forms.Label lblComPort;
         private System.Windows.Forms.Button btnReloadGMC;
         private System.Windows.Forms.Timer RequestInfoTimer;
+        private System.Windows.Forms.Timer PacketRXTimer;
+        private System.Windows.Forms.Timer IndicatorLightTimer;
     }
 }
 

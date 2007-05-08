@@ -54,6 +54,12 @@
     <Compile Include="Gauge.Designer.cs">
       <DependentUpon>Gauge.cs</DependentUpon>
     </Compile>
+    <Compile Include="IndicatorLight.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IndicatorLight.Designer.cs">
+      <DependentUpon>IndicatorLight.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
@@ -61,6 +67,10 @@
     <EmbeddedResource Include="Gauge.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Gauge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IndicatorLight.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>IndicatorLight.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
