@@ -489,6 +489,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 						case 0x48:	// Heading/Speed/Altitude
 						case 0x5A:	// attitude
 						case 0x42:	// battery status
+						case 0x52:	// motor RPM
 						{
 							
 							GP_TX_telemetry(vdata[2]);
@@ -515,7 +516,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 			{
 				case 0x48:
 				{
-					GP_TX_packet(GP_handshake, 2);
+					//GP_TX_packet(GP_handshake, 9);
 					GP_hs = 1;	
 					TMR1 = 0;
 					T1CONbits.TON = 1;
@@ -627,8 +628,11 @@ void GP_TX_telemetry( unsigned char type )
 			packet[7] = GSPI_AccData[2];
 			packet[8] = GSPI_AccData[3];
 			
-			packet[9] = (GP_helicopter.attitude.yaw & 0xff00) >> 8;
-			packet[10] = GP_helicopter.attitude.yaw & 0x00ff;
+			packet[9] = GSPI_CompData[0];
+			packet[10] = GSPI_CompData[1];
+			
+			//packet[9] = (GP_helicopter.attitude.yaw & 0xff00) >> 8;
+			//packet[10] = GP_helicopter.attitude.yaw & 0x00ff;
 			
 			for (cnt = 2; cnt < 11; cnt++)
 			{
@@ -670,7 +674,7 @@ void GP_TX_telemetry( unsigned char type )
 			break;	
 		}
 		
-		case 0x50:
+		case 0x50:	// Pre-flight packet
 		{
 			packet[2] = 21;
 			
@@ -712,6 +716,28 @@ void GP_TX_telemetry( unsigned char type )
 			packet[27] = 0x33;
 			
 			GP_TX_packet(packet, 28);
+			break;	
+		}
+		case 0x52:	//motor RPM
+		{
+			packet[2] = 4;
+			
+			packet[5] = (GP_helicopter.motorRPM & 0xff00) >> 8;
+			packet[6] = GP_helicopter.motorRPM & 0x00ff;
+
+			
+			for (cnt = 2; cnt < 7; cnt++)
+			{
+				chksum += packet[cnt];	
+			}
+			
+			packet[7] = (chksum & 0xFF00) >> 8;
+			packet[8] = chksum & 0x00FF;
+			
+			packet[9] = 0xCC;
+			packet[10] = 0x33;
+			
+			GP_TX_packet(packet, 11);
 			break;	
 		}
 	}

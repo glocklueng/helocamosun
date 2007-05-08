@@ -79,7 +79,8 @@ void GP_state_machine ( void )
 	static unsigned short checksum[2];
 	static unsigned short check = 0;
 	short lcv; 
-
+	char n;
+	
 	if (GP_bytercvd)
 	{
 		GP_bytercvd = 0;
@@ -230,6 +231,7 @@ void GP_state_machine ( void )
 			}
 		}
 	}	
+	n = n;
 }
 
 void GP_parse_data ( char vdata[MAXPACKLEN], char len )

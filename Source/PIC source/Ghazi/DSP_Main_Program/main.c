@@ -65,7 +65,7 @@ int main ( void )
 	init_GVars();
 	init_T1();
 	init_LEDs();
-	
+	TRISBbits.TRISB0 = 0;
 	LATBbits.LATB0 = 1;
 	
 	SPI_init();	
@@ -73,7 +73,7 @@ int main ( void )
 	
 	GP_init_chopper();
 	q = 0;
-	GSPI_CompData[0] = 0;
+
 	GSPI_CompData[0] = 0;
 	while(1)
 	{
@@ -93,45 +93,37 @@ int main ( void )
 			SPI_tx_command(pwmCommand, 5);	
 		}
 		
-		if(!PORTAbits.RA12)
-		//if (q > 1000000)
+		//if(!PORTAbits.RA12)
+		if (q > 100000)
 		{
-			while(!PORTAbits.RA12);
+			//while(!PORTAbits.RA12);
 			q = 0;
 			
-			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
-			GP_TX_packet(GSPI_AccData, 6); // DEBUG
+			//SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
+			//GP_TX_packet(GSPI_AccData, 6); // DEBUG
 			GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
 			GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
 			//GP_TX_char('\n');
 			
 			for (i = 0; i < 10000; i++);
 			
-			SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
-			GP_TX_packet(GSPI_CompData, 2);
+			//SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
+			//GP_TX_packet(GSPI_CompData, 2);
 			//GP_TX_char('\n');
 			
 			for (i = 0; i < 10000; i++);
 			
-			SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
-			GP_TX_packet(GSPI_AcousticData, 2);
+			//SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+			//GP_TX_packet(GSPI_AcousticData, 2);
 			//GP_TX_char('\n');
 		}
 		
-		/*if(!PORTAbits.RA12)
+		if(!PORTAbits.RA12)
 		{
 			while(!PORTAbits.RA12);
-			GP_TX_error(q++);
-			if (q > 21)
-			{ q = 1; }
-		}*/
-		/*for (i = 0; i < 50000; i++)
-		{
-			//LATBbits.LATB0 = 0;
 			SPI_readYawGyro();
-			//for (q = 0; q < 1000; q++);
-			//LATBbits.LATB0 = 1;
-		}*/
+		}
+
 		
 		
 	}

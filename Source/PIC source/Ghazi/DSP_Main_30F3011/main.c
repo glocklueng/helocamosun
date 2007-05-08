@@ -76,7 +76,7 @@ int main ( void )
 {
 	unsigned char dummy;
 	long i = 0, q = 0;
-	
+	unsigned char state4_cnt = 0;
 	
 	
 	setupTRIS();
@@ -96,9 +96,6 @@ int main ( void )
 	GSPI_CompData[0] = 0;
 	GSPI_CompData[0] = 0;
 	
-	//GP_hs = 1;
-	//T1CONbits.TON = 1;
-	
 	while(1)
 	{
 		if(T2flag)
@@ -111,7 +108,7 @@ int main ( void )
 				
 				case 1:			// run the RF state machine
 				{
-					GP_state_machine();
+					//GP_state_machine();
 					break;	
 				}
 				
@@ -138,17 +135,33 @@ int main ( void )
 				
 				case 4:			// update sensor readings from 4431
 				{
-				//	SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
-					GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
-					GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
 					
-					for (i = 0; i < 10000; i++);
 					
-				//	SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
-				
-					for (i = 0; i < 10000; i++);
 					
-				//	SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+					switch (state4_cnt)
+					{
+						case 0:
+						{
+							//	SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
+							GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
+							GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
+							break;	
+						}
+			
+						case 10:
+						{
+							//SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
+							break;
+						}
+			
+						case 20:
+						{
+							//SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+							state4_cnt = 0;
+							break;
+						}
+					}
+					state4_cnt++;
 					break;	
 				}
 				
@@ -175,12 +188,12 @@ void fillpwmCommand ( void )
 void setupTRIS ( void )
 {	
 	//TRISAbits.TRISA12 = 1;
-	TRISD = 0x00;
+	//TRISD = 0x00;
 	TRISFbits.TRISF3 = 0;
 	TRISFbits.TRISF6 = 0;	// SCLK = RF6
 	TRISFbits.TRISF2 = 1;	// SDI = RF7
 	TRISFbits.TRISF3 = 0;	// SDO = RF8
-	TRISB = 0;
+	TRISBbits.TRISB0 = 0;
 }
 
 void init_GVars ( void )
@@ -207,10 +220,10 @@ void init_T1 ( void )
 
 void init_T2 ( void )
 {
-	PR2 = 12498;		 	
+	PR2 = 120;		 	
 	IEC0bits.T2IE = 1;
 	T2CONbits.TCS = 0;   		//1.8425 MHz = 542.7 ns / tick
-	T2CONbits.TCKPS = 0b01;		
+	T2CONbits.TCKPS = 0b00;		
 	TMR2 = 0;
 	T2flag = 0;
 	T2CONbits.TON = 1;	
@@ -219,10 +232,10 @@ void init_T2 ( void )
 void init_LEDs ( void )
 {
 	// Turn off the LEDs on the dsPICDEM board
-	LATDbits.LATD0 = 1;
-	LATDbits.LATD1 = 1;
-	LATDbits.LATD2 = 1;
-	LATDbits.LATD3 = 1;	
+	//LATDbits.LATD0 = 1;
+	//LATDbits.LATD1 = 1;
+	//LATDbits.LATD2 = 1;
+	//LATDbits.LATD3 = 1;	
 }
 
 void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
@@ -249,6 +262,7 @@ void __attribute__(( interrupt, no_auto_psv )) _T2Interrupt(void)
 {
 	IFS0bits.T2IF = 0;
 	T2flag = 1;
+	GP_state_machine();
 	//clock++;
 	TMR2 = 0;
 }
