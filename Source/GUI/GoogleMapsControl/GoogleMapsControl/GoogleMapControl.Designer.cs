@@ -58,14 +58,14 @@ namespace GoogleMapsControl
             // 
             // txtLatitude
             // 
-            this.txtLatitude.Location = new System.Drawing.Point(490, 625);
+            this.txtLatitude.Location = new System.Drawing.Point(490, 608);
             this.txtLatitude.Name = "txtLatitude";
             this.txtLatitude.Size = new System.Drawing.Size(110, 20);
             this.txtLatitude.TabIndex = 2;
             // 
             // txtLongitude
             // 
-            this.txtLongitude.Location = new System.Drawing.Point(490, 665);
+            this.txtLongitude.Location = new System.Drawing.Point(490, 636);
             this.txtLongitude.Name = "txtLongitude";
             this.txtLongitude.Size = new System.Drawing.Size(110, 20);
             this.txtLongitude.TabIndex = 3;
@@ -73,7 +73,7 @@ namespace GoogleMapsControl
             // lblLatitude
             // 
             this.lblLatitude.AutoSize = true;
-            this.lblLatitude.Location = new System.Drawing.Point(487, 609);
+            this.lblLatitude.Location = new System.Drawing.Point(440, 606);
             this.lblLatitude.Name = "lblLatitude";
             this.lblLatitude.Size = new System.Drawing.Size(45, 13);
             this.lblLatitude.TabIndex = 4;
@@ -82,7 +82,7 @@ namespace GoogleMapsControl
             // lblLongitude
             // 
             this.lblLongitude.AutoSize = true;
-            this.lblLongitude.Location = new System.Drawing.Point(487, 649);
+            this.lblLongitude.Location = new System.Drawing.Point(431, 639);
             this.lblLongitude.Name = "lblLongitude";
             this.lblLongitude.Size = new System.Drawing.Size(54, 13);
             this.lblLongitude.TabIndex = 5;
@@ -99,7 +99,7 @@ namespace GoogleMapsControl
             this.Controls.Add(this.btnEnterWayPointMode);
             this.Controls.Add(this.webBrowser1);
             this.Name = "GoogleMapControl";
-            this.Size = new System.Drawing.Size(604, 694);
+            this.Size = new System.Drawing.Size(604, 668);
             this.ResumeLayout(false);
             this.PerformLayout();
 

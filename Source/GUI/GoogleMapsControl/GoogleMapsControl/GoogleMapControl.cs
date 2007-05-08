@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Security.Permissions;
 using System.Collections;
+using System.Net.NetworkInformation;
 
 namespace GoogleMapsControl
 {
@@ -22,6 +23,8 @@ namespace GoogleMapsControl
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public partial class GoogleMapControl : UserControl
     {
+        public bool InternetConnected = false;
+
         private HelicopterIcon heliIcon;
  
         public float HeadingAngle
@@ -45,14 +48,21 @@ namespace GoogleMapsControl
             heliIcon = new HelicopterIcon();
             webBrowser1.Controls.Add(this.heliIcon);
 
-            heliIcon.Location = new Point(webBrowser1.Width/2, webBrowser1.Height/2);
+            TestForInternetConnection();
 
-            webBrowser1.AllowWebBrowserDrop = false;
-            webBrowser1.IsWebBrowserContextMenuEnabled = false;
-            webBrowser1.WebBrowserShortcutsEnabled = false;
-            webBrowser1.ObjectForScripting = this;
-            webBrowser1.Url = new Uri(@"E:\helo\Source\GUI\GoogleMapsControl\GoogleMapsControl\index.html");
-            webBrowser1.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser1_DocumentCompleted);
+            heliIcon.Location = new Point(webBrowser1.Width / 2, webBrowser1.Height / 2);
+
+            if(true)// (InternetConnected)
+            {
+                webBrowser1.AllowWebBrowserDrop = false;
+                webBrowser1.IsWebBrowserContextMenuEnabled = false;
+                webBrowser1.WebBrowserShortcutsEnabled = false;
+                webBrowser1.ObjectForScripting = this;
+
+                webBrowser1.Url = new Uri(@"E:\helo\Source\GUI\GoogleMapsControl\GoogleMapsControl\index.html");
+
+                webBrowser1.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser1_DocumentCompleted);
+            }
         }
 
         public void GotoLoc(double latitude, double longitude)
@@ -194,7 +204,36 @@ namespace GoogleMapsControl
             ToggleDynamicDragging();
             ToggleMapTrack();
         }
+        private void TestForInternetConnection()
+        {
+            Ping pingSender = new Ping();
+            PingOptions options = new PingOptions();
 
+            // Use the default Ttl value which is 128,
+            // but change the fragmentation behavior.
+            options.DontFragment = true;
 
+            // Create a buffer of 32 bytes of data to be transmitted.
+            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            byte[] buffer = Encoding.ASCII.GetBytes(data);
+            int timeout = 120;
+            try
+            {
+                PingReply reply = pingSender.Send("www.camosun.bc.ca", timeout, buffer, options);
+                if (reply.Status == IPStatus.Success)
+                {
+                    InternetConnected = true;
+                    long l = reply.RoundtripTime;
+                }
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                MessageBox.Show("There is no internet connection available.  The google maps control can not load.");
+                InternetConnected = false;
+            }
+            
+
+        }
     }
 }

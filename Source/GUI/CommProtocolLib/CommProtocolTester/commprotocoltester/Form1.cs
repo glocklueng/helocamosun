@@ -19,7 +19,7 @@ namespace commprotocoltester
         Longitude Lon = new Longitude();
         PreFlightPacketData PFP = new PreFlightPacketData();
         Attitude attitude = new Attitude();
-        
+        string BufferCopy;
         CommProtocol cp;
         public Form1()
         {
@@ -63,14 +63,15 @@ namespace commprotocoltester
         void cp_HandShakeAckReceived(object sender, EventArgs e)
         {
             //cp.CommsHandShakeTerminate();
-            textBox1.AppendText("Hand shake ack received");
+            textBox1.AppendText("Hand shake ack received\r\n");
             textBox1.ScrollToCaret();
         }
 
         void cp_AttitudePacketReceived(object sender, CommProtocol.AttitudePacketReceivedEventArgs e)
         {
             attitude = e.attitude;
-            MessageBox.Show("Attitude packet received: PITCH: " + attitude.Pitch + " ROLL: " + attitude.Roll + " YAW: " + attitude.Yaw);
+            textBox2.AppendText(e.attitude.Yaw + " ");
+           // MessageBox.Show("Attitude packet received: PITCH: " + attitude.Pitch + " ROLL: " + attitude.Roll + " YAW: " + attitude.Yaw);
         }
 
         void cp_HeadingSpeedAltitudePacketReceived(object sender, CommProtocol.HeadingSpeedAltitudePacketReceivedEventArgs e)
@@ -138,10 +139,14 @@ namespace commprotocoltester
         }
 
 
+        void cp_MotorRPMPacketReceived(object sender, CommProtocol.MotorRPMPacketReceivedEventArgs e)
+        {
+            MessageBox.Show("RPM packet received. RPM:"+e.RPM);
+        }
         private void btnCommsHandShakeInitiate_Click(object sender, EventArgs e)
         {
            cp.CommsHandShakeInitiate();
-
+           
         }
 
         private void btnCommsHandShakeTerminate_Click(object sender, EventArgs e)
@@ -261,19 +266,31 @@ namespace commprotocoltester
             cp.RequestForInformation(0x5A);
         }
 
+        private void btnRequestMotorRPM_Click(object sender, EventArgs e)
+        {
+            cp.RequestForInformation(0x52);
+        }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+
             if (cp != null)
             {
-                string linebreaksadded = cp.NonVolatileIncomingDataBuffer.Replace("0x0a", "\r\n");
-                textBox2.Clear();
+                cp.RequestForInformation(0x5A);
 
-                textBox2.AppendText(linebreaksadded);
-                textBox2.ScrollToCaret();
+                /*
+                if (BufferCopy != cp.NonVolatileIncomingDataBuffer)
+                {
+                    BufferCopy = cp.NonVolatileIncomingDataBuffer;
+                    textBox2.Clear();
+
+                    textBox2.AppendText(cp.NonVolatileIncomingDataBuffer);
+                    textBox2.ScrollToCaret();
+                }
+                 */
             }
         }
-       
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -283,7 +300,7 @@ namespace commprotocoltester
         private void btnConnect_Click(object sender, EventArgs e)
         {
 
-            cp = new CommProtocol(comboBox1.SelectedItem.ToString(), 19200, Parity.None, 8, StopBits.One, 5000, this);
+            cp = new CommProtocol(comboBox1.SelectedItem.ToString(), 19200, Parity.None, 8, StopBits.One, 500, this);
 
             if (cp != null)
             {
@@ -298,9 +315,13 @@ namespace commprotocoltester
                 cp.ExpectedResponseReceived += new CommProtocol.ExpectedResponseReceivedEventHandler(cp_ExpectedResponseReceived);
                 cp.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(cp_HandShakeAckReceived);
                 cp.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(cp_PreFlightPacketReceived);
+                cp.MotorRPMPacketReceived += new CommProtocol.MotorRPMPacketReceivedEventHandler(cp_MotorRPMPacketReceived);
                 
             }
         }
+
+
+
 
 
 
