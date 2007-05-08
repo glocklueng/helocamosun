@@ -92,7 +92,7 @@ typedef struct
 	GPT_attitude attitude;
 	GPT_batterystatus batterystatus;
 	GPT_position position;	
-	
+	unsigned short motorRPM;
 	unsigned short GPS_alt, SON_alt;
 	unsigned char sensors;
 	GPT_pwm pwm;
