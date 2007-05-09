@@ -26,10 +26,8 @@
 #define PWM_COMMAND				'P'
 
 //char dummydata[11] ={"0123456789"};
-//char Accelerator[6];
 char Temperature[2];
-char RPM[2];
-char command[2];
+char command[3];
 
 void SPI_Init (void)
 {
@@ -255,6 +253,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 		case STATUS_COMMAND_STATE:
 				//send the status byte pointed to by bytenum
 				ReturnValue = command[ByteNum];
+				command[ByteNum] = Input;
 				ByteNum++;
 				if(ByteNum > 2)//2 bytes in a status packet
 				{

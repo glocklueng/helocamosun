@@ -3,6 +3,7 @@ timers.c
 */
 #include <p18f4431.h>
 #include "timers.h"
+#include "variables.h"
 
 #define STATUS_LED1	LATDbits.LATD4
 #define SET_STATUS_LED1 TRISDbits.TRISD4
@@ -68,29 +69,27 @@ Description:  Indicates to the user the state at which the microcontroller is fu
 */
 void LedStates(void)
 {
-	if(cFlag.bist)	
+	switch(command[0])
 	{
-		STATUS_LED1 = 1; 			// on
-		STATUS_LED2 = 1; 			// on
-	}
-	else if(cFlag.startup)
-	{
-		STATUS_LED2 ^= 1;			// alternate toggle
-		STATUS_LED2 != STATUS_LED1;
-	}
-	else if(cFlag.main)
-	{
-		STATUS_LED1 = 1; 			// on
-		STATUS_LED2 ^= 1;			// toggle
-	}
-	else if(cFlag.debug)
-	{
-		STATUS_LED1 ^= 1; 			// toggle
-		STATUS_LED2 = 1;			// on
-	}
-	else
-	{
-		STATUS_LED1 = 1; 			// on
-		STATUS_LED2 = 0;			// off
+		case BIST:
+			STATUS_LED1 = 1; 			// on
+			STATUS_LED2 = 1; 			// on
+			break;
+		case STARTUP:
+			STATUS_LED2 ^= 1;			// alternate toggle
+			STATUS_LED2 != STATUS_LED1;
+			break;
+		case MAIN:
+			STATUS_LED1 = 1; 			// on
+			STATUS_LED2 ^= 1;			// toggle		
+			break;
+		case DEBUG:
+			STATUS_LED1 ^= 1; 			// toggle
+			STATUS_LED2 = 1;			// on		
+			break;
+		default:
+			STATUS_LED1 = 1; 			// on
+			STATUS_LED2 = 0;			// off
+			break;
 	}
 }
