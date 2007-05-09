@@ -205,9 +205,9 @@ void Dynamics(void)
 		Fuzzification( collective_param, collective_height_mf);
 		Fuzzification( collective_rate_param, collective_rate_mf);
 		
-        U[2] = 0;//doRules(pitch_mf, PitchRule);    
+        U[2] = 0;//doRules(pitch_mf, PitchRule)/38; 
         U[1] = 0;//doRules(roll_mf, RollRule);  
-        U[3] = .105; //doRules(yaw_mf, YawRule);	   
+        U[3] = doRules(yaw_mf, YawRule);
         U[0] = .1645;    //doRules(collective_mf, CollectiveRule);	 
       
 #endif
