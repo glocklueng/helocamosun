@@ -15,6 +15,12 @@ typedef union _WORD
 #define AVERAGEVALUE	8
 #define AXISOFFSET		0x00
 
+// timers.c
+#define	BIST		0x00
+#define STARTUP		0x01
+#define MAIN		0x02
+#define DEBUG		0x03
+
 // SPIComms.c
 extern char Accelerator[6];
 extern char Gyro[4];
@@ -23,5 +29,5 @@ extern char Voltages[4];
 extern char Accoustic[2];
 extern char Temperature[2];
 extern char RPM[2];
-extern char command[2];
+extern char command[3];
 extern char servos[6];

@@ -31,10 +31,11 @@
 #include "timers.h"
 #include "USART.h"
 #include "SPIComms.h"
-
+#include "rpm.h"
 /********************** Interrupt Function Definition ****************/
 void CCPINT(void);
 void SPI_isr (void);
+void CCP1_isr(void);
 
 /************************* Interrupt Functions ***********************/
 #pragma code high_int_vector = 0x08					/* change to interrupt page*/
@@ -47,6 +48,10 @@ void interrupt_at_high_vector(void)
 	if(TIMER1FLAG)			// capture compare interrupt
 	{
 		_asm GOTO CCPINT _endasm
+	}
+	if(PIR1bits.CCP1IF)
+	{
+		_asm GOTO CCP1_isr _endasm
 	}
 }
 
@@ -70,6 +75,19 @@ void CCPINT(void)
 	tFlag.newTickFlag = 1;	// Set Tick flag
 	TMR1H = 0xCF;			// reset timer values, for a 40MHz crystal 0x9E59 = 10ms
 	TMR1L += 0x2D;			// for a 20MHz crystal 0xCF2D = 10.0000 ms
+}
+
+#pragma interrupt CCP1_isr
+void CCP1_isr(void)
+{
+	TRISCbits.TRISC2 = 1;
+	CCP_interrupt();
+	
+	TMR1L = 0x00;
+	TMR1H = 0x00;
+	
+	PIR1bits.CCP1IF = 0;//clear CCP1 interrupt flag		
+	TRISCbits.TRISC2 = 1;
 }
 
 #pragma code 	/* return to code section */
