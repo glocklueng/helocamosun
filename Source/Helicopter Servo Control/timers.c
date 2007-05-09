@@ -62,22 +62,35 @@ void TimeKeeping(void)
 		}
 	}
 }
-
+/*
+Function LedStates
+Description:  Indicates to the user the state at which the microcontroller is functioning
+*/
 void LedStates(void)
 {
-	if(cFlag.bist)
+	if(cFlag.bist)	
 	{
-		STATUS_LED1 = 1; // start with the LED on
-		STATUS_LED2 = 1; // start with the LED on
+		STATUS_LED1 = 1; 			// on
+		STATUS_LED2 = 1; 			// on
 	}
-	if(cFlag.startup)
+	else if(cFlag.startup)
 	{
-		STATUS_LED2 ^= 1;
+		STATUS_LED2 ^= 1;			// alternate toggle
 		STATUS_LED2 != STATUS_LED1;
 	}
-	if(cFlag.main)
+	else if(cFlag.main)
 	{
-		STATUS_LED1 = 1; // start with the LED on
-		STATUS_LED2 ^= 1;
-	}	
+		STATUS_LED1 = 1; 			// on
+		STATUS_LED2 ^= 1;			// toggle
+	}
+	else if(cFlag.debug)
+	{
+		STATUS_LED1 ^= 1; 			// toggle
+		STATUS_LED2 = 1;			// on
+	}
+	else
+	{
+		STATUS_LED1 = 1; 			// on
+		STATUS_LED2 = 0;			// off
+	}
 }
