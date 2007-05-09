@@ -6,9 +6,8 @@
 #include "SPI.h"
 
 #include "commands.h"
-//#include "typedefs.h"
 
-#define FCY			10000000 // Instruction cycle freq = xtal / 4
+#define FCY			5000000 // Instruction cycle freq = xtal / 4
 
 void setupTRIS ( void );
 
@@ -23,6 +22,7 @@ void init_LEDs ( void );
 void GP_init_UART( unsigned int baud );
 
 void Init_PWM( void );
+// initialize the PWM module
 
 void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
 // The UART1 RX ISR. Fires when a character is received on UART1
@@ -31,8 +31,6 @@ void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void);
 // Timer1 ISR
 
 void fillpwmCommand ( void );
-
-
 
 GPT_helicopter GP_helicopter;
 /*
@@ -68,14 +66,15 @@ GP_helicopter.batterystatus.temp			(2)
 //char pwmCommand[] = { 'P', 0x01, 0x01, 0x01, 0x01 };
 
 extern unsigned char newPWM;
-extern char GSPI_AccData[];
+extern unsigned char GSPI_AccData[];
+//extern unsigned char GP_hs;
 unsigned char T2flag;
 unsigned char clock;
 //*******************************   MAIN   **********************************
 int main ( void )
 {
 	unsigned char dummy;
-	long i = 0, q = 0;
+	long i = 0;
 	unsigned char state4_cnt = 0;
 	
 	
@@ -83,7 +82,7 @@ int main ( void )
 	init_GVars();
 	init_T1();
 	init_T2();
-	init_LEDs();
+	//init_LEDs();
 	Init_PWM();
 	
 	LATBbits.LATB0 = 1;
@@ -92,13 +91,32 @@ int main ( void )
 	GP_init_UART(19200);
 	
 	GP_init_chopper();
-	q = 0;
 	GSPI_CompData[0] = 0;
 	GSPI_CompData[0] = 0;
-	
+	//GP_hs = 1;
 	while(1)
 	{
-		if(T2flag)
+		/*if (T2flag)
+		{
+			T2flag = 0;
+			GP_TX_char('M');
+		}*/
+		GP_state_machine();
+		
+		if (GP_datavalid)
+		{
+			GP_datavalid = 0;
+			GP_parse_data(GP_data, GP_data_len);
+		}
+		
+		if (newPWM)
+		{
+			newPWM = 0;
+			fillpwmCommand();
+			SPI_tx_command(pwmCommand, 5);	
+		}
+		
+		/*if(T2flag)
 		{
 			clock++;	
 			T2flag = 0;
@@ -142,7 +160,8 @@ int main ( void )
 					{
 						case 0:
 						{
-							//	SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
+							// get the roll and pitch from the sensors
+							//SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
 							GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
 							GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
 							break;	
@@ -151,14 +170,20 @@ int main ( void )
 						case 10:
 						{
 							//SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
+							GP_helicopter.hsa.heading = GSPI_CompData[0] * 256 + GSPI_CompData[1];
 							break;
 						}
 			
 						case 20:
 						{
 							//SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
-							state4_cnt = 0;
 							break;
+						}
+						
+						case 30:
+						{
+							state4_cnt = 0;
+							break;	
 						}
 					}
 					state4_cnt++;
@@ -171,7 +196,7 @@ int main ( void )
 					break;
 				}
 			}
-		}
+		}*/
 		
 	}
 	return 0;
@@ -187,13 +212,20 @@ void fillpwmCommand ( void )
 
 void setupTRIS ( void )
 {	
-	//TRISAbits.TRISA12 = 1;
-	//TRISD = 0x00;
 	TRISFbits.TRISF3 = 0;
 	TRISFbits.TRISF6 = 0;	// SCLK = RF6
 	TRISFbits.TRISF2 = 1;	// SDI = RF7
 	TRISFbits.TRISF3 = 0;	// SDO = RF8
 	TRISBbits.TRISB0 = 0;
+	TRISDbits.TRISD0 = 0;
+	
+	// SPI Slave Select lines:
+	uCSSTris = 0;
+	YawGyroSSTris = 0;
+	eepromSSTris = 0;
+	tempSSTris = 0;
+	
+	
 }
 
 void init_GVars ( void )
@@ -210,7 +242,7 @@ void init_GVars ( void )
 
 void init_T1 ( void )
 {
-	PR1 = 65535;		 		// 35.6ms
+	PR1 = 4096;		 		// 35.6ms
 	IEC0bits.T1IE = 1;
 	T1CONbits.TCS = 0;   		//1.8425 MHz = 542.7 ns / tick
 	T1CONbits.TCKPS = 0b11;		
@@ -250,7 +282,8 @@ void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
 void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void)
 {
 	IFS0bits.T1IF = 0;
-	if (GP_hs)						
+	LATDbits.LATD0 ^= 1;
+	if (1)						
 	{
 		// When the timer expires and a handshake terminate has not been 
 		// received we need to ACK the handshake
@@ -269,6 +302,8 @@ void __attribute__(( interrupt, no_auto_psv )) _T2Interrupt(void)
 
 void Init_PWM( void )
 {
+	PDC1 = 0x30;
+	PTPERbits.PTPER = 0x7F;	// Timebase period
 
 	PTCONbits.PTSIDL = 0;
 	PTCONbits.PTOPS = 0;	// Postscale = 1:1
@@ -276,7 +311,6 @@ void Init_PWM( void )
 	PTCONbits.PTMOD = 0;	// Free-running mode
 	
 	PTMRbits.PTMR = 0;		// Timebase register
-	PTPERbits.PTPER = 100;	// Timebase period
 	
 	PWMCON1bits.PMOD1 = 1;	// PMW1 is in independant mode
 	
@@ -300,9 +334,10 @@ void GP_init_UART( unsigned int baud )
 	U2MODEbits.PDSEL = 0b00;	// 8 data bits, no parity
 	U2MODEbits.STSEL = 0;		// 1 stop bit
 
-	U2BRG = ( FCY / (16 * baud) ) - 1; // calculate the BRG value for a
+	//U2BRG = ( FCY / (16 * baud) ); // calculate the BRG value for a
 									   // given baud rate
-	//U1BRG = 1;
+	//U2BRG = 0x000F;
+	U2BRG = 0x0020;
 	U2MODEbits.UARTEN = 1;		// enable the UART
 	IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
 }

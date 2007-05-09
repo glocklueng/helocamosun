@@ -4,15 +4,18 @@
 
 #define MAXPACKLEN 	32		// maximum packet length
 
-char GSPI_AccData[6] = "";
-char GSPI_2GyroData[4] = "";
-char GSPI_YawGyroData[2] = "";
-char GSPI_CompData[2] = "";
-char GSPI_AcousticData[2] = "";
-char GSPI_VoltData[4] = "";
-char GSPI_TempData[2] = "";
-char GSPI_RpmData[2] = "";
-char GSPI_StatusData[2] = "";
+
+
+
+unsigned char GSPI_AccData[6] = "";
+unsigned char GSPI_2GyroData[4] = "";
+unsigned char GSPI_YawGyroData[2] = "";
+unsigned char GSPI_CompData[2] = "";
+unsigned char GSPI_AcousticData[2] = "";
+unsigned char GSPI_VoltData[4] = "";
+unsigned char GSPI_TempData[2] = "";
+unsigned char GSPI_RpmData[2] = "";
+unsigned char GSPI_StatusData[2] = "";
 
 void SPI_init ()
 {
@@ -56,17 +59,15 @@ void SPI_tx_command ( unsigned char packet[MAXPACKLEN], char len )
 	} 
 }
 
-void SPI_tx_req ( char packet[MAXPACKLEN], char data[MAXPACKLEN] )
+void SPI_tx_req ( unsigned char packet[MAXPACKLEN], unsigned char data[MAXPACKLEN] )
 {
 	char cnt = 0;
-	char dummy = strlen(packet);
-	char dummy2 = strlen(data);
 	int i;
 	char rcv[7] = "";
 	unsigned char check = 0;
 	char bite = 0;
 	
-	for (cnt = 0; cnt < strlen(packet); cnt++)
+	for (cnt = 0; cnt < strlen((char*)packet); cnt++) // WATCH THIS
 	{
 		
 		while (SPI1STATbits.SPITBF);
