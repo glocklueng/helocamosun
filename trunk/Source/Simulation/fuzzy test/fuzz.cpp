@@ -24,27 +24,27 @@ float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
 };
 
 float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
-      {41, 41, 44},
-      {41, 45, 49},
-      {46, 50, 54},
-      {51, 55, 59},
-      {56, 59, 59}
+      {-6, -6, -4},
+      {-5, -3, -1},
+      {-2, 0, 2},
+      {1, 3, 5},
+      {4, 6, 6}
 };
 
 float yaw_param[NUM_RANGE][3]={	//degrees member function parameters
-      {41, 41, 44},
-      {42, 45, 48},
-      {46, 50, 54},
-      {52, 55, 58},
-      {56, 59, 59}
+      {-3, -3, -2},
+      {-2.6f, -1.6f, -0.66f},
+      {-1.33f, 0, 1.33f},
+      {0.66f, 1.6f, 2.6f},
+      {2, 3, 3}
 };
 
 float yaw_rate_param[NUM_RANGE][3]={	//degrees member function parameters
-      {41, 41, 44},
-      {42, 45, 48},
-      {46, 50, 54},
-      {52, 55, 58},
-      {56, 59, 59}
+      {-6, -6, -4},
+      {-5, -3, -1},
+      {-2, 0, 2},
+      {1, 3, 5},
+      {4, 6, 6}
 };
 
 float collective_param[NUM_RANGE][3]={	//degrees member function parameters
