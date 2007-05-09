@@ -486,7 +486,7 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 			{
 				case 0x48:
 				{
-					//GP_TX_packet(GP_handshake, 9);
+					GP_TX_packet(GP_handshake, 9);
 					GP_hs = 1;	
 					TMR1 = 0;
 					T1CONbits.TON = 1;
