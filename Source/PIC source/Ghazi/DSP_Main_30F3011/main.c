@@ -116,6 +116,15 @@ int main ( void )
 			SPI_tx_command(pwmCommand, 5);	
 		}
 		
+		//SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
+		GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
+		GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
+		
+		//SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
+		GP_helicopter.hsa.heading = GSPI_CompData[0] * 256 + GSPI_CompData[1];
+		
+		//SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+							
 		/*if(T2flag)
 		{
 			clock++;	
