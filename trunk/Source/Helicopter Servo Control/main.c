@@ -124,6 +124,7 @@ void main(void)
 	{
 		if(tFlag.newTickFlag)
 		{
+			LATDbits.LATD4 = 1; 			// on
 			tFlag.newTickFlag=0;		// Set all flags to zero
 			TickCounter++;				// cycles 50ms period
 			TimeKeeping();
@@ -152,8 +153,9 @@ void main(void)
 			}
 			if(tFlag.new1sTickFlag)
 			{
-				LedStates();
+			//	LedStates();
 			}
+			LATDbits.LATD4 = 0; 			// off
 		}
 	}
 	while(1);
