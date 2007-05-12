@@ -74,11 +74,11 @@ unsigned char clock;
 //*******************************   MAIN   **********************************
 int main ( void )
 {
-	unsigned char dummy, error;
+	unsigned char dummy;//, error;
 	long i = 0;
 	unsigned char state4_cnt = 0;
 	
-	int writeAddr;
+//	int writeAddr;
 	
 	setupTRIS();
 	LATBbits.LATB4 = 1;
@@ -94,9 +94,6 @@ int main ( void )
 	
 	SPI_init();	
 	
-	
-	
-	
 	GP_init_chopper();
 	GSPI_CompData[0] = 0;
 	GSPI_CompData[0] = 0;
@@ -104,12 +101,13 @@ int main ( void )
 	LATBbits.LATB4 = 0;
 	while(1)
 	{
-
+		//LATBbits.LATB4 ^= 1;
 		if (GP_datavalid)
 		{
 			GP_datavalid = 0;
 			GP_parse_data(GP_data, GP_data_len);
 		}
+//		GP_TX_char('M');
 //		
 //		if (newPWM)
 //		{
@@ -207,8 +205,9 @@ void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
 	IFS1bits.U2RXIF = 0;	// clear the receive interrupt flag
 	GP_bytercvd = 1;		// indicate a byte was received
 	GP_dump = U2RXREG;		// read the byte from the receive register
-	GP_state_machine();
+	
 	IEC1bits.U2RXIE = 1;	// re-enable the receive interrupt
+	GP_state_machine();
 }
 
 void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void)
