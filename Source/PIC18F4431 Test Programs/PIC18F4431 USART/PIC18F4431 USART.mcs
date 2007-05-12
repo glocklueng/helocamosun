@@ -1,0 +1,138 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.o
+Folder=Intermediary
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\MCC18\bin\mcc18.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+[File001]
+Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\ubusy.o
+Folder=Intermediary
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\MCC18\bin\mcc18.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+[File002]
+Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\uwrite.o
+Folder=Intermediary
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\MCC18\bin\mcc18.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+[File003]
+Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\uputs.o
+Folder=Intermediary
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\MCC18\bin\mcc18.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+[File004]
+Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\uread.o
+Folder=Intermediary
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\MCC18\bin\mcc18.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+[File005]
+Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\ugets.o
+Folder=Intermediary
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\MCC18\bin\mcc18.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+[File006]
+Location=PIC18F4431 USART.cof
+Folder=Output
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
+LanguageToolLocation=C:\MCC18\bin\mplink.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
+TraceCmdString=
+[File007]
+Location=PIC18F4431 USART.cod
+Folder=Output
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
+LanguageToolLocation=C:\MCC18\bin\mplink.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
+TraceCmdString=
+[File008]
+Location=PIC18F4431 USART.hex
+Folder=Output
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
+LanguageToolLocation=C:\MCC18\bin\mplink.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
+TraceCmdString=
+[File009]
+Location=PIC18F4431 USART.lst
+Folder=Output
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
+LanguageToolLocation=C:\MCC18\bin\mplink.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
+TraceCmdString=
+[File010]
+Location=PIC18F4431 USART.map
+Folder=Output
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
+LanguageToolLocation=C:\MCC18\bin\mplink.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|USART.c|ubusy.c|uwrite.c|uputs.c|uread.c|ugets.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
+TraceCmdString=
+[TOOL_LOC_STAMPS]
+tool_loc{96C98149-AA1B-4CF9-B967-FAE79CAB663C}=C:\MCC18\bin\mplink.exe
+tool_loc{E56A1C86-9D32-4DF6-8C34-FE0388B1B644}=C:\MCC18\bin\mcc18.exe
