@@ -242,7 +242,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				break;
 		case RPM_COMMAND_STATE:
 				//send the RPM byte pointed to by bytenum
-				ReturnValue = RPM[ByteNum];
+//				ReturnValue = RPM[ByteNum];
 				ByteNum++;
 				if(ByteNum > 2)//2 bytes in an RPM packet
 				{

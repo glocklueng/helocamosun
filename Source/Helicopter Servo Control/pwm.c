@@ -43,7 +43,7 @@ void PCPWMInit(void)
 void UpdatePWM(void)
 {
 	// PITCH
-	PDC0L = servos[1];		// 1.43ms, minimum duty cycle 0x0620
+	PDC0L = Accoustic[1];		// 1.43ms, minimum duty cycle 0x0620
 //	putcUSART(servos[1]);
 	while(BusyUSART());	
 	// ROLL
@@ -59,3 +59,4 @@ void UpdatePWM(void)
 //	putcUSART(servos[4]);
 	while(BusyUSART());	
 }
+
