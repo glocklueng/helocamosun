@@ -9,11 +9,35 @@ LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
 LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
 LanguageToolLocation=C:\MCC18\bin\mcc18.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
-SOLK=<src>|PIC18F4431 GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
 [File001]
+Location=D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\SW_GPS\USART.o
+Folder=Intermediary
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\MCC18\bin\mcc18.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+[File002]
+Location=D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\SW_GPS\GPS.o
+Folder=Intermediary
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\MCC18\bin\mcc18.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+[File003]
 Location=GPS.cof
 Folder=Output
 DeviceName=PIC18F4431
@@ -21,11 +45,11 @@ LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
 LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
 LanguageToolLocation=C:\MCC18\bin\mplink.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
-SOLK=<src>|PIC18F4431 GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
 SuiteArgsString=
 ToolArgsString=/o"$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map"
 TraceCmdString=
-[File002]
+[File004]
 Location=GPS.cod
 Folder=Output
 DeviceName=PIC18F4431
@@ -33,11 +57,11 @@ LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
 LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
 LanguageToolLocation=C:\MCC18\bin\mplink.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
-SOLK=<src>|PIC18F4431 GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
 SuiteArgsString=
 ToolArgsString=/o"$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map"
 TraceCmdString=
-[File003]
+[File005]
 Location=GPS.hex
 Folder=Output
 DeviceName=PIC18F4431
@@ -45,11 +69,11 @@ LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
 LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
 LanguageToolLocation=C:\MCC18\bin\mplink.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
-SOLK=<src>|PIC18F4431 GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
 SuiteArgsString=
 ToolArgsString=/o"$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map"
 TraceCmdString=
-[File004]
+[File006]
 Location=GPS.lst
 Folder=Output
 DeviceName=PIC18F4431
@@ -57,7 +81,7 @@ LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
 LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
 LanguageToolLocation=C:\MCC18\bin\mplink.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
-SOLK=<src>|PIC18F4431 GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
 SuiteArgsString=
 ToolArgsString=/o"$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map"
 TraceCmdString=
