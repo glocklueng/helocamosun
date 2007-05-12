@@ -15,15 +15,24 @@ union USART
 
 extern union USART USART_Status;
 
-/* Define Section */
+/*
+Function: SerialInit
+Description: Sets up serial communications for 115200 baud, 8 N 1
+*/
 void SerialInit(void);
+void ClearScreen(void);
 void putsUSART (char *data);
 void WriteUSART (char data);
 char ReadUSART (void);
-void getsUSART (char *buffer,unsigned char len);
+void prepscreen(void);
+void UpdateAccelerometer(void);
+void UpdateCompass(void);
+void UpdateServos(void);
+void UpdateADC(void);
+void setCursor( char x, char y);
+void convertstring(char *string, int value);
 
 #define DataRdyUSART( ) (PIR1bits.RCIF)
 #define getcUSART ReadUSART
 #define BusyUSART( ) (!TXSTAbits.TRMT)
 #define putcUSART WriteUSART
-
