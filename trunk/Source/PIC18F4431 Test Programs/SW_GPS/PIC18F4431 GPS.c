@@ -15,7 +15,10 @@
 */
 /************************** Include Section **************************/
 #include <p18f4431.h>
-#include "UART.h"
+#include <USART.h>
+#include <delays.h>
+#include "USART.h"
+#include "GPS.h"
 
 /*************************** Program Control *************************/
 
@@ -35,7 +38,6 @@ typedef union
 WORD Capture;
 
 /*************************** Initialization Functions ****************/
-
 
 /*************************** Function Definitions ********************/
 
@@ -69,10 +71,24 @@ void interrupt_at_high_vector(void)
 
 void main(void)
 {
-
+	char	GPS_COMMAND = 0;
+	SerialInit();
+	TRISBbits.TRISB0 = 0;	// Debugging port for timing the USART
 	do
 	{
-	
+		Delay10KTCYx(100);
+		
+		LATBbits.LATB0 = 1;
+		
+		SendGPSCommand(GPS_COMMAND);
+			
+		GPS_COMMAND++;
+		
+		if(GPS_COMMAND > 9)
+		{
+			GPS_COMMAND = 0;
+		}
+		LATBbits.LATB0 = 0;
 	}
 	while(1);
 }

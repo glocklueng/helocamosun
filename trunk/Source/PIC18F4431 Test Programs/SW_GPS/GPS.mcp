@@ -18,9 +18,19 @@ filter_lkr=*.lkr
 [OTHER_FILES]
 file_000=no
 file_001=no
+file_002=no
+file_003=no
+file_004=no
+file_005=no
+file_006=no
 [FILE_INFO]
 file_000=PIC18F4431 GPS.c
-file_001=C:\MCC18\lkr\18f4431.lkr
+file_001=USART.c
+file_002=GPS.c
+file_003=USART.h
+file_004=C:\MCC18\h\delays.h
+file_005=GPS.h
+file_006=C:\MCC18\lkr\18f4431.lkr
 [SUITE_INFO]
 suite_guid={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
 suite_state=
