@@ -70,24 +70,24 @@ void SPI_isr (void)
 #pragma interrupt CCPINT
 void CCPINT(void)
 {
-	TIMER1FLAG = 0; 		// clear the capture flag
+	PIR1bits.C = 0; 		// clear the capture flag
 	Nop();					// additional padding
 	tFlag.newTickFlag = 1;	// Set Tick flag
 	TMR1H = 0xCF;			// reset timer values, for a 40MHz crystal 0x9E59 = 10ms
-	TMR1L += 0x2D;			// for a 20MHz crystal 0xCF2D = 10.0000 ms
+	TMR1L += 0x2D;			// for a 20MHz crystal 0xCF2D = 10.0000 ms	
 }
 
 #pragma interrupt CCP1_isr
 void CCP1_isr(void)
 {
-	TRISCbits.TRISC2 = 1;
+//	triscbits.trisc2 = 1;
 	CCP_interrupt();
 	
 	TMR1L = 0x00;
 	TMR1H = 0x00;
 	
-	PIR1bits.CCP1IF = 0;//clear CCP1 interrupt flag		
-	TRISCbits.TRISC2 = 1;
+	PIR1bits.CCP1IF = 0;//clear ccp1 interrupt flag		
+//	triscbits.trisc2 = 1;
 }
 
 #pragma code 	/* return to code section */
@@ -116,6 +116,9 @@ void main(void)
 	cFlag.bist = 0;
 	cFlag.startup = 0;
 	cFlag.main = 1;
+	cFlag.debug = 0;
+	TRISDbits.TRISD4 = 0;
+	TRISBbits.TRISB0 = 0;
 	LedStates();
 
 /******** START OF MAIN LOOP *****************/
@@ -124,28 +127,45 @@ void main(void)
 	{
 		if(tFlag.newTickFlag)
 		{
-			LATDbits.LATD4 = 1; 			// on
+			
 			tFlag.newTickFlag=0;		// Set all flags to zero
 			TickCounter++;				// cycles 50ms period
 			TimeKeeping();
-
 			switch(TickCounter)
 			{
-				case 1:		
+				case 1:
 					ResetCompass();		// start compass module
+					if(cFlag.debug)
+					{
+						UpdateADC();
+					}
 					break;
 				case 2:		// 10ms
 					ScanADC();
 					GetADCAverage();
+					if(cFlag.debug)
+					{
+						UpdateADC();
+					}
 					break;
 				case 4:		// 30ms
 					GetCompassValues();
 					GetCompassAverage();
+					if(cFlag.debug)
+					{
+						UpdateCompass();
+					}
+					break;
+				case 3:
+					UpdateServos();
 					break;
 				case 5:
 					GetAxisValues();
 					GetAxisAverage();
-					SendVariables();	// for debugging
+					if(cFlag.debug)
+					{
+						UpdateAccelerometer();
+					}
 					TickCounter = 0;	// Reset Tick Counter
 					break;
 				default:
@@ -153,9 +173,8 @@ void main(void)
 			}
 			if(tFlag.new1sTickFlag)
 			{
-			//	LedStates();
+				LedStates();
 			}
-			LATDbits.LATD4 = 0; 			// off
 		}
 	}
 	while(1);

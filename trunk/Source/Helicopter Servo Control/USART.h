@@ -25,7 +25,10 @@ void putsUSART (char *data);
 void WriteUSART (char data);
 char ReadUSART (void);
 void prepscreen(void);
-void SendVariables(void);
+void UpdateAccelerometer(void);
+void UpdateCompass(void);
+void UpdateServos(void);
+void UpdateADC(void);
 void setCursor( char x, char y);
 void convertstring(char *string, int value);
 

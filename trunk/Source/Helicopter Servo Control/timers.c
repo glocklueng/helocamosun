@@ -22,11 +22,6 @@ Description: Initializes the timer to interrupt every 100ms
 */
 void TimerInit(void)
 {
-
-	TIMER1FLAG = 0;			// clear timer1 int flag
-	PIE1bits.TMR1IE = 1;	// enable timer 1 interrupt
-	IPR1bits.TMR1IP = 1;	// set to high priority interrupt
-	
 	T1CONbits.RD16 = 0;		// read/write to timer in 2 8-bit operations
 
 	TMR1H = 0xCF;			// Initialise timer 1
@@ -36,12 +31,12 @@ void TimerInit(void)
 	T1CONbits.T1CKPS1=1;	// set prescaler to 1:8
 	T1CONbits.T1CKPS0=0;
 	T1CONbits.TMR1CS=0;		// use internal clock
-	T1CONbits.T1OSCEN=1;		// Oscillator enabled
+	T1CONbits.T1OSCEN=1;	// Oscillator enabled
 	T1CONbits.TMR1ON=1;		// Start timer
 	
-	INTCONbits.PEIE = 1;	// enable peripheral interrupt
-	INTCONbits.GIE = 1;		// enable global interrupt
-
+	TIMER1FLAG = 0;			// clear timer1 int flag
+	PIE1bits.TMR1IE = 1;	// enable timer 1 interrupt
+	IPR1bits.TMR1IP = 1;	// set to high priority interrupt
 }
 
 void TimeKeeping(void)
