@@ -6,6 +6,7 @@
 #include "SPI.h"
 
 #include "commands.h"
+#include "DataEEPROM.h"
 
 #define FCY			5000000 // Instruction cycle freq = xtal / 4
 
@@ -73,139 +74,59 @@ unsigned char clock;
 //*******************************   MAIN   **********************************
 int main ( void )
 {
-	unsigned char dummy;
+	unsigned char dummy, error;
 	long i = 0;
 	unsigned char state4_cnt = 0;
 	
+	int writeAddr;
 	
 	setupTRIS();
+	LATBbits.LATB4 = 1;
+	GP_init_UART(19200);
+
+	
 	init_GVars();
 	init_T1();
 	init_T2();
-	//init_LEDs();
 	Init_PWM();
 	
 	LATBbits.LATB0 = 1;
 	
 	SPI_init();	
-	GP_init_UART(19200);
+	
+	
+	
 	
 	GP_init_chopper();
 	GSPI_CompData[0] = 0;
 	GSPI_CompData[0] = 0;
 	//GP_hs = 1;
+	LATBbits.LATB4 = 0;
 	while(1)
 	{
-		/*if (T2flag)
-		{
-			T2flag = 0;
-			GP_TX_char('M');
-		}*/
-		GP_state_machine();
-		
+
 		if (GP_datavalid)
 		{
 			GP_datavalid = 0;
 			GP_parse_data(GP_data, GP_data_len);
 		}
-		
-		if (newPWM)
-		{
-			newPWM = 0;
-			fillpwmCommand();
-			SPI_tx_command(pwmCommand, 5);	
-		}
+//		
+//		if (newPWM)
+//		{
+//			newPWM = 0;
+//			fillpwmCommand();
+//			SPI_tx_command(pwmCommand, 5);	
+//		}
 		
 		//SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
-		GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
-		GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
-		
-		//SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
-		GP_helicopter.hsa.heading = GSPI_CompData[0] * 256 + GSPI_CompData[1];
-		
+//		GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
+//		GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
+//		
+//		//SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
+//		GP_helicopter.hsa.heading = GSPI_CompData[0] * 256 + GSPI_CompData[1];
+//		
 		//SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
-							
-		/*if(T2flag)
-		{
-			clock++;	
-			T2flag = 0;
-		
-			switch (clock)
-			{
-				
-				case 1:			// run the RF state machine
-				{
-					//GP_state_machine();
-					break;	
-				}
-				
-				case 2:			// if valid data was received, parse it out and act accordingly
-				{
-					if (GP_datavalid)
-					{
-						GP_datavalid = 0;
-						GP_parse_data(GP_data, GP_data_len);
-					}
-					break;	
-				}
-				
-				case 3:			// if the packet was to adjust servo or motor RPMs, send the command to the 4431
-				{
-					if (newPWM)
-					{
-						newPWM = 0;
-						fillpwmCommand();
-						SPI_tx_command(pwmCommand, 5);	
-					}
-					break;	
-				}
-				
-				case 4:			// update sensor readings from 4431
-				{
-					
-					
-					
-					switch (state4_cnt)
-					{
-						case 0:
-						{
-							// get the roll and pitch from the sensors
-							//SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
-							GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
-							GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
-							break;	
-						}
-			
-						case 10:
-						{
-							//SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
-							GP_helicopter.hsa.heading = GSPI_CompData[0] * 256 + GSPI_CompData[1];
-							break;
-						}
-			
-						case 20:
-						{
-							//SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
-							break;
-						}
-						
-						case 30:
-						{
-							state4_cnt = 0;
-							break;	
-						}
-					}
-					state4_cnt++;
-					break;	
-				}
-				
-				case 5:
-				{
-					clock = 0;
-					break;
-				}
-			}
-		}*/
+	
 		
 	}
 	return 0;
@@ -226,6 +147,7 @@ void setupTRIS ( void )
 	TRISFbits.TRISF2 = 1;	// SDI = RF7
 	TRISFbits.TRISF3 = 0;	// SDO = RF8
 	TRISBbits.TRISB0 = 0;
+	TRISBbits.TRISB4 = 0;
 	TRISDbits.TRISD0 = 0;
 	
 	// SPI Slave Select lines:
@@ -285,14 +207,15 @@ void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
 	IFS1bits.U2RXIF = 0;	// clear the receive interrupt flag
 	GP_bytercvd = 1;		// indicate a byte was received
 	GP_dump = U2RXREG;		// read the byte from the receive register
+	GP_state_machine();
 	IEC1bits.U2RXIE = 1;	// re-enable the receive interrupt
 }
 
 void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void)
 {
 	IFS0bits.T1IF = 0;
-	LATDbits.LATD0 ^= 1;
-	if (1)						
+	LATDbits.LATD0 ^= 1;	// Toggle a pin for debugging
+	if (GP_hs)						
 	{
 		// When the timer expires and a handshake terminate has not been 
 		// received we need to ACK the handshake
@@ -304,19 +227,19 @@ void __attribute__(( interrupt, no_auto_psv )) _T2Interrupt(void)
 {
 	IFS0bits.T2IF = 0;
 	T2flag = 1;
-	GP_state_machine();
+	GP_state_machine();	// Run the byte received through the state machine.
 	//clock++;
 	TMR2 = 0;
 }
 
 void Init_PWM( void )
 {
-	PDC1 = 0x30;
-	PTPERbits.PTPER = 0x7F;	// Timebase period
+	PDC1 = 234;			// PWM Duty Cycle
+	PTPERbits.PTPER = 2344;	// Timebase period
 
 	PTCONbits.PTSIDL = 0;
 	PTCONbits.PTOPS = 0;	// Postscale = 1:1
-	PTCONbits.PTCKPS = 0;	// Prescale = 1:1
+	PTCONbits.PTCKPS = 0b11;	// Prescale = 1:64
 	PTCONbits.PTMOD = 0;	// Free-running mode
 	
 	PTMRbits.PTMR = 0;		// Timebase register
