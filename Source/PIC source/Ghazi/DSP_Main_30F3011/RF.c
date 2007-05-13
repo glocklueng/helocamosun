@@ -58,7 +58,7 @@ void GP_TX_error ( char code )
 	GP_TX_packet(packet, 10);
 }
 
-void GP_TX_packet ( unsigned char packet[MAXPACKLEN], unsigned short len )
+void GP_TX_packet ( unsigned char packet[], unsigned short len )
 {
 	unsigned short lcv;
 	IEC1bits.U2RXIE = 0;
@@ -234,15 +234,15 @@ void GP_state_machine ( void )
 	n = n;
 }
 
-void GP_parse_data ( char vdata[MAXPACKLEN], char len )
+void GP_parse_data ( char vdata[], char len )
 {
-	char msg[MAXPACKLEN] = "";
-	char packet_msg[] = "Packet Received: ";
-	char engRPM_msg[] = "Engine RPM set to ";
-	char pitch_msg[] = "Pitch set to ";
-	char yaw_msg[] = "Yaw set to ";
-	char roll_msg[] = "Roll set to ";
-	char coll_msg[] = "Collective set to ";
+	//char msg[MAXPACKLEN] = "";
+	//char packet_msg[] = "Packet Received: ";
+	//char engRPM_msg[] = "Engine RPM set to ";
+	//char pitch_msg[] = "Pitch set to ";
+	//char yaw_msg[] = "Yaw set to ";
+	//char roll_msg[] = "Roll set to ";
+	//char coll_msg[] = "Collective set to ";
 	unsigned short k;
 	
 	unsigned short hover_alt = 0;
@@ -505,10 +505,10 @@ void GP_parse_data ( char vdata[MAXPACKLEN], char len )
 		
 	}
 	
-	for (k = 0; k <= 255; k++)
-	{
-		vdata[k] = 1;	
-	}
+//	for (k = 0; k <= 255; k++)
+//	{
+//		vdata[k] = 1;	
+//	}
 	
 }
 

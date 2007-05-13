@@ -16,13 +16,13 @@
 void GP_TX_char ( char );
 // transmit 1 byte on the open UART port 
 
-void GP_TX_packet ( unsigned char *packet, unsigned short len );
+void GP_TX_packet ( unsigned char packet[], unsigned short len );
 // transmit a packet of length 'len'
 
 void GP_state_machine ( void );
 // advances the state machine through a received packet
 
-void GP_parse_data ( char vdata[MAXPACKLEN], char len );
+void GP_parse_data ( char vdata[], char len );
 // parses the data portion of a valid packet
 
 void GP_TX_telemetry( unsigned char type );

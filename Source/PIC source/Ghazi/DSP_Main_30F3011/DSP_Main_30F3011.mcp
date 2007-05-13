@@ -23,6 +23,7 @@ file_003=no
 file_004=no
 file_005=no
 file_006=no
+file_007=no
 [FILE_INFO]
 file_000=main.c
 file_001=SPI.c
@@ -30,7 +31,8 @@ file_002=RF.c
 file_003=SPI.h
 file_004=RF.h
 file_005=commands.h
-file_006=p30f3011.gld
+file_006=typedefs.h
+file_007=p30f3011.gld
 [SUITE_INFO]
 suite_guid={479DDE59-4D56-455E-855E-FFF59A3DB57E}
 suite_state=
