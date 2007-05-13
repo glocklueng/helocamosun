@@ -6,7 +6,6 @@
 #include "SPI.h"
 
 #include "commands.h"
-#include "DataEEPROM.h"
 
 #define FCY			5000000 // Instruction cycle freq = xtal / 4
 
@@ -25,7 +24,7 @@ void GP_init_UART( unsigned int baud );
 void Init_PWM( void );
 // initialize the PWM module
 
-void __attribute__ (( interrupt, no_auto_psv )) _U1RXInterrupt(void);
+//void __attribute__ (( interrupt, no_auto_psv )) _U2RXInterrupt(void);
 // The UART1 RX ISR. Fires when a character is received on UART1
 
 void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void);
@@ -85,18 +84,18 @@ int main ( void )
 	GP_init_UART(19200);
 
 	
-	init_GVars();
+//	init_GVars();
 	init_T1();
 	init_T2();
 	Init_PWM();
 	
-	LATBbits.LATB0 = 1;
+//	LATBbits.LATB0 = 1;
 	
 	SPI_init();	
 	
 	GP_init_chopper();
-	GSPI_CompData[0] = 0;
-	GSPI_CompData[0] = 0;
+//	GSPI_CompData[0] = 0;
+//	GSPI_CompData[0] = 0;
 	//GP_hs = 1;
 	LATBbits.LATB4 = 0;
 	while(1)
@@ -205,9 +204,9 @@ void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
 	IFS1bits.U2RXIF = 0;	// clear the receive interrupt flag
 	GP_bytercvd = 1;		// indicate a byte was received
 	GP_dump = U2RXREG;		// read the byte from the receive register
-	
-	IEC1bits.U2RXIE = 1;	// re-enable the receive interrupt
 	GP_state_machine();
+	IEC1bits.U2RXIE = 1;	// re-enable the receive interrupt
+	
 }
 
 void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void)
@@ -267,8 +266,9 @@ void GP_init_UART( unsigned int baud )
 
 	//U2BRG = ( FCY / (16 * baud) ); // calculate the BRG value for a
 									   // given baud rate
-	//U2BRG = 0x000F;
-	U2BRG = 0x0020;
+
+	//U2BRG = 0x0020;			// 9600 baud
+	U2BRG = 0x0010;				// should be 19200
 	U2MODEbits.UARTEN = 1;		// enable the UART
 	IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
 }
