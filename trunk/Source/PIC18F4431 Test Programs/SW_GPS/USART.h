@@ -1,20 +1,5 @@
 // USART.h
 
-union USART
-{
-  unsigned char val;
-  struct
-  {
-    unsigned RX_NINE:1;         // Receive Bit 8 if 9-bit mode is enabled
-    unsigned TX_NINE:1;         // Transmit Bit 8 if 9-bit mode is enabled
-    unsigned FRAME_ERROR:1;     // Framing Error for USART
-    unsigned OVERRUN_ERROR:1;   // Overrun Error for USART
-    unsigned fill:4;
-  };
-};
-
-extern union USART USART_Status;
-
 /*
 Function: SerialInit
 Description: Sets up serial communications for 115200 baud, 8 N 1

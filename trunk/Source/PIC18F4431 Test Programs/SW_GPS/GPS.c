@@ -1,71 +1,68 @@
 #include "GPS.h"
 
-#define GetInfo		0x00
-#define GetValid	0x01
-#define GetSats		0x02
-#define GetTime		0x03
-#define GetDate		0x04
-#define GetLat		0x05
-#define GetLong		0x06
-#define GetAlt		0x07
-#define GetSpeed	0x08
-#define GetHead		0x09
+CONTROL cFlag;
 
+char GPS_TIME[6];
+char GPS_LATITUDE[9];
+char GPS_LONGITUDE[10];
+char GPS_SATELLITES[2];
+char GPS_ALTITUDE[6];
 
-void SendGPSCommand(char GPS_COMMAND)
+void GetGPSString(char GPSdata)
 {
-	WriteUSART('!');
-	while(BusyUSART());
-	WriteUSART('G');
-	while(BusyUSART());
-	WriteUSART('P');
-	while(BusyUSART());
-	WriteUSART('S');
-	while(BusyUSART());
-	
-	switch(GPS_COMMAND)
+	static char GPS_STATE = 0;
+	static char GPS_STRING = 0;
+	switch(GPSdata)
 	{
-		case GetInfo:
-			WriteUSART(GetInfo);
-			while(BusyUSART());
+		case '$':
+		case 'G':
+		case 'P':
+			GPS_STATE++;
+			cFlag.rxGPSdata = 0;
 			break;
-		case GetValid:
-			WriteUSART(GetValid);
-			while(BusyUSART());
+		case 'A':
+			if(	GPS_STATE >= 5)
+			{
+				cFlag.rxGPSdata = 1;
+			}
+			GPS_STATE = 0;
+			GPS_STRING = 0;
 			break;
-		case GetSats:
-			WriteUSART(GetSats);
-			while(BusyUSART());
+		case ',':
+			GPS_STATE++;
+			GPS_STRING = 0;
 			break;
-		case GetTime:
-			WriteUSART(GetTime);
-			while(BusyUSART());
-			break;
-		case GetDate:
-			WriteUSART(GetDate);
-			while(BusyUSART());
-			break;
-		case GetLat:
-			WriteUSART(GetLat);
-			while(BusyUSART());
-			break;
-		case GetLong:
-			WriteUSART(GetLong);
-			while(BusyUSART());
-			break;
-		case GetAlt:
-			WriteUSART(GetAlt);
-			while(BusyUSART());
-			break;
-		case GetSpeed:
-			WriteUSART(GetSpeed);
-			while(BusyUSART());
-			break;
-		case GetHead:
-			WriteUSART(GetHead);
-			while(BusyUSART());
+		case '*':
+			GPS_STATE = 0;
+			GPS_STRING = 0;
+			cFlag.rxGPSdata = 0;
+			cFlag.GPSDataReady = 1;
 			break;
 		default:
+			if(cFlag.rxGPSdata )
+			{
+				switch(GPS_STATE)
+				{
+					case GPSTIME:
+						GPS_TIME[GPS_STRING++] = GPSdata;
+						break;
+					case GPSLATITUDE:
+						GPS_LATITUDE[GPS_STRING++] = GPSdata;
+						break;
+					case GPSLONGITUDE:
+						GPS_LONGITUDE[GPS_STRING++] = GPSdata;
+						break;
+					case GPSSATELLITES:
+						GPS_SATELLITES[GPS_STRING++] = GPSdata;
+						break;
+					case GPSALTITUDE:
+						GPS_ALTITUDE[GPS_STRING++] = GPSdata;
+						break;
+					default:
+						//GPS_STATE++;
+						break;
+				}	
+			}
 			break;
 	}
 }
