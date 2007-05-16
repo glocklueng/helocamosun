@@ -83,16 +83,13 @@ void ScanADC(void)
 	RangeFinder.D_byte = GetADC();
 	Accoustic[0] = RangeFinder.byte[1];
 	Accoustic[1] = RangeFinder.byte[0];
-//	PDC0L = Accoustic[1];
-//	PDC0H = Accoustic[0];
+
 	ADCchannel(GYRO1);
 	Gyro1.D_byte = GetADC();
-//	PDC1L = Gyro1.byte[1];
-//	PDC1H = Gyro1.byte[0];
+
 	ADCchannel(GYRO2);					
 	Gyro2.D_byte = GetADC();
-//	PDC2L = Gyro2.byte[1];
-//	PDC2H = Gyro2.byte[0];
+
 	ADCchannel(GYRO3);
 	Gyro3.D_byte = GetADC();
 //	ADCchannel(GYRO3);	

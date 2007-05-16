@@ -3,7 +3,7 @@
 #include "timers.h"
 #include "variables.h"
 
-#define NUM_AVERAGES 20
+#define NUM_AVERAGES 10
 
 unsigned int MOTORRPM = 0;
 unsigned char RPM_Ready = 0;

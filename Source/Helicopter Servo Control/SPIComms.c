@@ -53,7 +53,7 @@ void SPI_Init (void)
 	SSPCONbits.SSPM3 = 0;
 	SSPCONbits.SSPM2 = 1;
 	SSPCONbits.SSPM1 = 0;
-	SSPCONbits.SSPM0 = 1;
+	SSPCONbits.SSPM0 = 0;
 
 
 	SSPSTATbits.SMP = 0;	//	SMP: SPI Data Input Sample Phase bit
