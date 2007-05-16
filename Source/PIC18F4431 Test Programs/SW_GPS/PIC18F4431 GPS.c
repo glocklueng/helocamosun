@@ -1,5 +1,5 @@
 /*
-	Title: 	PIC18F4431 SPI.c
+	Title: 	GPSMODULE.c
 
 	Author:	Kyle Wong
 
@@ -15,8 +15,6 @@
 */
 /************************** Include Section **************************/
 #include <p18f4431.h>
-#include <USART.h>
-#include <delays.h>
 #include "USART.h"
 #include "GPS.h"
 
@@ -41,6 +39,7 @@ WORD Capture;
 
 /*************************** Function Definitions ********************/
 
+char data;
 
 /*************************** Interrupt Section ***********************/
 void CCPINT(void);
@@ -50,6 +49,11 @@ void INTERRUPT(void)
 	if(PIR1bits.CCP1IF)
 	{
 		CCPINT();
+	}
+	if(PIR1bits.RCIF)
+	{
+		data = RCREG;
+		cFlag.rxBuf = 1;
 	}
 }
 
@@ -62,6 +66,7 @@ void CCPINT(void)
 	TMR1H = 0;	// Clear the timers
 }
 
+
 #pragma code high_int_vector = 0x08
 void interrupt_at_high_vector(void)
 {
@@ -71,24 +76,25 @@ void interrupt_at_high_vector(void)
 
 void main(void)
 {
-	char	GPS_COMMAND = 0;
+	
+	cFlag.rxBuf = 0;
+	cFlag.GPSDataReady = 0;
 	SerialInit();
+	
 	TRISBbits.TRISB0 = 0;	// Debugging port for timing the USART
 	do
 	{
-		Delay10KTCYx(100);
-		
-		LATBbits.LATB0 = 1;
-		
-		SendGPSCommand(GPS_COMMAND);
-			
-		GPS_COMMAND++;
-		
-		if(GPS_COMMAND > 9)
-		{
-			GPS_COMMAND = 0;
+		if(cFlag.rxBuf)
+		{		
+			LATBbits.LATB0 = 1;
+			cFlag.rxBuf = 0;
+			GetGPSString(data);		
+			if(cFlag.GPSDataReady)
+			{
+				cFlag.GPSDataReady = 0;
+				LATBbits.LATB0 = 0;
+			}
 		}
-		LATBbits.LATB0 = 0;
 	}
 	while(1);
 }
