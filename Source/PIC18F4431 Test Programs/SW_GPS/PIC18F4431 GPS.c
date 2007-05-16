@@ -40,7 +40,7 @@ WORD Capture;
 /*************************** Function Definitions ********************/
 
 char data;
-
+char ReceiveByte;
 /*************************** Interrupt Section ***********************/
 void CCPINT(void);
 #pragma interrupt INTERRUPT
@@ -53,7 +53,8 @@ void INTERRUPT(void)
 	if(PIR1bits.RCIF)
 	{
 		data = RCREG;
-		cFlag.rxBuf = 1;
+		
+		ReceiveByte = 1;
 	}
 }
 
@@ -77,23 +78,16 @@ void interrupt_at_high_vector(void)
 void main(void)
 {
 	
-	cFlag.rxBuf = 0;
-	cFlag.GPSDataReady = 0;
+	ReceiveByte = 0;
 	SerialInit();
 	
 	TRISBbits.TRISB0 = 0;	// Debugging port for timing the USART
 	do
 	{
-		if(cFlag.rxBuf)
+		if(ReceiveByte)
 		{		
-			LATBbits.LATB0 = 1;
-			cFlag.rxBuf = 0;
+			ReceiveByte = 0;
 			GetGPSString(data);		
-			if(cFlag.GPSDataReady)
-			{
-				cFlag.GPSDataReady = 0;
-				LATBbits.LATB0 = 0;
-			}
 		}
 	}
 	while(1);
