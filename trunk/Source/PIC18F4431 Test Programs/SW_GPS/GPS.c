@@ -1,6 +1,6 @@
 #include "GPS.h"
 
-CONTROL cFlag;
+CONTROL GPSflag;
 
 char GPS_TIME[6];
 char GPS_LATITUDE[9];
@@ -18,12 +18,12 @@ void GetGPSString(char GPSdata)
 		case 'G':
 		case 'P':
 			GPS_STATE++;
-			cFlag.rxGPSdata = 0;
+			GPSflag.rxdata = 0;
 			break;
 		case 'A':
 			if(	GPS_STATE >= 5)
 			{
-				cFlag.rxGPSdata = 1;
+				GPSflag.rxdata = 1;
 			}
 			GPS_STATE = 0;
 			GPS_STRING = 0;
@@ -35,11 +35,10 @@ void GetGPSString(char GPSdata)
 		case '*':
 			GPS_STATE = 0;
 			GPS_STRING = 0;
-			cFlag.rxGPSdata = 0;
-			cFlag.GPSDataReady = 1;
+			GPSflag.rxdata = 0;
 			break;
 		default:
-			if(cFlag.rxGPSdata )
+			if(GPSflag.rxdata )
 			{
 				switch(GPS_STATE)
 				{
@@ -59,7 +58,6 @@ void GetGPSString(char GPSdata)
 						GPS_ALTITUDE[GPS_STRING++] = GPSdata;
 						break;
 					default:
-						//GPS_STATE++;
 						break;
 				}	
 			}

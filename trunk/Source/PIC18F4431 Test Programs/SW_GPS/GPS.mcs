@@ -47,7 +47,7 @@ LanguageToolLocation=C:\MCC18\bin\mplink.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
 SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
 SuiteArgsString=
-ToolArgsString=/o"$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map"
+ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
 TraceCmdString=
 [File004]
 Location=GPS.cod
@@ -59,7 +59,7 @@ LanguageToolLocation=C:\MCC18\bin\mplink.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
 SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
 SuiteArgsString=
-ToolArgsString=/o"$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map"
+ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
 TraceCmdString=
 [File005]
 Location=GPS.hex
@@ -71,7 +71,7 @@ LanguageToolLocation=C:\MCC18\bin\mplink.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
 SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
 SuiteArgsString=
-ToolArgsString=/o"$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map"
+ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
 TraceCmdString=
 [File006]
 Location=GPS.lst
@@ -83,8 +83,21 @@ LanguageToolLocation=C:\MCC18\bin\mplink.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
 SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
 SuiteArgsString=
-ToolArgsString=/o"$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map"
+ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
+TraceCmdString=
+[File007]
+Location=GPS.map
+Folder=Output
+DeviceName=PIC18F4431
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
+LanguageToolLocation=C:\MCC18\bin\mplink.exe
+PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\MCC18\h||$(LIBDIR)|C:\MCC18\lib||$(LKRDIR)|C:\MCC18\lkr||
+SOLK=<src>|PIC18F4431 GPS.c|USART.c|GPS.c||<obj>||<lib>||<lkr>|C:\MCC18\lkr\18f4431.lkr||
+SuiteArgsString=
+ToolArgsString=/m"$(BINDIR_)$(TARGETBASE).map" /w /o"$(TARGETBASE).cof"
 TraceCmdString=
 [TOOL_LOC_STAMPS]
+tool_loc{49D3CA3F-D9A3-4518-9943-226A347E8CC7}=C:\MCC18\mpasm\mpasmwin.exe
 tool_loc{96C98149-AA1B-4CF9-B967-FAE79CAB663C}=C:\MCC18\bin\mplink.exe
 tool_loc{E56A1C86-9D32-4DF6-8C34-FE0388B1B644}=C:\MCC18\bin\mcc18.exe
