@@ -2,17 +2,12 @@
 USART.c
 */
 #include <p18f4431.h>
-#include <stdlib.h>
 #include <stdio.h>
 #include "USART.h"
 #include "Serial_IO.h"
 #include "adc.h"
 #include "variables.h"
 
-char clearscreen[5] = {0x1B,0x5B,'2','J',0x00};
-char outputstring[65] = "| Pitch  |  Roll  |  Yaw  | Compass X | Compass Y | Distance |";
-
-char datastring[65]   = "| Pitch  |  Roll  |  Yaw  | Collective|";
 
 /*
 Function: SerialInit
@@ -35,11 +30,19 @@ void SerialInit(void)
 	RCSTAbits.CREN = 1;		// Continuous receive
 	
 	SPBRG = 0x0A;			// 115 200 KBaud @ 20 MHz
-	
+//	SPBRG = 0x40;			// 19200 baud @ 20MHz
 		// Baud Rate control
 	BAUDCTLbits.WUE = 0;
 	BAUDCTLbits.ABDEN = 0;
 }
+
+#ifdef USART_DEBUG
+
+char clearscreen[5] = {0x1B,0x5B,'2','J',0x00};
+char RollString[5] = "Roll";
+char YawString[4]  = "Yaw";
+char CollectiveString[11] = "Collective";
+
 void setCursor( char x, char y)
 {
 	WriteUSART(0x1B);
@@ -76,32 +79,21 @@ void ClearScreen(void)
 void prepscreen(void)
 {
 	setCursor(1,1);
-	putsUSART(outputstring);
-	
-	setCursor(1,6);
-	putsUSART(datastring);
-}
+	putsUSART("Distance");
 
-void convertstring(char *string, int value)
-{
-	char dif;
-	string[0] = value / 1000;
-	value -= ( string[0] * 1000);
-	string[1] = value / 100;
-	value -= ( string[1] * 100);
-	value &= 0x00FF;
-	string[2] = value / 10;
+	setCursor(2,6);
+	putsUSART("Pitch");
 	
-	string[3] = value % 10;
-	for(dif = 0; dif < 4; dif++)
-	{
-		string[dif] += '0';
-	}
+	setCursor(3,6);
+	putsUSART("Compass X");
+	
+	setCursor(4,6);
+	putsUSART("Compass Y");
 }
 
 void UpdateADC(void)
 {
-	char outputstring[6];
+	char outputstring[5]={0};
 	
 	setCursor(55,3);	
 	sprintf(outputstring, "%04d", RangeAverage);
@@ -110,7 +102,7 @@ void UpdateADC(void)
 
 void UpdateAccelerometer(void)
 {
-	char outputstring[6];
+	char outputstring[5]={0};
 
 	setCursor(4,3);		// Pitch
 	sprintf(outputstring, "%04d", XAxisAverage);
@@ -122,10 +114,10 @@ void UpdateAccelerometer(void)
 }
 void UpdateCompass(void)
 {
-	char outputstring[6];
+	char outputstring[5]={0};
 	
 	setCursor(22,3);	// Yaw
-	sprintf(outputstring, "%03d", CompassAverageAngle);
+	sprintf(outputstring, "%04d", CompassAverageAngle);
 	putsUSART(outputstring);
 
 	setCursor(31,3);	// Compass X Average value
@@ -138,22 +130,23 @@ void UpdateCompass(void)
 }
 void UpdateServos(void)
 {
-	char outputstring[6];
+	char outputstring[5]={0};
 	
 	setCursor(4,8);		// Servo Pitch
 	sprintf(outputstring, "%04d", servos[1]);
 	putsUSART(outputstring);
 		
 	setCursor(13,8);	// Servo Roll 
-	sprintf(outputstring, "%03d", servos[2]);
+	sprintf(outputstring, "%04d", servos[2]);
 	putsUSART(outputstring);
 	
 	setCursor(22,8);	// Servo Yaw
-	sprintf(outputstring, "%03d", servos[3]);
+	sprintf(outputstring, "%04d", servos[3]);
 	putsUSART(outputstring);
 	
 	setCursor(32,8);	// Servo Collective
-	sprintf(outputstring, "%03d", servos[4]);
+	sprintf(outputstring, "%04d", servos[4]);
 	putsUSART(outputstring);	
 }
 
+#endif

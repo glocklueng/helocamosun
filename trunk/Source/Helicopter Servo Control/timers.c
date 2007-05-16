@@ -66,14 +66,6 @@ void LedStates(void)
 {
 	switch(command[0])
 	{
-		case BIST:
-			STATUS_LED1 = 1; 			// on
-			STATUS_LED2 = 1; 			// on
-			break;
-		case STARTUP:
-			STATUS_LED2 ^= 1;			// alternate toggle
-			STATUS_LED2 != STATUS_LED1;
-			break;
 		case MAIN:
 			STATUS_LED1 = 1; 			// on
 			STATUS_LED2 ^= 1;			// toggle		

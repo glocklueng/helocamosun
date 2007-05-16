@@ -2,12 +2,13 @@
 #include <math.h>
 #include "variables.h"
 #include "Serial_IO.h"
-#include "USART.h"
-	WORD X_axis;
-	WORD Y_axis;
-	WORD Z_axis;
-	WORD Compass_X, 
-		 Compass_Y;	
+
+WORD X_axis;
+WORD Y_axis;
+WORD Z_axis;
+WORD Compass_X, 
+ 	 Compass_Y;
+ 	 
 signed int CompassXAverage, 
 		CompassYAverage,
 		CompassAverageAngle,
@@ -298,8 +299,8 @@ void GetAxisAverage(void)
 			   YAxisData[AVERAGEVALUE],
 			   ZAxisData[AVERAGEVALUE];
 
-	X_axis.D_byte = X_axis.D_byte >> 3;
-	Y_axis.D_byte = Y_axis.D_byte >> 3;
+	X_axis.D_byte = X_axis.D_byte >> 3;		// remove the lower 3 bits to 
+	Y_axis.D_byte = Y_axis.D_byte >> 3;		// elminate high frequency components
 	Z_axis.D_byte = Z_axis.D_byte >> 3;
 	
 	X_axis.D_byte &= 0x00FF;

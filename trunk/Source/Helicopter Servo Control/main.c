@@ -22,7 +22,6 @@
 
 /************************** Include Section **************************/
 #include <p18f4431.h>
-#include <delays.h>
 #include <math.h>
 #include "variables.h"
 #include "Serial_IO.h"
@@ -80,14 +79,12 @@ void CCPINT(void)
 #pragma interrupt CCP1_isr
 void CCP1_isr(void)
 {
-//	triscbits.trisc2 = 1;
 	CCP_interrupt();
 	
 	TMR1L = 0x00;
 	TMR1H = 0x00;
 	
 	PIR1bits.CCP1IF = 0;//clear ccp1 interrupt flag		
-//	triscbits.trisc2 = 1;
 }
 
 #pragma code 	/* return to code section */
@@ -104,8 +101,10 @@ void main(void)
 	SerialInit();
 	SPI_Init();
 	TimerInit();
+#ifdef USART_DEBUG
 	ClearScreen();
 	prepscreen();		// for debugging
+#endif
 /******** VARIABLE INITIALIZATION ************/
 	INTCONbits.PEIE = 1;	// enable peripheral interrupt
 	INTCONbits.GIE = 1;		// enable global interrupt
@@ -113,8 +112,6 @@ void main(void)
 	tDelay.delay1s = 0;
 	tDelay.delay100ms = 0;
 
-	cFlag.bist = 0;
-	cFlag.startup = 0;
 	cFlag.main = 1;
 	cFlag.debug = 0;
 	TRISDbits.TRISD4 = 0;
@@ -135,36 +132,49 @@ void main(void)
 			{
 				case 1:
 					ResetCompass();		// start compass module
+
 					if(cFlag.debug)
 					{
+#ifdef USART_DEBUG
 						UpdateADC();
+#endif						
 					}
 					break;
 				case 2:		// 10ms
 					ScanADC();
 					GetADCAverage();
+
 					if(cFlag.debug)
 					{
+#ifdef USART_DEBUG
 						UpdateADC();
+#endif
 					}
 					break;
 				case 4:		// 30ms
 					GetCompassValues();
 					GetCompassAverage();
+
 					if(cFlag.debug)
 					{
+#ifdef USART_DEBUG
 						UpdateCompass();
+#endif
 					}
 					break;
 				case 3:
+#ifdef USART_DEBUG
 					UpdateServos();
+#endif
 					break;
 				case 5:
 					GetAxisValues();
 					GetAxisAverage();
 					if(cFlag.debug)
 					{
+#ifdef USART_DEBUG
 						UpdateAccelerometer();
+#endif
 					}
 					TickCounter = 0;	// Reset Tick Counter
 					break;

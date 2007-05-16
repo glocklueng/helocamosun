@@ -12,12 +12,9 @@ typedef union _WORD
 }WORD;
 
 // main.c
-#define AVERAGEVALUE	8
-#define AXISOFFSET		0x00
+#define AVERAGEVALUE	4
 
 // timers.c
-#define	BIST		0x00
-#define STARTUP		0x01
 #define MAIN		0x02
 #define DEBUG		0x03
 
