@@ -81,10 +81,12 @@ void GP_state_machine ( void )
 	short lcv; 
 	char n;
 	
+//	GP_TX_char(GP_dump);
+	
 	if (GP_bytercvd)
 	{
 		GP_bytercvd = 0;
-	
+		
 		switch (state)
 		{
 		
@@ -92,14 +94,15 @@ void GP_state_machine ( void )
 			{
 				if (GP_dump == 0xA5)
 				{
+					
 					chksum = 0;
 					state++;
 					LATDbits.LATD1 ^= 1;
 				}
-			
 				else
 				{
 					//GP_errorSOT = 1;
+					GP_TX_char(0xFF);
 				}
 				break;
 			}
@@ -115,6 +118,7 @@ void GP_state_machine ( void )
 				{
 				//	GP_errorSOT = 1;
 					state = 0;
+					GP_TX_char(0x01);
 				}
 				break;
 			}
@@ -131,6 +135,7 @@ void GP_state_machine ( void )
 			{				
 				if (packet_cnt < packet_length)
 				{
+					
 					chksum += GP_dump;
 					GP_data[packet_cnt] = GP_dump;
 					packet_cnt++;
@@ -157,7 +162,6 @@ void GP_state_machine ( void )
 			{
 				checksum[1] = GP_dump;
 				check = checksum[0] * 256 + checksum[1];
-				LATDbits.LATD2 ^= 1;
 				
 				state++;
 				break;
@@ -165,8 +169,10 @@ void GP_state_machine ( void )
 
 			case 6:
 			{
+				
 				if (GP_dump == 0xCC) 
 				{
+					
 					state++;
 					packet_cnt--;
 					
@@ -174,11 +180,13 @@ void GP_state_machine ( void )
 
 				else 
 				{
+					
 					state = 0;
 					chksum = 0;
 					packet_length = 0;
 					packet_cnt = 0;
-					//GP_TX_packet( GP_err_EOT, strlen(GP_err_EOT) );
+					GP_TX_char(0x06);
+					
 				}
 				break;
 			}
@@ -187,19 +195,19 @@ void GP_state_machine ( void )
 
 			case 7:
 			{
+			
 				if (GP_dump == 0x33) 
 				{
 					if (check == chksum)
 					{	
-					
+						LATBbits.LATB4 ^= 1;
 						GP_datavalid = 1;
-						LATDbits.LATD3 ^= 1;
 						GP_data_len = packet_length;
 					}
 					else
 					{
 						// The calculated checksum did not match the transmitted one:
-						//GP_TX_packet(GP_err_chksum, strlen(GP_err_chksum));
+						GP_TX_char(0x07);
 					
 					}
 					state = 0;
@@ -236,17 +244,11 @@ void GP_state_machine ( void )
 
 void GP_parse_data ( char vdata[], char len )
 {
-	//char msg[MAXPACKLEN] = "";
-	//char packet_msg[] = "Packet Received: ";
-	//char engRPM_msg[] = "Engine RPM set to ";
-	//char pitch_msg[] = "Pitch set to ";
-	//char yaw_msg[] = "Yaw set to ";
-	//char roll_msg[] = "Roll set to ";
-	//char coll_msg[] = "Collective set to ";
 	unsigned short k;
 	
 	unsigned short hover_alt = 0;
 	char val[5] = "";
+	float Ton;
 		
 	switch (vdata[0])
 	{
@@ -258,6 +260,8 @@ void GP_parse_data ( char vdata[], char len )
 				case 0x45:		// Engine RPM
 				{
 					GP_helicopter.pwm.engRPM = vdata[2];
+					//Ton = (float)GP_helicopter.pwm.engRPM / 100000.0 + 0.001;
+					//PDC1 = (long)Ton * 156250; 
 					GP_ACK(vdata, len);
 					break;
 				}
@@ -715,7 +719,8 @@ void GP_ACK( char vdata[MAXPACKLEN], char len )
 	unsigned char ack[MAXPACKLEN] = "";
 	unsigned char lcv = 0;
 	unsigned short chksum = 0;
-
+	
+	//LATBbits.LATB4 ^= 1;	// DEBUG
 	// packet header:
 	ack[0] = 0xA5;
 	ack[1] = 0x5A;
@@ -739,6 +744,7 @@ void GP_ACK( char vdata[MAXPACKLEN], char len )
 	ack[lcv + 3] = 0x33;
 	
 	GP_TX_packet(ack, len + 8);
+	//LATBbits.LATB4 ^= 1; // DEBUG
 }
 
 void GP_init_chopper( void )
