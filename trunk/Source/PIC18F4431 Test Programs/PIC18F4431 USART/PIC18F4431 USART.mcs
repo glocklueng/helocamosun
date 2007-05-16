@@ -2,7 +2,7 @@
 MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
 Version=1.0
 [File000]
-Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.o
+Location=D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.o
 Folder=Intermediary
 DeviceName=PIC18F4431
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -14,7 +14,7 @@ SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
 [File001]
-Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\ubusy.o
+Location=D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\ubusy.o
 Folder=Intermediary
 DeviceName=PIC18F4431
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -26,7 +26,7 @@ SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
 [File002]
-Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\uwrite.o
+Location=D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\uwrite.o
 Folder=Intermediary
 DeviceName=PIC18F4431
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -38,7 +38,7 @@ SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
 [File003]
-Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\uputs.o
+Location=D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\uputs.o
 Folder=Intermediary
 DeviceName=PIC18F4431
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -50,7 +50,7 @@ SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
 [File004]
-Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\uread.o
+Location=D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\uread.o
 Folder=Intermediary
 DeviceName=PIC18F4431
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -62,7 +62,7 @@ SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
 [File005]
-Location=D:\Helicopter Project\PIC18F4431 Test Programs\USART\ugets.o
+Location=D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\ugets.o
 Folder=Intermediary
 DeviceName=PIC18F4431
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}

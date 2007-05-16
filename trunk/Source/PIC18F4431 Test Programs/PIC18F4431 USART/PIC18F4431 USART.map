@@ -1,26 +1,26 @@
 MPLINK 4.1, Linker
-Linker Map File - Created Tue Apr 17 00:03:27 2007
+Linker Map File - Created Mon May 14 19:11:41 2007
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
                 ---------  ---------  ---------  ---------  ---------
                _entry_scn       code   0x000000    program   0x000006
-          high_int_vector       code   0x000008    program   0x000006
+          high_int_vector       code   0x000008    program   0x00000e
                    .cinit    romdata   0x00002a    program   0x000002
-            .code_USART.o       code   0x00002c    program   0x0000d8
-               _cinit_scn       code   0x000104    program   0x00009e
-            .code_ugets.o       code   0x0001a2    program   0x00005a
-            .code_uputs.o       code   0x0001fc    program   0x000040
-            .code_uread.o       code   0x00023c    program   0x000034
-           .code_uwrite.o       code   0x000270    program   0x000022
-             _startup_scn       code   0x000292    program   0x00001c
-            .code_ubusy.o       code   0x0002ae    program   0x00000e
-           .code___init.o       code   0x0002bc    program   0x000002
+               _cinit_scn       code   0x00002c    program   0x00009e
+            .code_ugets.o       code   0x0000ca    program   0x00005a
+            .code_USART.o       code   0x000124    program   0x000044
+            .code_uputs.o       code   0x000168    program   0x000040
+            .code_uread.o       code   0x0001a8    program   0x000034
+           .code_uwrite.o       code   0x0001dc    program   0x000022
+             _startup_scn       code   0x0001fe    program   0x00001c
+            .code_ubusy.o       code   0x00021a    program   0x00000e
+           .code___init.o       code   0x000228    program   0x000002
                 MATH_DATA      udata   0x000000       data   0x000002
                  .tmpdata      udata   0x000002       data   0x000000
            .udata_c018i.o      udata   0x000060       data   0x00000a
-           .udata_USART.o      udata   0x00006a       data   0x000002
-          .udata_usartd.o      udata   0x00006c       data   0x000001
+           .udata_USART.o      udata   0x00006a       data   0x000004
+          .udata_usartd.o      udata   0x00006e       data   0x000001
                    .stack      udata   0x000200       data   0x000100
             SFR_UNBANKED0      udata   0x000f60       data   0x0000a0
 
@@ -30,39 +30,36 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                                Start         End      
                            ---------   ---------      
                             0x000000    0x000005      
-                            0x000008    0x00000d      
-                            0x00002a    0x0002bd      
-            672 out of 16664 program addresses used, program memory utilization is 4%
+                            0x000008    0x000015      
+                            0x00002a    0x000229      
+            532 out of 16664 program addresses used, program memory utilization is 3%
 
 
 
                               Symbols - Sorted by Name
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                BusyUSART   0x0002ae    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\ubusy.c
-                   CCPINT   0x0000c2    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-                INTERRUPT   0x00002c    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-                ReadUSART   0x00023c    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\uread.c
-               SerialInit   0x0000e8    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-               WriteUSART   0x000270    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\uwrite.c
+                BusyUSART   0x00021a    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\ubusy.c
+                ReadUSART   0x0001a8    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\uread.c
+               SerialInit   0x00014c    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
+               WriteUSART   0x0001dc    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\uwrite.c
        ___return_lbl00000   0x000004    program     static                          
-       ___return_lbl00001   0x0002ac    program     static                          
-       ___return_lbl00002   0x0001a0    program     static                          
-       ___return_lbl00003   0x00000c    program     static                          
-                   __init   0x0002bc    program     extern C:\MCC18\src\TRADIT~1\stdclib\__init.c
-                _do_cinit   0x000104    program     extern C:\MCC18\src\traditional\startup\c018i.c
+       ___return_lbl00001   0x000218    program     static                          
+       ___return_lbl00002   0x0000c8    program     static                          
+                   __init   0x000228    program     extern C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                _do_cinit   0x00002c    program     extern C:\MCC18\src\traditional\startup\c018i.c
                    _entry   0x000000    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                 _startup   0x000292    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                copy_loop   0x000176    program     static                          
-            copy_one_byte   0x00017c    program     static                          
-                     done   0x0001a0    program     static                          
-             done_copying   0x00018a    program     static                          
-                getsUSART   0x0001a2    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\ugets.c
- interrupt_at_high_vector   0x000008    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-                     loop   0x0002a2    program     static                          
-                     main   0x0000d2    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-                putsUSART   0x0001fc    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\uputs.c
-                     test   0x00011e    program     static                          
+                 _startup   0x0001fe    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                copy_loop   0x00009e    program     static                          
+            copy_one_byte   0x0000a4    program     static                          
+                     done   0x0000c8    program     static                          
+             done_copying   0x0000b2    program     static                          
+                getsUSART   0x0000ca    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\ugets.c
+ interrupt_at_high_vector   0x000008    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
+                     loop   0x00020e    program     static                          
+                     main   0x000124    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
+                putsUSART   0x000168    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\uputs.c
+                     test   0x000046    program     static                          
                     ADCHS   0x000f99       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 ADCHSbits   0x000f99       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    ADCON0   0x000fc2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -107,7 +104,7 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                     CCPR2   0x000fbb       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    CCPR2H   0x000fbc       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    CCPR2L   0x000fbb       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                  Capture   0x00006a       data     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
+                  Capture   0x00006a       data     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
                      DDRA   0x000f92       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  DDRAbits   0x000f92       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      DDRB   0x000f93       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -300,7 +297,7 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                     TXREG   0x000fad       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TXSTA   0x000fac       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 TXSTAbits   0x000fac       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-             USART_Status   0x00006c       data     extern C:\MCC18\src\TRADIT~1\pmc\USART\usartd.c
+             USART_Status   0x00006e       data     extern C:\MCC18\src\TRADIT~1\pmc\USART\usartd.c
                     VELRH   0x000f69       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     VELRL   0x000f68       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    WDTCON   0x000fd1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -308,8 +305,10 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                      WREG   0x000fe8       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 __FPFLAGS   0x000001       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
             __FPFLAGSbits   0x000001       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
+                    cFlag   0x00006d       data     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
                 curr_byte   0x000063       data     static C:\MCC18\src\traditional\startup\c018i.c
                curr_entry   0x000065       data     static C:\MCC18\src\traditional\startup\c018i.c
+                     data   0x00006c       data     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
                  data_ptr   0x000067       data     static C:\MCC18\src\traditional\startup\c018i.c
                      prom   0x000060       data     static C:\MCC18\src\traditional\startup\c018i.c
 
@@ -320,28 +319,25 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                 ---------  ---------  ---------  --------- ---------                
                    _entry   0x000000    program     extern C:\MCC18\src\traditional\startup\c018i.c
        ___return_lbl00000   0x000004    program     static                          
- interrupt_at_high_vector   0x000008    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-       ___return_lbl00003   0x00000c    program     static                          
-                INTERRUPT   0x00002c    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-                   CCPINT   0x0000c2    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-                     main   0x0000d2    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-               SerialInit   0x0000e8    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-                _do_cinit   0x000104    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                     test   0x00011e    program     static                          
-                copy_loop   0x000176    program     static                          
-            copy_one_byte   0x00017c    program     static                          
-             done_copying   0x00018a    program     static                          
-       ___return_lbl00002   0x0001a0    program     static                          
-                     done   0x0001a0    program     static                          
-                getsUSART   0x0001a2    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\ugets.c
-                putsUSART   0x0001fc    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\uputs.c
-                ReadUSART   0x00023c    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\uread.c
-               WriteUSART   0x000270    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\uwrite.c
-                 _startup   0x000292    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                     loop   0x0002a2    program     static                          
-       ___return_lbl00001   0x0002ac    program     static                          
-                BusyUSART   0x0002ae    program     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\ubusy.c
-                   __init   0x0002bc    program     extern C:\MCC18\src\TRADIT~1\stdclib\__init.c
+ interrupt_at_high_vector   0x000008    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
+                _do_cinit   0x00002c    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                     test   0x000046    program     static                          
+                copy_loop   0x00009e    program     static                          
+            copy_one_byte   0x0000a4    program     static                          
+             done_copying   0x0000b2    program     static                          
+       ___return_lbl00002   0x0000c8    program     static                          
+                     done   0x0000c8    program     static                          
+                getsUSART   0x0000ca    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\ugets.c
+                     main   0x000124    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
+               SerialInit   0x00014c    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
+                putsUSART   0x000168    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\uputs.c
+                ReadUSART   0x0001a8    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\uread.c
+               WriteUSART   0x0001dc    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\uwrite.c
+                 _startup   0x0001fe    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                     loop   0x00020e    program     static                          
+       ___return_lbl00001   0x000218    program     static                          
+                BusyUSART   0x00021a    program     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\ubusy.c
+                   __init   0x000228    program     extern C:\MCC18\src\TRADIT~1\stdclib\__init.c
                      SIGN   0x000000       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
                 __FPFLAGS   0x000001       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
             __FPFLAGSbits   0x000001       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
@@ -349,38 +345,40 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                 curr_byte   0x000063       data     static C:\MCC18\src\traditional\startup\c018i.c
                curr_entry   0x000065       data     static C:\MCC18\src\traditional\startup\c018i.c
                  data_ptr   0x000067       data     static C:\MCC18\src\traditional\startup\c018i.c
-                  Capture   0x00006a       data     extern D:\Helicopter Project\PIC18F4431 Test Programs\USART\USART.c
-             USART_Status   0x00006c       data     extern C:\MCC18\src\TRADIT~1\pmc\USART\usartd.c
-              DFLTCONbits   0x000f60       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                  Capture   0x00006a       data     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
+                     data   0x00006c       data     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
+                    cFlag   0x00006d       data     extern D:\Helicopter Project\source\Source\PIC18F4431 Test Programs\PIC18F4431 USART\USART.c
+             USART_Status   0x00006e       data     extern C:\MCC18\src\TRADIT~1\pmc\USART\usartd.c
                   DFLTCON   0x000f60       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-              CAP3CONbits   0x000f61       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+              DFLTCONbits   0x000f60       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   CAP3CON   0x000f61       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+              CAP3CONbits   0x000f61       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
               CAP2CONbits   0x000f62       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   CAP2CON   0x000f62       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-              CAP1CONbits   0x000f63       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   CAP1CON   0x000f63       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                  MAXCNTL   0x000f64       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+              CAP1CONbits   0x000f63       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  CAP3BUFL   0x000f64       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                  MAXCNTL   0x000f64       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   MAXCNTH   0x000f65       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  CAP3BUFH   0x000f65       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                 CAP2BUFL   0x000f66       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   POSCNTL   0x000f66       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                 CAP2BUFH   0x000f67       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                 CAP2BUFL   0x000f66       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   POSCNTH   0x000f67       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                 CAP2BUFH   0x000f67       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     VELRL   0x000f68       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  CAP1BUFL   0x000f68       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  CAP1BUFH   0x000f69       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     VELRH   0x000f69       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                  OVDCONS   0x000f6a       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
               OVDCONSbits   0x000f6a       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                  OVDCOND   0x000f6b       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                  OVDCONS   0x000f6a       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
               OVDCONDbits   0x000f6b       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                  OVDCOND   0x000f6b       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 FLTCONFIG   0x000f6c       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
             FLTCONFIGbits   0x000f6c       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 DTCONbits   0x000f6d       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     DTCON   0x000f6d       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                  PWMCON1   0x000f6e       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
               PWMCON1bits   0x000f6e       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                  PWMCON1   0x000f6e       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
               PWMCON0bits   0x000f6f       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   PWMCON0   0x000f6f       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  SEVTCMPH   0x000f70       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -399,8 +397,8 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                     PTMRL   0x000f7d       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    PTCON1   0x000f7e       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                PTCON1bits   0x000f7e       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                   PTCON0   0x000f7f       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                PTCON0bits   0x000f7f       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                   PTCON0   0x000f7f       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     PORTA   0x000f80       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 PORTAbits   0x000f80       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     PORTB   0x000f81       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -409,12 +407,12 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                 PORTCbits   0x000f82       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     PORTD   0x000f83       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 PORTDbits   0x000f83       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                    PORTE   0x000f84       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 PORTEbits   0x000f84       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                    PORTE   0x000f84       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TMR5L   0x000f87       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TMR5H   0x000f88       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                 LATAbits   0x000f89       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      LATA   0x000f89       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                 LATAbits   0x000f89       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  LATBbits   0x000f8a       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      LATB   0x000f8a       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  LATCbits   0x000f8b       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -425,24 +423,24 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                  LATEbits   0x000f8d       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      PR5L   0x000f90       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      PR5H   0x000f91       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                 DDRAbits   0x000f92       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                     DDRA   0x000f92       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TRISA   0x000f92       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 TRISAbits   0x000f92       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                     DDRA   0x000f92       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                 DDRAbits   0x000f92       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 TRISBbits   0x000f93       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TRISB   0x000f93       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  DDRBbits   0x000f93       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      DDRB   0x000f93       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                    TRISC   0x000f94       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  DDRCbits   0x000f94       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      DDRC   0x000f94       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                    TRISC   0x000f94       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 TRISCbits   0x000f94       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                TRISDbits   0x000f95       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                    TRISD   0x000f95       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                     DDRD   0x000f95       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  DDRDbits   0x000f95       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                     DDRE   0x000f96       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                     DDRD   0x000f95       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                    TRISD   0x000f95       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                TRISDbits   0x000f95       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  DDREbits   0x000f96       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                     DDRE   0x000f96       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TRISE   0x000f96       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 TRISEbits   0x000f96       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     ADCHS   0x000f99       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -451,20 +449,20 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                ADCON3bits   0x000f9a       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   OSCTUNE   0x000f9b       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
               OSCTUNEbits   0x000f9b       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                     PIE1   0x000f9d       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  PIE1bits   0x000f9d       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                     PIR1   0x000f9e       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                     PIE1   0x000f9d       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  PIR1bits   0x000f9e       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                 IPR1bits   0x000f9f       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                     PIR1   0x000f9e       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      IPR1   0x000f9f       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                 IPR1bits   0x000f9f       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  PIE2bits   0x000fa0       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      PIE2   0x000fa0       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                     PIR2   0x000fa1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  PIR2bits   0x000fa1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                 IPR2bits   0x000fa2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                     PIR2   0x000fa1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      IPR2   0x000fa2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                 PIE3bits   0x000fa3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                 IPR2bits   0x000fa2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      PIE3   0x000fa3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                 PIE3bits   0x000fa3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  PIR3bits   0x000fa4       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      PIR3   0x000fa4       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      IPR3   0x000fa5       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -474,14 +472,14 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                    EECON2   0x000fa7       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    EEDATA   0x000fa8       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     EEADR   0x000fa9       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                  BAUDCON   0x000faa       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
               BAUDCTLbits   0x000faa       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   BAUDCTL   0x000faa       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
               BAUDCONbits   0x000faa       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                  BAUDCON   0x000faa       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                    RCSTA   0x000fab       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 RCSTAbits   0x000fab       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                    TXSTA   0x000fac       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                    RCSTA   0x000fab       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 TXSTAbits   0x000fac       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                    TXSTA   0x000fac       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TXREG   0x000fad       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     RCREG   0x000fae       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     SPBRG   0x000faf       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -490,28 +488,28 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                    QEICON   0x000fb6       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 T5CONbits   0x000fb7       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     T5CON   0x000fb7       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                   ANSEL0   0x000fb8       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                ANSEL0bits   0x000fb8       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                   ANSEL1   0x000fb9       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                   ANSEL0   0x000fb8       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                ANSEL1bits   0x000fb9       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                   ANSEL1   0x000fb9       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   CCP2CON   0x000fba       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
               CCP2CONbits   0x000fba       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     CCPR2   0x000fbb       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    CCPR2L   0x000fbb       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    CCPR2H   0x000fbc       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-              CCP1CONbits   0x000fbd       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   CCP1CON   0x000fbd       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                   CCPR1L   0x000fbe       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+              CCP1CONbits   0x000fbd       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     CCPR1   0x000fbe       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                   CCPR1L   0x000fbe       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    CCPR1H   0x000fbf       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-               ADCON2bits   0x000fc0       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    ADCON2   0x000fc0       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-               ADCON1bits   0x000fc1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+               ADCON2bits   0x000fc0       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    ADCON1   0x000fc1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+               ADCON1bits   0x000fc1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                ADCON0bits   0x000fc2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    ADCON0   0x000fc2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                    ADRES   0x000fc3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    ADRESL   0x000fc3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                    ADRES   0x000fc3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    ADRESH   0x000fc4       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    SSPCON   0x000fc6       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                SSPCONbits   0x000fc6       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -523,24 +521,24 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                     T2CON   0x000fca       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                       PR2   0x000fcb       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      TMR2   0x000fcc       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                T1CONbits   0x000fcd       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     T1CON   0x000fcd       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                T1CONbits   0x000fcd       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TMR1L   0x000fce       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TMR1H   0x000fcf       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                     RCON   0x000fd0       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  RCONbits   0x000fd0       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                   WDTCON   0x000fd1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                     RCON   0x000fd0       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                WDTCONbits   0x000fd1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-               LVDCONbits   0x000fd2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                   WDTCON   0x000fd1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    LVDCON   0x000fd2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+               LVDCONbits   0x000fd2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                OSCCONbits   0x000fd3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    OSCCON   0x000fd3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                    T0CON   0x000fd5       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 T0CONbits   0x000fd5       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                    T0CON   0x000fd5       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TMR0L   0x000fd6       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     TMR0H   0x000fd7       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                   STATUS   0x000fd8       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                STATUSbits   0x000fd8       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                   STATUS   0x000fd8       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     FSR2L   0x000fd9       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      FSR2   0x000fd9       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     FSR2H   0x000fda       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -550,8 +548,8 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                  POSTINC2   0x000fde       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     INDF2   0x000fdf       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                       BSR   0x000fe0       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                     FSR1   0x000fe1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     FSR1L   0x000fe1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                     FSR1   0x000fe1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     FSR1H   0x000fe2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    PLUSW1   0x000fe3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   PREINC1   0x000fe4       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -573,12 +571,12 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
               INTCON2bits   0x000ff1       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                INTCONbits   0x000ff2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    INTCON   0x000ff2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                     PROD   0x000ff3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     PRODL   0x000ff3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                     PROD   0x000ff3       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                     PRODH   0x000ff4       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    TABLAT   0x000ff5       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                  TBLPTRL   0x000ff6       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    TBLPTR   0x000ff6       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                  TBLPTRL   0x000ff6       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   TBLPTRH   0x000ff7       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   TBLPTRU   0x000ff8       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                        PC   0x000ff9       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -587,8 +585,8 @@ Linker Map File - Created Tue Apr 17 00:03:27 2007
                    PCLATU   0x000ffb       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                STKPTRbits   0x000ffc       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    STKPTR   0x000ffc       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                      TOS   0x000ffd       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      TOSL   0x000ffd       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
+                      TOS   0x000ffd       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      TOSH   0x000ffe       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                      TOSU   0x000fff       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
 
