@@ -64,7 +64,7 @@ GP_helicopter.batterystatus.temp			(2)
 */
 
 //char pwmCommand[] = { 'P', 0x01, 0x01, 0x01, 0x01 };
-
+//unsigned char PLL_test = "ER_CMD#L30D?";
 extern unsigned char newPWM;
 extern unsigned char GSPI_AccData[];
 //extern unsigned char GP_hs;
@@ -80,7 +80,7 @@ int main ( void )
 //	int writeAddr;
 	
 	setupTRIS();
-	LATBbits.LATB4 = 1;
+//	LATBbits.LATB4 = 1;
 	GP_init_UART(19200);
 
 	
@@ -96,8 +96,8 @@ int main ( void )
 	GP_init_chopper();
 //	GSPI_CompData[0] = 0;
 //	GSPI_CompData[0] = 0;
-	//GP_hs = 1;
-	LATBbits.LATB4 = 0;
+//	GP_hs = 1;
+//	LATBbits.LATB4 = 0;
 	while(1)
 	{
 		//LATBbits.LATB4 ^= 1;
@@ -106,6 +106,11 @@ int main ( void )
 			GP_datavalid = 0;
 			GP_parse_data(GP_data, GP_data_len);
 		}
+		else
+		{
+				
+		}
+//		GP_TX_error(0x09);
 //		GP_TX_char('M');
 //		
 //		if (newPWM)
@@ -146,6 +151,7 @@ void setupTRIS ( void )
 	TRISBbits.TRISB0 = 0;
 	TRISBbits.TRISB4 = 0;
 	TRISDbits.TRISD0 = 0;
+	TRISFbits.TRISF5 = 0;
 	
 	// SPI Slave Select lines:
 	uCSSTris = 0;
@@ -176,17 +182,19 @@ void init_T1 ( void )
 	T1CONbits.TCKPS = 0b11;		
 	TMR1 = 0;
 	T1CONbits.TON = 0;	
+	
 }
 
 void init_T2 ( void )
 {
-	PR2 = 120;		 	
+	PR2 = 124;		 	
 	IEC0bits.T2IE = 1;
 	T2CONbits.TCS = 0;   		//1.8425 MHz = 542.7 ns / tick
 	T2CONbits.TCKPS = 0b00;		
 	TMR2 = 0;
 	T2flag = 0;
 	T2CONbits.TON = 1;	
+
 }
 
 void init_LEDs ( void )
@@ -206,7 +214,7 @@ void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
 	GP_dump = U2RXREG;		// read the byte from the receive register
 	GP_state_machine();
 	IEC1bits.U2RXIE = 1;	// re-enable the receive interrupt
-	
+
 }
 
 void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void)
@@ -225,14 +233,16 @@ void __attribute__(( interrupt, no_auto_psv )) _T2Interrupt(void)
 {
 	IFS0bits.T2IF = 0;
 	T2flag = 1;
-	GP_state_machine();	// Run the byte received through the state machine.
+	//GP_state_machine();	// Run the byte received through the state machine.
 	//clock++;
+	//GP_tx_packet(PLL_test, 12);
+	//PLL_test_flag = 1;
 	TMR2 = 0;
 }
 
 void Init_PWM( void )
 {
-	PDC1 = 234;			// PWM Duty Cycle
+	PDC1 = 234;				// 50% DC = 1.5ms
 	PTPERbits.PTPER = 2344;	// Timebase period
 
 	PTCONbits.PTSIDL = 0;
@@ -267,8 +277,9 @@ void GP_init_UART( unsigned int baud )
 	//U2BRG = ( FCY / (16 * baud) ); // calculate the BRG value for a
 									   // given baud rate
 
-	//U2BRG = 0x0020;			// 9600 baud
-	U2BRG = 0x0010;				// should be 19200
+//	U2BRG = 0x0020;			// 9600 baud
+
+	U2BRG = 0x000F;				// 19200
 	U2MODEbits.UARTEN = 1;		// enable the UART
 	IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
 }
