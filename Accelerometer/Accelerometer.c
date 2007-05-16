@@ -288,7 +288,7 @@ void main(void)
 		putsXLCD(string3);
 #endif
 
-		Delay10KTCYx(200);
+		Delay10TCYx(200);
 	}
 	while(1);
 
