@@ -1,6 +1,6 @@
 // USART.h
 
-//#define USART_DEBUG
+#define USART_DEBUG
 
 /*
 Function: SerialInit
@@ -15,7 +15,8 @@ void putsUSART (char *data);
 void WriteUSART (char data);
 char ReadUSART (void);
 void prepscreen(void);
-void UpdateAccelerometer(void);
+void UpdateRoll(void);
+void UpdatePitch(void);
 void UpdateCompass(void);
 void UpdateServos(void);
 void UpdateADC(void);

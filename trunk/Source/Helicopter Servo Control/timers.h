@@ -13,12 +13,7 @@ typedef struct
 
 typedef struct
 {
-	unsigned char rxBuf:1;
-	unsigned char rxGPSdata:1;
-	unsigned char GPSDataReady:1;
-	unsigned char rxBuf:1;
 	unsigned char debug:1;
-
 	unsigned char main:1;
 }CONTROL;
 

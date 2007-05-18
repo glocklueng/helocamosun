@@ -21,16 +21,18 @@ void SerialInit(void)
 	TXSTAbits.TX9 = 0;		// 8 bit mode
 	TXSTAbits.TXEN = 1;		// Transmit enabled
 	TXSTAbits.SYNC = 0;		// Asynchoronous mode
-	//TXSTAbits.TRMT = 1;		// TSR empty
+	//TXSTAbits.TRMT = 1;	// TSR empty
 	TXSTAbits.BRGH = 1;		// High speed
 		
 		// Receive Status and Control
-	RCSTAbits.SPEN = 1; 	// Serial port enabled
+	
 	RCSTAbits.RX9 = 0;		// 8 bit mode
 	RCSTAbits.CREN = 1;		// Continuous receive
+	PIE1bits.RCIE = 1;		// Rx Interrupt enable
+	RCSTAbits.SPEN = 1; 	// Serial port enabled
 	
-	SPBRG = 0x0A;			// 115 200 KBaud @ 20 MHz
-//	SPBRG = 0x40;			// 19200 baud @ 20MHz
+//	SPBRG = 0x0A;			// 115 200 KBaud @ 20 MHz
+	SPBRG = 0x40;			// 19200 baud @ 20MHz
 		// Baud Rate control
 	BAUDCTLbits.WUE = 0;
 	BAUDCTLbits.ABDEN = 0;
@@ -39,9 +41,11 @@ void SerialInit(void)
 #ifdef USART_DEBUG
 
 char clearscreen[5] = {0x1B,0x5B,'2','J',0x00};
-char RollString[5] = "Roll";
-char YawString[4]  = "Yaw";
-char CollectiveString[11] = "Collective";
+char ServoString[6] = "Servo";
+//char RollString[5] = "Roll";
+//char YawString[4]  = "Yaw";
+//char CompassString[8] = "Compass";
+//char CollectiveString[11] = "Collective";
 
 void setCursor( char x, char y)
 {
@@ -78,74 +82,93 @@ void ClearScreen(void)
 }
 void prepscreen(void)
 {
-	setCursor(1,1);
-	putsUSART("Distance");
-
-	setCursor(2,6);
-	putsUSART("Pitch");
+	setCursor(8,1);
+	putsUSART(ServoString);
 	
-	setCursor(3,6);
-	putsUSART("Compass X");
+	setCursor(1,2);
+	WriteUSART('P');	// Pitch
+	while(BusyUSART());
 	
-	setCursor(4,6);
-	putsUSART("Compass Y");
+	setCursor(1,3);
+	WriteUSART('R');	// Roll
+	while(BusyUSART());
+	
+	setCursor(1,4);
+	WriteUSART('Y');	// Yaw
+	while(BusyUSART());
+	
+	setCursor(1,5);
+	WriteUSART('C');	// Collective
+	while(BusyUSART());
+	
+	setCursor(1,6);
+	WriteUSART('H');	// Heading
+	while(BusyUSART());
+	
+	setCursor(1,7);
+	WriteUSART('A');	// Altitude
+	while(BusyUSART());
 }
 
 void UpdateADC(void)
 {
 	char outputstring[5]={0};
 	
-	setCursor(55,3);	
-	sprintf(outputstring, "%04d", RangeAverage);
+	setCursor(4,5);	
+	sprintf(outputstring,(char *) "%04d", RangeAverage);
 	putsUSART(outputstring);
 }
 
-void UpdateAccelerometer(void)
+void UpdatePitch(void)
 {
 	char outputstring[5]={0};
 
-	setCursor(4,3);		// Pitch
-	sprintf(outputstring, "%04d", XAxisAverage);
-	putsUSART(outputstring);
-		
-	setCursor(13,3);	// Roll
-	sprintf(outputstring, "%04d", YAxisAverage);
+	setCursor(4,2);		// Pitch
+	sprintf(outputstring, (char *)"%04d", XAxisAverage);
+	putsUSART(outputstring);	
+}
+void UpdateRoll(void)
+{
+	char outputstring[5]={0};
+
+	setCursor(4,3);	// Roll
+	sprintf(outputstring, (char *)"%04d", YAxisAverage);
 	putsUSART(outputstring);	
 }
 void UpdateCompass(void)
 {
 	char outputstring[5]={0};
 	
-	setCursor(22,3);	// Yaw
-	sprintf(outputstring, "%04d", CompassAverageAngle);
+	setCursor(4,4);	// Yaw
+	sprintf(outputstring, (char *)"%04d", CompassAverageAngle);
 	putsUSART(outputstring);
 
-	setCursor(31,3);	// Compass X Average value
-	sprintf(outputstring, "%04d", CompassXAverage);
-	putsUSART(outputstring);
-			
-	setCursor(43,3);	// Compass Y Average value
-	sprintf(outputstring, "%04d", CompassYAverage);
-	putsUSART(outputstring);
+//	setCursor(31,3);	// Compass X Average value
+//	sprintf(outputstring, (char *)"%04d", CompassXAverage);
+//	putsUSART(outputstring);
+//			
+//	setCursor(43,3);	// Compass Y Average value
+//	sprintf(outputstring, (char *)"%04d", CompassYAverage);
+//	putsUSART(outputstring);
 }
 void UpdateServos(void)
 {
 	char outputstring[5]={0};
 	
-	setCursor(4,8);		// Servo Pitch
-	sprintf(outputstring, "%04d", servos[1]);
+	setCursor(10,2);		// Servo Pitch
+	sprintf(outputstring, (char *)"%04s", servos[1]);
 	putsUSART(outputstring);
 		
-	setCursor(13,8);	// Servo Roll 
-	sprintf(outputstring, "%04d", servos[2]);
+	setCursor(10,3);	// Servo Roll 
+	sprintf(outputstring, (char *)"%04d", servos[2]);
 	putsUSART(outputstring);
 	
-	setCursor(22,8);	// Servo Yaw
-	sprintf(outputstring, "%04d", servos[3]);
+	setCursor(10,4);	// Servo Yaw
+	sprintf(outputstring, (char *)"%04d", servos[3]);
 	putsUSART(outputstring);
 	
-	setCursor(32,8);	// Servo Collective
-	sprintf(outputstring, "%04d", servos[4]);
+	setCursor(10,5);	// Servo Collective
+	sprintf(outputstring, (char *)"%04d", servos[4]);
 	putsUSART(outputstring);	
 }
 

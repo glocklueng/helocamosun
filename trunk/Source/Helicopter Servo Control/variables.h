@@ -12,7 +12,7 @@ typedef union _WORD
 }WORD;
 
 // main.c
-#define AVERAGEVALUE	4
+#define AVERAGEVALUE	8
 
 // timers.c
 #define MAIN		0x02

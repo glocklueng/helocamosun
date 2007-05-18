@@ -23,6 +23,7 @@
 /************************** Include Section **************************/
 #include <p18f4431.h>
 #include <math.h>
+#include <usart.h>
 #include "variables.h"
 #include "Serial_IO.h"
 #include "adc.h"
@@ -31,10 +32,14 @@
 #include "USART.h"
 #include "SPIComms.h"
 #include "rpm.h"
+#include "GPS.h"
+
 /********************** Interrupt Function Definition ****************/
+
 void CCPINT(void);
 void SPI_isr (void);
 void CCP1_isr(void);
+void RX_isr(void);
 
 /************************* Interrupt Functions ***********************/
 #pragma code high_int_vector = 0x08					/* change to interrupt page*/
@@ -52,9 +57,19 @@ void interrupt_at_high_vector(void)
 	{
 		_asm GOTO CCP1_isr _endasm
 	}
+	if(PIR1bits.RCIF)
+	{
+		_asm GOTO RX_isr _endasm
+	}
 }
 
 #pragma code
+#pragma interrupt RX_isr
+void RX_isr(void)
+{
+	// used to receive characters RCIF is cleared on read
+	GetGPSString(RCREG);
+}
 
 #pragma interrupt SPI_isr
 void SPI_isr (void)
@@ -101,20 +116,22 @@ void main(void)
 	SerialInit();
 	SPI_Init();
 	TimerInit();
+	
 #ifdef USART_DEBUG
 	ClearScreen();
 	prepscreen();		// for debugging
 #endif
+
 /******** VARIABLE INITIALIZATION ************/
 	INTCONbits.PEIE = 1;	// enable peripheral interrupt
 	INTCONbits.GIE = 1;		// enable global interrupt
 	TickCounter = 0;
 	tDelay.delay1s = 0;
 	tDelay.delay100ms = 0;
-
+	
 	cFlag.main = 1;
 	cFlag.debug = 0;
-	TRISDbits.TRISD4 = 0;
+	TRISDbits.TRISD4 = 0;	// for debugging purposes
 	TRISBbits.TRISB0 = 0;
 	LedStates();
 
@@ -128,6 +145,7 @@ void main(void)
 			tFlag.newTickFlag=0;		// Set all flags to zero
 			TickCounter++;				// cycles 50ms period
 			TimeKeeping();
+			LATDbits.LATD4 ^= 1;		// for debugging purposes
 			switch(TickCounter)
 			{
 				case 1:
@@ -136,7 +154,7 @@ void main(void)
 					if(cFlag.debug)
 					{
 #ifdef USART_DEBUG
-						UpdateADC();
+						UpdateServos();
 #endif						
 					}
 					break;
@@ -151,32 +169,38 @@ void main(void)
 #endif
 					}
 					break;
+					
+				case 3:
+					if(cFlag.debug)
+					{
+#ifdef USART_DEBUG
+					UpdateRoll();
+#endif
+					}
+					break;
+					
 				case 4:		// 30ms
-					GetCompassValues();
-					GetCompassAverage();
+					GetCompassValues();		// Get the compass values
+					GetCompassAverage();	// Find the average x-y values
 
 					if(cFlag.debug)
 					{
 #ifdef USART_DEBUG
-						UpdateCompass();
+					UpdatePitch();
 #endif
 					}
 					break;
-				case 3:
-#ifdef USART_DEBUG
-					UpdateServos();
-#endif
-					break;
+
 				case 5:
-					GetAxisValues();
-					GetAxisAverage();
+					GetAxisValues();		// Get Tri-axis values
+					GetAxisAverage();		// Get the average values for x-y-z
 					if(cFlag.debug)
 					{
 #ifdef USART_DEBUG
-						UpdateAccelerometer();
+					UpdateCompass();	
 #endif
 					}
-					TickCounter = 0;	// Reset Tick Counter
+					TickCounter = 0;		// Reset Tick Counter
 					break;
 				default:
 					break;

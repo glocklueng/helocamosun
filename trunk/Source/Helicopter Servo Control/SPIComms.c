@@ -1,5 +1,6 @@
 #include <USART.h>
 #include "SPIComms.h"
+#include "GPS.h"
 #include "variables.h"
 #include "timers.h"
 #include "pwm.h"
@@ -14,6 +15,11 @@
 #define RPM_COMMAND_STATE 			7
 #define STATUS_COMMAND_STATE 		8
 #define PWM_COMMAND_STATE			9
+#define GPS_TIME_STATE				10
+#define GPS_LATITUDE_STATE			11
+#define GPS_LONGITUDE_STATE			12
+#define GPS_SATELLITES_STATE		13
+#define GPS_ALTITUDE_STATE			14
 
 #define ACCELEROMETER_COMMAND 	'A'
 #define TWO_AXIS_GYRO_COMMAND 	'G'
@@ -24,6 +30,12 @@
 #define RPM_COMMAND 			'R'
 #define STATUS_COMMAND 			'S'
 #define PWM_COMMAND				'P'
+#define	GPS_TIME_COMMAND		'M'	// Change these values
+#define	GPS_LATITUDE_COMMAND	'L'	// 		|
+#define	GPS_LONGITUDE_COMMAND	'D' //		|
+#define	GPS_SATELLITES_COMMAND	'B' //		v
+#define GPS_ALTITUDE_COMMAND	'U' // ------------------
+
 
 //char dummydata[11] ={"0123456789"};
 char Temperature[2];
@@ -53,7 +65,7 @@ void SPI_Init (void)
 	SSPCONbits.SSPM3 = 0;
 	SSPCONbits.SSPM2 = 1;
 	SSPCONbits.SSPM1 = 0;
-	SSPCONbits.SSPM0 = 0;
+	SSPCONbits.SSPM0 = 1;
 
 
 	SSPSTATbits.SMP = 0;	//	SMP: SPI Data Input Sample Phase bit
@@ -167,7 +179,27 @@ unsigned char SPI_State_Machine(unsigned char Input)
 			case PWM_COMMAND:
 				ByteNum = 0;
 				state = PWM_COMMAND_STATE;
-				break;	
+				break;
+			case GPS_TIME_COMMAND:
+				ByteNum = 0;
+				state = GPS_TIME_STATE;
+				break;
+			case GPS_LATITUDE_COMMAND:
+				ByteNum = 0;
+				state = GPS_LATITUDE_STATE;
+				break;
+			case GPS_LONGITUDE_COMMAND:
+				ByteNum = 0;
+				state = GPS_LONGITUDE_STATE;
+				break;
+			case GPS_SATELLITES_COMMAND:
+				ByteNum = 0;
+				state = GPS_SATELLITES_STATE;
+				break;
+			case GPS_ALTITUDE_COMMAND:
+				ByteNum = 0;
+				state = GPS_ALTITUDE_STATE;
+				break;
 			default://Invalid command
 				state = WAITING_FOR_COMMAND_STATE;
 				return 0xFF;
@@ -178,7 +210,6 @@ unsigned char SPI_State_Machine(unsigned char Input)
 		case ACCELEROMETER_COMMAND_STATE:
 				//send the accelerometer byte pointed to by bytenum
 				ReturnValue = Accelerator[ByteNum];
-//				ReturnValue = dummydata[ByteNum];
 				ByteNum++;
 				if(ByteNum > 6)//6 bytes in a accelerometer packet
 				{
@@ -200,8 +231,6 @@ unsigned char SPI_State_Machine(unsigned char Input)
 		case COMPASS_COMMAND_STATE:
 				//send the compass byte pointed to by bytenum
 				ReturnValue = Compass[ByteNum];
-//				TXREG = Compass[ByteNum];
-//				ReturnValue = dummydata[ByteNum];
 				ByteNum++;
 				if(ByteNum > 2)//2 bytes in a compass packet
 				{
@@ -212,7 +241,6 @@ unsigned char SPI_State_Machine(unsigned char Input)
 		case ACCOUSTIC_COMMAND_STATE:
 				//send the accoustic byte pointed to by bytenum
 				ReturnValue = Accoustic[ByteNum];
-//				ReturnValue = dummydata[ByteNum];
 				ByteNum++;
 				if(ByteNum > 2)//2 bytes in a accoustic packet
 				{
@@ -242,7 +270,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				break;
 		case RPM_COMMAND_STATE:
 				//send the RPM byte pointed to by bytenum
-//				ReturnValue = RPM[ByteNum];
+				ReturnValue = RPM[ByteNum];
 				ByteNum++;
 				if(ByteNum > 2)//2 bytes in an RPM packet
 				{
@@ -266,6 +294,56 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				servos[ByteNum] = Input;
 				ByteNum++;
 				if(ByteNum > 4)//4 bytes in a status packet
+				{
+					UpdatePWM();
+					state = WAITING_FOR_COMMAND_STATE;
+					return 0xFF;
+				}
+				break;
+		case GPS_TIME_STATE:
+				ReturnValue = GPS_TIME[ByteNum];
+				ByteNum++;
+				if(ByteNum > 6)//6 bytes in a status packet
+				{
+					UpdatePWM();
+					state = WAITING_FOR_COMMAND_STATE;
+					return 0xFF;
+				}
+				break;
+		case GPS_LATITUDE_STATE:
+				ReturnValue = GPS_LATITUDE[ByteNum];
+				ByteNum++;
+				if(ByteNum > 9)//9 bytes in a status packet
+				{
+					UpdatePWM();
+					state = WAITING_FOR_COMMAND_STATE;
+					return 0xFF;
+				}
+				break;
+		case GPS_LONGITUDE_COMMAND:
+				ReturnValue = GPS_LONGITUDE[ByteNum];
+				ByteNum++;
+				if(ByteNum > 10)//10 bytes in a status packet
+				{
+					UpdatePWM();
+					state = WAITING_FOR_COMMAND_STATE;
+					return 0xFF;
+				}
+				break;
+		case GPS_SATELLITES_COMMAND:
+				ReturnValue = GPS_SATELLITES[ByteNum];
+				ByteNum++;
+				if(ByteNum > 2)//2 bytes in a status packet
+				{
+					UpdatePWM();
+					state = WAITING_FOR_COMMAND_STATE;
+					return 0xFF;
+				}
+				break;
+		case GPS_ALTITUDE_COMMAND:
+				ReturnValue = GPS_ALTITUDE[ByteNum];
+				ByteNum++;
+				if(ByteNum > 7)//7 bytes in a status packet
 				{
 					UpdatePWM();
 					state = WAITING_FOR_COMMAND_STATE;
