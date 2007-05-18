@@ -6,6 +6,7 @@ using System.IO.Ports;
 using System.Timers;
 using System.Windows.Forms;
 using System.Threading;
+using Multimedia;
 
 namespace CommProtocolLib
 {
@@ -160,7 +161,8 @@ namespace CommProtocolLib
     {
 
         #region datamembers
-        private System.Timers.Timer SerialPortTimer;
+        private Multimedia.Timer mtimer;
+        //private System.Timers.Timer SerialPortTimer;
         private bool CheckingForPacket = false;
         /// <summary>
         /// Set to true when the serial port has been sucessfully opened
@@ -323,13 +325,24 @@ namespace CommProtocolLib
         private void Setup()
         {
             SerialPortOpen = true;
-            SerialPortTimer = new System.Timers.Timer(50);
-            SerialPortTimer.Elapsed += new ElapsedEventHandler(SerialPortTimer_Elapsed);
-            SerialPortTimer.Start();
+
+            mtimer = new Multimedia.Timer();
+            mtimer.Period = 50;
+            mtimer.Resolution = 0;
+            mtimer.Mode = TimerMode.Periodic;
+            mtimer.Tick += new EventHandler(mtimer_Tick);
+            mtimer.Start();
+
+            //SerialPortTimer = new System.Timers.Timer(50);
+            //SerialPortTimer.Elapsed += new ElapsedEventHandler(SerialPortTimer_Elapsed);
+           // SerialPortTimer.Start();
+
             ResponseTimer = new System.Timers.Timer(TimeOut);
             ResponseTimer.Enabled = false;
             ResponseTimer.Elapsed += new ElapsedEventHandler(ResponseTimer_Elapsed);
         }
+
+
 
 
         #endregion
@@ -869,7 +882,7 @@ namespace CommProtocolLib
         #endregion
 
         #region incoming packets
-        void SerialPortTimer_Elapsed(object sender, ElapsedEventArgs e)
+        void mtimer_Tick(object sender, EventArgs e)
         {
 
             if (!CheckingForPacket)
@@ -878,17 +891,26 @@ namespace CommProtocolLib
                 CheckForPacket();
             }
         }
+        
+        /*void SerialPortTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+
+            if (!CheckingForPacket)
+            {
+                CheckingForPacket = true;
+                CheckForPacket();
+            }
+        }*/
 
         private void CheckForPacket()
         {
             
             for (int i = 0; i < SP.BytesToRead; i++)
             {
-                IncomingDataBuffer += (char)(byte)SP.ReadByte();
-            }
-            foreach (char c in IncomingDataBuffer)
-            {
-                NonVolatileIncomingDataBuffer += CharToHex(c) + " ";
+                byte incomingByte = (byte)SP.ReadByte();
+                char incomingChar = (char)incomingByte;
+                IncomingDataBuffer += incomingChar;
+                NonVolatileIncomingDataBuffer += CharToHex(incomingChar) + " ";
             }
 
             if (IncomingDataBuffer.Length >= 1)
