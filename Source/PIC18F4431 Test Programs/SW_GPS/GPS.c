@@ -6,7 +6,7 @@ char GPS_TIME[6];
 char GPS_LATITUDE[9];
 char GPS_LONGITUDE[10];
 char GPS_SATELLITES[2];
-char GPS_ALTITUDE[6];
+char GPS_ALTITUDE[7];
 
 void GetGPSString(char GPSdata)
 {
