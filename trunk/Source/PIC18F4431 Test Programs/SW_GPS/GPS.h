@@ -19,6 +19,6 @@ extern char GPS_TIME[6];
 extern char GPS_LATITUDE[9];
 extern char GPS_LONGITUDE[10];
 extern char GPS_SATELLITES[2];
-extern char GPS_ALTITUDE[6];
+extern char GPS_ALTITUDE[7];
 
 void GetGPSString(char GPSdata);
