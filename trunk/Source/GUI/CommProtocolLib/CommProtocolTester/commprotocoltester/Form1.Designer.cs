@@ -28,7 +28,6 @@ namespace commprotocoltester
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnCommsHandShakeInitiate = new System.Windows.Forms.Button();
             this.btnCommsHandShakeTerminate = new System.Windows.Forms.Button();
@@ -49,8 +48,8 @@ namespace commprotocoltester
             this.btnRequestHSA = new System.Windows.Forms.Button();
             this.btnRequestAttitude = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnRequestMotorRPM = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
@@ -58,7 +57,8 @@ namespace commprotocoltester
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.btnConnect = new System.Windows.Forms.Button();
-            this.btnRequestMotorRPM = new System.Windows.Forms.Button();
+            this.btnstop = new System.Windows.Forms.Button();
+            this.textBox7 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -205,7 +205,7 @@ namespace commprotocoltester
             // 
             this.btnSetMotorRPM.Location = new System.Drawing.Point(12, 599);
             this.btnSetMotorRPM.Name = "btnSetMotorRPM";
-            this.btnSetMotorRPM.Size = new System.Drawing.Size(174, 23);
+            this.btnSetMotorRPM.Size = new System.Drawing.Size(135, 23);
             this.btnSetMotorRPM.TabIndex = 14;
             this.btnSetMotorRPM.Text = "SetMotorRPM";
             this.btnSetMotorRPM.UseVisualStyleBackColor = true;
@@ -265,6 +265,16 @@ namespace commprotocoltester
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Info requests";
             // 
+            // btnRequestMotorRPM
+            // 
+            this.btnRequestMotorRPM.Location = new System.Drawing.Point(5, 146);
+            this.btnRequestMotorRPM.Name = "btnRequestMotorRPM";
+            this.btnRequestMotorRPM.Size = new System.Drawing.Size(174, 23);
+            this.btnRequestMotorRPM.TabIndex = 19;
+            this.btnRequestMotorRPM.Text = "Request Motor RPM";
+            this.btnRequestMotorRPM.UseVisualStyleBackColor = true;
+            this.btnRequestMotorRPM.Click += new System.EventHandler(this.btnRequestMotorRPM_Click);
+            // 
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(577, 12);
@@ -274,17 +284,13 @@ namespace commprotocoltester
             this.textBox2.Size = new System.Drawing.Size(352, 617);
             this.textBox2.TabIndex = 20;
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(156, 482);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(41, 20);
             this.textBox3.TabIndex = 21;
+            this.textBox3.Text = "0";
             // 
             // textBox4
             // 
@@ -292,6 +298,7 @@ namespace commprotocoltester
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(41, 20);
             this.textBox4.TabIndex = 22;
+            this.textBox4.Text = "0";
             // 
             // textBox5
             // 
@@ -299,6 +306,7 @@ namespace commprotocoltester
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(41, 20);
             this.textBox5.TabIndex = 23;
+            this.textBox5.Text = "0";
             // 
             // textBox6
             // 
@@ -306,6 +314,7 @@ namespace commprotocoltester
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(41, 20);
             this.textBox6.TabIndex = 24;
+            this.textBox6.Text = "0";
             // 
             // button1
             // 
@@ -335,21 +344,31 @@ namespace commprotocoltester
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
-            // btnRequestMotorRPM
+            // btnstop
             // 
-            this.btnRequestMotorRPM.Location = new System.Drawing.Point(5, 146);
-            this.btnRequestMotorRPM.Name = "btnRequestMotorRPM";
-            this.btnRequestMotorRPM.Size = new System.Drawing.Size(174, 23);
-            this.btnRequestMotorRPM.TabIndex = 19;
-            this.btnRequestMotorRPM.Text = "Request Motor RPM";
-            this.btnRequestMotorRPM.UseVisualStyleBackColor = true;
-            this.btnRequestMotorRPM.Click += new System.EventHandler(this.btnRequestMotorRPM_Click);
+            this.btnstop.Location = new System.Drawing.Point(439, 637);
+            this.btnstop.Name = "btnstop";
+            this.btnstop.Size = new System.Drawing.Size(75, 23);
+            this.btnstop.TabIndex = 28;
+            this.btnstop.Text = "stop";
+            this.btnstop.UseVisualStyleBackColor = true;
+            this.btnstop.Click += new System.EventHandler(this.btnstop_Click);
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(156, 599);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(41, 20);
+            this.textBox7.TabIndex = 29;
+            this.textBox7.Text = "0";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(942, 666);
+            this.Controls.Add(this.textBox7);
+            this.Controls.Add(this.btnstop);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button1);
@@ -405,7 +424,6 @@ namespace commprotocoltester
         private System.Windows.Forms.Button btnRequestAttitude;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox textBox2;
-        public System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox5;
@@ -414,6 +432,8 @@ namespace commprotocoltester
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Button btnRequestMotorRPM;
+        private System.Windows.Forms.Button btnstop;
+        private System.Windows.Forms.TextBox textBox7;
 
     }
 }

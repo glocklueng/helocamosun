@@ -159,10 +159,14 @@ namespace CommProtocolLib
     /// </summary>
     public class CommProtocol
     {
+        
 
         #region datamembers
-        private Multimedia.Timer mtimer;
-        //private System.Timers.Timer SerialPortTimer;
+        /// <summary>
+        /// Timer to poll the incoming serial port buffer
+        /// </summary>
+        private Multimedia.Timer BufferPollTimer;
+
         private bool CheckingForPacket = false;
         /// <summary>
         /// Set to true when the serial port has been sucessfully opened
@@ -190,7 +194,7 @@ namespace CommProtocolLib
         /// If the timer expires before the expected packet is received the OnResponseTimeout event is invoked.
         /// </summary>
         private int TimeOut = 1000;
-        private System.Timers.Timer ResponseTimer;
+        private Multimedia.Timer ResponseTimer;
         /// <summary>
         /// When a packet is sent there is an expected response from the helicopter
         /// it is a full packet (with ACK)response or a data response.
@@ -326,21 +330,22 @@ namespace CommProtocolLib
         {
             SerialPortOpen = true;
 
-            mtimer = new Multimedia.Timer();
-            mtimer.Period = 50;
-            mtimer.Resolution = 0;
-            mtimer.Mode = TimerMode.Periodic;
-            mtimer.Tick += new EventHandler(mtimer_Tick);
-            mtimer.Start();
+            BufferPollTimer = new Multimedia.Timer();
+            BufferPollTimer.Period = 1;
+            BufferPollTimer.Resolution = 0;
+            BufferPollTimer.Mode = TimerMode.Periodic;
+            BufferPollTimer.Tick += new EventHandler(BufferPollTimer_Tick);
+            BufferPollTimer.Start();
 
-            //SerialPortTimer = new System.Timers.Timer(50);
-            //SerialPortTimer.Elapsed += new ElapsedEventHandler(SerialPortTimer_Elapsed);
-           // SerialPortTimer.Start();
-
-            ResponseTimer = new System.Timers.Timer(TimeOut);
-            ResponseTimer.Enabled = false;
-            ResponseTimer.Elapsed += new ElapsedEventHandler(ResponseTimer_Elapsed);
+            ResponseTimer = new Multimedia.Timer();
+            ResponseTimer.Period = TimeOut;
+            ResponseTimer.Mode = TimerMode.Periodic;
+            ResponseTimer.Resolution = 0;
+            ResponseTimer.Stop();
+            ResponseTimer.Tick += new EventHandler(ResponseTimer_Tick);
         }
+
+
 
 
 
@@ -882,7 +887,7 @@ namespace CommProtocolLib
         #endregion
 
         #region incoming packets
-        void mtimer_Tick(object sender, EventArgs e)
+        void BufferPollTimer_Tick(object sender, EventArgs e)
         {
 
             if (!CheckingForPacket)
@@ -891,16 +896,6 @@ namespace CommProtocolLib
                 CheckForPacket();
             }
         }
-        
-        /*void SerialPortTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-
-            if (!CheckingForPacket)
-            {
-                CheckingForPacket = true;
-                CheckForPacket();
-            }
-        }*/
 
         private void CheckForPacket()
         {
@@ -1263,7 +1258,7 @@ namespace CommProtocolLib
                     a.Yaw = (short)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
                     //invoke the event
                     ClearBuffer();
-                    ParentForm.Invoke(AttitudePacketReceived, new object[] { this, new AttitudePacketReceivedEventArgs(a) });
+                        ParentForm.Invoke(AttitudePacketReceived, new object[] { this, new AttitudePacketReceivedEventArgs(a) });
 
                 }
             }
@@ -1738,7 +1733,7 @@ namespace CommProtocolLib
 
 
         }
-        private void ResponseTimer_Elapsed(Object Sender, EventArgs e)
+        private void ResponseTimer_Tick(Object Sender, EventArgs e)
         {
             if (ExpectedResponse.ResponseExpected)
             {
