@@ -45,6 +45,10 @@ void RX_isr(void);
 #pragma code high_int_vector = 0x08					/* change to interrupt page*/
 void interrupt_at_high_vector(void)
 {
+	if(PIR1bits.RCIF)
+	{
+		_asm GOTO RX_isr _endasm
+	}
 	if(PIR1bits.SSPIF)
 	{
 		_asm GOTO SPI_isr _endasm
@@ -57,10 +61,6 @@ void interrupt_at_high_vector(void)
 	{
 		_asm GOTO CCP1_isr _endasm
 	}
-	if(PIR1bits.RCIF)
-	{
-		_asm GOTO RX_isr _endasm
-	}
 }
 
 #pragma code
@@ -69,6 +69,7 @@ void RX_isr(void)
 {
 	// used to receive characters RCIF is cleared on read
 	GetGPSString(RCREG);
+	LATDbits.LATD4 ^= 1;		// for debugging purposes
 }
 
 #pragma interrupt SPI_isr
@@ -109,14 +110,15 @@ void main(void)
 /*********** Varible declaration *************/
 	char TickCounter;
 	
+	TRISDbits.TRISD4 = 0;	// for debugging purposes
+	LATDbits.LATD4 = 1;		// for debugging purposes	
 /********** Beginning of main code ***********/
-	
+	SerialInit();
 	PCPWMInit();
 	ADCInit();
-	SerialInit();
 	SPI_Init();
 	TimerInit();
-	
+
 #ifdef USART_DEBUG
 	ClearScreen();
 	prepscreen();		// for debugging
@@ -145,7 +147,7 @@ void main(void)
 			tFlag.newTickFlag=0;		// Set all flags to zero
 			TickCounter++;				// cycles 50ms period
 			TimeKeeping();
-			LATDbits.LATD4 ^= 1;		// for debugging purposes
+			LATBbits.LATB0 ^= 1;
 			switch(TickCounter)
 			{
 				case 1:
@@ -207,7 +209,7 @@ void main(void)
 			}
 			if(tFlag.new1sTickFlag)
 			{
-				LedStates();
+//				LedStates();
 			}
 		}
 	}

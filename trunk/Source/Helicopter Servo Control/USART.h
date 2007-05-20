@@ -1,6 +1,6 @@
 // USART.h
 
-#define USART_DEBUG
+//#define USART_DEBUG
 
 /*
 Function: SerialInit

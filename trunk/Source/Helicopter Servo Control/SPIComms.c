@@ -37,7 +37,7 @@
 #define GPS_ALTITUDE_COMMAND	'U' // ------------------
 
 
-//char dummydata[11] ={"0123456789"};
+char dummydata[11] ={"0123456789"};
 char Temperature[2];
 char command[3];
 
@@ -305,7 +305,6 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ByteNum++;
 				if(ByteNum > 6)//6 bytes in a status packet
 				{
-					UpdatePWM();
 					state = WAITING_FOR_COMMAND_STATE;
 					return 0xFF;
 				}
@@ -315,7 +314,6 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ByteNum++;
 				if(ByteNum > 9)//9 bytes in a status packet
 				{
-					UpdatePWM();
 					state = WAITING_FOR_COMMAND_STATE;
 					return 0xFF;
 				}
@@ -325,7 +323,6 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ByteNum++;
 				if(ByteNum > 10)//10 bytes in a status packet
 				{
-					UpdatePWM();
 					state = WAITING_FOR_COMMAND_STATE;
 					return 0xFF;
 				}
@@ -335,7 +332,6 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ByteNum++;
 				if(ByteNum > 2)//2 bytes in a status packet
 				{
-					UpdatePWM();
 					state = WAITING_FOR_COMMAND_STATE;
 					return 0xFF;
 				}
@@ -345,7 +341,6 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ByteNum++;
 				if(ByteNum > 7)//7 bytes in a status packet
 				{
-					UpdatePWM();
 					state = WAITING_FOR_COMMAND_STATE;
 					return 0xFF;
 				}
