@@ -165,7 +165,7 @@ namespace CommProtocolLib
         /// <summary>
         /// Timer to poll the incoming serial port buffer
         /// </summary>
-        private Multimedia.Timer BufferPollTimer;
+        private System.Timers.Timer BufferPollTimer;
 
         private bool CheckingForPacket = false;
         /// <summary>
@@ -330,11 +330,9 @@ namespace CommProtocolLib
         {
             SerialPortOpen = true;
 
-            BufferPollTimer = new Multimedia.Timer();
-            BufferPollTimer.Period = 1;
-            BufferPollTimer.Resolution = 0;
-            BufferPollTimer.Mode = TimerMode.Periodic;
-            BufferPollTimer.Tick += new EventHandler(BufferPollTimer_Tick);
+            BufferPollTimer = new System.Timers.Timer();
+            BufferPollTimer.Interval = 1;
+            BufferPollTimer.Elapsed += new ElapsedEventHandler(BufferPollTimer_Elapsed);
             BufferPollTimer.Start();
 
             ResponseTimer = new Multimedia.Timer();
@@ -344,6 +342,7 @@ namespace CommProtocolLib
             ResponseTimer.Stop();
             ResponseTimer.Tick += new EventHandler(ResponseTimer_Tick);
         }
+
 
 
 
@@ -887,15 +886,17 @@ namespace CommProtocolLib
         #endregion
 
         #region incoming packets
-        void BufferPollTimer_Tick(object sender, EventArgs e)
-        {
 
+
+        void BufferPollTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
             if (!CheckingForPacket)
             {
                 CheckingForPacket = true;
                 CheckForPacket();
             }
         }
+
 
         private void CheckForPacket()
         {
@@ -1078,8 +1079,8 @@ namespace CommProtocolLib
                     Latitude Lat = new Latitude();
                     Lat.Degrees = (byte)IncomingDataBuffer[5];
                     Lat.Minutes = (byte)IncomingDataBuffer[6];
-                    Lat.SecondsH = (byte)((int)IncomingDataBuffer[7] & 0x00FC);//upper 6 bits for seconds
-                    Lat.SecondsL = Convert.ToUInt16(((byte)IncomingDataBuffer[7] & 0x03) << 10 + Convert.ToUInt16((int)IncomingDataBuffer[8]));//10 bit decimal portion of seconds
+                    Lat.SecondsH = (byte)(((int)IncomingDataBuffer[7] & 0x00FC)>>2);//upper 6 bits for seconds
+                    Lat.SecondsL = Convert.ToUInt16((((byte)IncomingDataBuffer[7] & 0x03) << 10) + Convert.ToUInt16((int)IncomingDataBuffer[8]));//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[9] == 0x4E)
                     {
                         Lat.North = true;
@@ -1098,8 +1099,8 @@ namespace CommProtocolLib
                     Longitude Long = new Longitude();
                     Long.Degrees = (byte)IncomingDataBuffer[10];
                     Long.Minutes = (byte)IncomingDataBuffer[11];
-                    Long.SecondsH = (byte)((int)IncomingDataBuffer[12] & 0x00FC);//upper 6 bits for seconds
-                    Long.SecondsL = Convert.ToUInt16(((byte)IncomingDataBuffer[12] & 0x03) << 10 + Convert.ToUInt16((int)IncomingDataBuffer[13]));//10 bit decimal portion of seconds
+                    Long.SecondsH = (byte)(((int)IncomingDataBuffer[12] & 0x00FC)>>2);//upper 6 bits for seconds
+                    Long.SecondsL = Convert.ToUInt16((((byte)IncomingDataBuffer[12] & 0x03) << 10) + Convert.ToUInt16((int)IncomingDataBuffer[13]));//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[14] == 0x45)
                     {
                         Long.East = true;
@@ -1183,9 +1184,9 @@ namespace CommProtocolLib
                 {
                     //good checksum
                     HeadingSpeedAltitude HSA = new HeadingSpeedAltitude();
-                    HSA.Heading = Convert.ToInt16((int)IncomingDataBuffer[5] << 8 + (int)IncomingDataBuffer[6]);
+                    HSA.Heading = Convert.ToInt16(((int)IncomingDataBuffer[5] << 8) + (int)IncomingDataBuffer[6]);
                     HSA.Speed = Convert.ToByte((int)IncomingDataBuffer[7]);
-                    HSA.Altitude = Convert.ToUInt16((int)IncomingDataBuffer[8] << 8 + (int)IncomingDataBuffer[9]);
+                    HSA.Altitude = Convert.ToUInt16(((int)IncomingDataBuffer[8] << 8) + (int)IncomingDataBuffer[9]);
                     //invoke the event
                     ClearBuffer();
                     ParentForm.Invoke(HeadingSpeedAltitudePacketReceived, 
@@ -1258,7 +1259,7 @@ namespace CommProtocolLib
                     a.Yaw = (short)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
                     //invoke the event
                     ClearBuffer();
-                        ParentForm.Invoke(AttitudePacketReceived, new object[] { this, new AttitudePacketReceivedEventArgs(a) });
+                    ParentForm.Invoke(AttitudePacketReceived, new object[] { this, new AttitudePacketReceivedEventArgs(a) });
 
                 }
             }
@@ -1471,7 +1472,7 @@ namespace CommProtocolLib
                     PFP.Lat.Degrees = (byte)IncomingDataBuffer[5];
                     PFP.Lat.Minutes = (byte)IncomingDataBuffer[6];
                     PFP.Lat.SecondsH = (byte)((int)IncomingDataBuffer[7] & 0x00FC);//upper 6 bits for seconds
-                    PFP.Lat.SecondsL = Convert.ToUInt16(((int)IncomingDataBuffer[7] & 0x03) << 10 + (int)IncomingDataBuffer[8]);//10 bit decimal portion of seconds
+                    PFP.Lat.SecondsL = Convert.ToUInt16((((int)IncomingDataBuffer[7] & 0x03) << 10) + (int)IncomingDataBuffer[8]);//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[9] == 0x4E)
                     {
                         PFP.Lat.North = true;
