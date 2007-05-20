@@ -19,7 +19,7 @@ namespace commprotocoltester
         DBHandler dbh;
         int SentPacketID = -1;
         int PacketInterval = 50;
-        bool ManualMode = false;
+        bool ManualMode = true;
         BatteryStatus Battery_Status = new BatteryStatus();
         HeadingSpeedAltitude HSA = new HeadingSpeedAltitude();
         Latitude Lat = new Latitude();
@@ -91,11 +91,11 @@ namespace commprotocoltester
                     " GPS Altitude: " + PFP.GPSAltitude +
                     " Lat degrees: " + PFP.Lat.Degrees +
                     " Lat minutes: " + PFP.Lat.Minutes +
-                    " Lat seconds: " + (float)(PFP.Lat.SecondsH) + (PFP.Lat.SecondsL / 1024f) +
+                    " Lat seconds: " + (float)(PFP.Lat.SecondsH) + (PFP.Lat.SecondsL / 1000f) +
                     " North degrees: " + PFP.Lat.North +
                     " Long degrees: " + PFP.Long.Degrees +
                     " Long minutes: " + PFP.Long.Minutes +
-                    " Long seconds: " + (float)(PFP.Long.SecondsH) + (PFP.Long.SecondsL / 1024f) +
+                    " Long seconds: " + (float)(PFP.Long.SecondsH) + (PFP.Long.SecondsL / 1000f) +
                     " East degrees: " + PFP.Long.East +
                     " sensor status: " + string.Format("{0:x2}", PFP.SensorStatus) +
                     " sonar altitude: " + PFP.SonarAltitude
@@ -110,11 +110,11 @@ namespace commprotocoltester
                     " GPS Altitude: " + PFP.GPSAltitude +  
                     " Lat degrees: " + PFP.Lat.Degrees +  
                     " Lat minutes: " + PFP.Lat.Minutes +  
-                    " Lat seconds: " + (float)(PFP.Lat.SecondsH) + (PFP.Lat.SecondsL / 1024f) +  
+                    " Lat seconds: " + (float)(PFP.Lat.SecondsH) + (PFP.Lat.SecondsL / 1000f) +  
                     " North degrees: " + PFP.Lat.North +  
                     " Long degrees: " + PFP.Long.Degrees +  
                     " Long minutes: " + PFP.Long.Minutes +  
-                    " Long seconds: " + (float)(PFP.Long.SecondsH) + (PFP.Long.SecondsL / 1024f) +  
+                    " Long seconds: " + (float)(PFP.Long.SecondsH) + (PFP.Long.SecondsL / 1000f) +  
                     " East degrees: " + PFP.Long.East +  
                     " sensor status: " + string.Format("{0:x2}", PFP.SensorStatus) +  
                     " sonar altitude: " + PFP.SonarAltitude);
@@ -182,11 +182,11 @@ namespace commprotocoltester
                 textBox1.AppendText("Location packet received: Location" +
                                     " Lat degrees: " + Lat.Degrees +
                                     " Lat minutes: " + Lat.Minutes +
-                                    " Lat seconds: " + (float)(Lat.SecondsH) + (Lat.SecondsL / 1024f) +
+                                    " Lat seconds: " + ((float)(Lat.SecondsH) + (Lat.SecondsL / 1000f)) +
                                     " North: " + Lat.North +
                                     " Long degrees: " + Lon.Degrees +
                                     " Long minutes: " + Lon.Minutes +
-                                    " Long seconds: " + (float)(Lon.SecondsH) + (Lon.SecondsL / 1024f) +
+                                    " Long seconds: " + ((float)(Lon.SecondsH) + (Lon.SecondsL / 1000f)) +
                                     " East: " + Lon.East + "\r\n");
 
             if (!ManualMode)
@@ -194,11 +194,11 @@ namespace commprotocoltester
                 InsertRowToReceived_packetsTable("Location",
                                     " Lat degrees: " + Lat.Degrees +
                                     " Lat minutes: " + Lat.Minutes +
-                                    " Lat seconds: " + (float)(Lat.SecondsH) + (Lat.SecondsL / 1024f) +
+                                    " Lat seconds: " + ((float)(Lat.SecondsH) + (Lat.SecondsL / 1000f)) +
                                     " North: " + Lat.North +
                                     " Long degrees: " + Lon.Degrees +
                                     " Long minutes: " + Lon.Minutes +
-                                    " Long seconds: " + (float)(Lon.SecondsH) + (Lon.SecondsL / 1024f) +
+                                    " Long seconds: " + ((float)(Lon.SecondsH) + (Lon.SecondsL / 1000f)) +
                                     " East: " + Lon.East);
             }
         }

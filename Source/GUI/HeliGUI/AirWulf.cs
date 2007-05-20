@@ -64,6 +64,8 @@ namespace HeliGui
         IndicatorLight BatteryVoltageLight;
         IndicatorLight BatteryCurrentLight;
         IndicatorLight RPMLight;
+        IndicatorLight BadPacketLight;
+        IndicatorLight PacketTimeoutLight;
         #endregion
         #endregion
 
@@ -508,7 +510,7 @@ namespace HeliGui
         {
             CommPacketRXLight.On = true;
             PacketReceived = true;
-          //  throw new Exception("The method or operation is not implemented.");
+          
         }
 
         void ComProt_AttitudePacketReceived(object sender, CommProtocol.AttitudePacketReceivedEventArgs e)
@@ -547,19 +549,19 @@ namespace HeliGui
 
         void ComProt_ResponseTimeout(object sender, CommProtocol.ResponseTimeoutEventArgs e)
         {
-           // throw new Exception("The method or operation is not implemented.");
+
         }
 
         void ComProt_OnBoardErrorPacketReceived(object sender, CommProtocol.OnBoardErrorPacketReceivedEventArgs e)
         {
             CommPacketRXLight.On = true;
             PacketReceived = true;
-          //  throw new Exception("The method or operation is not implemented.");
+
         }
 
         void ComProt_BadPacketReceived(object sender, CommProtocol.BadPacketReceivedEventArgs e)
         {
-           // throw new Exception("The method or operation is not implemented.");
+
         }
 
         void ComProt_LocationPacketReceived(object sender, CommProtocol.LocationPacketReceivedEventArgs e)
@@ -570,8 +572,8 @@ namespace HeliGui
             Lon = e.Long;
             Lat = e.Lat;
 
-            Double Longitude = Lon.Degrees + Lon.Minutes / 60.0 + (Lon.SecondsH + Lon.SecondsL / 1024.0) / 3600.0;
-            Double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.SecondsH + Lat.SecondsL / 1024.0) / 3600.0;
+            Double Longitude = Lon.Degrees + Lon.Minutes / 60.0 + (Lon.SecondsH + Lon.SecondsL / 1000.0) / 3600.0;
+            Double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.SecondsH + Lat.SecondsL / 1000.0) / 3600.0;
             GoogleMapCtrl.GotoLoc(Latitude, Longitude);
         }
         #endregion
