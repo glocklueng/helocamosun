@@ -3,7 +3,6 @@
 
 #include "RF.h"
 #include "SPI.h"
-#include "typedefs.h"
 
 unsigned char GP_bytercvd = 0;  	// 0 = no byte in buffer, 1 = byte in buffer
 unsigned char GP_datavalid = 0;	// 0 = no valid data ready, 1 = valid data ready
@@ -19,7 +18,7 @@ unsigned char GP_collsp[3] = "";
 unsigned char GP_dump;				// holds the byte received on the UART
 unsigned char GP_hs = 0;			// 1 = we are in handshake mode
 
-extern GPT_helicopter GP_helicopter;		// global helicopter structure
+GPT_helicopter GP_helicopter;		// global helicopter structure
 unsigned char GP_engON = 0;
 
 
@@ -99,10 +98,9 @@ void GP_state_machine ( void )
 					state++;
 					LATDbits.LATD1 ^= 1;
 				}
-				else
+				else 
 				{
-					//GP_errorSOT = 1;
-					GP_TX_char(0xFF);
+
 				}
 				break;
 			}
@@ -118,7 +116,7 @@ void GP_state_machine ( void )
 				{
 				//	GP_errorSOT = 1;
 					state = 0;
-					GP_TX_char(0x01);
+					//GP_TX_char(0x01);
 				}
 				break;
 			}
@@ -185,7 +183,7 @@ void GP_state_machine ( void )
 					chksum = 0;
 					packet_length = 0;
 					packet_cnt = 0;
-					GP_TX_char(0x06);
+					//GP_TX_char(0x06);
 					
 				}
 				break;
@@ -207,7 +205,7 @@ void GP_state_machine ( void )
 					else
 					{
 						// The calculated checksum did not match the transmitted one:
-						GP_TX_char(0x07);
+						//GP_TX_char(0x07);
 					
 					}
 					state = 0;
@@ -249,6 +247,7 @@ void GP_parse_data ( char vdata[], char len )
 	unsigned short hover_alt = 0;
 	char val[5] = "";
 	float Ton;
+	int pwm;
 		
 	switch (vdata[0])
 	{
@@ -260,8 +259,15 @@ void GP_parse_data ( char vdata[], char len )
 				case 0x45:		// Engine RPM
 				{
 					GP_helicopter.pwm.engRPM = vdata[2];
+					
 					//Ton = (float)GP_helicopter.pwm.engRPM / 100000.0 + 0.001;
-					//PDC1 = (long)Ton * 156250; 
+					
+					Ton = (float)vdata[2] / 100000.0 + 0.001;
+					PDC1 = (int)(Ton * 156250); 
+//					PTCONbits.PTEN = 1;	// Enable PWM Time Base	
+					
+
+					
 					GP_ACK(vdata, len);
 					break;
 				}
@@ -589,16 +595,16 @@ void GP_TX_telemetry( unsigned char type )
 		{
 			packet[2] = 8;
 			
-			//packet[5] = (GP_helicopter.attitude.roll & 0xff00) >> 8;
-			//packet[6] = GP_helicopter.attitude.roll & 0x00ff;
-			//packet[7] = (GP_helicopter.attitude.pitch & 0xff00) >> 8;
-			//packet[8] = GP_helicopter.attitude.pitch & 0x00ff;
+			packet[5] = (char)((GP_helicopter.attitude.roll & 0xff00) >> 8);
+			packet[6] = (char)(GP_helicopter.attitude.roll & 0x00ff);
+			packet[7] = (char)((GP_helicopter.attitude.pitch & 0xff00) >> 8);
+			packet[8] = (char)(GP_helicopter.attitude.pitch & 0x00ff);
 			
-			packet[5] = GSPI_AccData[0];
-			packet[6] = GSPI_AccData[1];
+		//	packet[5] = GSPI_AccData[0];
+		//	packet[6] = GSPI_AccData[1];
 			
-			packet[7] = GSPI_AccData[2];
-			packet[8] = GSPI_AccData[3];
+		//	packet[7] = GSPI_AccData[2];
+		//	packet[8] = GSPI_AccData[3];
 			
 			packet[9] = GSPI_CompData[0];
 			packet[10] = GSPI_CompData[1];
@@ -714,7 +720,7 @@ void GP_TX_telemetry( unsigned char type )
 	}
 	
 }
-void GP_ACK( char vdata[MAXPACKLEN], char len )
+void GP_ACK( char vdata[], char len )
 {
 	unsigned char ack[MAXPACKLEN] = "";
 	unsigned char lcv = 0;
@@ -749,6 +755,7 @@ void GP_ACK( char vdata[MAXPACKLEN], char len )
 
 void GP_init_chopper( void )
 {
+	// Destination Position:
 	GP_helicopter.goto_position.latitude.deg = 48;
 	GP_helicopter.goto_position.latitude.min = 30;
 	GP_helicopter.goto_position.latitude.sec = 0;
@@ -759,6 +766,7 @@ void GP_init_chopper( void )
 	GP_helicopter.goto_position.longitude.sec = 0;
 	GP_helicopter.goto_position.longitude.hemi = 0x57;
 	
+	// Current Position:
 	GP_helicopter.position.latitude.deg = 48;
 	GP_helicopter.position.latitude.min = 30;
 	GP_helicopter.position.latitude.sec = 0;
@@ -769,19 +777,51 @@ void GP_init_chopper( void )
 	GP_helicopter.position.longitude.sec = 0;
 	GP_helicopter.position.longitude.hemi = 0x57;
 	
+	// HSA:
 	GP_helicopter.hsa.heading = 0;
 	GP_helicopter.hsa.speed = 0;
 	GP_helicopter.hsa.altitude = 0;
 	
+	// Attitude:
 	GP_helicopter.attitude.pitch = 0;
 	GP_helicopter.attitude.roll = 0;
 	GP_helicopter.attitude.yaw = 0;
 	
+	// Power Status:
 	GP_helicopter.batterystatus.voltage = 100;
 	GP_helicopter.batterystatus.current = 0;
 	GP_helicopter.batterystatus.temp = 20;
 	
+	// Sensors:
 	GP_helicopter.GPS_alt = 0;
 	GP_helicopter.SON_alt = 0;
 	GP_helicopter.sensors = 0xFF;
+	
+	// PWMs
+	GP_helicopter.pwm.pitch = 0;
+	GP_helicopter.pwm.roll = 0;
+	GP_helicopter.pwm.yaw = 0;
+	GP_helicopter.pwm.coll = 0;
+	GP_helicopter.pwm.engRPM = 0;
+}
+void set_PRY(short pitch, short roll, short yaw)
+{
+
+		GP_helicopter.attitude.pitch = pitch;
+		GP_helicopter.attitude.roll = roll;
+		GP_helicopter.hsa.heading =yaw;
+}
+
+void set_GPSlat(char deg, char min, short sec)
+{
+		GP_helicopter.position.latitude.deg = deg;
+		GP_helicopter.position.latitude.min = min;
+		GP_helicopter.position.latitude.sec = sec;
+}
+
+void set_GPSlong(char deg, char min, short sec)
+{
+		GP_helicopter.position.longitude.deg = deg;
+		GP_helicopter.position.longitude.min = min;
+		GP_helicopter.position.longitude.sec = sec;
 }

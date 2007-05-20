@@ -1,13 +1,17 @@
 #include <p30fxxxx.h>
 #include <string.h>
 
-#include "typedefs.h"
+
 #include "RF.h"
 #include "SPI.h"
-
 #include "commands.h"
 
-#define FCY			5000000 // Instruction cycle freq = xtal / 4
+#define FCY				5000000 // Instruction cycle freq = xtal / 4
+
+#define ER_FASTACK		"ER_CMD#I7"
+#define ER_FASTACKLEN 	9
+#define ER_PLLSTATE 	"ER_CMD#L30D?"
+#define ER_PLLSTATELEN 	12
 
 void setupTRIS ( void );
 
@@ -24,15 +28,17 @@ void GP_init_UART( unsigned int baud );
 void Init_PWM( void );
 // initialize the PWM module
 
-//void __attribute__ (( interrupt, no_auto_psv )) _U2RXInterrupt(void);
-// The UART1 RX ISR. Fires when a character is received on UART1
+void __attribute__ (( interrupt, no_auto_psv )) _U2RXInterrupt(void);
+// The UART2 RX ISR. Fires when a character is received on UART2
 
 void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void);
 // Timer1 ISR
 
 void fillpwmCommand ( void );
 
-GPT_helicopter GP_helicopter;
+void GP_TX_ercmd ( char* code, unsigned char len);
+
+//GPT_helicopter GP_helicopter;
 /*
 GP_helicopter.position.latitude.deg 		(1)
 GP_helicopter.position.latitude.min 		(1)
@@ -69,38 +75,51 @@ extern unsigned char newPWM;
 extern unsigned char GSPI_AccData[];
 //extern unsigned char GP_hs;
 unsigned char T2flag;
+unsigned char ERCMDflag;
 unsigned char clock;
+
+//GPT_helicopter GP_helicopter;		// global helicopter structure
 //*******************************   MAIN   **********************************
 int main ( void )
 {
 	unsigned char dummy;//, error;
 	long i = 0;
+	float seconds = 0;
 	unsigned char state4_cnt = 0;
+	unsigned char test[10] = "0123456789";
+	
+	unsigned char latdeg[3] = "";
+	unsigned char latmin[3] = "";
+	unsigned char latsec[5] = "";
+	unsigned char longdeg[4] = "";
+	unsigned char longmin[3] = "";
+	unsigned char longsec[5] = "";
 	
 //	int writeAddr;
 	
 	setupTRIS();
 //	LATBbits.LATB4 = 1;
 	GP_init_UART(19200);
-
 	
 //	init_GVars();
 	init_T1();
 	init_T2();
-	Init_PWM();
+	Init_PWM( );
 	
 //	LATBbits.LATB0 = 1;
 	
 	SPI_init();	
 	
 	GP_init_chopper();
+	
+	ERCMDflag = 0;
 //	GSPI_CompData[0] = 0;
 //	GSPI_CompData[0] = 0;
 //	GP_hs = 1;
 //	LATBbits.LATB4 = 0;
 	while(1)
 	{
-		//LATBbits.LATB4 ^= 1;
+
 		if (GP_datavalid)
 		{
 			GP_datavalid = 0;
@@ -110,24 +129,79 @@ int main ( void )
 		{
 				
 		}
-//		GP_TX_error(0x09);
-//		GP_TX_char('M');
-//		
-//		if (newPWM)
-//		{
-//			newPWM = 0;
-//			fillpwmCommand();
-//			SPI_tx_command(pwmCommand, 5);	
-//		}
+			
+		if (newPWM)
+		{
+			newPWM = 0;
+			fillpwmCommand();
+			//SPI_tx_command(pwmCommand, 5);	
+		}
+			
+		i++;
+		if (i > 10000)
+		{
+			i = 0;
+			
+			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
+			GP_helicopter.attitude.pitch = (short)GSPI_AccData[0] * 256 + GSPI_AccData[1];
+			GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
 		
-		//SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
-//		GP_helicopter.attitude.pitch = GSPI_AccData[0] * 256 + GSPI_AccData[1];
-//		GP_helicopter.attitude.roll = GSPI_AccData[2] * 256 + GSPI_AccData[3];
-//		
-//		//SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
-//		GP_helicopter.hsa.heading = GSPI_CompData[0] * 256 + GSPI_CompData[1];
-//		
-		//SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+			SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
+			GP_helicopter.hsa.heading = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
+			
+			set_PRY
+			(
+				(short)GSPI_AccData[0] * 256 + GSPI_AccData[1],
+				(short)GSPI_AccData[2] * 256 + GSPI_AccData[3],
+				(short)GSPI_CompData[0] * 256 + GSPI_CompData[1]
+			);
+
+			
+			SPI_tx_req( GSPI_LatReq, GSPI_LatData );
+		
+				latdeg[0] = GSPI_LatData[0];
+				latdeg[1] = GSPI_LatData[1];
+				latmin[0] = GSPI_LatData[2];
+				latmin[1] = GSPI_LatData[3];
+				latsec[0] = GSPI_LatData[5];
+				latsec[1] = GSPI_LatData[6];
+				latsec[2] = GSPI_LatData[7];
+				latsec[3] = GSPI_LatData[8];
+	
+				seconds = ((atoi(latsec) / 1000) * 6) << 10; // whole seconds	
+				seconds += (atoi(latsec) % 1000) * 6 ;
+				
+				
+				set_GPSlat( (char)atoi(latdeg), (char)atoi(latmin), (short)seconds );
+				
+			SPI_tx_req( GSPI_LongReq, GSPI_LongData );
+		
+				longdeg[0] = GSPI_LongData[0];
+				longdeg[1] = GSPI_LongData[1];
+				longdeg[2] = GSPI_LongData[2];
+				longmin[0] = GSPI_LongData[3];
+				longmin[1] = GSPI_LongData[4];
+				longsec[0] = GSPI_LongData[6];
+				longsec[1] = GSPI_LongData[7];
+				longsec[2] = GSPI_LongData[8];
+				longsec[3] = GSPI_LongData[9];
+				
+				seconds = ((atoi(latsec) / 1000) * 6) << 10; // whole seconds	
+				seconds += (atoi(latsec) % 1000) * 6 ;
+				
+				set_GPSlong( (char)atoi(longdeg), (char)atoi(longmin), (short)seconds );
+				//GP_TX_packet(GSPI_LatData, 9);
+		}	
+
+		
+		
+//			
+//			GP_helicopter.position.longitude.deg = atoi(longdeg);
+//			GP_helicopter.position.longitude.min = atoi(longmin);
+//			GP_helicopter.position.longitude.sec = atoi(longsec);
+	
+	
+	//	SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
 	
 		
 	}
@@ -182,7 +256,6 @@ void init_T1 ( void )
 	T1CONbits.TCKPS = 0b11;		
 	TMR1 = 0;
 	T1CONbits.TON = 0;	
-	
 }
 
 void init_T2 ( void )
@@ -243,8 +316,8 @@ void __attribute__(( interrupt, no_auto_psv )) _T2Interrupt(void)
 void Init_PWM( void )
 {
 	PDC1 = 234;				// 50% DC = 1.5ms
-	PTPERbits.PTPER = 2344;	// Timebase period
-
+	//PTPERbits.PTPER = 2344;	// Timebase period (30ms)
+	PTPERbits.PTPER = 1406;
 	PTCONbits.PTSIDL = 0;
 	PTCONbits.PTOPS = 0;	// Postscale = 1:1
 	PTCONbits.PTCKPS = 0b11;	// Prescale = 1:64
@@ -274,7 +347,7 @@ void GP_init_UART( unsigned int baud )
 	U2MODEbits.PDSEL = 0b00;	// 8 data bits, no parity
 	U2MODEbits.STSEL = 0;		// 1 stop bit
 
-	//U2BRG = ( FCY / (16 * baud) ); // calculate the BRG value for a
+//	U2BRG = ( FCY / (16 * baud) ); // calculate the BRG value for a
 									   // given baud rate
 
 //	U2BRG = 0x0020;			// 9600 baud
@@ -282,4 +355,10 @@ void GP_init_UART( unsigned int baud )
 	U2BRG = 0x000F;				// 19200
 	U2MODEbits.UARTEN = 1;		// enable the UART
 	IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
+}
+
+void GP_TX_ercmd ( char* code, unsigned char len)
+{
+	//GP_TX_packet(code, len);
+	ERCMDflag = 1;
 }

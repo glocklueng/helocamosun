@@ -23,10 +23,10 @@ void SPI_init ( void );
 void SPI_tx_byte ( char );
 // transmit 1 byte on the SPI bus
 
-void SPI_tx_command ( unsigned char[MAXPACKLEN], char len );
+void SPI_tx_command ( unsigned char cmd[], char len );
 //transmit a string of character on the SPI bus, expect no response
 
-void SPI_tx_req ( unsigned char[MAXPACKLEN], unsigned char data[MAXPACKLEN] );
+void SPI_tx_req ( unsigned char req[], unsigned char data[] );
 //transmit a request for info on the SPI bus, record the response in "data"
 
 void SPI_readYawGyro ( void );
@@ -44,7 +44,11 @@ extern unsigned char GSPI_VoltData[4];
 extern unsigned char GSPI_TempData[2];
 extern unsigned char GSPI_RpmData[2];
 extern unsigned char GSPI_StatusData[2];
-
+extern unsigned char GSPI_TimeData[6];
+extern unsigned char GSPI_LatData[9];
+extern unsigned char GSPI_LongData[10];
+extern unsigned char GSPI_AltData[7];
+extern unsigned char GSPI_SatData[2];
 // These sensors are read directly into the DSP over the SPI bus
 
 extern unsigned char GSPI_YawGyroData[2];
