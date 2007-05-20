@@ -1,4 +1,4 @@
-
+#include "typedefs.h"
 
 #define MAXPACKLEN 32		// maximum packet length
 
@@ -28,7 +28,7 @@ void GP_parse_data ( char vdata[], char len );
 void GP_TX_telemetry( unsigned char type );
 // transmits a telemetry packet IAW "type"
 
-void GP_ACK( char vdata[MAXPACKLEN], char len );
+void GP_ACK( char vdata[], char len );
 // builds an acknowledgement packet based on the contents of data
 
 void GP_init_chopper( void );
@@ -56,6 +56,8 @@ extern char GP_errorEOT;
 extern unsigned char GP_dump;
 extern unsigned char GP_hs;
 extern unsigned char GP_engON;
+
+extern GPT_helicopter GP_helicopter; // global helicopter structure
 //--------------------------- Messages --------------------------------
 extern char GP_err_chksum[];
 extern char GP_err_SOT[];
@@ -65,4 +67,11 @@ extern char GP_debug_dv[];
 extern unsigned char GP_handshake[];
 
 extern char error[];
-//---------------------------------------------------------------------------
+
+extern unsigned char ERCMDflag;
+//---------------------------------------------------------------------
+
+//added by scott
+void set_variables(short pitch, short roll, short yaw);
+void set_GPSlat(char deg, char min, short sec);
+void set_GPSlong(char deg, char min, short sec);

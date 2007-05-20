@@ -1,11 +1,8 @@
 #include <p30fxxxx.h>
 #include <string.h>
 #include "SPI.h"
-
+#include "RF.h"
 #define MAXPACKLEN 	32		// maximum packet length
-
-
-
 
 unsigned char GSPI_AccData[6] = "";
 unsigned char GSPI_2GyroData[4] = "";
@@ -16,6 +13,11 @@ unsigned char GSPI_VoltData[4] = "";
 unsigned char GSPI_TempData[2] = "";
 unsigned char GSPI_RpmData[2] = "";
 unsigned char GSPI_StatusData[2] = "";
+unsigned char GSPI_TimeData[6] = "";
+unsigned char GSPI_LatData[9] = "";
+unsigned char GSPI_LongData[10] = "";
+unsigned char GSPI_AltData[7] = "";
+unsigned char GSPI_SatData[2] = "";
 
 void SPI_init ()
 {
@@ -28,8 +30,11 @@ void SPI_init ()
 	SPI1CONbits.SSEN = 0;		// Not used in Master mode, so I cleared it
 	
 	// Current prescaler configuration: Fuckin Fast Yo!
-	SPI1CONbits.SPRE = 7;		// secondary prescaler 1:1
-	SPI1CONbits.PPRE = 3;		// primary prescaler 1:1
+//	SPI1CONbits.SPRE = 7;		// secondary prescaler 1:1
+//	SPI1CONbits.PPRE = 3;		// primary prescaler 1:1
+
+	SPI1CONbits.SPRE = 0;		// secondary prescaler 1:1
+	SPI1CONbits.PPRE = 0;		// primary prescaler 1:1
 }
 
 void SPI_tx_byte ( char ch)
@@ -48,7 +53,7 @@ void SPI_tx_word ( unsigned short ch)
 	c = SPI1BUF;
 }
 
-void SPI_tx_command ( unsigned char packet[MAXPACKLEN], char len )
+void SPI_tx_command ( unsigned char packet[], char len )
 {
 	char cnt = 0;
 	
@@ -59,7 +64,7 @@ void SPI_tx_command ( unsigned char packet[MAXPACKLEN], char len )
 	} 
 }
 
-void SPI_tx_req ( unsigned char packet[MAXPACKLEN], unsigned char data[MAXPACKLEN] )
+void SPI_tx_req ( unsigned char packet[], unsigned char data[] )
 {
 	char cnt = 0;
 	int i;
@@ -101,6 +106,7 @@ void SPI_readYawGyro ( void )
 	
 	LATBbits.LATB0 = 0;						// pull framing pin low
 	SPI_tx_word( 0b1000001100000000 );		// Send command to read gyro
+	
 	for (i = 0; i < 1700; i++);				// delay some (time for 16 clocks)
 	
 	LATBbits.LATB0 = 1;						// set framing pin high		
