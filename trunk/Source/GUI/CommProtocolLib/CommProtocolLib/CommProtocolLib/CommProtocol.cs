@@ -25,11 +25,11 @@ namespace CommProtocolLib
         /// </summary>
         public byte Minutes;
         /// <summary>
-        /// integer portion of seconds, a value between 0 and 60 inclusive
+        /// integer portion of seconds, a value between 0 and 60
         /// </summary>
         public byte SecondsH;
         /// <summary>
-        /// The decimal remainder of seconds, the value is 1/2^10 of SecondsH
+        /// The decimal remainder of seconds, the value is 1/1000 of SecondsH
         /// </summary>
         public UInt16 SecondsL;
         /// <summary>
@@ -51,11 +51,11 @@ namespace CommProtocolLib
         /// </summary>
         public byte Minutes;
         /// <summary>
-        /// integer portion of seconds, a value between 0 and 60 inclusive
+        /// integer portion of seconds, a value between 0 and 60
         /// </summary>
         public byte SecondsH;
         /// <summary>
-        /// The decimal remainder of seconds, the value is 1/2^10 of SecondsH
+        /// The decimal remainder of seconds, the value is 1/1000 of SecondsH
         /// </summary>
         public UInt16 SecondsL;
         /// <summary>
@@ -160,12 +160,11 @@ namespace CommProtocolLib
     public class CommProtocol
     {
         
-
         #region datamembers
         /// <summary>
         /// Timer to poll the incoming serial port buffer
         /// </summary>
-        private System.Timers.Timer BufferPollTimer;
+        private Multimedia.Timer BufferPollTimer;
 
         private bool CheckingForPacket = false;
         /// <summary>
@@ -330,9 +329,10 @@ namespace CommProtocolLib
         {
             SerialPortOpen = true;
 
-            BufferPollTimer = new System.Timers.Timer();
-            BufferPollTimer.Interval = 1;
-            BufferPollTimer.Elapsed += new ElapsedEventHandler(BufferPollTimer_Elapsed);
+            BufferPollTimer = new Multimedia.Timer();
+            BufferPollTimer.Period = 1;
+            BufferPollTimer.Resolution = 0;
+            BufferPollTimer.Tick +=new EventHandler(BufferPollTimer_Tick);
             BufferPollTimer.Start();
 
             ResponseTimer = new Multimedia.Timer();
@@ -342,6 +342,8 @@ namespace CommProtocolLib
             ResponseTimer.Stop();
             ResponseTimer.Tick += new EventHandler(ResponseTimer_Tick);
         }
+
+
 
 
 
@@ -886,9 +888,7 @@ namespace CommProtocolLib
         #endregion
 
         #region incoming packets
-
-
-        void BufferPollTimer_Elapsed(object sender, ElapsedEventArgs e)
+        void BufferPollTimer_Tick(object sender, EventArgs e)
         {
             if (!CheckingForPacket)
             {
@@ -896,6 +896,8 @@ namespace CommProtocolLib
                 CheckForPacket();
             }
         }
+
+
 
 
         private void CheckForPacket()
@@ -941,10 +943,13 @@ namespace CommProtocolLib
                         //a full packet response is requested
                         if (IncomingDataBuffer == ExpectedResponse.ExpectedPacket)
                         {
-                            ParentForm.Invoke(ExpectedResponseReceived, new object[] { this, new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name, IncomingDataBuffer) });
-                            //  OnExpectedResponseReceived(new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name,IncomingDataBuffer));
+                            string buffercopy = IncomingDataBuffer;
                             ClearBuffer();
                             //the response is successfully received
+
+                            ParentForm.Invoke(ExpectedResponseReceived, new object[] { this, new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name, buffercopy) });
+                            //  OnExpectedResponseReceived(new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name,IncomingDataBuffer));
+
                         }
                         if (IncomingDataBuffer.Length >= ExpectedResponse.ExpectedPacket.Length)
                         {
@@ -1080,7 +1085,7 @@ namespace CommProtocolLib
                     Lat.Degrees = (byte)IncomingDataBuffer[5];
                     Lat.Minutes = (byte)IncomingDataBuffer[6];
                     Lat.SecondsH = (byte)(((int)IncomingDataBuffer[7] & 0x00FC)>>2);//upper 6 bits for seconds
-                    Lat.SecondsL = Convert.ToUInt16((((byte)IncomingDataBuffer[7] & 0x03) << 10) + Convert.ToUInt16((int)IncomingDataBuffer[8]));//10 bit decimal portion of seconds
+                    Lat.SecondsL = Convert.ToUInt16((((byte)IncomingDataBuffer[7] & 0x03) << 8) + Convert.ToUInt16((int)IncomingDataBuffer[8]));//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[9] == 0x4E)
                     {
                         Lat.North = true;
@@ -1100,7 +1105,7 @@ namespace CommProtocolLib
                     Long.Degrees = (byte)IncomingDataBuffer[10];
                     Long.Minutes = (byte)IncomingDataBuffer[11];
                     Long.SecondsH = (byte)(((int)IncomingDataBuffer[12] & 0x00FC)>>2);//upper 6 bits for seconds
-                    Long.SecondsL = Convert.ToUInt16((((byte)IncomingDataBuffer[12] & 0x03) << 10) + Convert.ToUInt16((int)IncomingDataBuffer[13]));//10 bit decimal portion of seconds
+                    Long.SecondsL = Convert.ToUInt16((((byte)IncomingDataBuffer[12] & 0x03) << 8) + Convert.ToUInt16((int)IncomingDataBuffer[13]));//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[14] == 0x45)
                     {
                         Long.East = true;
@@ -1472,7 +1477,7 @@ namespace CommProtocolLib
                     PFP.Lat.Degrees = (byte)IncomingDataBuffer[5];
                     PFP.Lat.Minutes = (byte)IncomingDataBuffer[6];
                     PFP.Lat.SecondsH = (byte)((int)IncomingDataBuffer[7] & 0x00FC);//upper 6 bits for seconds
-                    PFP.Lat.SecondsL = Convert.ToUInt16((((int)IncomingDataBuffer[7] & 0x03) << 10) + (int)IncomingDataBuffer[8]);//10 bit decimal portion of seconds
+                    PFP.Lat.SecondsL = Convert.ToUInt16((((int)IncomingDataBuffer[7] & 0x03) << 8) + (int)IncomingDataBuffer[8]);//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[9] == 0x4E)
                     {
                         PFP.Lat.North = true;
@@ -1494,7 +1499,7 @@ namespace CommProtocolLib
                     PFP.Long.Degrees = (byte)IncomingDataBuffer[10];
                     PFP.Long.Minutes = (byte)IncomingDataBuffer[11];
                     PFP.Long.SecondsH = (byte)((int)IncomingDataBuffer[12] & 0x00FC);//upper 6 bits for seconds
-                    PFP.Long.SecondsL = Convert.ToUInt16(((int)IncomingDataBuffer[12] & 0x03) << 10 + (int)IncomingDataBuffer[13]);//10 bit decimal portion of seconds
+                    PFP.Long.SecondsL = Convert.ToUInt16((((int)IncomingDataBuffer[12] & 0x03) << 8) + (int)IncomingDataBuffer[13]);//10 bit decimal portion of seconds
                     if ((byte)IncomingDataBuffer[14] == 0x45)
                     {
                         PFP.Long.East = true;

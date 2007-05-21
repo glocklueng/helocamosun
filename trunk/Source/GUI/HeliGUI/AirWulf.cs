@@ -568,13 +568,15 @@ namespace HeliGui
         {
             CommPacketRXLight.On = true;
             PacketReceived = true;
+            if (e.Long.Degrees != 0 && e.Lat.Degrees != 0)
+            {
+                Lon = e.Long;
+                Lat = e.Lat;
 
-            Lon = e.Long;
-            Lat = e.Lat;
-
-            Double Longitude = Lon.Degrees + Lon.Minutes / 60.0 + (Lon.SecondsH + Lon.SecondsL / 1000.0) / 3600.0;
-            Double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.SecondsH + Lat.SecondsL / 1000.0) / 3600.0;
-            GoogleMapCtrl.GotoLoc(Latitude, Longitude);
+                Double Longitude = -(Lon.Degrees + Lon.Minutes / 60.0 + (Lon.SecondsH + Lon.SecondsL / 1000.0) / 3600.0);
+                Double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.SecondsH + Lat.SecondsL / 1000.0) / 3600.0;
+                GoogleMapCtrl.GotoLoc(Latitude, Longitude);
+            }
         }
         #endregion
 

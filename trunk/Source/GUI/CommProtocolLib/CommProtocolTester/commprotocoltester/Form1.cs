@@ -79,8 +79,6 @@ namespace commprotocoltester
 
         }
 
-
-
         void cp_PreFlightPacketReceived(object sender, CommProtocol.PreFlightPacketReceivedEventArgs e)
         {
             ConsecutiveBadPackets = 0;
@@ -179,15 +177,20 @@ namespace commprotocoltester
             Lat = e.Lat;
             Lon = e.Long;
 
-                textBox1.AppendText("Location packet received: Location" +
-                                    " Lat degrees: " + Lat.Degrees +
-                                    " Lat minutes: " + Lat.Minutes +
-                                    " Lat seconds: " + ((float)(Lat.SecondsH) + (Lat.SecondsL / 1000f)) +
-                                    " North: " + Lat.North +
-                                    " Long degrees: " + Lon.Degrees +
-                                    " Long minutes: " + Lon.Minutes +
-                                    " Long seconds: " + ((float)(Lon.SecondsH) + (Lon.SecondsL / 1000f)) +
-                                    " East: " + Lon.East + "\r\n");
+            Double Longitude = -(Lon.Degrees + Lon.Minutes / 60.0 + (Lon.SecondsH + Lon.SecondsL / 1000.0) / 3600.0);
+            Double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.SecondsH + Lat.SecondsL / 1000.0) / 3600.0;
+
+            textBox1.AppendText("Location packet received: Location" +
+                                " Lat degrees: " + Lat.Degrees +
+                                " Lat minutes: " + Lat.Minutes +
+                                " Lat seconds: " + ((float)(Lat.SecondsH) + (Lat.SecondsL / 1000f)) +
+                                " North: " + Lat.North +
+                                " floating Latitude: " + Latitude +
+                                " Long degrees: " + Lon.Degrees +
+                                " Long minutes: " + Lon.Minutes +
+                                " Long seconds: " + ((float)(Lon.SecondsH) + (Lon.SecondsL / 1000f)) +
+                                " East: " + Lon.East +
+                                " floating Longitude: " + Longitude + "\r\n");
 
             if (!ManualMode)
             {
@@ -242,7 +245,7 @@ namespace commprotocoltester
 
             ConsecutiveBadPackets = 0;
 
-            textBox1.AppendText("RPM packet received. RPM:" + e.RPM);
+            textBox1.AppendText("RPM packet received. RPM:" + e.RPM + "\r\n");
             
             if(!ManualMode)
             {
@@ -253,10 +256,14 @@ namespace commprotocoltester
         void cp_ResponseTimeout(object sender, CommProtocol.ResponseTimeoutEventArgs e)
         {
             string _BufferContents = "";
-            textBox1.AppendText("Timeout for " + e.ExpectedResponse.Name + ". Expected: ");
-            foreach (char c in e.ExpectedResponse.ExpectedPacket)
+            textBox1.AppendText("Timeout for " + e.ExpectedResponse.Name + ".");
+            if (e.ExpectedResponse.ExpectedPacket != "UNDEFINED")
             {
-                textBox1.AppendText(CharToHex(c) + " ");
+                textBox1.AppendText(" Expected: ");
+                foreach (char c in e.ExpectedResponse.ExpectedPacket)
+                {
+                    textBox1.AppendText(CharToHex(c) + " ");
+                }
             }
             textBox1.AppendText(" Buffer contents:");
             foreach (char c in e.BufferContents)
@@ -596,7 +603,6 @@ namespace commprotocoltester
                     cp.SetMotorRPM(SetRPM);
                     break;
             }
-            
         }
 
         private void btnstop_Click(object sender, EventArgs e)
