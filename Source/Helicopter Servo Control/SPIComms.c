@@ -318,7 +318,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 					return 0xFF;
 				}
 				break;
-		case GPS_LONGITUDE_COMMAND:
+		case GPS_LONGITUDE_STATE:
 				ReturnValue = GPS_LONGITUDE[ByteNum];
 				ByteNum++;
 				if(ByteNum > 10)//10 bytes in a status packet
@@ -327,7 +327,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 					return 0xFF;
 				}
 				break;
-		case GPS_SATELLITES_COMMAND:
+		case GPS_SATELLITES_STATE:
 				ReturnValue = GPS_SATELLITES[ByteNum];
 				ByteNum++;
 				if(ByteNum > 2)//2 bytes in a status packet
@@ -336,7 +336,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 					return 0xFF;
 				}
 				break;
-		case GPS_ALTITUDE_COMMAND:
+		case GPS_ALTITUDE_STATE:
 				ReturnValue = GPS_ALTITUDE[ByteNum];
 				ByteNum++;
 				if(ByteNum > 7)//7 bytes in a status packet

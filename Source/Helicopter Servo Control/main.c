@@ -85,7 +85,7 @@ void SPI_isr (void)
 #pragma interrupt CCPINT
 void CCPINT(void)
 {
-	PIR1bits.C = 0; 		// clear the capture flag
+	TIMER1FLAG = 0; 		// clear the capture flag
 	Nop();					// additional padding
 	tFlag.newTickFlag = 1;	// Set Tick flag
 	TMR1H = 0xCF;			// reset timer values, for a 40MHz crystal 0x9E59 = 10ms
