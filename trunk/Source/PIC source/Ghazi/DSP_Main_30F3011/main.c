@@ -84,6 +84,7 @@ int main ( void )
 {
 	unsigned char dummy;//, error;
 	long i = 0;
+	int q;
 	float seconds = 0;
 	unsigned char state4_cnt = 0;
 	unsigned char test[10] = "0123456789";
@@ -134,7 +135,7 @@ int main ( void )
 		{
 			newPWM = 0;
 			fillpwmCommand();
-			//SPI_tx_command(pwmCommand, 5);	
+		//	SPI_tx_command(pwmCommand, 5);	
 		}
 			
 		i++;
@@ -142,23 +143,27 @@ int main ( void )
 		{
 			i = 0;
 			
-			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
-			GP_helicopter.attitude.pitch = (short)GSPI_AccData[0] * 256 + GSPI_AccData[1];
-			GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
-		
-			SPI_tx_req(	GSPI_CompReq, GSPI_CompData );
-			GP_helicopter.hsa.heading = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
-			
-			set_PRY
-			(
-				(short)GSPI_AccData[0] * 256 + GSPI_AccData[1],
-				(short)GSPI_AccData[2] * 256 + GSPI_AccData[3],
-				(short)GSPI_CompData[0] * 256 + GSPI_CompData[1]
-			);
-
-			
-			SPI_tx_req( GSPI_LatReq, GSPI_LatData );
-		
+//			if (SPI_tx_req(	GSPI_AccReq, GSPI_AccData ))
+//			{
+//				GP_helicopter.attitude.pitch = (short)GSPI_AccData[0] * 256 + GSPI_AccData[1];
+//				GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
+//			}
+//			
+//			if	(SPI_tx_req(	GSPI_CompReq, GSPI_CompData ))
+//			{
+//				GP_helicopter.hsa.heading = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
+//			}
+//			
+//			set_PRY
+//			(
+//				(short)GSPI_AccData[0] * 256 + GSPI_AccData[1],
+//				(short)GSPI_AccData[2] * 256 + GSPI_AccData[3],
+//				(short)GSPI_CompData[0] * 256 + GSPI_CompData[1]
+//			);
+//
+//			
+			if (SPI_tx_req( GSPI_LatReq, GSPI_LatData ))
+			{
 				latdeg[0] = GSPI_LatData[0];
 				latdeg[1] = GSPI_LatData[1];
 				latmin[0] = GSPI_LatData[2];
@@ -171,11 +176,16 @@ int main ( void )
 				seconds = ((atoi(latsec) / 1000) * 6) << 10; // whole seconds	
 				seconds += (atoi(latsec) % 1000) * 6 ;
 				
-				
 				set_GPSlat( (char)atoi(latdeg), (char)atoi(latmin), (short)seconds );
 				
-			SPI_tx_req( GSPI_LongReq, GSPI_LongData );
-		
+//				GP_TX_packet(GSPI_LatData,9);
+//				for (q = 0; q < 1000; q++);
+//				GP_TX_char('/');
+				
+			}
+				
+			if (SPI_tx_req( GSPI_LongReq, GSPI_LongData ))
+			{
 				longdeg[0] = GSPI_LongData[0];
 				longdeg[1] = GSPI_LongData[1];
 				longdeg[2] = GSPI_LongData[2];
@@ -186,11 +196,15 @@ int main ( void )
 				longsec[2] = GSPI_LongData[8];
 				longsec[3] = GSPI_LongData[9];
 				
-				seconds = ((atoi(latsec) / 1000) * 6) << 10; // whole seconds	
-				seconds += (atoi(latsec) % 1000) * 6 ;
-				
+				seconds = ((atoi(longsec) / 1000) * 6) << 10; // whole seconds	
+				seconds += (atoi(longsec) % 1000) * 6 ;
 				set_GPSlong( (char)atoi(longdeg), (char)atoi(longmin), (short)seconds );
-				//GP_TX_packet(GSPI_LatData, 9);
+				
+//				GP_TX_packet(GSPI_LongData, 10);
+//				for (q = 0; q < 1000; q++);
+//				GP_TX_char(' ');
+	
+			}
 		}	
 
 		
@@ -286,6 +300,15 @@ void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
 	GP_bytercvd = 1;		// indicate a byte was received
 	GP_dump = U2RXREG;		// read the byte from the receive register
 	GP_state_machine();
+//	if (GP_datavalid)
+//	{
+//		GP_datavalid = 0;
+//		GP_parse_data(GP_data, GP_data_len);
+//	}
+//	else
+//	{
+//			
+//	}
 	IEC1bits.U2RXIE = 1;	// re-enable the receive interrupt
 
 }

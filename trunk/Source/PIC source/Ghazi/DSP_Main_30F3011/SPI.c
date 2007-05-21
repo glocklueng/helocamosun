@@ -16,6 +16,8 @@ unsigned char GSPI_StatusData[2] = "";
 unsigned char GSPI_TimeData[6] = "";
 unsigned char GSPI_LatData[9] = "";
 unsigned char GSPI_LongData[10] = "";
+//unsigned char GSPI_LatData[10] = "";
+//unsigned char GSPI_LongData[11] = "";
 unsigned char GSPI_AltData[7] = "";
 unsigned char GSPI_SatData[2] = "";
 
@@ -64,7 +66,7 @@ void SPI_tx_command ( unsigned char packet[], char len )
 	} 
 }
 
-void SPI_tx_req ( unsigned char packet[], unsigned char data[] )
+char SPI_tx_req ( unsigned char packet[], unsigned char data[] )
 {
 	char cnt = 0;
 	int i;
@@ -79,6 +81,12 @@ void SPI_tx_req ( unsigned char packet[], unsigned char data[] )
 		SPI_tx_byte( packet[cnt] );	
 		
 		while (!SPI1STATbits.SPIRBF);
+//		{
+//			if (i++ > 100)
+//			{
+//				return 0;	
+//			}
+//		}
 		
 		// We need to ignore the first byte we receive since it is garbage
 		if (cnt > 0)
@@ -96,6 +104,7 @@ void SPI_tx_req ( unsigned char packet[], unsigned char data[] )
 		
 		for (i = 0; i < 500; i++);
 	} 
+	return 1;
 }
 
 void SPI_readYawGyro ( void )
