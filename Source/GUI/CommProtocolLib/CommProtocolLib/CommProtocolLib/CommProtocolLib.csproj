@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="CommProtocol.cs">
     </Compile>
+    <Compile Include="GPSParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Timer.cs" />
   </ItemGroup>
