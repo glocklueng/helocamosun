@@ -35,7 +35,6 @@ namespace HeliGui
             this.btnReloadGMC = new System.Windows.Forms.Button();
             this.RequestInfoTimer = new System.Windows.Forms.Timer(this.components);
             this.PacketRXTimer = new System.Windows.Forms.Timer(this.components);
-            this.IndicatorLightTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // btnConnect
@@ -85,11 +84,6 @@ namespace HeliGui
             this.PacketRXTimer.Interval = 500;
             this.PacketRXTimer.Tick += new System.EventHandler(this.PacketRXTimer_Tick);
             // 
-            // IndicatorLightTimer
-            // 
-            this.IndicatorLightTimer.Enabled = true;
-            this.IndicatorLightTimer.Tick += new System.EventHandler(this.IndicatorLightTimer_Tick);
-            // 
             // frmAirWulf
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -115,7 +109,6 @@ namespace HeliGui
         private System.Windows.Forms.Button btnReloadGMC;
         private System.Windows.Forms.Timer RequestInfoTimer;
         private System.Windows.Forms.Timer PacketRXTimer;
-        private System.Windows.Forms.Timer IndicatorLightTimer;
     }
 }
 

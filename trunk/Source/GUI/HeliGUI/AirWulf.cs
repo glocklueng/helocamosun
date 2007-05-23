@@ -66,6 +66,7 @@ namespace HeliGui
         IndicatorLight RPMLight;
         IndicatorLight BadPacketLight;
         IndicatorLight PacketTimeoutLight;
+
         #endregion
         #endregion
 
@@ -75,8 +76,6 @@ namespace HeliGui
             InitializeComponent();
             SetupFormElements();
         }
-
-
 
         /// <summary>
         /// called once by the constructor at startup
@@ -188,23 +187,24 @@ namespace HeliGui
 
             BatteryLowLight.Size = IndicatorLightSize;
             BatteryLowLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 0, 0);
-            BatteryLowLight.On = true;
 
             BatteryTempLight.Size = IndicatorLightSize;
             BatteryTempLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 0, 1);
-            BatteryTempLight.Blink = true;
 
             BatteryVoltageLight.Size = IndicatorLightSize;
             BatteryVoltageLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 0, 2);
-            BatteryVoltageLight.On = true;
 
             BatteryCurrentLight.Size = IndicatorLightSize;
             BatteryCurrentLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 1, 0);
-            BatteryCurrentLight.On = true;
 
             RPMLight.Size = IndicatorLightSize;
-            RPMLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 1, 1);
-            RPMLight.Blink = true;
+            RPMLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 1, 1);  
+
+            BadPacketLight.Size = IndicatorLightSize;
+            BadPacketLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 1, 2);
+
+            PacketTimeoutLight.Size = IndicatorLightSize;
+            PacketTimeoutLight.Location = GetIndicatorLocation(IndicatorLightTopLeftReference, IndicatorLightSize, gapSize, 2, 0);
         }
         private Point GetIndicatorLocation(Point TopReference, Size IndicatorSize, float gapSize, int yOrder, int xOrder)
         {
@@ -221,6 +221,7 @@ namespace HeliGui
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
+            this.Disposed += new EventHandler(frmAirWulf_Disposed);
             if (ComProt == null)
             {
                 ComProt = new CommProtocol(
@@ -245,13 +246,22 @@ namespace HeliGui
                     ComProt.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(ComProt_HandShakeAckReceived);
                     ComProt.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(ComProt_PreFlightPacketReceived);
                     ComProt.MotorRPMPacketReceived += new CommProtocol.MotorRPMPacketReceivedEventHandler(ComProt_MotorRPMPacketReceived);
-
+                    ComProt.GPSStringReceived += new CommProtocol.GPSStringReceivedEventHandler(ComProt_GPSStringReceived);
                     RequestInfoTimer.Start();
                 }
                 else
                 {
-                    ComProt = null;
+                    ComProt.Dispose();
                 }
+            }
+        }
+
+    
+        void frmAirWulf_Disposed(object sender, EventArgs e)
+        {
+            if (ComProt != null)
+            {
+                ComProt.Dispose();
             }
         }
 
@@ -482,6 +492,14 @@ namespace HeliGui
             RPMLight = new IndicatorLight("Over RPM");
             RPMLight.OnColor = Color.Orange;
             this.Controls.Add(RPMLight);
+
+            BadPacketLight = new IndicatorLight("Bad Packet\r\nReceived");
+            BadPacketLight.OnColor = Color.Orange;
+            this.Controls.Add(BadPacketLight);
+
+            PacketTimeoutLight = new IndicatorLight("Packet Timeout");
+            PacketTimeoutLight.OnColor = Color.Orange;
+            this.Controls.Add(PacketTimeoutLight);
         }
         #region event handlers
         void ComProt_MotorRPMPacketReceived(object sender, CommProtocol.MotorRPMPacketReceivedEventArgs e)
@@ -490,6 +508,8 @@ namespace HeliGui
             PacketReceived = true;
             RPM = e.RPM;
             RPMGauge.Value = RPM;
+
+
         }
 
         void ComProt_PreFlightPacketReceived(object sender, CommProtocol.PreFlightPacketReceivedEventArgs e)
@@ -549,6 +569,9 @@ namespace HeliGui
 
         void ComProt_ResponseTimeout(object sender, CommProtocol.ResponseTimeoutEventArgs e)
         {
+            PacketTimeoutLight.BlinkRate = 1000;
+            PacketTimeoutLight.OneShot = true;
+            PacketTimeoutLight.Blink = true;
 
         }
 
@@ -561,7 +584,9 @@ namespace HeliGui
 
         void ComProt_BadPacketReceived(object sender, CommProtocol.BadPacketReceivedEventArgs e)
         {
-
+            BadPacketLight.BlinkRate = 500;
+            BadPacketLight.OneShot = true;
+            BadPacketLight.Blink = true;
         }
 
         void ComProt_LocationPacketReceived(object sender, CommProtocol.LocationPacketReceivedEventArgs e)
@@ -578,6 +603,22 @@ namespace HeliGui
                 GoogleMapCtrl.GotoLoc(Latitude, Longitude);
             }
         }
+        void ComProt_GPSStringReceived(object sender, CommProtocol.GPSStringReceivedEventArgs e)
+        {
+
+            CommPacketRXLight.On = true;
+            PacketReceived = true;
+            if (e.data.Long.Degrees != 0 && e.data.Lat.Degrees != 0)
+            {
+                Lon = e.data.Long;
+                Lat = e.data.Lat;
+
+                Double Longitude = -(Lon.Degrees + Lon.Minutes / 60.0 + (Lon.SecondsH + Lon.SecondsL / 1000.0) / 3600.0);
+                Double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.SecondsH + Lat.SecondsL / 1000.0) / 3600.0;
+                GoogleMapCtrl.GotoLoc(Latitude, Longitude);
+            }
+        }
+
         #endregion
 
         private void RequestInfoTimer_Tick(object sender, EventArgs e)
@@ -637,13 +678,5 @@ namespace HeliGui
                 ConnectionLight.WarningText = "Not Connected";
             }
         }
-
-        private void IndicatorLightTimer_Tick(object sender, EventArgs e)
-        {
-
-        }
-
-
-
     }
 }

@@ -343,16 +343,18 @@ namespace CommProtocolLib
             ResponseTimer.Tick += new EventHandler(ResponseTimer_Tick);
         }
 
+        /// <summary>
+        /// Call this at form close
+        /// </summary>
+        public void Dispose()
+        {
 
-
-
-
-
-
-
-
+            BufferPollTimer.Dispose();
+            ResponseTimer.Dispose();
+            SP.Dispose();
+        }
         #endregion
-        
+
         #region out-going packets
 
         #region Communications
@@ -897,12 +899,9 @@ namespace CommProtocolLib
             }
         }
 
-
-
-
         private void CheckForPacket()
         {
-            
+            //bool GPSPacket = false;
             for (int i = 0; i < SP.BytesToRead; i++)
             {
                 byte incomingByte = (byte)SP.ReadByte();
@@ -913,6 +912,7 @@ namespace CommProtocolLib
 
             if (IncomingDataBuffer.Length >= 1)
             {
+                
                 if ((int)IncomingDataBuffer[0] != 0xA5)
                 {
                     ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header") });
@@ -920,6 +920,7 @@ namespace CommProtocolLib
                     CheckingForPacket = false;
                     return;
                 }
+
             }
             if (IncomingDataBuffer.Length >= 2)
             {
@@ -1984,6 +1985,25 @@ namespace CommProtocolLib
             {
                 this.ReceivedPacket = ReceivedPacket;
                 this.Name = Name;
+            }
+
+
+        }
+        #endregion
+        #region gps string received event
+        public delegate void GPSStringReceivedEventHandler(object sender, GPSStringReceivedEventArgs e);
+
+        public event GPSStringReceivedEventHandler GPSStringReceived;
+
+
+        public class GPSStringReceivedEventArgs : EventArgs
+        {
+            public GPSData data;
+            public bool connected;
+            public GPSStringReceivedEventArgs(GPSData data, bool connected)
+            {
+                this.connected = connected;
+                this.data = data;
             }
 
 

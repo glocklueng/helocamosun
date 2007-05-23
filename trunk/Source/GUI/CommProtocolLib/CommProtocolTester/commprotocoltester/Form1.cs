@@ -41,7 +41,7 @@ namespace commprotocoltester
 
             InitializeComponent();
 
-            for (int i = 1; i < 10; i++)
+            for (int i = 1; i < 12; i++)
             {
                 comboBox1.Items.Add("COM" + i);
             }
@@ -217,12 +217,13 @@ namespace commprotocoltester
             ConsecutiveBadPackets++;
 
             string BadPacketHex = "";
-            textBox1.AppendText( e.ErrorMessage+ ". Contents of bad packet: ");
+            textBox1.AppendText( e.ErrorMessage+ ". " + e.BadPacket);
             foreach (char c in e.BadPacket)
             {
                 BadPacketHex += CharToHex(c) + " ";
             }
             textBox1.AppendText(BadPacketHex + "\r\n");
+           
             textBox1.ScrollToCaret();
 
             if (!ManualMode)
@@ -572,10 +573,29 @@ namespace commprotocoltester
                 cp.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(cp_HandShakeAckReceived);
                 cp.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(cp_PreFlightPacketReceived);
                 cp.MotorRPMPacketReceived += new CommProtocol.MotorRPMPacketReceivedEventHandler(cp_MotorRPMPacketReceived);
-
+                cp.GPSStringReceived += new CommProtocol.GPSStringReceivedEventHandler(cp_GPSStringReceived);
 
 
                 
+            }
+        }
+
+        void cp_GPSStringReceived(object sender, CommProtocol.GPSStringReceivedEventArgs e)
+        {
+            if (!e.connected)
+            {
+                textBox1.AppendText("GPS not connected\r\n");
+            }
+            else
+            {
+                textBox1.AppendText(
+                    "Altitude: " + e.data.Altitude.ToString() + "\r\n" +
+                    "course: " + e.data.Course.ToString() + "\r\n" +
+                    "date/time: " + e.data.GPSDateTime.ToString() + "\r\n" +
+                    "Lat: DD: " + e.data.Lat.Degrees + " MM: " + e.data.Lat.Minutes + " SH: " + e.data.Lat.SecondsH + " SL: " + e.data.Lat.SecondsL +
+                    "Long: DD: " + e.data.Long.Degrees + " MM: " + e.data.Long.Minutes + " SH: " + e.data.Long.SecondsH + " SL: " + e.data.Long.SecondsL +
+                    "Velocity: " + e.data.Velocity.ToString()
+            );
             }
         }
 
