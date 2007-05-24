@@ -13,7 +13,7 @@ char RPM[2];
 
 void InitCCP(void)
 {
-	//RC3 must be an input
+	//RC2 must be an input
 	TRISCbits.TRISC2 = 1;
 	/*
 		CCPxM3:CCPxM0: CCPx Mode Select bits
@@ -66,7 +66,7 @@ void InitCCP(void)
 							//1 = Enables Timer1
 							//0 = Stops Timer1
 							
-	TIMER1FLAG = 0;	//clear timer1 interrupt flag
+	TIMER1FLAG = 0;			//clear timer1 interrupt flag
 	PIE1bits.TMR1IE = 0;	//disable timer1 interrupt enable
 
 	TMR1L = 0x00;

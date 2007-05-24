@@ -20,6 +20,7 @@
 #define GPS_LONGITUDE_STATE			12
 #define GPS_SATELLITES_STATE		13
 #define GPS_ALTITUDE_STATE			14
+//#define GPS_HEMISPHERE_STATE	    15
 
 #define ACCELEROMETER_COMMAND 	'A'
 #define TWO_AXIS_GYRO_COMMAND 	'G'
@@ -35,6 +36,7 @@
 #define	GPS_LONGITUDE_COMMAND	'D' //		|
 #define	GPS_SATELLITES_COMMAND	'B' //		v
 #define GPS_ALTITUDE_COMMAND	'U' // ------------------
+//#define GPS_HEMISPHERE_COMMAND  'H'
 
 
 char dummydata[11] ={"0123456789"};
@@ -200,6 +202,10 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ByteNum = 0;
 				state = GPS_ALTITUDE_STATE;
 				break;
+//			case GPS_HEMISPHERE_COMMAND:
+//				ByteNum = 0;
+//				state = GPS_HEMISPHERE_STATE;
+//				break;
 			default://Invalid command
 				state = WAITING_FOR_COMMAND_STATE;
 				return 0xFF;
@@ -345,6 +351,15 @@ unsigned char SPI_State_Machine(unsigned char Input)
 					return 0xFF;
 				}
 				break;
+//		case GPS_HEMISPHERE_STATE:
+//				ReturnValue = GPS_HEMI[ByteNum];
+//				ByteNum++;
+//				if(ByteNum > 2)//7 bytes in a status packet
+//				{
+//					state = WAITING_FOR_COMMAND_STATE;
+//					return 0xFF;
+//				}
+//				break;		
         default:
 				state = WAITING_FOR_COMMAND_STATE;
 				ReturnValue = 0xA5;				

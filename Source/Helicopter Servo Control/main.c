@@ -36,7 +36,7 @@
 
 /********************** Interrupt Function Definition ****************/
 
-void CCPINT(void);
+void TMR0_isr(void);
 void SPI_isr (void);
 void CCP1_isr(void);
 void RX_isr(void);
@@ -53,9 +53,9 @@ void interrupt_at_high_vector(void)
 	{
 		_asm GOTO SPI_isr _endasm
 	}
-	if(TIMER1FLAG)			// capture compare interrupt
+	if(TIMER0FLAG)			// capture compare interrupt
 	{
-		_asm GOTO CCPINT _endasm
+		_asm GOTO TMR0_isr _endasm
 	}
 	if(PIR1bits.CCP1IF)
 	{
@@ -82,25 +82,23 @@ void SPI_isr (void)
 	SPI_Write(Reply);//fill the buffer with data back to the SPI master, it will go out the next time an SPI packet is received
 	PIR1bits.SSPIF = 0;//clear the interrupt flag
 }
-#pragma interrupt CCPINT
-void CCPINT(void)
+#pragma interrupt TMR0_isr
+void TMR0_isr(void)
 {
-	TIMER1FLAG = 0; 		// clear the capture flag
+	TIMER0FLAG = 0; 		// clear the capture flag
 	Nop();					// additional padding
 	tFlag.newTickFlag = 1;	// Set Tick flag
-	TMR1H = 0xCF;			// reset timer values, for a 40MHz crystal 0x9E59 = 10ms
-	TMR1L += 0x2D;			// for a 20MHz crystal 0xCF2D = 10.0000 ms	
+	TMR0H = 0xCF;			// reset timer values, for a 40MHz crystal 0x9E59 = 10ms
+	TMR0L += 0x2D;			// for a 20MHz crystal 0xCF2D = 10.0000 ms	
 }
 
 #pragma interrupt CCP1_isr
 void CCP1_isr(void)
 {
 	CCP_interrupt();
-	
+	PIR1bits.CCP1IF = 0;//clear ccp1 interrupt flag		
 	TMR1L = 0x00;
 	TMR1H = 0x00;
-	
-	PIR1bits.CCP1IF = 0;//clear ccp1 interrupt flag		
 }
 
 #pragma code 	/* return to code section */
@@ -118,7 +116,7 @@ void main(void)
 	ADCInit();
 	SPI_Init();
 	TimerInit();
-
+	InitCCP();
 #ifdef USART_DEBUG
 	ClearScreen();
 	prepscreen();		// for debugging
@@ -152,56 +150,55 @@ void main(void)
 			{
 				case 1:
 					ResetCompass();		// start compass module
-
+#ifdef USART_DEBUG
 					if(cFlag.debug)
 					{
-#ifdef USART_DEBUG
 						UpdateServos();
-#endif						
 					}
+#endif
 					break;
 				case 2:		// 10ms
 					ScanADC();
 					GetADCAverage();
-
+#ifdef USART_DEBUG
 					if(cFlag.debug)
 					{
-#ifdef USART_DEBUG
 						UpdateADC();
-#endif
 					}
+#endif
 					break;
 					
 				case 3:
+					RPM_Ready = 0;	// check the motor RPM
+#ifdef USART_DEBUG
 					if(cFlag.debug)
 					{
-#ifdef USART_DEBUG
-					UpdateRoll();
-#endif
+						UpdateRoll();
 					}
+#endif
 					break;
 					
 				case 4:		// 30ms
 					GetCompassValues();		// Get the compass values
 					GetCompassAverage();	// Find the average x-y values
-
+#ifdef USART_DEBUG
 					if(cFlag.debug)
 					{
-#ifdef USART_DEBUG
-					UpdatePitch();
-#endif
+						UpdatePitch();
 					}
+#endif
 					break;
 
 				case 5:
 					GetAxisValues();		// Get Tri-axis values
 					GetAxisAverage();		// Get the average values for x-y-z
+#ifdef USART_DEBUG
 					if(cFlag.debug)
 					{
-#ifdef USART_DEBUG
-					UpdateCompass();	
-#endif
+						UpdateCompass();
+
 					}
+#endif
 					TickCounter = 0;		// Reset Tick Counter
 					break;
 				default:
