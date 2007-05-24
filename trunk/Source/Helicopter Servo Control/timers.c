@@ -22,21 +22,30 @@ Description: Initializes the timer to interrupt every 100ms
 */
 void TimerInit(void)
 {
-	T1CONbits.RD16 = 0;		// read/write to timer in 2 8-bit operations
+	T0CONbits.TMR0ON = 1;	// Turn on Timer 0
+	T0CONbits.T016BIT = 0;  // Configured as 16-bit timer
+	T0CONbits.T0CS = 0;		// Internal instruction cycle clock
+	T0CONbits.T0SE = 0; 	// Increment on Low to High edge
+	T0CONbits.PSA = 0;		// Timer0 clock input comes from prescaler output
+	T0CONbits.T0PS2 = 0;
+	T0CONbits.T0PS1 = 0;	// Set prescaler to 1:8
+	T0CONbits.T0PS0 = 1;
 
-	TMR1H = 0xCF;			// Initialise timer 1
-	TMR1L = 0x2D;			// for 10 ms interrupt ***debug change to 100ms
+	TMR0H = 0xCF;			// Initialise timer 0
+	TMR0L = 0x2D;			// for 10 ms interrupt ***debug change to 100ms
 
-	T1CONbits.T1RUN = 1;
-	T1CONbits.T1CKPS1=1;	// set prescaler to 1:8
-	T1CONbits.T1CKPS0=0;
-	T1CONbits.TMR1CS=0;		// use internal clock
-	T1CONbits.T1OSCEN=1;	// Oscillator enabled
-	T1CONbits.TMR1ON=1;		// Start timer
+	INTCONbits.T0IE = 1;	// Timer 0 interrupt enable
 	
-	TIMER1FLAG = 0;			// clear timer1 int flag
-	PIE1bits.TMR1IE = 1;	// enable timer 1 interrupt
-	IPR1bits.TMR1IP = 1;	// set to high priority interrupt
+//	T1CONbits.T1RUN = 1;
+//	T1CONbits.T1CKPS1=1;	// set prescaler to 1:8
+//	T1CONbits.T1CKPS0=0;
+//	T1CONbits.TMR1CS=0;		// use internal clock
+//	T1CONbits.T1OSCEN=1;	// Oscillator enabled
+//	T1CONbits.TMR1ON=1;		// Start timer
+//	
+//	TIMER1FLAG = 0;			// clear timer1 int flag
+//	PIE1bits.TMR1IE = 1;	// enable timer 1 interrupt
+//	IPR1bits.TMR1IP = 1;	// set to high priority interrupt
 }
 
 void TimeKeeping(void)

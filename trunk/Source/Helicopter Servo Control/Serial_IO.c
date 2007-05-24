@@ -129,28 +129,29 @@ Function: GetCompassValues
 Description: Checks the status of the compass module and clocks in the 11-bit X and Y values
 		     from the compass module.
 */
-//void GetCompassValues(WORD Compass_X, WORD Compass_Y)
 void GetCompassValues(void)
 {
 	char out_bits, 
 		 in_bits;
 	WORD byte_out = 0;
 
-	COMPASS = 0;
+	COMPASS = 0;	// Enable the compass module
 	
-	Compass_X.D_byte = 0;
+	Compass_X.D_byte = 0;	// Set the return values to 0
 	Compass_Y.D_byte = 0;
 
-	out_bits = 4;
+	out_bits = 4;	// Set the # of bits to be read from the compass
 	in_bits = 4;
+					// Ask if the compass is ready to transmit data back
 	byte_out.byte[0] = COMPASS_RDY;
 	ShiftIO(byte_out, out_bits, &Compass_X, in_bits);
 
-	out_bits = 0;
+	out_bits = 0;	// Set the # of bits to be read from the compass
 	in_bits = 11;
-	
+					// Get the 11-bit data value for the X-axis of the compass
 	Compass_X.D_byte = 0;
 	ShiftIO(byte_out, out_bits, &Compass_X, in_bits);
+					// Get the 11-bit data value for the Y-axis of the compass
 	Compass_Y.D_byte = 0;
 	ShiftIO(byte_out, out_bits, &Compass_Y, in_bits);
 	
@@ -161,13 +162,12 @@ void GetCompassValues(void)
 Function: GetCompassAverage
 Description: Calculates a moving average of the X and Y values received by the compass module
 */
-//void GetCompassAverage(WORD Compass_X, WORD Compass_Y, int *CompassXAverage, int *CompassYAverage)
 void GetCompassAverage(void)
 {
 	char loopcounter;
+	float xAxisComp, yAxisComp;
 	static int CompassXtemp = 0,
 			   CompassYtemp = 0;
-	static signed int CompassAverage[AVERAGEVALUE];
 	static char CompassCount = 0;
 	static char AverageCount = 0;
 	signed int Xtemp = Compass_X.D_byte,
@@ -195,15 +195,17 @@ void GetCompassAverage(void)
 		
 		CompassYtemp /= AVERAGEVALUE;
 		CompassXtemp /= AVERAGEVALUE;
-		CompassYAverage = CompassYtemp;
-		CompassXAverage = CompassXtemp;
+		xAxisComp = XAxisAverage * pi / 180; // convert to radians
+		yAxisComp = YAxisAverage * pi / 180;
+		CompassYAverage = CompassYtemp * cos( xAxisComp);
+		CompassXAverage = CompassXtemp * cos( yAxisComp);
 		CompassXtemp = 0;
 		CompassYtemp = 0;
 		
 		if (( CompassXAverage >= 0) && (CompassYAverage >= 0))
 	    {
 	          fCompassAngle = atan( -1.0 * (float)CompassYAverage /(float) CompassXAverage );
-	          fCompassAngle *= (180.0 / pi);
+	          fCompassAngle *= (180.0 / pi);	// convert to degrees
 	          fCompassAngle += 360.0;
 	          CompassAngle = (unsigned int) fCompassAngle;
 	    } else
@@ -230,24 +232,6 @@ void GetCompassAverage(void)
 	          fCompassAngle *= (180.0 / pi);
 	          CompassAngle = (unsigned int) fCompassAngle;
 	    }
-	    
-	    CompassAverage[AverageCount] = CompassAngle;
-	    
-	    AverageCount++;
-	    if( AverageCount > AVERAGEVALUE - 1 )
-	    {
-		    AverageCount = 0;
-		}
-		
-		for(loopcounter = 0; loopcounter < (AVERAGEVALUE - 1); loopcounter++)
-		{
-			CompassAverageAngle += CompassAverage[loopcounter];
-		}
-		
-		CompassAverageAngle = CompassAverageAngle / AVERAGEVALUE;
-		
-   	    Compass[0] = CompassAverageAngle>>8;
-        Compass[1] = (char) CompassAverageAngle;
 	}
 	else
 	{
@@ -255,8 +239,34 @@ void GetCompassAverage(void)
 		CompassXtemp += Xtemp;
 		CompassYtemp += Ytemp;
 	}
+
 }
 
+void GetCompassAngle(void)
+{
+	char loopcounter;
+	static char AverageCount = 0;
+	static signed int CompassAverage[AVERAGEVALUE];
+	
+	CompassAverage[AverageCount] = CompassAngle;
+	
+	AverageCount++;
+	if( AverageCount > AVERAGEVALUE - 1 )
+	{
+	 AverageCount = 0;
+	}
+	
+	for(loopcounter = 0; loopcounter < (AVERAGEVALUE - 1); loopcounter++)
+	{
+		CompassAverageAngle += CompassAverage[loopcounter];
+	}
+	
+	CompassAverageAngle = CompassAverageAngle / AVERAGEVALUE;
+	
+	 	    Compass[0] = CompassAverageAngle>>8;
+	      Compass[1] = (char) CompassAverageAngle;
+	
+}
 /*
 Function: GetAxisValues
 Description: Gets the X, Y, and Z axis values from the tri-axis accelerometer module

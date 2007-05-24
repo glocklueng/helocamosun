@@ -4,6 +4,7 @@ timers.h
 
 //#define TIMER1FLAG PIR1bits.TMR1IF
 #define TIMER1FLAG PIR1bits.C
+#define TIMER0FLAG INTCONbits.T0IF
 
 typedef struct 
 {

@@ -35,11 +35,11 @@ extern	signed int CompassXAverage,
 			
 extern unsigned int CompassAngle;
 void ResetCompass(void);
-
 void GetAxisAverage(void);
 void GetAxisValues(void);
 void GetCompassValues(void);
 void GetCompassAverage(void);
+void GetCompassAngle(void);
 /*
 Function: ShiftIO
 Input Variables:	
