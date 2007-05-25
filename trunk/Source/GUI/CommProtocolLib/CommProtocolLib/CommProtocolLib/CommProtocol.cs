@@ -12,6 +12,28 @@ namespace CommProtocolLib
 {
     #region Public Data Structures
     /// <summary>
+    /// Corrections to be sent to the helicopter for Differential GPS corrections
+    /// </summary>
+    public struct GPSCorrection
+    {
+        /// <summary>
+        /// signed latitude seconds error
+        /// </summary>
+        public short LatSeconds;
+        /// <summary>
+        /// signed longitude seconds error
+        /// </summary>
+        public short LongSeconds;
+        /// <summary>
+        /// signed decimeters altitude correction
+        /// </summary>
+        public short Altitude;
+        /// <summary>
+        /// time of this gps fix
+        /// </summary>
+        public DateTime Time;
+    }
+    /// <summary>
     /// standard global latitude data structure
     /// </summary>
     public struct Latitude
@@ -25,13 +47,9 @@ namespace CommProtocolLib
         /// </summary>
         public byte Minutes;
         /// <summary>
-        /// integer portion of seconds, a value between 0 and 60
+        /// thousanths of seconds
         /// </summary>
-        public byte SecondsH;
-        /// <summary>
-        /// The decimal remainder of seconds, the value is 1/1000 of SecondsH
-        /// </summary>
-        public UInt16 SecondsL;
+        public UInt16 Seconds;
         /// <summary>
         /// North latitude if true, otherwise south
         /// </summary>
@@ -51,13 +69,9 @@ namespace CommProtocolLib
         /// </summary>
         public byte Minutes;
         /// <summary>
-        /// integer portion of seconds, a value between 0 and 60
+        /// thousanths of seconds
         /// </summary>
-        public byte SecondsH;
-        /// <summary>
-        /// The decimal remainder of seconds, the value is 1/1000 of SecondsH
-        /// </summary>
-        public UInt16 SecondsL;
+        public UInt16 Seconds;
         /// <summary>
         /// East latitude if true, otherwise West
         /// </summary>
@@ -745,8 +759,8 @@ namespace CommProtocolLib
                 OutGoingPacket[5] = Lat.Degrees;
                 OutGoingPacket[6] = Lat.Minutes;
                 //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
-                OutGoingPacket[7] = (byte)(Lat.SecondsH + (byte)((Lat.SecondsL & 0xFC00) >> 8));
-                OutGoingPacket[8] = (byte)(Lat.SecondsL & 0x00FF);
+                OutGoingPacket[7] = (byte)(Lat.Seconds / 1000);
+                OutGoingPacket[8] = (byte)(Lat.Seconds % 1000);
                 if (Lat.North)
                 {
                     OutGoingPacket[9] = 0x4E;
@@ -758,8 +772,8 @@ namespace CommProtocolLib
                 OutGoingPacket[10] = Long.Degrees;
                 OutGoingPacket[11] = Long.Minutes;
                 //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
-                OutGoingPacket[12] = (byte)(Long.SecondsH + (byte)((Long.SecondsL & 0xFC00) >> 8));
-                OutGoingPacket[13] = (byte)(Long.SecondsL & 0x00FF);
+                OutGoingPacket[12] = (byte)(Long.Seconds / 1000);
+                OutGoingPacket[13] = (byte)(Long.Seconds % 1000);
                 if (Long.East)
                 {
                     OutGoingPacket[14] = 0x45;
@@ -883,6 +897,58 @@ namespace CommProtocolLib
                         "Valid options are 0x4C, 0x48, 0x5A, 0x42, and 0x52. "+
                         "See the protocol specification for details");
                 }
+            }
+        }
+        /// <summary>
+        /// Sends a differential gps correction factor packet
+        /// </summary>
+        /// <param name="gpsc">a filled GPSCorrection struct</param>
+        public void SendGPSCorrectionFactor(GPSCorrection gpsc)
+        {
+            /*
+            GPS Correction Factor
+            0x46	Command type “Flight Ops”
+            0x43	Command “GPS Correction Factor”
+
+            0xSSSS	Latitude seconds correction (-3000 to 3000) in thousandths of seconds.
+
+            0xSSSS	Longitude seconds correction (-3000 to 3000) in thousandths of seconds.
+
+            0xAAAA	Altitude correction in 10ths of meters.
+
+            0xHHMMSS	Time of GPS fix
+
+             */
+
+
+            if (ExpectedResponse.ResponseExpected == false)
+            {
+                OutGoingPacket = new byte[18];
+                OutGoingPacket[0] = 0xA5;//header
+                OutGoingPacket[1] = 0x5A;
+                OutGoingPacket[2] = 0x0B;//number of bytes
+                OutGoingPacket[3] = 0x46;//flight ops command
+                OutGoingPacket[4] = 0x43;
+                OutGoingPacket[5] = (byte)((gpsc.LatSeconds & 0xFF00) >> 8);//upper lat seconds byte
+                OutGoingPacket[6] = (byte)(gpsc.LatSeconds & 0x00FF);
+                OutGoingPacket[7] = (byte)((gpsc.LongSeconds & 0xFF00) >> 8);//upper long seconds byte
+                OutGoingPacket[8] = (byte)(gpsc.LongSeconds & 0x00FF);
+                OutGoingPacket[9] = (byte)((gpsc.Altitude & 0xFF00) >> 8);//upper altitude byte
+                OutGoingPacket[10] = (byte)(gpsc.Altitude & 0x00FF);
+                OutGoingPacket[11] = (byte)gpsc.Time.Hour;
+                OutGoingPacket[12] = (byte)gpsc.Time.Minute;
+                OutGoingPacket[13] = (byte)gpsc.Time.Second;
+                ushort checksum = 0;
+                for (int i = 2; i < 14; i++)
+                {
+                    checksum += OutGoingPacket[i];
+                }
+                OutGoingPacket[14] = (byte)((checksum & 0xFF00) >> 8);
+                OutGoingPacket[15] = (byte)(checksum & 0x00FF);
+                OutGoingPacket[16] = 0xCC;
+                OutGoingPacket[17] = 0x33;
+                SendPacket("GPS Correction Factor", ExpectedResponses.type.FullPacketResponse);
+
             }
         }
         #endregion
@@ -1085,8 +1151,7 @@ namespace CommProtocolLib
                     Latitude Lat = new Latitude();
                     Lat.Degrees = (byte)IncomingDataBuffer[5];
                     Lat.Minutes = (byte)IncomingDataBuffer[6];
-                    Lat.SecondsH = (byte)(((int)IncomingDataBuffer[7] & 0x00FC)>>2);//upper 6 bits for seconds
-                    Lat.SecondsL = Convert.ToUInt16((((byte)IncomingDataBuffer[7] & 0x03) << 8) + Convert.ToUInt16((int)IncomingDataBuffer[8]));//10 bit decimal portion of seconds
+                    Lat.Seconds = (ushort)((ushort)IncomingDataBuffer[7] << 8 + (ushort)IncomingDataBuffer[8]);
                     if ((byte)IncomingDataBuffer[9] == 0x4E)
                     {
                         Lat.North = true;
@@ -1105,8 +1170,7 @@ namespace CommProtocolLib
                     Longitude Long = new Longitude();
                     Long.Degrees = (byte)IncomingDataBuffer[10];
                     Long.Minutes = (byte)IncomingDataBuffer[11];
-                    Long.SecondsH = (byte)(((int)IncomingDataBuffer[12] & 0x00FC)>>2);//upper 6 bits for seconds
-                    Long.SecondsL = Convert.ToUInt16((((byte)IncomingDataBuffer[12] & 0x03) << 8) + Convert.ToUInt16((int)IncomingDataBuffer[13]));//10 bit decimal portion of seconds
+                    Lat.Seconds = (ushort)((ushort)IncomingDataBuffer[7] << 8 + (ushort)IncomingDataBuffer[8]);
                     if ((byte)IncomingDataBuffer[14] == 0x45)
                     {
                         Long.East = true;
@@ -1477,8 +1541,7 @@ namespace CommProtocolLib
                     PFP.Lat = new Latitude();
                     PFP.Lat.Degrees = (byte)IncomingDataBuffer[5];
                     PFP.Lat.Minutes = (byte)IncomingDataBuffer[6];
-                    PFP.Lat.SecondsH = (byte)((int)IncomingDataBuffer[7] & 0x00FC);//upper 6 bits for seconds
-                    PFP.Lat.SecondsL = Convert.ToUInt16((((int)IncomingDataBuffer[7] & 0x03) << 8) + (int)IncomingDataBuffer[8]);//10 bit decimal portion of seconds
+                    PFP.Lat.Seconds = (ushort)(((ushort)IncomingDataBuffer[7] << 8) + (ushort)IncomingDataBuffer[8]); 
                     if ((byte)IncomingDataBuffer[9] == 0x4E)
                     {
                         PFP.Lat.North = true;
@@ -1499,8 +1562,7 @@ namespace CommProtocolLib
                     PFP.Long = new Longitude();
                     PFP.Long.Degrees = (byte)IncomingDataBuffer[10];
                     PFP.Long.Minutes = (byte)IncomingDataBuffer[11];
-                    PFP.Long.SecondsH = (byte)((int)IncomingDataBuffer[12] & 0x00FC);//upper 6 bits for seconds
-                    PFP.Long.SecondsL = Convert.ToUInt16((((int)IncomingDataBuffer[12] & 0x03) << 8) + (int)IncomingDataBuffer[13]);//10 bit decimal portion of seconds
+                    PFP.Long.Seconds = (ushort)(((ushort)IncomingDataBuffer[12] <<8) +(ushort)IncomingDataBuffer[13]);
                     if ((byte)IncomingDataBuffer[14] == 0x45)
                     {
                         PFP.Long.East = true;
@@ -1990,25 +2052,7 @@ namespace CommProtocolLib
 
         }
         #endregion
-        #region gps string received event
-        public delegate void GPSStringReceivedEventHandler(object sender, GPSStringReceivedEventArgs e);
 
-        public event GPSStringReceivedEventHandler GPSStringReceived;
-
-
-        public class GPSStringReceivedEventArgs : EventArgs
-        {
-            public GPSData data;
-            public bool connected;
-            public GPSStringReceivedEventArgs(GPSData data, bool connected)
-            {
-                this.connected = connected;
-                this.data = data;
-            }
-
-
-        }
-        #endregion
         #endregion
     }
 }

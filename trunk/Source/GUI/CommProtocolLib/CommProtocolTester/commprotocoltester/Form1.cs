@@ -89,11 +89,11 @@ namespace commprotocoltester
                     " GPS Altitude: " + PFP.GPSAltitude +
                     " Lat degrees: " + PFP.Lat.Degrees +
                     " Lat minutes: " + PFP.Lat.Minutes +
-                    " Lat seconds: " + (float)(PFP.Lat.SecondsH) + (PFP.Lat.SecondsL / 1000f) +
+                    " Lat seconds: " + (float)(PFP.Lat.Seconds)/1000.0f +
                     " North degrees: " + PFP.Lat.North +
                     " Long degrees: " + PFP.Long.Degrees +
                     " Long minutes: " + PFP.Long.Minutes +
-                    " Long seconds: " + (float)(PFP.Long.SecondsH) + (PFP.Long.SecondsL / 1000f) +
+                    " Long seconds: " + (float)(PFP.Long.Seconds) /1000.0f+
                     " East degrees: " + PFP.Long.East +
                     " sensor status: " + string.Format("{0:x2}", PFP.SensorStatus) +
                     " sonar altitude: " + PFP.SonarAltitude
@@ -108,11 +108,11 @@ namespace commprotocoltester
                     " GPS Altitude: " + PFP.GPSAltitude +  
                     " Lat degrees: " + PFP.Lat.Degrees +  
                     " Lat minutes: " + PFP.Lat.Minutes +  
-                    " Lat seconds: " + (float)(PFP.Lat.SecondsH) + (PFP.Lat.SecondsL / 1000f) +  
+                    " Lat seconds: " + (float)(PFP.Lat.Seconds)/1000.0f +  
                     " North degrees: " + PFP.Lat.North +  
                     " Long degrees: " + PFP.Long.Degrees +  
                     " Long minutes: " + PFP.Long.Minutes +  
-                    " Long seconds: " + (float)(PFP.Long.SecondsH) + (PFP.Long.SecondsL / 1000f) +  
+                    " Long seconds: " + (float)(PFP.Long.Seconds) /1000.0f +  
                     " East degrees: " + PFP.Long.East +  
                     " sensor status: " + string.Format("{0:x2}", PFP.SensorStatus) +  
                     " sonar altitude: " + PFP.SonarAltitude);
@@ -177,18 +177,18 @@ namespace commprotocoltester
             Lat = e.Lat;
             Lon = e.Long;
 
-            Double Longitude = -(Lon.Degrees + Lon.Minutes / 60.0 + (Lon.SecondsH + Lon.SecondsL / 1000.0) / 3600.0);
-            Double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.SecondsH + Lat.SecondsL / 1000.0) / 3600.0;
+            Double Longitude = -(Lon.Degrees + Lon.Minutes / 60.0 + (double)(Lon.Seconds) / 1000.0 / 3600.0);
+            Double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (double)(Lat.Seconds) / 1000.0 / 3600.0;
 
             textBox1.AppendText("Location packet received: Location" +
                                 " Lat degrees: " + Lat.Degrees +
                                 " Lat minutes: " + Lat.Minutes +
-                                " Lat seconds: " + ((float)(Lat.SecondsH) + (Lat.SecondsL / 1000f)) +
+                                " Lat seconds: " + (float)(Lat.Seconds) / 1000f +
                                 " North: " + Lat.North +
                                 " floating Latitude: " + Latitude +
                                 " Long degrees: " + Lon.Degrees +
                                 " Long minutes: " + Lon.Minutes +
-                                " Long seconds: " + ((float)(Lon.SecondsH) + (Lon.SecondsL / 1000f)) +
+                                " Long seconds: " + (float)(Lon.Seconds) / 1000f +
                                 " East: " + Lon.East +
                                 " floating Longitude: " + Longitude + "\r\n");
 
@@ -197,11 +197,11 @@ namespace commprotocoltester
                 InsertRowToReceived_packetsTable("Location",
                                     " Lat degrees: " + Lat.Degrees +
                                     " Lat minutes: " + Lat.Minutes +
-                                    " Lat seconds: " + ((float)(Lat.SecondsH) + (Lat.SecondsL / 1000f)) +
+                                    " Lat seconds: " + (float)(Lat.Seconds)/ 1000f +
                                     " North: " + Lat.North +
                                     " Long degrees: " + Lon.Degrees +
                                     " Long minutes: " + Lon.Minutes +
-                                    " Long seconds: " + ((float)(Lon.SecondsH) + (Lon.SecondsL / 1000f)) +
+                                    " Long seconds: " + (float)(Lon.Seconds) / 1000f +
                                     " East: " + Lon.East);
             }
         }
@@ -217,7 +217,7 @@ namespace commprotocoltester
             ConsecutiveBadPackets++;
 
             string BadPacketHex = "";
-            textBox1.AppendText( e.ErrorMessage+ ". " + e.BadPacket);
+            textBox1.AppendText( e.ErrorMessage+ ". ");// + e.BadPacket);
             foreach (char c in e.BadPacket)
             {
                 BadPacketHex += CharToHex(c) + " ";
@@ -336,15 +336,13 @@ namespace commprotocoltester
             lat.Degrees= 0;
             lat.Minutes = 0;
             lat.North = true;
-            lat.SecondsH = 0;
-            lat.SecondsL = 0;
+            lat.Seconds = 0;
             
             Longitude lon = new Longitude();
             lon.Degrees = 0;
             lon.Minutes = 0;
             lon.East = true;
-            lon.SecondsH = 0;
-            lon.SecondsL = 0;
+            lon.Seconds = 0;
 
             cp.Goto(lat,lon,0x48,50);
         }
@@ -449,14 +447,6 @@ namespace commprotocoltester
                 //cp.RequestForInformation(0x5A);
 
 
-                if (BufferCopy != cp.NonVolatileIncomingDataBuffer)
-                {
-                    BufferCopy = cp.NonVolatileIncomingDataBuffer;
-                   // textBox2.Clear();
-
-                  //  textBox2.AppendText(cp.NonVolatileIncomingDataBuffer);
-                   // textBox2.ScrollToCaret();
-                }
 
             }
             else if (cp != null && !ManualMode)
@@ -557,7 +547,7 @@ namespace commprotocoltester
         private void btnConnect_Click(object sender, EventArgs e)
         {
 
-            cp = new CommProtocol(comboBox1.SelectedItem.ToString(),19200, Parity.None, 8, StopBits.One, 200, this);
+            cp = new CommProtocol(comboBox1.SelectedItem.ToString(),19200, Parity.None, 8, StopBits.One, 2000, this);
 
             if (cp != null)
             {
@@ -573,31 +563,14 @@ namespace commprotocoltester
                 cp.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(cp_HandShakeAckReceived);
                 cp.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(cp_PreFlightPacketReceived);
                 cp.MotorRPMPacketReceived += new CommProtocol.MotorRPMPacketReceivedEventHandler(cp_MotorRPMPacketReceived);
-                cp.GPSStringReceived += new CommProtocol.GPSStringReceivedEventHandler(cp_GPSStringReceived);
+ 
 
 
                 
             }
         }
 
-        void cp_GPSStringReceived(object sender, CommProtocol.GPSStringReceivedEventArgs e)
-        {
-            if (!e.connected)
-            {
-                textBox1.AppendText("GPS not connected\r\n");
-            }
-            else
-            {
-                textBox1.AppendText(
-                    "Altitude: " + e.data.Altitude.ToString() + "\r\n" +
-                    "course: " + e.data.Course.ToString() + "\r\n" +
-                    "date/time: " + e.data.GPSDateTime.ToString() + "\r\n" +
-                    "Lat: DD: " + e.data.Lat.Degrees + " MM: " + e.data.Lat.Minutes + " SH: " + e.data.Lat.SecondsH + " SL: " + e.data.Lat.SecondsL +
-                    "Long: DD: " + e.data.Long.Degrees + " MM: " + e.data.Long.Minutes + " SH: " + e.data.Long.SecondsH + " SL: " + e.data.Long.SecondsL +
-                    "Velocity: " + e.data.Velocity.ToString()
-            );
-            }
-        }
+
 
         void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -636,6 +609,39 @@ namespace commprotocoltester
             {
                 mtimer.Start();
                 //timer1.Start();
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnGPSCorrection_Click(object sender, EventArgs e)
+        {
+            GPSCorrection gpsc;
+            gpsc.Altitude = 10;
+            gpsc.LatSeconds = 5;
+            gpsc.LongSeconds = 5;
+            gpsc.Time = new DateTime();
+            gpsc.Time.AddHours(2.43);
+
+            cp.SendGPSCorrectionFactor(gpsc);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+            if (cp != null)
+            {
+                if (BufferCopy != cp.NonVolatileIncomingDataBuffer)
+                {
+                    BufferCopy = cp.NonVolatileIncomingDataBuffer;
+                    textBox2.Clear();
+
+                    textBox2.AppendText(cp.NonVolatileIncomingDataBuffer);
+                    textBox2.ScrollToCaret();
+                }
             }
         }
         
