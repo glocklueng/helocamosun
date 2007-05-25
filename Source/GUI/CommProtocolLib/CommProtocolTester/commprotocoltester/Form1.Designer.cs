@@ -28,6 +28,7 @@ namespace commprotocoltester
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnCommsHandShakeInitiate = new System.Windows.Forms.Button();
             this.btnCommsHandShakeTerminate = new System.Windows.Forms.Button();
@@ -59,6 +60,8 @@ namespace commprotocoltester
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnstop = new System.Windows.Forms.Button();
             this.textBox7 = new System.Windows.Forms.TextBox();
+            this.btnGPSCorrection = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,7 +146,7 @@ namespace commprotocoltester
             // 
             // btnRequestPreFlightPacket
             // 
-            this.btnRequestPreFlightPacket.Location = new System.Drawing.Point(12, 424);
+            this.btnRequestPreFlightPacket.Location = new System.Drawing.Point(5, 175);
             this.btnRequestPreFlightPacket.Name = "btnRequestPreFlightPacket";
             this.btnRequestPreFlightPacket.Size = new System.Drawing.Size(174, 23);
             this.btnRequestPreFlightPacket.TabIndex = 8;
@@ -258,9 +261,10 @@ namespace commprotocoltester
             this.groupBox1.Controls.Add(this.btnRequestAttitude);
             this.groupBox1.Controls.Add(this.btnRequestBatteryStatus);
             this.groupBox1.Controls.Add(this.btnRequestHSA);
+            this.groupBox1.Controls.Add(this.btnRequestPreFlightPacket);
             this.groupBox1.Location = new System.Drawing.Point(12, 186);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(185, 193);
+            this.groupBox1.Size = new System.Drawing.Size(185, 213);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Info requests";
@@ -333,6 +337,7 @@ namespace commprotocoltester
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 26;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // btnConnect
             // 
@@ -362,11 +367,27 @@ namespace commprotocoltester
             this.textBox7.TabIndex = 29;
             this.textBox7.Text = "0";
             // 
+            // btnGPSCorrection
+            // 
+            this.btnGPSCorrection.Location = new System.Drawing.Point(12, 424);
+            this.btnGPSCorrection.Name = "btnGPSCorrection";
+            this.btnGPSCorrection.Size = new System.Drawing.Size(174, 23);
+            this.btnGPSCorrection.TabIndex = 30;
+            this.btnGPSCorrection.Text = "Send GPS correction";
+            this.btnGPSCorrection.UseVisualStyleBackColor = true;
+            this.btnGPSCorrection.Click += new System.EventHandler(this.btnGPSCorrection_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(942, 666);
+            this.Controls.Add(this.btnGPSCorrection);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.btnstop);
             this.Controls.Add(this.btnConnect);
@@ -385,7 +406,6 @@ namespace commprotocoltester
             this.Controls.Add(this.btnSetCollective);
             this.Controls.Add(this.btnSetAntiTorque);
             this.Controls.Add(this.btnReturnToBase);
-            this.Controls.Add(this.btnRequestPreFlightPacket);
             this.Controls.Add(this.btnHover);
             this.Controls.Add(this.btnGoto);
             this.Controls.Add(this.btnEngageEngine);
@@ -434,6 +454,8 @@ namespace commprotocoltester
         private System.Windows.Forms.Button btnRequestMotorRPM;
         private System.Windows.Forms.Button btnstop;
         private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Button btnGPSCorrection;
+        private System.Windows.Forms.Timer timer1;
 
     }
 }
