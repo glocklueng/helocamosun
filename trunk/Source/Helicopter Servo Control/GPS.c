@@ -32,10 +32,10 @@ void GetGPSString(char GPSdata)
 			GPS_STRING = 0;
 			break;
 		case 'C':
-			if( GPS_STATE >= 5)
-			{
-				GPSflag.speed = 1;
-			}
+//			if( GPS_STATE >= 5)
+//			{
+//				GPSflag.speed = 1;
+//			}
 			GPS_STATE = 0;
 			GPS_STRING = 0;
 			break;
@@ -47,22 +47,22 @@ void GetGPSString(char GPSdata)
 			GPS_STATE = 0;
 			GPS_STRING = 0;
 			GPSflag.rxdata = 0;
-			GPSflag.speed = 1;
+//			GPSflag.speed = 1;
 			break;
-		case 'N':
-		case 'S':
-			if(GPSflag.rxdata)
-			{
-				GPS_STATE = GPS_N_S;
-			}
-			break;
-		case 'W':
-		case 'E':
-			if(GPSflag.rxdata || GPSflag.speed)
-			{
-				GPS_STATE = GPS_W_E;
-			}
-			break;
+//		case 'N':
+//		case 'S':
+//			if(GPSflag.rxdata)
+//			{
+//				GPS_STATE = GPS_N_S;
+//			}
+//			break;
+//		case 'W':
+//		case 'E':
+//			if(GPSflag.rxdata || GPSflag.speed)
+//			{
+//				GPS_STATE = GPS_W_E;
+//			}
+//			break;
 		default:
 			if(GPSflag.rxdata )
 			{
@@ -93,15 +93,15 @@ void GetGPSString(char GPSdata)
 						break;
 				}
 			}
-			if(GPSflag.speed)
-			{
-				switch(GPS_STATE)
-				{
-					case GPS_SPEED:
-						GPSSPEED[GPS_STRING++] = GPSdata;
-						break;
-				}
-			}
+//			if(GPSflag.speed)
+//			{
+//				switch(GPS_STATE)
+//				{
+//					case GPS_SPEED:
+//						GPSSPEED[GPS_STRING++] = GPSdata;
+//						break;
+//				}
+//			}
 			break;
 	}
 }

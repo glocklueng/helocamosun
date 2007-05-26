@@ -47,34 +47,6 @@ char ServoString[6] = "Servo";
 //char CompassString[8] = "Compass";
 //char CollectiveString[11] = "Collective";
 
-void setCursor( char x, char y)
-{
-	WriteUSART(0x1B);
-	while(BusyUSART());
-	WriteUSART(0x5B);
-	while(BusyUSART());
-	
-	if(y >= 10)
-	{
-		WriteUSART('0'+( y / 10 ));
-		while(BusyUSART());
-	}
-	WriteUSART('0' + ( y % 10 ));
-	while(BusyUSART());
-	WriteUSART(';');
-	while(BusyUSART());
-	
-	if(x >= 10)
-	{
-		WriteUSART('0' + ( x / 10 ));
-		while(BusyUSART());
-	}
-	WriteUSART('0' + ( x % 10 ));
-	while(BusyUSART());
-	WriteUSART('H');
-	while(BusyUSART());
-}
-
 void ClearScreen(void)
 {
 	putsUSART(clearscreen);
@@ -151,6 +123,36 @@ void UpdateCompass(void)
 //	sprintf(outputstring, (char *)"%04d", CompassYAverage);
 //	putsUSART(outputstring);
 }
+
+
+void setCursor( char x, char y)
+{
+	WriteUSART(0x1B);
+	while(BusyUSART());
+	WriteUSART(0x5B);
+	while(BusyUSART());
+	
+	if(y >= 10)
+	{
+		WriteUSART('0'+( y / 10 ));
+		while(BusyUSART());
+	}
+	WriteUSART('0' + ( y % 10 ));
+	while(BusyUSART());
+	WriteUSART(';');
+	while(BusyUSART());
+	
+	if(x >= 10)
+	{
+		WriteUSART('0' + ( x / 10 ));
+		while(BusyUSART());
+	}
+	WriteUSART('0' + ( x % 10 ));
+	while(BusyUSART());
+	WriteUSART('H');
+	while(BusyUSART());
+}
+
 void UpdateServos(void)
 {
 	char outputstring[5]={0};
@@ -171,5 +173,6 @@ void UpdateServos(void)
 	sprintf(outputstring, (char *)"%04d", servos[4]);
 	putsUSART(outputstring);	
 }
+
 
 #endif

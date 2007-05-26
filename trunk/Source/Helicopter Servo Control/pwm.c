@@ -5,7 +5,7 @@ pwm.c
 #include "USART.h"
 #include "variables.h"
 
-char servos[6];
+char servos[4];
 
 void PCPWMInit(void)
 {
@@ -43,16 +43,20 @@ void PCPWMInit(void)
 void UpdatePWM(void)
 {
 	// PITCH
-	PDC0L = Accoustic[1];		// 1.43ms, minimum duty cycle 0x0620
-	while(BusyUSART());	
+//	PDC0H = Accoustic[0];		// servo[1]
+//	TXREG = Accoustic[0];
+//	while(BusyUSART());	
+//	TXREG = Accoustic[1];
+//	while(BusyUSART());
+	PDC0L = servos[1];		// 1.43ms, minimum duty cycle 0x0620
 	// ROLL
 	PDC1L = servos[2];		// 536us, maximum duty cycle
-	while(BusyUSART());	
+//	while(BusyUSART());	
 	// YAW
 	PDC2L = servos[3];		// 526us, 50% duty cycle
-	while(BusyUSART());	
+//	while(BusyUSART());	
 	// COLLECTIVE
 	PDC3L = servos[4];		// some random value
-	while(BusyUSART());	
+//	while(BusyUSART());	
 }
 
