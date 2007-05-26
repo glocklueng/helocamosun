@@ -67,7 +67,31 @@ namespace Test_Tune
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.KeyDown += new KeyEventHandler(Form1_KeyDown);
+            this.KeyPress += new KeyPressEventHandler(Form1_KeyPress);
+        }
 
+        void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //throw new Exception("The method or operation is not implemented.");
+            char c = e.KeyChar;
+            switch (c)
+            { 
+                case 'w':
+                case 'W':
+                    txtColVal.Text = Convert.ToString(++colServo.Value);
+                    if (ckbTXPackets.Checked)
+                    {
+                        SP.SetCollective((byte)colServo.Value);
+
+                    }
+                    break;
+            }
         }
 
         private void pitchServo_Scroll(object sender, EventArgs e)
