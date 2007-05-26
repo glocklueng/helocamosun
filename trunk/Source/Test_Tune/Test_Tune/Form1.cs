@@ -112,8 +112,8 @@ namespace Test_Tune
                         txtYawVal.Text = Convert.ToString(--yawServo.Value);
                         if (ckbTXPackets.Checked)
                         {
-                            SP.SetCollective((byte)yawServo.Value);
-
+                            
+                            SP.SetAntiTorque((byte)yawServo.Value);
                         }
 
                     }
@@ -126,7 +126,7 @@ namespace Test_Tune
                         txtYawVal.Text = Convert.ToString(++yawServo.Value);
                         if (ckbTXPackets.Checked)
                         {
-                            SP.SetCollective((byte)yawServo.Value);
+                            SP.SetAntiTorque((byte)yawServo.Value);
 
                         }
 
@@ -140,8 +140,8 @@ namespace Test_Tune
                         txtPitchVal.Text = Convert.ToString(++pitchServo.Value);
                         if (ckbTXPackets.Checked)
                         {
-                            SP.SetCollective((byte)pitchServo.Value);
-
+                     
+                            SP.SetCyclicPitch((byte)pitchServo.Value);
                         }
 
                     }
@@ -154,7 +154,7 @@ namespace Test_Tune
                         txtPitchVal.Text = Convert.ToString(--pitchServo.Value);
                         if (ckbTXPackets.Checked)
                         {
-                            SP.SetCollective((byte)pitchServo.Value);
+                            SP.SetCyclicPitch((byte)pitchServo.Value);
 
                         }
 
@@ -168,8 +168,8 @@ namespace Test_Tune
                         txtRollVal.Text = Convert.ToString(--rollServo.Value);
                         if (ckbTXPackets.Checked)
                         {
-                            SP.SetCollective((byte)rollServo.Value);
-
+                         
+                            SP.SetCyclicRoll((byte)rollServo.Value);
                         }
 
                     }
@@ -182,8 +182,8 @@ namespace Test_Tune
                         txtRollVal.Text = Convert.ToString(++rollServo.Value);
                         if (ckbTXPackets.Checked)
                         {
-                            SP.SetCollective((byte)rollServo.Value);
-
+                            SP.SetCyclicRoll((byte)rollServo.Value);
+                            
                         }
 
                     }
@@ -196,8 +196,8 @@ namespace Test_Tune
                         txtEngineSpeed.Text = Convert.ToString(++engineSpeed.Value);
                         if (ckbTXPackets.Checked)
                         {
-                            SP.SetCollective((byte)engineSpeed.Value);
-
+                         
+                            SP.SetMotorRPM((byte)engineSpeed.Value);
                         }
 
                     }
@@ -210,7 +210,7 @@ namespace Test_Tune
                         txtEngineSpeed.Text = Convert.ToString(--engineSpeed.Value);
                         if (ckbTXPackets.Checked)
                         {
-                            SP.SetCollective((byte)engineSpeed.Value);
+                            SP.SetMotorRPM((byte)engineSpeed.Value);
 
                         }
 
