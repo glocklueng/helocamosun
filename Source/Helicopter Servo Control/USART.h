@@ -11,15 +11,16 @@ void SerialInit(void);
 #ifdef USART_DEBUG
 
 void ClearScreen(void);
-void putsUSART (char *data);
-void WriteUSART (char data);
+
 char ReadUSART (void);
 void prepscreen(void);
 void UpdateRoll(void);
 void UpdatePitch(void);
 void UpdateCompass(void);
-void UpdateServos(void);
 void UpdateADC(void);
+void putsUSART (char *data);
+void WriteUSART (char data);
+void UpdateServos(void);
 void setCursor( char x, char y);
 
 #endif

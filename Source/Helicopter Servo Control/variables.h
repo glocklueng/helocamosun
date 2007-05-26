@@ -27,4 +27,4 @@ extern char Accoustic[2];
 extern char Temperature[2];
 extern char RPM[2];
 extern char command[3];
-extern char servos[6];
+extern char servos[4];

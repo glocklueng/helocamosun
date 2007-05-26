@@ -69,7 +69,6 @@ void RX_isr(void)
 {
 	// used to receive characters RCIF is cleared on read
 	GetGPSString(RCREG);
-	LATDbits.LATD4 ^= 1;		// for debugging purposes
 }
 
 #pragma interrupt SPI_isr
@@ -106,10 +105,13 @@ void CCP1_isr(void)
 void main(void)
 {
 /*********** Varible declaration *************/
-	char TickCounter;
+	char TickCounter = 0;
 	
-	TRISDbits.TRISD4 = 0;	// for debugging purposes
-	LATDbits.LATD4 = 1;		// for debugging purposes	
+//	TRISDbits.TRISD4 = 0;	// for debugging purposes
+//	LATDbits.LATD4 = 1;		// for debugging purposes
+//	LATDbits.LATD4 ^= 1;		// for debugging purposes
+//	LATBbits.LATB0 ^= 1;
+	
 /********** Beginning of main code ***********/
 	SerialInit();
 	PCPWMInit();
@@ -117,6 +119,7 @@ void main(void)
 	SPI_Init();
 	TimerInit();
 	InitCCP();
+	
 #ifdef USART_DEBUG
 	ClearScreen();
 	prepscreen();		// for debugging
@@ -125,14 +128,12 @@ void main(void)
 /******** VARIABLE INITIALIZATION ************/
 	INTCONbits.PEIE = 1;	// enable peripheral interrupt
 	INTCONbits.GIE = 1;		// enable global interrupt
-	TickCounter = 0;
-	tDelay.delay1s = 0;
-	tDelay.delay100ms = 0;
 	
-	cFlag.main = 1;
-	cFlag.debug = 0;
+
+	
 	TRISDbits.TRISD4 = 0;	// for debugging purposes
 	TRISBbits.TRISB0 = 0;
+	
 	LedStates();
 
 /******** START OF MAIN LOOP *****************/
@@ -145,69 +146,61 @@ void main(void)
 			tFlag.newTickFlag=0;		// Set all flags to zero
 			TickCounter++;				// cycles 50ms period
 			TimeKeeping();
-			LATBbits.LATB0 ^= 1;
+
 			switch(TickCounter)
 			{
 				case 1:
 					ResetCompass();		// start compass module
 #ifdef USART_DEBUG
-					if(cFlag.debug)
-					{
-						UpdateServos();
-					}
+					UpdateServos();		// Send servo values to the USART
 #endif
 					break;
 				case 2:		// 10ms
 					ScanADC();
 					GetADCAverage();
 #ifdef USART_DEBUG
-					if(cFlag.debug)
-					{
-						UpdateADC();
-					}
+					UpdateADC();		// Send ADC values to the USART
 #endif
 					break;
 					
 				case 3:
-					RPM_Ready = 0;	// check the motor RPM
+					RPM_Ready = 0;		// check the motor RPM
 #ifdef USART_DEBUG
-					if(cFlag.debug)
-					{
-						UpdateRoll();
-					}
+					UpdateRoll();		// Send Roll Values to the USART
 #endif
 					break;
 					
 				case 4:		// 30ms
-					GetCompassValues();		// Get the compass values
-					GetCompassAverage();	// Find the average x-y values
+					GetCompassValues();	// Get the compass values
+					GetCompassAverage();// Find the average x-y values
 #ifdef USART_DEBUG
-					if(cFlag.debug)
-					{
-						UpdatePitch();
-					}
+					UpdatePitch();		// Send Pitch values to the USART
 #endif
 					break;
 
 				case 5:
-					GetAxisValues();		// Get Tri-axis values
-					GetAxisAverage();		// Get the average values for x-y-z
+					GetAxisValues();	// Get Tri-axis values
+					GetAxisAverage();	// Get the average values for x-y-z
 #ifdef USART_DEBUG
-					if(cFlag.debug)
-					{
-						UpdateCompass();
+					UpdateCompass();	// Send Compass values to the USART
 
-					}
 #endif
-					TickCounter = 0;		// Reset Tick Counter
+					TickCounter = 0;	// Reset Tick Counter
 					break;
 				default:
 					break;
 			}
+			
+			// Provisions for if we need 100ms timers
+			if(tFlag.new100msTickFlag)
+			{
+			}
+			// Provisions for if we need 1 second timers
 			if(tFlag.new1sTickFlag)
 			{
-//				LedStates();
+				LedStates();
 			}
+			
 		}
 	}
 	while(1);

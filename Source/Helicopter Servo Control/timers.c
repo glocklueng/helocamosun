@@ -33,33 +33,26 @@ void TimerInit(void)
 
 	TMR0H = 0xCF;			// Initialise timer 0
 	TMR0L = 0x2D;			// for 10 ms interrupt ***debug change to 100ms
-
-	INTCONbits.T0IE = 1;	// Timer 0 interrupt enable
 	
-//	T1CONbits.T1RUN = 1;
-//	T1CONbits.T1CKPS1=1;	// set prescaler to 1:8
-//	T1CONbits.T1CKPS0=0;
-//	T1CONbits.TMR1CS=0;		// use internal clock
-//	T1CONbits.T1OSCEN=1;	// Oscillator enabled
-//	T1CONbits.TMR1ON=1;		// Start timer
-//	
-//	TIMER1FLAG = 0;			// clear timer1 int flag
-//	PIE1bits.TMR1IE = 1;	// enable timer 1 interrupt
-//	IPR1bits.TMR1IP = 1;	// set to high priority interrupt
+	tDelay.delay1s = 0;
+	tDelay.delay100ms = 0;
+	
+	INTCONbits.T0IE = 1;	// Timer 0 interrupt enable
 }
 
 void TimeKeeping(void)
 {
-	tFlag.new100msTickFlag = 0; // clear the flag
+	tFlag.new100msTickFlag = 0; 	// clear the flag
 	tFlag.new1sTickFlag = 0;
 
 	tDelay.delay100ms++;			// counts up to 10
 	
-	if(tDelay.delay100ms >= 10)	// after 100ms, set a 100ms Flag
+	if(tDelay.delay100ms >= 10)		// after 100ms, set a 100ms Flag
 	{
 		tFlag.new100msTickFlag = 1;
 		tDelay.delay100ms = 0;
 		tDelay.delay1s++;
+		
 		if(tDelay.delay1s >= 10)
 		{
 			tFlag.new1sTickFlag = 1;

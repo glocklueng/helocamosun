@@ -6,13 +6,17 @@ adc.c
 #include "adc.h"
 
 WORD RangeFinder,
-	 Gyro1,
-	 Gyro2,
-	 Gyro3,
+	 PitchGyro,
+	 RollGyro,
+	 Yaw_Gyro,
 	 CurrentMeter,
 	 VoltageMeter;
 	 
 signed int RangeAverage;
+signed int 	PitchAverage;
+signed int 	RollAverage;
+signed int	YawAverage;
+
 char Gyro[4];
 char Voltages[4];
 char Accoustic[2];
@@ -54,18 +58,18 @@ void ADCchannel(char channel)
 			ADCHS  = 0x00;	// AN0
 			
 		break;
-		case 1:		// Gyro1
+		case 1:		// Pitch
 			ADCON0bits.ACMOD0 = 1;// Group B
 			ADCON0bits.ACMOD1 = 0;// Group B
 			ADCHS  = 0x00;	// AN1
 			
 		break;
-		case 2:		// Gyro2
+		case 2:		// Roll
 			ADCON0bits.ACMOD0 = 0;// Group C
 			ADCON0bits.ACMOD1 = 1;// Group C
 			ADCHS  = 0x00;	// AN2
 		break;
-		case 3:		// Gyro3
+		case 3:		// Yaw
 			ADCON0bits.ACMOD0 = 1;// Group D
 			ADCON0bits.ACMOD1 = 1;// Group D
 			ADCHS  = 0x00;	// AN3
@@ -84,27 +88,42 @@ void ScanADC(void)
 	Accoustic[0] = RangeFinder.byte[1];
 	Accoustic[1] = RangeFinder.byte[0];
 
-	ADCchannel(GYRO1);
-	Gyro1.D_byte = GetADC();
+	ADCchannel(PITCH);		// Pitch
+	Nop();
+	PitchGyro.D_byte = GetADC();
+	
 
-	ADCchannel(GYRO2);					
-	Gyro2.D_byte = GetADC();
-
-	ADCchannel(GYRO3);
-	Gyro3.D_byte = GetADC();
-//	ADCchannel(GYRO3);	
-//	CurrentMeter.D_byte = GetADC();
-//	ADCchannel(GYRO3);
-//	VoltageMeter.D_byte = GetADC();
+	ADCchannel(ROLL);		// Roll	
+	Nop();
+	RollGyro.D_byte = GetADC();
+	Gyro[0] = RollGyro.byte[0];
+	
+	ADCchannel(YAW);		// Yaw
+	Nop();
+	Yaw_Gyro.D_byte = GetADC();
+	
+	ADCchannel(BATTERYVOLTAGE);	
+	Nop();	
+	VoltageMeter.D_byte = GetADC();
+	
+	ADCchannel(BATTERYCURRENT);
+	Nop();	
+	CurrentMeter.D_byte = GetADC();
 }
 
 void GetADCAverage(void)
 {
 	char loopCounter;
 	static signed int Range[AVERAGEVALUE];
+	static signed int Pitch[AVERAGEVALUE];
+	static signed int Roll[AVERAGEVALUE];
+	static signed int YawGyro[AVERAGEVALUE];
 	static char Rangecount = 0;
 	
 	Range[Rangecount] = RangeFinder.D_byte;
+	Pitch[Rangecount] = PitchGyro.D_byte;
+	Roll[Rangecount] = RollGyro.D_byte;
+	YawGyro[Rangecount] = Yaw_Gyro.D_byte;
 	
 	Rangecount++;
 	if( Rangecount > AVERAGEVALUE - 1 )
@@ -115,7 +134,13 @@ void GetADCAverage(void)
 	for(loopCounter = 0; loopCounter < (AVERAGEVALUE - 1); loopCounter++)
 	{
 		RangeAverage += Range[loopCounter];
+		PitchAverage += Pitch[loopCounter];
+		RollAverage  += Roll[loopCounter];
+		YawAverage   += YawGyro[loopCounter];
 	}
 	
 	RangeAverage = RangeAverage / AVERAGEVALUE;
+	PitchAverage = PitchAverage / AVERAGEVALUE;
+	RollAverage = RollAverage / AVERAGEVALUE;
+	YawAverage = YawAverage / AVERAGEVALUE;
 }
