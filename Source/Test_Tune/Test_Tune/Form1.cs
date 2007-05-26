@@ -67,13 +67,8 @@ namespace Test_Tune
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.KeyDown += new KeyEventHandler(Form1_KeyDown);
+            this.KeyPreview = true;
             this.KeyPress += new KeyPressEventHandler(Form1_KeyPress);
-        }
-
-        void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            throw new Exception("The method or operation is not implemented.");
         }
 
         void Form1_KeyPress(object sender, KeyPressEventArgs e)
@@ -84,10 +79,140 @@ namespace Test_Tune
             { 
                 case 'w':
                 case 'W':
-                    txtColVal.Text = Convert.ToString(++colServo.Value);
-                    if (ckbTXPackets.Checked)
+                    if (colServo.Value <= 99)
                     {
-                        SP.SetCollective((byte)colServo.Value);
+                        txtColVal.Text = Convert.ToString(++colServo.Value);
+                        if (ckbTXPackets.Checked)
+                        {
+                            SP.SetCollective((byte)colServo.Value);
+
+                        }
+                
+                    }
+                    break;
+
+                case 's':
+                case 'S':
+                    if (colServo.Value >= 1)
+                    {
+                        txtColVal.Text = Convert.ToString(--colServo.Value);
+                        if (ckbTXPackets.Checked)
+                        {
+                            SP.SetCollective((byte)colServo.Value);
+
+                        }
+
+                    }
+                    break;
+
+                case 'a':
+                case 'A':
+                    if (yawServo.Value >= 1)
+                    {
+                        txtYawVal.Text = Convert.ToString(--yawServo.Value);
+                        if (ckbTXPackets.Checked)
+                        {
+                            SP.SetCollective((byte)yawServo.Value);
+
+                        }
+
+                    }
+                    break;
+
+                case 'd':
+                case 'D':
+                    if (yawServo.Value <= 99)
+                    {
+                        txtYawVal.Text = Convert.ToString(++yawServo.Value);
+                        if (ckbTXPackets.Checked)
+                        {
+                            SP.SetCollective((byte)yawServo.Value);
+
+                        }
+
+                    }
+                    break;
+
+                case 'i':
+                case 'I':
+                    if (pitchServo.Value <= 99)
+                    {
+                        txtPitchVal.Text = Convert.ToString(++pitchServo.Value);
+                        if (ckbTXPackets.Checked)
+                        {
+                            SP.SetCollective((byte)pitchServo.Value);
+
+                        }
+
+                    }
+                    break;
+
+                case 'k':
+                case 'K':
+                    if (pitchServo.Value >= 1)
+                    {
+                        txtPitchVal.Text = Convert.ToString(--pitchServo.Value);
+                        if (ckbTXPackets.Checked)
+                        {
+                            SP.SetCollective((byte)pitchServo.Value);
+
+                        }
+
+                    }
+                    break;
+
+                case 'j':
+                case 'J':
+                    if (rollServo.Value >= 1)
+                    {
+                        txtRollVal.Text = Convert.ToString(--rollServo.Value);
+                        if (ckbTXPackets.Checked)
+                        {
+                            SP.SetCollective((byte)rollServo.Value);
+
+                        }
+
+                    }
+                    break;
+
+                case 'l':
+                case 'L':
+                    if (rollServo.Value <= 99)
+                    {
+                        txtRollVal.Text = Convert.ToString(++rollServo.Value);
+                        if (ckbTXPackets.Checked)
+                        {
+                            SP.SetCollective((byte)rollServo.Value);
+
+                        }
+
+                    }
+                    break;
+
+                case 't':
+                case 'T':
+                    if (engineSpeed.Value <= 99)
+                    {
+                        txtEngineSpeed.Text = Convert.ToString(++engineSpeed.Value);
+                        if (ckbTXPackets.Checked)
+                        {
+                            SP.SetCollective((byte)engineSpeed.Value);
+
+                        }
+
+                    }
+                    break;
+
+                case 'g':
+                case 'G':
+                    if (engineSpeed.Value >= 1)
+                    {
+                        txtEngineSpeed.Text = Convert.ToString(--engineSpeed.Value);
+                        if (ckbTXPackets.Checked)
+                        {
+                            SP.SetCollective((byte)engineSpeed.Value);
+
+                        }
 
                     }
                     break;
