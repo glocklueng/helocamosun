@@ -45,14 +45,14 @@ namespace Test_Tune
             this.label5 = new System.Windows.Forms.Label();
             this.engineSpeed = new System.Windows.Forms.TrackBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.ckbTXPackets = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.bnOpen = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.cbBaudRate = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cbCommPort = new System.Windows.Forms.ComboBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.ckbTXPackets = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -78,13 +78,14 @@ namespace Test_Tune
             ((System.ComponentModel.ISupportInitialize)(this.colServo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.engineSpeed)).BeginInit();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pitchServo
             // 
+            this.pitchServo.Enabled = false;
             this.pitchServo.Location = new System.Drawing.Point(27, 51);
             this.pitchServo.Maximum = 100;
             this.pitchServo.Name = "pitchServo";
@@ -95,6 +96,7 @@ namespace Test_Tune
             // 
             // rollServo
             // 
+            this.rollServo.Enabled = false;
             this.rollServo.Location = new System.Drawing.Point(127, 51);
             this.rollServo.Maximum = 100;
             this.rollServo.Name = "rollServo";
@@ -105,6 +107,7 @@ namespace Test_Tune
             // 
             // yawServo
             // 
+            this.yawServo.Enabled = false;
             this.yawServo.Location = new System.Drawing.Point(227, 51);
             this.yawServo.Maximum = 100;
             this.yawServo.Name = "yawServo";
@@ -115,6 +118,7 @@ namespace Test_Tune
             // 
             // colServo
             // 
+            this.colServo.Enabled = false;
             this.colServo.Location = new System.Drawing.Point(327, 51);
             this.colServo.Maximum = 100;
             this.colServo.Name = "colServo";
@@ -210,6 +214,7 @@ namespace Test_Tune
             // 
             // engineSpeed
             // 
+            this.engineSpeed.Enabled = false;
             this.engineSpeed.Location = new System.Drawing.Point(427, 51);
             this.engineSpeed.Maximum = 100;
             this.engineSpeed.Name = "engineSpeed";
@@ -228,42 +233,6 @@ namespace Test_Tune
             this.tabControl1.Size = new System.Drawing.Size(567, 476);
             this.tabControl1.TabIndex = 16;
             // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.ckbTXPackets);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.txtEngineSpeed);
-            this.tabPage1.Controls.Add(this.pitchServo);
-            this.tabPage1.Controls.Add(this.label5);
-            this.tabPage1.Controls.Add(this.rollServo);
-            this.tabPage1.Controls.Add(this.engineSpeed);
-            this.tabPage1.Controls.Add(this.yawServo);
-            this.tabPage1.Controls.Add(this.txtRollVal);
-            this.tabPage1.Controls.Add(this.colServo);
-            this.tabPage1.Controls.Add(this.txtYawVal);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.txtColVal);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.txtPitchVal);
-            this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(559, 450);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Control";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // ckbTXPackets
-            // 
-            this.ckbTXPackets.AutoSize = true;
-            this.ckbTXPackets.Location = new System.Drawing.Point(478, 143);
-            this.ckbTXPackets.Name = "ckbTXPackets";
-            this.ckbTXPackets.Size = new System.Drawing.Size(66, 17);
-            this.ckbTXPackets.TabIndex = 15;
-            this.ckbTXPackets.Text = "Transmit";
-            this.ckbTXPackets.UseVisualStyleBackColor = true;
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.bnOpen);
@@ -274,7 +243,7 @@ namespace Test_Tune
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(514, 365);
+            this.tabPage2.Size = new System.Drawing.Size(559, 450);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Configuration";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -348,6 +317,42 @@ namespace Test_Tune
             this.cbCommPort.Name = "cbCommPort";
             this.cbCommPort.Size = new System.Drawing.Size(147, 21);
             this.cbCommPort.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.ckbTXPackets);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.txtEngineSpeed);
+            this.tabPage1.Controls.Add(this.pitchServo);
+            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.rollServo);
+            this.tabPage1.Controls.Add(this.engineSpeed);
+            this.tabPage1.Controls.Add(this.yawServo);
+            this.tabPage1.Controls.Add(this.txtRollVal);
+            this.tabPage1.Controls.Add(this.colServo);
+            this.tabPage1.Controls.Add(this.txtYawVal);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.txtColVal);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.txtPitchVal);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(559, 450);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Control";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // ckbTXPackets
+            // 
+            this.ckbTXPackets.AutoSize = true;
+            this.ckbTXPackets.Location = new System.Drawing.Point(478, 143);
+            this.ckbTXPackets.Name = "ckbTXPackets";
+            this.ckbTXPackets.Size = new System.Drawing.Size(66, 17);
+            this.ckbTXPackets.TabIndex = 15;
+            this.ckbTXPackets.Text = "Transmit";
+            this.ckbTXPackets.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -548,10 +553,10 @@ namespace Test_Tune
             ((System.ComponentModel.ISupportInitialize)(this.colServo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.engineSpeed)).EndInit();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
