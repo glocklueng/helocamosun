@@ -20,7 +20,7 @@
 #define GPS_LONGITUDE_STATE			12
 #define GPS_SATELLITES_STATE		13
 #define GPS_ALTITUDE_STATE			14
-//#define GPS_HEMISPHERE_STATE	    15
+#define GPS_HEMISPHERE_STATE	    15
 
 #define ACCELEROMETER_COMMAND 	'A'
 #define TWO_AXIS_GYRO_COMMAND 	'G'
@@ -36,10 +36,10 @@
 #define	GPS_LONGITUDE_COMMAND	'D' //		|
 #define	GPS_SATELLITES_COMMAND	'B' //		v
 #define GPS_ALTITUDE_COMMAND	'U' // ------------------
-//#define GPS_HEMISPHERE_COMMAND  'H'
+#define GPS_HEMISPHERE_COMMAND  'H'
 
 
-char dummydata[11] ={"0123456789"};
+//char dummydata[11] ={"0123456789"};
 char Temperature[2];
 char command[3];
 
@@ -141,7 +141,6 @@ unsigned char SPI_State_Machine(unsigned char Input)
 	static unsigned char state = WAITING_FOR_COMMAND_STATE;
 	static unsigned char ByteNum = 0;
 	unsigned char ReturnValue;
-	
 	if(state == WAITING_FOR_COMMAND_STATE)
 	{
 		switch(Input)//check the incoming byte for a command
@@ -182,6 +181,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ByteNum = 0;
 				state = PWM_COMMAND_STATE;
 				break;
+				
 			case GPS_TIME_COMMAND:
 				ByteNum = 0;
 				state = GPS_TIME_STATE;
@@ -202,10 +202,10 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ByteNum = 0;
 				state = GPS_ALTITUDE_STATE;
 				break;
-//			case GPS_HEMISPHERE_COMMAND:
-//				ByteNum = 0;
-//				state = GPS_HEMISPHERE_STATE;
-//				break;
+			case GPS_HEMISPHERE_COMMAND:
+				ByteNum = 0;
+				state = GPS_HEMISPHERE_STATE;
+				break;
 			default://Invalid command
 				state = WAITING_FOR_COMMAND_STATE;
 				return 0xFF;
@@ -299,7 +299,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ReturnValue = servos[ByteNum];
 				servos[ByteNum] = Input;
 				ByteNum++;
-				if(ByteNum > 4)//4 bytes in a status packet
+				if(ByteNum > 5)//5 bytes in a status packet
 				{
 					UpdatePWM();
 					state = WAITING_FOR_COMMAND_STATE;
