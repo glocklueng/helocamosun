@@ -5,7 +5,7 @@ pwm.c
 #include "USART.h"
 #include "variables.h"
 
-char servos[4];
+char servos[5];
 
 void PCPWMInit(void)
 {
@@ -26,14 +26,17 @@ void PCPWMInit(void)
 	
 		// PWM DUTY CYCLES
 	
-	PDC0L 	= 0xC0;		// 1.43ms, minimum duty cycle 0x0620
-	PDC0H 	= 0x01;
-	PDC1L 	= 0xA0;		// 536us, maximum duty cycle
-	PDC1H 	= 0x01;
-	PDC2L 	= 0xA2;		// 526us, 50% duty cycle
-	PDC2H 	= 0x01;
-	PDC3L 	= 0x06;		// some random value
-	PDC3H 	= 0x01;
+	PDC0L 	= 0xCC;		// 1.43ms, minimum duty cycle 0x0620
+	PDC0H 	= 0x01;		// Pitch
+	
+	PDC1L 	= 0xCC;		// 536us, maximum duty cycle
+	PDC1H 	= 0x01;		// Roll
+	
+	PDC2L 	= 0xCC;		// 526us, 50% duty cycle
+	PDC2H 	= 0x01;		// Yaw
+	
+	PDC3L 	= 0xCC;		// some random value
+	PDC3H 	= 0x01;		// Collective
 	
 	// START TIMERS
 	PTCON0 	= 0x0C;	// POSTSCALE 1:16, TIMEBASE INPUT CLOCK FOSC/256: EDGE TRIGGERED
@@ -43,20 +46,32 @@ void PCPWMInit(void)
 void UpdatePWM(void)
 {
 	// PITCH
+	
+//	TXREG = servos[1];
 //	PDC0H = Accoustic[0];		// servo[1]
 //	TXREG = Accoustic[0];
 //	while(BusyUSART());	
-//	TXREG = Accoustic[1];
-//	while(BusyUSART());
+
 	PDC0L = servos[1];		// 1.43ms, minimum duty cycle 0x0620
+	TXREG = servos[1];
+	while(BusyUSART());
 	// ROLL
 	PDC1L = servos[2];		// 536us, maximum duty cycle
+	TXREG = servos[2];
+	while(BusyUSART());
+
 //	while(BusyUSART());	
 	// YAW
 	PDC2L = servos[3];		// 526us, 50% duty cycle
+	TXREG = servos[3];
+	while(BusyUSART());
+
 //	while(BusyUSART());	
 	// COLLECTIVE
 	PDC3L = servos[4];		// some random value
+	TXREG = servos[4];
+	while(BusyUSART());
+
 //	while(BusyUSART());	
 }
 
