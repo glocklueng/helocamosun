@@ -16,19 +16,19 @@ float roll_param[NUM_RANGE][3]={	//degrees member function parameters
 };
 
 float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
-      {41, 41, 44},
-      {42, 45, 48},
-      {46, 50, 54},
-      {52, 55, 58},
-      {56, 59, 59}
+      {1.0,  41.0, 45.0},
+      {42.0, 45.0, 49.5},
+      {46.0, 50.0, 54.0},
+      {50.5, 55.0, 58.0},
+      {56.0, 59.0, 99.0}
 };
 
 float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
-      {-6, -6, -4},
-      {-5, -3, -1},
-      {-2, 0, 2},
-      {1, 3, 5},
-      {4, 6, 6}
+      {1.0,  41.0, 45.0},
+      {42.0, 45.0, 49.9},
+      {46.0, 50.0, 54.0},
+      {50.1, 55.0, 58.0},
+      {56.0, 59.0, 99.0}
 };
 
 float yaw_param[NUM_RANGE][3]={	//degrees member function parameters
@@ -63,11 +63,11 @@ float collective_rate_param[NUM_RANGE][3]={	//degrees member function parameters
       {56, 59, 59}
 };
 
-#define NL_WEIGHT (38)         // output weightings -200
-#define N_WEIGHT (20)           // -60
+#define NL_WEIGHT (-35)         // output weightings -200
+#define N_WEIGHT (-14)           // -60
 #define Z_WEIGHT (0)             // 0
-#define P_WEIGHT (-20)            // 60
-#define PL_WEIGHT (-38)          // 200
+#define P_WEIGHT (14)            // 60
+#define PL_WEIGHT (35)          // 200
 
 /************************************************************************
  *                                                                      *
@@ -191,7 +191,7 @@ char RollRule[] =                          // SAMPLE RULE SET
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
    ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
    ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-//   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
+   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
    
    ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
    ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
@@ -211,7 +211,7 @@ char RollRule[] =                          // SAMPLE RULE SET
    ANGLE, _POS,  RATE, _POS,  _THEN, _POS,
    ANGLE, _PL, RATE, _POS,  _THEN, _PL,
    
-//   ANGLE, _NL, RATE, _PL, _THEN, _POS,
+   ANGLE, _NL, RATE, _PL, _THEN, _POS,
    ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
    ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
    ANGLE, _POS,  RATE, _PL, _THEN, _PL,
@@ -263,7 +263,7 @@ char YawRule[] =                          // SAMPLE RULE SET
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
    ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
    ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-//   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
+   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
    
    ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
    ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
@@ -283,7 +283,7 @@ char YawRule[] =                          // SAMPLE RULE SET
    ANGLE, _POS,  RATE, _POS,  _THEN, _POS,
    ANGLE, _PL, RATE, _POS,  _THEN, _PL,
    
-//   ANGLE, _NL, RATE, _PL, _THEN, _POS,
+   ANGLE, _NL, RATE, _PL, _THEN, _POS,
    ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
    ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
    ANGLE, _POS,  RATE, _PL, _THEN, _PL,
@@ -296,7 +296,7 @@ char CollectiveRule[] =                          // SAMPLE RULE SET
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
    ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
    ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-//   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
+   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
    
    ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
    ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
@@ -316,7 +316,7 @@ char CollectiveRule[] =                          // SAMPLE RULE SET
    ANGLE, _POS,  RATE, _POS,  _THEN, _POS,
    ANGLE, _PL, RATE, _POS,  _THEN, _PL,
    
-//   ANGLE, _NL, RATE, _PL, _THEN, _POS,
+   ANGLE, _NL, RATE, _PL, _THEN, _POS,
    ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
    ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
    ANGLE, _POS,  RATE, _PL, _THEN, _PL,
@@ -330,19 +330,19 @@ char CollectiveRule[] =                          // SAMPLE RULE SET
  * Returns - the necessary output (-100%~100%) to keep the unit balance *
  *                                                                      *
  ************************************************************************/
-int doRules( fMember *all_mf, char *Rules )
+float doRules( fMember *all_mf, char *Rules )
 {
    float RSS[NUM_RANGE];
    char rIndex = 0, rNum = 0;
    float *curInput;
    float ruleVal, wSum;
-   int inum;
+   int inum = 0;  // Kyle
    fMember vout_mf;	// Kyle
 	 //
 	 // Make sure that the RSS array starts at zero
 	 //   
    memset( RSS, 0, sizeof(float)*NUM_RANGE );
-   
+
    //
    // Doing testing - Display the fuzzy numbers
    //
@@ -352,12 +352,13 @@ int doRules( fMember *all_mf, char *Rules )
    //
    // Process the ruleset like it was processor machine code
    //
-  while( rNum < NUM_RULES )
+   while( rNum < NUM_RULES )
    {
       //
       // Determine if the current rule is true
       //
       ruleVal = 1;
+      
       while( Rules[rIndex] != _THEN )
       {
          //
@@ -369,12 +370,14 @@ int doRules( fMember *all_mf, char *Rules )
          // Determine if the condition contains the lowest value for the 
          //    statement
          //
+         wSum = *(curInput + Rules[rIndex]);
          if( *(curInput + Rules[rIndex]) < ruleVal )
          {
             ruleVal = *(curInput + Rules[rIndex]);
          }
          
-         rIndex++;     
+         rIndex++;
+         
       }
 
       //
@@ -399,6 +402,7 @@ int doRules( fMember *all_mf, char *Rules )
    for( rIndex = 0; rIndex < NUM_RANGE; rIndex++ )
    {
       //*curInput = doSqrt( RSS[rIndex] );
+      wSum = sqrtf( RSS[rIndex] );
       *curInput = sqrtf( RSS[rIndex] );
       curInput++;
    }
@@ -419,6 +423,6 @@ int doRules( fMember *all_mf, char *Rules )
    wSum /= ( vout_mf.nl + vout_mf.n + vout_mf.z + vout_mf.p + vout_mf.pl );
 
    inum = (int)wSum;
-   return inum;
+   return wSum;     // inum
 }
 
