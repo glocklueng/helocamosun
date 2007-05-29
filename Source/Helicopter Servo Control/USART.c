@@ -8,7 +8,6 @@ USART.c
 #include "adc.h"
 #include "variables.h"
 
-
 /*
 Function: SerialInit
 Description: Sets up serial communications for 115200 baud, 8 N 1

@@ -39,7 +39,7 @@
 #define GPS_HEMISPHERE_COMMAND  'H'
 
 
-//char dummydata[11] ={"0123456789"};
+char dummydata[11] ={"0123456789"};
 char Temperature[2];
 char command[3];
 
@@ -69,7 +69,6 @@ void SPI_Init (void)
 	SSPCONbits.SSPM1 = 0;
 	SSPCONbits.SSPM0 = 1;
 
-
 	SSPSTATbits.SMP = 0;	//	SMP: SPI Data Input Sample Phase bit
 							//	SPI Master mode:
 							//	1 = Input data sampled at end of data output time
@@ -81,7 +80,7 @@ void SPI_Init (void)
 							//1 = Idle state for clock is a high level (Microwire® default)
 							//0 = Idle state for clock is a low level (Microwire® alternate)
 
-	SSPSTATbits.CKE = 0;	//CKE: SPI Clock Edge Select bit (Figure 18-2, Figure 18-3, and Figure 18-4)
+	SSPSTATbits.CKE = 1;	//CKE: SPI Clock Edge Select bit (Figure 18-2, Figure 18-3, and Figure 18-4)
 							//SPI mode, CKP = 0:
 							//1 = Data transmitted on rising edge of SCK (Microwire® alternate)
 							//0 = Data transmitted on falling edge of SCK
@@ -92,7 +91,7 @@ void SPI_Init (void)
 	PIE1bits.SSPIE = 1;	//interrupt enable
 	PIR1bits.SSPIF = 0;	//interrupt flag
 
-	IPR1bits.SSPIP = 1; //SSPIP: Synchronous Serial Port Interrupt Priority bit
+	IPR1bits.SSPIP = 0; //SSPIP: Synchronous Serial Port Interrupt Priority bit
 						//1 = High priority
 						//0 = Low priority
 
@@ -108,7 +107,6 @@ void SPI_Close(void)
 	SSPCONbits.SSPEN = 0;   //SSPEN:
 							//1 = Enables serial port and configures SCK, SDO and SDI as serial port pins
 							//0 = Disables serial port and configures these pins as I/O port pins
-
 }
 //Write a byte to the SPI buffer.  Since the 4431 is being used as a slave, the byte will go out as the next byte is clocked into the SPI Buffer
 unsigned char SPI_Write(unsigned char out)
@@ -181,7 +179,6 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ByteNum = 0;
 				state = PWM_COMMAND_STATE;
 				break;
-				
 			case GPS_TIME_COMMAND:
 				ByteNum = 0;
 				state = GPS_TIME_STATE;
@@ -299,7 +296,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ReturnValue = servos[ByteNum];
 				servos[ByteNum] = Input;
 				ByteNum++;
-				if(ByteNum > 5)//5 bytes in a status packet
+				if(ByteNum > 4)//4 bytes in a status packet
 				{
 					UpdatePWM();
 					state = WAITING_FOR_COMMAND_STATE;

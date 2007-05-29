@@ -34,12 +34,15 @@
 #include "rpm.h"
 #include "GPS.h"
 
+
 /********************** Interrupt Function Definition ****************/
 
 void TMR0_isr(void);
 void SPI_isr (void);
 void CCP1_isr(void);
 void RX_isr(void);
+
+unsigned char ByteNum = 0;
 
 /************************* Interrupt Functions ***********************/
 #pragma code high_int_vector = 0x08					/* change to interrupt page*/
@@ -64,21 +67,6 @@ void interrupt_at_high_vector(void)
 }
 
 #pragma code
-
-#pragma interrupt SPI_isr
-void SPI_isr (void)
-{
-	unsigned char Incoming_Data;
-	unsigned char Reply;
-	LATBbits.LATB0 ^= 1;
-	
-//	Incoming_Data = SPI_Read_Byte();
-	Incoming_Data = SSPBUF;
-	Reply = SPI_State_Machine(Incoming_Data);
-//	SPI_Write(Reply);//fill the buffer with data back to the SPI master, it will go out the next time an SPI packet is received
-	SSPBUF = Incoming_Data;
-	PIR1bits.SSPIF = 0;//clear the interrupt flag
-}
 
 #pragma interrupt RX_isr
 void RX_isr(void)
@@ -105,14 +93,29 @@ void CCP1_isr(void)
 	TMR1L = 0x00;
 	TMR1H = 0x00;
 }
+#pragma interrupt SPI_isr
+void SPI_isr (void)
+{
+	unsigned char Incoming_Data;
+	unsigned char Reply;
+	char outputstring[5]={0};
+		
+	Incoming_Data = SPI_Read_Byte();
+	
 
+	Reply = SPI_State_Machine(Incoming_Data);
+
+	SPI_Write(Reply);//fill the buffer with data back to the SPI master, it will go out the next time an SPI packet is received
+
+	PIR1bits.SSPIF = 0;//clear the interrupt flag
+}
 //#pragma code 	/* return to code section */
 
 void main(void)
 {
 /*********** Varible declaration *************/
 	char TickCounter = 0;
-	
+
 //	TRISDbits.TRISD4 = 0;	// for debugging purposes
 //	LATDbits.LATD4 = 1;		// for debugging purposes
 //	LATDbits.LATD4 ^= 1;		// for debugging purposes
@@ -156,40 +159,36 @@ void main(void)
 			switch(TickCounter)
 			{
 				case 1:
-//					ResetCompass();		// start compass module
+					ResetCompass();		// start compass module
 #ifdef USART_DEBUG
 					UpdateServos();		// Send servo values to the USART
 #endif
 					break;
 				case 2:		// 10ms
-//					ScanADC();
-//					GetADCAverage();
+					ScanADC();
+					GetADCAverage();
 #ifdef USART_DEBUG
 					UpdateADC();		// Send ADC values to the USART
 #endif
 					break;
-					
 				case 3:
 					RPM_Ready = 0;		// check the motor RPM
 #ifdef USART_DEBUG
 					UpdateRoll();		// Send Roll Values to the USART
 #endif
 					break;
-					
 				case 4:		// 30ms
-//					GetCompassValues();	// Get the compass values
-//					GetCompassAverage();// Find the average x-y values
+					GetCompassValues();	// Get the compass values
+					GetCompassAverage();// Find the average x-y values
 #ifdef USART_DEBUG
 					UpdatePitch();		// Send Pitch values to the USART
 #endif
 					break;
-
 				case 5:
-//					GetAxisValues();	// Get Tri-axis values
-//					GetAxisAverage();	// Get the average values for x-y-z
+					GetAxisValues();	// Get Tri-axis values
+					GetAxisAverage();	// Get the average values for x-y-z
 #ifdef USART_DEBUG
 					UpdateCompass();	// Send Compass values to the USART
-
 #endif
 					TickCounter = 0;	// Reset Tick Counter
 					break;

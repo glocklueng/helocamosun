@@ -1,5 +1,7 @@
 #include <p18f4431.h>
 #include <math.h>
+#include <usart.h>
+#include <stdio.h>
 #include "variables.h"
 #include "Serial_IO.h"
 
@@ -264,7 +266,7 @@ void GetCompassAngle(void)
 	CompassAverageAngle = CompassAverageAngle / AVERAGEVALUE;
 	
 	 	    Compass[0] = CompassAverageAngle>>8;
-	      Compass[1] = (char) CompassAverageAngle;
+	      	Compass[1] = (char) CompassAverageAngle;
 	
 }
 /*
@@ -275,8 +277,9 @@ void GetAxisValues(void)
 {
 	char out_bits = 5;
 	char in_bits = 15;
-	WORD byte_out;
 	
+	WORD byte_out;
+
 	TAA_DIR = 0;
 	
 	byte_out.byte[0] = TAA_X_AXIS;	// Get the X axis values
@@ -293,6 +296,8 @@ void GetAxisValues(void)
 	TAA = 0;
 	ShiftIO(byte_out, out_bits, &Z_axis, in_bits);
 	TAA = 1;
+	
+
 }
 /*
 Function: GetAxisAverage
@@ -308,7 +313,7 @@ void GetAxisAverage(void)
 	static int XAxisData[AVERAGEVALUE],
 			   YAxisData[AVERAGEVALUE],
 			   ZAxisData[AVERAGEVALUE];
-
+	
 	X_axis.D_byte = X_axis.D_byte >> 3;		// remove the lower 3 bits to 
 	Y_axis.D_byte = Y_axis.D_byte >> 3;		// elminate high frequency components
 	Z_axis.D_byte = Z_axis.D_byte >> 3;
