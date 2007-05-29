@@ -16,27 +16,30 @@ unsigned char GSPI_StatusData[2] = "";
 unsigned char GSPI_TimeData[6] = "";
 unsigned char GSPI_LatData[9] = "";
 unsigned char GSPI_LongData[10] = "";
-//unsigned char GSPI_LatData[10] = "";
-//unsigned char GSPI_LongData[11] = "";
 unsigned char GSPI_AltData[7] = "";
 unsigned char GSPI_SatData[2] = "";
 
-void SPI_init ()
+void SPI_init ( char mode16, char falling )
 {
-	SPI1STATbits.SPIROV = 0;	// clear the receive overflow flag bit	
-	SPI1CONbits.MODE16 = 0;		// 8-bit mode	
-	SPI1CONbits.SMP = 0;		// input is sampled at middle of data output time
-	SPI1CONbits.CKP = 1;		// Idle state for clock is a high level; active state is low
-	SPI1CONbits.CKE = 0;		// Serial output data changes on transition from Idle clock state to active clock state
-	SPI1CONbits.MSTEN = 1;		// Master mode
-	SPI1CONbits.SSEN = 0;		// Not used in Master mode, so I cleared it
+	SPI1STATbits.SPIROV = 0;		// clear the receive overflow flag bit	
+	SPI1CONbits.MODE16 = mode16;	// if "mode16" is true, then the SPI module is put into 16-bit mode	
+	SPI1CONbits.SMP = 0;			// input is sampled at middle of data output time
+	SPI1CONbits.CKP = 1;			// Idle state for clock is a high level; active state is low
+	SPI1CONbits.CKE = falling;		// if "falling" is true, then data is checked on falling edges of SCLK
+	SPI1CONbits.MSTEN = 1;			// Master mode
+	SPI1CONbits.SSEN = 0;			// Not used in Master mode, so I cleared it
 	
-	// Current prescaler configuration: Fuckin Fast Yo!
+	// Prescaler Config = 1:1 (fastest possible)
 //	SPI1CONbits.SPRE = 7;		// secondary prescaler 1:1
 //	SPI1CONbits.PPRE = 3;		// primary prescaler 1:1
 
-	SPI1CONbits.SPRE = 0;		// secondary prescaler 1:1
-	SPI1CONbits.PPRE = 0;		// primary prescaler 1:1
+	// Prescaler Config = 512:1 (slowest possible)
+//	SPI1CONbits.SPRE = 0;		// secondary prescaler 8:1
+//	SPI1CONbits.PPRE = 0;		// primary prescaler 64:1
+
+	SPI1CONbits.SPRE = 0;		// secondary prescaler 8:1
+	SPI1CONbits.PPRE = 2;		// primary prescaler 64:1
+
 }
 
 void SPI_tx_byte ( char ch)
@@ -49,7 +52,7 @@ void SPI_tx_byte ( char ch)
 
 void SPI_tx_word ( unsigned short ch)
 {
-	char c;
+	unsigned short c;
 	SPI1STATbits.SPIEN = 1;
 	SPI1BUF = ch;
 	c = SPI1BUF;
@@ -58,12 +61,16 @@ void SPI_tx_word ( unsigned short ch)
 void SPI_tx_command ( unsigned char packet[], char len )
 {
 	char cnt = 0;
+	short i;
 	
 	for (cnt = 0; cnt < len; cnt++)
 	{
 		while (SPI1STATbits.SPITBF);
 		SPI_tx_byte( packet[cnt] );	
+		for (i = 0; i < 500; i++);		// delays to allow 4431 to handle SPI
 	} 
+	
+	
 }
 
 char SPI_tx_req ( unsigned char packet[], unsigned char data[] )
@@ -74,19 +81,16 @@ char SPI_tx_req ( unsigned char packet[], unsigned char data[] )
 	unsigned char check = 0;
 	char bite = 0;
 	
+	uCSS = 0;
 	for (cnt = 0; cnt < strlen((char*)packet); cnt++) // WATCH THIS
 	{
+		
 		
 		while (SPI1STATbits.SPITBF);
 		SPI_tx_byte( packet[cnt] );	
 		
 		while (!SPI1STATbits.SPIRBF);
-//		{
-//			if (i++ > 100)
-//			{
-//				return 0;	
-//			}
-//		}
+
 		
 		// We need to ignore the first byte we receive since it is garbage
 		if (cnt > 0)
@@ -102,35 +106,62 @@ char SPI_tx_req ( unsigned char packet[], unsigned char data[] )
 			check = SPI1BUF;		// if it's the first byte, store it for possible error checking
 		}
 		
-		for (i = 0; i < 500; i++);
+		for (i = 0; i < 500; i++);	// delays to allow 4431 to handle SPI
 	} 
+	uCSS = 1;
 	return 1;
 }
 
-void SPI_readYawGyro ( void )
+int SPI_readTemp1 ( void )
 {
-	int i;
+	short dummy = 0x0000;
 	
-	SPI1CONbits.MODE16 = 1;					// switch SPI to 16 bit mode
+	short delaycount = 0;
 	
-	LATBbits.LATB0 = 0;						// pull framing pin low
-	SPI_tx_word( 0b1000001100000000 );		// Send command to read gyro
-	
-	for (i = 0; i < 1700; i++);				// delay some (time for 16 clocks)
-	
-	LATBbits.LATB0 = 1;						// set framing pin high		
-	
-	for (i = 0; i < 1000; i++);				// wait some
+	SPI1STATbits.SPIEN = 0;
+	SPI_init( 1, 1 );	
+	SPI1STATbits.SPIEN = 1;
 	
 	
-	LATBbits.LATB0 = 0;						// pull framing pin low
-	SPI_tx_word( 1 );						// tx 2 byte so we can read 2
-	for (i = 0; i < 1700; i++);				// go low for the duration of 2 bytes
-	LATBbits.LATB0 = 1;						// set framing pin high	
-	
-	SPI1CONbits.MODE16 = 0;					// switch SPI back to 8-bit mode
-	
-	
-	for (i = 0; i < 10000; i++);			// wait some
-	
+	for(delaycount = 0; delaycount < 1000; delaycount++);
+	tempSS = 1;
+	SPI1BUF = dummy;
+	while (!SPI1STATbits.SPIRBF);
+	dummy = SPI1BUF;
+	tempSS = 0;
+	for(delaycount = 0; delaycount < 1000; delaycount++);
+		
+	SPI1STATbits.SPIEN = 0;
+	SPI_init( 0, 0 );
+	SPI1STATbits.SPIEN = 1;
+
+	return dummy;
 }
+
+//int SPI_readYawGyro ( void )
+//{
+//	short dummy = 0x8710;
+//	short delaycount = 0;
+//	
+//	SPI1STATbits.SPIEN = 0;
+//	SPI_init( 1, 0 );	
+//	SPI1STATbits.SPIEN = 1;
+//	
+//	
+//	
+//	for(delaycount = 0; delaycount < 1000; delaycount++);
+//	YawGyroSS = 0;
+//	SPI1BUF = dummy;
+//	while (!SPI1STATbits.SPIRBF);
+//	dummy = SPI1BUF;
+//	YawGyroSS = 1;
+//	for(delaycount = 0; delaycount < 1000; delaycount++);
+//
+//	SPI1STATbits.SPIEN = 0;
+//	SPI_init( 0, 0 );
+//	SPI1STATbits.SPIEN = 1;
+//
+//	
+//	
+//	return dummy;
+//}

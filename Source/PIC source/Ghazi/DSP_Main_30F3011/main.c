@@ -5,13 +5,11 @@
 #include "RF.h"
 #include "SPI.h"
 #include "commands.h"
-
+#include <stdio.h>
 #define FCY				5000000 // Instruction cycle freq = xtal / 4
 
-#define ER_FASTACK		"ER_CMD#I7"
-#define ER_FASTACKLEN 	9
-#define ER_PLLSTATE 	"ER_CMD#L30D?"
-#define ER_PLLSTATELEN 	12
+#define uCReset			LATBbits.LATB0
+#define uCResetTris		TRISBbits.TRISB0
 
 void setupTRIS ( void );
 
@@ -83,12 +81,14 @@ unsigned char clock;
 int main ( void )
 {
 	unsigned char dummy;//, error;
-	long i = 0;
-	int q;
+	long i = 0, total = 0, c = 0, d =0;
+	long totalyaw;
+	unsigned short average, yawave;
+	int q, temp1, yaw = 0;
 	float seconds = 0;
 	unsigned char state4_cnt = 0;
 	unsigned char test[10] = "0123456789";
-	
+	unsigned char yawchar[7] = "";
 	unsigned char latdeg[3] = "";
 	unsigned char latmin[3] = "";
 	unsigned char latsec[5] = "";
@@ -96,31 +96,31 @@ int main ( void )
 	unsigned char longmin[3] = "";
 	unsigned char longsec[5] = "";
 	
-//	int writeAddr;
-	
 	setupTRIS();
-//	LATBbits.LATB4 = 1;
+
 	GP_init_UART(19200);
-	
-//	init_GVars();
+
 	init_T1();
 	init_T2();
 	Init_PWM( );
-	
-//	LATBbits.LATB0 = 1;
-	
-	SPI_init();	
-	
+//	SPI_init( 0, 0 );	// THIS IS CORRECT FOR KYLE'S BOARD SPI_init( 0, 0 ) DO NOT CHANGE!!!
+	SPI_init( 0, 1 );
 	GP_init_chopper();
 	
 	ERCMDflag = 0;
-//	GSPI_CompData[0] = 0;
-//	GSPI_CompData[0] = 0;
-//	GP_hs = 1;
-//	LATBbits.LATB4 = 0;
+
+	// On boot up, reset the 4431 (this corrects an SPI issue where a bit
+	// is clocked into the 4431 SPI module when the dsPIC resets)
+	uCReset = 1;
+	for (i=0; i < 10000; i++);
+	uCReset = 0;
+	for (i=0; i < 10000; i++);
+	uCReset = 1;
+	
 	while(1)
 	{
-
+		LATDbits.LATD0 ^= 1;
+	//	LATEbits.LATE1 ^= 1;
 		if (GP_datavalid)
 		{
 			GP_datavalid = 0;
@@ -135,87 +135,90 @@ int main ( void )
 		{
 			newPWM = 0;
 			fillpwmCommand();
-		//	SPI_tx_command(pwmCommand, 5);	
+			SPI_tx_command(pwmCommand, 5);	
 		}
 			
 		i++;
-		if (i > 10000)
+		
+		if (i > 1000)
 		{
+			c++;
 			i = 0;
+//			temp1 = SPI_readTemp1();
+			temp1 = (temp1 & 0x7FE0) >> 5;
+			total += temp1;
+		
+			average = (total / c) / 4;	// Averaged Temperature
 			
-//			if (SPI_tx_req(	GSPI_AccReq, GSPI_AccData ))
-//			{
-//				GP_helicopter.attitude.pitch = (short)GSPI_AccData[0] * 256 + GSPI_AccData[1];
-//				GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
-//			}
-//			
-//			if	(SPI_tx_req(	GSPI_CompReq, GSPI_CompData ))
-//			{
-//				GP_helicopter.hsa.heading = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
-//			}
-//			
-//			set_PRY
-//			(
-//				(short)GSPI_AccData[0] * 256 + GSPI_AccData[1],
-//				(short)GSPI_AccData[2] * 256 + GSPI_AccData[3],
-//				(short)GSPI_CompData[0] * 256 + GSPI_CompData[1]
-//			);
+			if (c > 100)
+			{
+				c = 0;
+				total = average;	
+			}
+			
+			//GP_TX_char( (char) ( (average & 0xff00) >> 8 ) );
+			//GP_TX_char( (char) ( average & 0x00ff ) );
+//			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );		
+			if (SPI_tx_req(	GSPI_AccReq, GSPI_AccData ))
+			{
+				GP_helicopter.attitude.pitch = (short)GSPI_AccData[0] * 256 + GSPI_AccData[1];
+				GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
+			}
+			
+			if	(SPI_tx_req( GSPI_CompReq, GSPI_CompData ))
+			{
+				GP_helicopter.hsa.heading = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
+			}
+			
+			set_PRY
+			(
+				(short)GSPI_AccData[0] * 256 + GSPI_AccData[1],
+				(short)GSPI_AccData[2] * 256 + GSPI_AccData[3],
+				(short)GSPI_CompData[0] * 256 + GSPI_CompData[1]
+			);
 //
 //			
-			if (SPI_tx_req( GSPI_LatReq, GSPI_LatData ))
-			{
-				latdeg[0] = GSPI_LatData[0];
-				latdeg[1] = GSPI_LatData[1];
-				latmin[0] = GSPI_LatData[2];
-				latmin[1] = GSPI_LatData[3];
-				latsec[0] = GSPI_LatData[5];
-				latsec[1] = GSPI_LatData[6];
-				latsec[2] = GSPI_LatData[7];
-				latsec[3] = GSPI_LatData[8];
-	
-				seconds = ((atoi(latsec) / 1000) * 6) << 10; // whole seconds	
-				seconds += (atoi(latsec) % 1000) * 6 ;
-				
-				set_GPSlat( (char)atoi(latdeg), (char)atoi(latmin), (short)seconds );
-				
-//				GP_TX_packet(GSPI_LatData,9);
-//				for (q = 0; q < 1000; q++);
-//				GP_TX_char('/');
-				
-			}
-				
-			if (SPI_tx_req( GSPI_LongReq, GSPI_LongData ))
-			{
-				longdeg[0] = GSPI_LongData[0];
-				longdeg[1] = GSPI_LongData[1];
-				longdeg[2] = GSPI_LongData[2];
-				longmin[0] = GSPI_LongData[3];
-				longmin[1] = GSPI_LongData[4];
-				longsec[0] = GSPI_LongData[6];
-				longsec[1] = GSPI_LongData[7];
-				longsec[2] = GSPI_LongData[8];
-				longsec[3] = GSPI_LongData[9];
-				
-				seconds = ((atoi(longsec) / 1000) * 6) << 10; // whole seconds	
-				seconds += (atoi(longsec) % 1000) * 6 ;
-				set_GPSlong( (char)atoi(longdeg), (char)atoi(longmin), (short)seconds );
-				
-//				GP_TX_packet(GSPI_LongData, 10);
-//				for (q = 0; q < 1000; q++);
-//				GP_TX_char(' ');
-	
-			}
-		}	
+//			if (SPI_tx_req( GSPI_LatReq, GSPI_LatData ))
+//			{
+//				latdeg[0] = GSPI_LatData[0];
+//				latdeg[1] = GSPI_LatData[1];
+//				latmin[0] = GSPI_LatData[2];
+//				latmin[1] = GSPI_LatData[3];
+//				latsec[0] = GSPI_LatData[5];
+//				latsec[1] = GSPI_LatData[6];
+//				latsec[2] = GSPI_LatData[7];
+//				latsec[3] = GSPI_LatData[8];
+//	
+//				seconds = atoi(latsec);
+//				
+//				set_GPSlat( (char)atoi(latdeg), (char)atoi(latmin), (short)seconds );
+//					
+//			}
+//				
+//			if (SPI_tx_req( GSPI_LongReq, GSPI_LongData ))
+//			{
+//				longdeg[0] = GSPI_LongData[0];
+//				longdeg[1] = GSPI_LongData[1];
+//				longdeg[2] = GSPI_LongData[2];
+//				longmin[0] = GSPI_LongData[3];
+//				longmin[1] = GSPI_LongData[4];
+//				longsec[0] = GSPI_LongData[6];
+//				longsec[1] = GSPI_LongData[7];
+//				longsec[2] = GSPI_LongData[8];
+//				longsec[3] = GSPI_LongData[9];
+//				
+//				seconds = atoi(longsec);
+//				set_GPSlong( (char)atoi(longdeg), (char)atoi(longmin), (short)seconds );
+//				
+//			}
 
 		
-		
-//			
-//			GP_helicopter.position.longitude.deg = atoi(longdeg);
-//			GP_helicopter.position.longitude.min = atoi(longmin);
-//			GP_helicopter.position.longitude.sec = atoi(longsec);
+		}	
+
+
 	
 	
-	//	SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+//		SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
 	
 		
 	}
@@ -240,12 +243,18 @@ void setupTRIS ( void )
 	TRISBbits.TRISB4 = 0;
 	TRISDbits.TRISD0 = 0;
 	TRISFbits.TRISF5 = 0;
+	TRISEbits.TRISE1 = 0;
+	
+	uCResetTris = 0;
 	
 	// SPI Slave Select lines:
 	uCSSTris = 0;
-	YawGyroSSTris = 0;
+	uCSS = 1;
+	
 	eepromSSTris = 0;
+	
 	tempSSTris = 0;
+	tempSS = 0;
 	
 	
 }
@@ -300,15 +309,6 @@ void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
 	GP_bytercvd = 1;		// indicate a byte was received
 	GP_dump = U2RXREG;		// read the byte from the receive register
 	GP_state_machine();
-//	if (GP_datavalid)
-//	{
-//		GP_datavalid = 0;
-//		GP_parse_data(GP_data, GP_data_len);
-//	}
-//	else
-//	{
-//			
-//	}
 	IEC1bits.U2RXIE = 1;	// re-enable the receive interrupt
 
 }

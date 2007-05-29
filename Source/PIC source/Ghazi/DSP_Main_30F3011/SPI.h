@@ -17,7 +17,7 @@
 #define tempSS			LATEbits.LATE5
 #define	tempSSTris		TRISEbits.TRISE5
 
-void SPI_init ( void );
+void SPI_init ( char mode16, char falling );
 // Initialize the SPI module
 
 void SPI_tx_byte ( char );
@@ -29,9 +29,11 @@ void SPI_tx_command ( unsigned char cmd[], char len );
 char SPI_tx_req ( unsigned char req[], unsigned char data[] );
 //transmit a request for info on the SPI bus, record the response in "data"
 
-void SPI_readYawGyro ( void );
+int SPI_readYawGyro ( void );
 // reads the Yaw gyro
 
+int SPI_readTemp1 ( void );
+// returns the temperature read from the temperature sensor
 
 // These are the arrays that store data retrieved from the 4431
 // over the SPI bus. 

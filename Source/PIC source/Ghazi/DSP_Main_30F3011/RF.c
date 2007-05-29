@@ -243,9 +243,10 @@ void GP_state_machine ( void )
 void GP_parse_data ( char vdata[], char len )
 {
 	unsigned short k;
-	
+	signed short latcorr, longcorr, altcorr;
 	unsigned short hover_alt = 0;
 	char val[5] = "";
+	unsigned char seconds;
 	float Ton;
 	int pwm;
 		
@@ -265,9 +266,6 @@ void GP_parse_data ( char vdata[], char len )
 					Ton = (float)vdata[2] / 100000.0 + 0.001;
 					PDC1 = (int)(Ton * 156250); 
 //					PTCONbits.PTEN = 1;	// Enable PWM Time Base	
-					
-
-					
 					GP_ACK(vdata, len);
 					break;
 				}
@@ -343,6 +341,18 @@ void GP_parse_data ( char vdata[], char len )
 		{
 			switch(vdata[1])
 			{
+				case 0x43:	// GPS Correction Factor
+				{
+					//LATBbits.LATB0 ^= 1;
+					GP_ACK(vdata, len);
+					latcorr = (vdata[2] << 8) + vdata[3];
+					longcorr = (vdata[4] << 8) + vdata[5];
+					altcorr = (vdata[6] << 8) + vdata[7];
+					seconds = vdata[8];
+					corr_GPSlatlongalt( latcorr, longcorr, altcorr, seconds);
+					break;
+				}
+				
 				case 0x45:	// Engage Engine
 				{
 					GP_ACK(vdata, len);
@@ -513,13 +523,7 @@ void GP_parse_data ( char vdata[], char len )
 			break;	
 		}
 		
-	}
-	
-//	for (k = 0; k <= 255; k++)
-//	{
-//		vdata[k] = 1;	
-//	}
-	
+	}	
 }
 
 
@@ -753,6 +757,10 @@ void GP_ACK( char vdata[], char len )
 	//LATBbits.LATB4 ^= 1; // DEBUG
 }
 
+
+// ---------------------------------------------------------------------------
+// Accessor Functions
+
 void GP_init_chopper( void )
 {
 	// Destination Position:
@@ -761,7 +769,7 @@ void GP_init_chopper( void )
 	GP_helicopter.goto_position.latitude.sec = 0;
 	GP_helicopter.goto_position.latitude.hemi = 0x4E;
 	
-	GP_helicopter.goto_position.longitude.deg = 124;
+	GP_helicopter.goto_position.longitude.deg = 123;
 	GP_helicopter.goto_position.longitude.min = 30;
 	GP_helicopter.goto_position.longitude.sec = 0;
 	GP_helicopter.goto_position.longitude.hemi = 0x57;
@@ -772,7 +780,7 @@ void GP_init_chopper( void )
 	GP_helicopter.position.latitude.sec = 0;
 	GP_helicopter.position.latitude.hemi = 0x4E;
 	
-	GP_helicopter.position.longitude.deg = 124;
+	GP_helicopter.position.longitude.deg = 123;
 	GP_helicopter.position.longitude.min = 30;
 	GP_helicopter.position.longitude.sec = 0;
 	GP_helicopter.position.longitude.hemi = 0x57;
@@ -804,6 +812,7 @@ void GP_init_chopper( void )
 	GP_helicopter.pwm.coll = 0;
 	GP_helicopter.pwm.engRPM = 0;
 }
+
 void set_PRY(short pitch, short roll, short yaw)
 {
 
@@ -824,4 +833,73 @@ void set_GPSlong(char deg, char min, short sec)
 		GP_helicopter.position.longitude.deg = deg;
 		GP_helicopter.position.longitude.min = min;
 		GP_helicopter.position.longitude.sec = sec;
+}
+
+void corr_GPSlatlongalt( signed short latc, signed short longc, signed short altc, unsigned short seconds)
+{
+	signed long templat = GP_helicopter.position.latitude.sec,
+				templong = GP_helicopter.position.longitude.sec;
+	//if (seconds == GP_helicopter
+		templat += latc;	// modify the latitude seconds by latc
+		
+		if (templat > 59999)	// if it rolled over
+		{
+			GP_helicopter.position.latitude.sec = (unsigned short)(templat - 60000); //adjust seconds
+			if (++GP_helicopter.position.latitude.min > 59)
+			{
+				GP_helicopter.position.latitude.min -= 60;
+				if (++GP_helicopter.position.latitude.deg > 90)
+				{
+					GP_helicopter.position.latitude.deg = 180 - GP_helicopter.position.latitude.deg;
+				}
+			}
+			
+			
+		} 
+		else if (templat < 0)	// if it rolled under
+		{
+			GP_helicopter.position.latitude.sec = (unsigned short)(templat + 60000);
+			if (--GP_helicopter.position.latitude.min < 0)
+			{
+				GP_helicopter.position.latitude.min += 60;
+				if (--GP_helicopter.position.latitude.deg < 0)
+				{
+					GP_helicopter.position.latitude.deg *= -1;
+				}
+			}
+			
+		}
+		
+	
+		
+		templong += longc;
+		if (templong > 59999)	// if it rolled over
+		{
+			GP_helicopter.position.longitude.sec = (unsigned short)(templong - 60000); //adjust seconds
+			if (++GP_helicopter.position.longitude.min > 59)
+			{
+				GP_helicopter.position.longitude.min -= 60;
+				if (++GP_helicopter.position.longitude.deg > 180)
+				{
+					GP_helicopter.position.longitude.deg = 360 - GP_helicopter.position.longitude.deg;
+				}
+			}
+			
+			
+		} 
+		else if (templong < 0)	// if it rolled under
+		{
+			GP_helicopter.position.longitude.sec = (unsigned short)(templong + 60000);
+			if (--GP_helicopter.position.longitude.min < 0)
+			{
+				GP_helicopter.position.longitude.min += 60;
+				if (--GP_helicopter.position.longitude.deg < 0)
+				{
+					GP_helicopter.position.longitude.deg *= -1;
+				}
+			}
+			
+		}
+		
+		GP_helicopter.GPS_alt += altc;
 }

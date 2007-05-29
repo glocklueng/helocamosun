@@ -40,6 +40,7 @@ char *GP_itoa(char *buffer, int i);
 void GP_TX_error ( char code );
 // build and transmit an error packet;
 
+void corr_GPSlatlongalt( signed short latc, signed short longc, signed short altc, unsigned short seconds);
 
 //-------------------------- Global Variables -------------------------------
 extern unsigned char GP_bytercvd;  	// 0 = no byte in buffer, 1 = byte in buffer
