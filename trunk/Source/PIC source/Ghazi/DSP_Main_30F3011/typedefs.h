@@ -1,9 +1,9 @@
 
 typedef struct
 {
-	char deg;
-	char min;
-	short sec;
+	signed short deg;
+	signed char min;
+	unsigned short sec;
 	char hemi;
 } GPT_latlong;
 
