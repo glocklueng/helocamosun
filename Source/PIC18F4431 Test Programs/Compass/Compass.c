@@ -13,10 +13,11 @@
 	and MPLAB ver 7.5
 */
 /************************** Include Section **************************/
-//#include <p18f4431.h>
-#include <p18f4620.h>
+#include <p18f4431.h>
+//#include <p18f4620.h>
 #include <delays.h>
 #include <xlcd.h>
+#include <stdio.h>
 #include <spi.h>
 #include <usart.h>
 #include <capture.h>
@@ -110,7 +111,8 @@ void main(void)
 	char array_position = 0;
 	char out_bits, in_bits;
 	int value;
-
+	char outputstring[5]={0};
+		
 #if LCD_ON
 	char string1[21] = {"<--  Compass  --->"};	// Create an empty lineset
 	char string2[21] = {"Axis x value:   "};
@@ -170,7 +172,7 @@ void main(void)
 	do
 	{
 /******** INITILIZE LOOP VARIABLES ***********/
-	
+
 
 /******** Aquiring Compass measurements *********/
 		COMPASS_DIR = 0;
@@ -193,14 +195,11 @@ void main(void)
 		Delay10KTCYx(15);
 
 		COMPASS = 0;
-		do
-		{	
-			out_bits = 4;
-			in_bits = 4;
-			byte_out.byte[0] = COMPASS_RDY;
-			ShiftIO(byte_out, out_bits, &Compass_X, in_bits);
-		}
-		while(byte_out.byte[0] != COMPASS_RDY);
+		out_bits = 4;
+		in_bits = 4;
+		Compass_X.D_byte = 0;
+		byte_out.byte[0] = COMPASS_RDY;
+		ShiftIO(byte_out, out_bits, &Compass_X, in_bits);
 /*		
 		while(BusyUSART());
 		TXREG = Compass_X.byte[0];
@@ -208,19 +207,39 @@ void main(void)
 		TXREG = Compass_X.byte[1];
 */		
 		out_bits = 0;
-		in_bits = 12;
+		in_bits = 11;
 		Compass_X.D_byte = 0;
+		Compass_Y.D_byte = 0;
 		ShiftIO(byte_out, out_bits, &Compass_X, in_bits);
 		ShiftIO(byte_out, out_bits, &Compass_Y, in_bits);
 
 		COMPASS = 1;
-#if 1
+	
+		TXREG = 'X';	
 		while(BusyUSART());
-		TXREG = 's';	
+
+		sprintf(outputstring, (char *)"%04d", Compass_X.D_byte);
+		putsUSART(outputstring);
+
+		TXREG = 'Y';	
 		while(BusyUSART());
-		TXREG = Compass_X.byte[0];	
+
+		sprintf(outputstring, (char *)"%04d", Compass_Y.D_byte);
+		putsUSART(outputstring);
+
+#if 0
+		while(BusyUSART());
+		TXREG = 'x';	
 		while(BusyUSART());
 		TXREG = Compass_X.byte[1];
+		while(BusyUSART());
+		TXREG = Compass_X.byte[0];
+		while(BusyUSART());
+		TXREG = 'y';	
+		while(BusyUSART());
+		TXREG = (Compass_Y.byte[1]>>4);
+		while(BusyUSART());
+		TXREG = Compass_Y.byte[0];
 #endif
 	}
 	while(1);
@@ -273,7 +292,7 @@ char ShiftIO(WORD byte_out, char out_bits, WORD *byte_in, char in_bits)
 	}
 	
 	DIO_DIR = 1;	// SET TO INPUT FOR RECEIVING DATA
-	
+	CLK = 1;
 	if(in_bits > 15)
 	{
 		in_bits = 15;
@@ -283,7 +302,7 @@ char ShiftIO(WORD byte_out, char out_bits, WORD *byte_in, char in_bits)
 	{
 		do
 		{
-			CLK = 1;
+			CLK = 0;
 
 			if(DIO_GET)// WHAT VALUE ARE WE RECEIVING
 			{
@@ -299,10 +318,11 @@ char ShiftIO(WORD byte_out, char out_bits, WORD *byte_in, char in_bits)
 				byte_in->D_byte = byte_in->D_byte << 1;	// receive data and shift to the right
 			}
 			Nop();
-			CLK = 0;
+			CLK = 1;
 		}
 		while(in_bits);
 	}
+	CLK = 0;
 	return 0;
 }
 
