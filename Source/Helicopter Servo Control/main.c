@@ -159,6 +159,7 @@ void main(void)
 			switch(TickCounter)
 			{
 				case 1:
+					GetCompassAngle();
 					ResetCompass();		// start compass module
 #ifdef USART_DEBUG
 					UpdateServos();		// Send servo values to the USART
