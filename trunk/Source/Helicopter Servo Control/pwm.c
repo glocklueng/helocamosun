@@ -46,32 +46,39 @@ void PCPWMInit(void)
 void UpdatePWM(void)
 {
 	// PITCH
-	
+	short temp = 0;
 //	TXREG = servos[1];
 //	PDC0H = Accoustic[0];		// servo[1]
 //	TXREG = Accoustic[0];
 //	while(BusyUSART());	
-
-	PDC0L = servos[1];		// 1.43ms, minimum duty cycle 0x0620
-	TXREG = servos[1];
-	while(BusyUSART());
+	temp = ((short)servos[1]<<1)+0x0177;
+	PDC0L = (char)temp;
+	PDC0H = (char)(temp>>8);
+	
+//	PDC0L = servos[1];		// 1.43ms, minimum duty cycle 0x0620
+//	TXREG = temp;
+//	while(BusyUSART());
+//	TXREG = temp>>8;
+//	while(BusyUSART());
 	// ROLL
-	PDC1L = servos[2];		// 536us, maximum duty cycle
-	TXREG = servos[2];
-	while(BusyUSART());
+	temp = ((short)servos[2]<<1)+0x0177;
+	PDC1L = (char)temp;		// 536us, maximum duty cycle
+	PDC1H = (char)(temp>>8);
+//	TXREG = servos[2];
+//	while(BusyUSART());
 
 //	while(BusyUSART());	
 	// YAW
-	PDC2L = servos[3];		// 526us, 50% duty cycle
-	TXREG = servos[3];
-	while(BusyUSART());
+	temp = ((short)servos[3]<<1)+0x0183;
+	PDC2L = (char)temp;
+	PDC2H = (char)(temp>>8);		// 526us, 50% duty cycle
+//	TXREG = servos[3];
+//	while(BusyUSART());
 
 //	while(BusyUSART());	
 	// COLLECTIVE
-	PDC3L = servos[4];		// some random value
-	TXREG = servos[4];
-	while(BusyUSART());
-
-//	while(BusyUSART());	
+	temp = ((short)servos[4]<<1)+0x010F;
+	PDC3L = (char)temp;
+	PDC3H = (char)(temp>>8);
 }
 
