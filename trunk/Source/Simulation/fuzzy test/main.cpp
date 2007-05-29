@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <cstdio>
 #include <iostream>
 #include <math.h>
 #include "fuzz.h"
@@ -14,7 +15,7 @@ fMember pitch_mf[3];
 fMember *pitch_angle_mf = &pitch_mf[0], 
 		*pitch_rate_mf  = &pitch_mf[1], 
 		*pitch_accel_mf = &pitch_mf[2];
-        		
+
 fMember yaw_mf[3];
 fMember *yaw_angle_mf = &yaw_mf[0], 
 		*yaw_rate_mf  = &yaw_mf[1], 
@@ -28,44 +29,73 @@ fMember *collective_height_mf = &collective_mf[0],
 ///stuff added for this test program////////////
 char run = 1;
 
-int pitchAngle = 0;
-int pitchRate = 0;
+float pitchAngle = 0;
+float pitchRate = 0;
 
-int rollAngle = 0;
-int rollRate = 0;
+float rollAngle = 0;
+float rollRate = 0;
 
-int yawAngle = 0;
-int  yawRate = 0;
+float yawAngle = 0;
+float  yawRate = 0;
 
-int  collectiveHeight = 0;
-int  collectiveRate = 0;
+float  collectiveHeight = 0;
+float  collectiveRate = 0;
 
 
 //////////////////////////////////////////////
 
 int main(int argc, char *argv[])
 {
+    FILE *fuzzy;
+    fuzzy = fopen("fuzzy.txt","w");
+    float   output = 0;
+    int   reference, steer, out_steer;
+    char  rows = 50, columns = 50, points = 0,cPoints = 0;
 
-    int   output = 0, reference, steer, out_steer;
+    if( fuzzy != NULL)
+    {
 
+
+    }
+    
 	while(run)
 	{
         ///PITCH
-        cout<<"Enter pitch angle\n";
-        cin>>pitchAngle;
-        cout<<"Enter pitch rate\n";
-        cin>>pitchRate;
-        
-		pitch_angle_mf->sensor = pitchAngle;
-		pitch_rate_mf->sensor = pitchRate;
+//        cout<<"Enter pitch angle\n";
+//        cin>>pitchAngle;
+//        cout<<"Enter pitch rate\n";
+//        cin>>pitchRate;
+//            for(cPoints = 0; cPoints < 9; cPoints++)
+//            {
 
-		Fuzzification( pitch_param, pitch_angle_mf);
-		
-		Fuzzification( tilt_rate_param, pitch_rate_mf);
-		
-        output = doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
+         for(columns = 45; columns < 55; columns++)
+         {
+//              for(points = 0; points < 9; points++)
+//              {
+                    for(rows = 45; rows < 55; rows++)
+                    {    
+               		     pitch_angle_mf->sensor = rows+(float)points/10;
+            		     pitch_rate_mf->sensor = columns+(float)cPoints/10;
+                 		 Fuzzification( pitch_param, pitch_angle_mf);
+                		
+                		 Fuzzification( tilt_rate_param, pitch_rate_mf);
+                		
+                         output = doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
+                         fprintf(fuzzy,"%0.2f",output);
+                         fputs(",",fuzzy);
+
+                     }
+                     fputs("\n",fuzzy);
+                 }
+
+//            }
+//         }  
+                 fclose(fuzzy);
+//		     pitch_angle_mf->sensor = pitchAngle;
+//		     pitch_rate_mf->sensor = pitchRate;
+
         
-		cout<<"Correction Value: " << output << "\n";
+//		cout<<"Correction Value: " << output << "\n";
 /*
         ///ROLL 
         cout<<"Enter roll angle\n";
@@ -127,7 +157,7 @@ int main(int argc, char *argv[])
         }
 	}
     
-    system("PAUSE");
+//    system("PAUSE");
     return EXIT_SUCCESS;
 }
 
