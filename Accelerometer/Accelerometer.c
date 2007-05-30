@@ -24,18 +24,19 @@
 	and MPLAB ver 7.5
 */
 /************************** Include Section **************************/
-//#include <p18f4431.h>
-#include <p18f4620.h>
+#include <p18f4431.h>
+//#include <p18f4620.h>
 #include <delays.h>
 #include <xlcd.h>
 #include <spi.h>
 #include <usart.h>
+#include <stdio.h>
 #include <capture.h>
 #include "Accelerometer.h"
 
 /*************************** Program Control *************************/
 #define LCD_DISPLAY 	1
-#define LCD_ON 		1
+#define LCD_ON 		0
 /*************************** Defines *********************************/
 #define TAA_X_AXIS	0x03		// X-Axis
 #define TAA_Y_AXIS	0x13		// Y-Axis
@@ -53,7 +54,7 @@
 typedef union
 {
 	char byte[2];
-	int D_byte;
+	signed int D_byte;
 	//long D_word;
 }WORD;
 
@@ -113,7 +114,7 @@ void main(void)
 	char array_position = 0;
 	char out_bits, in_bits;
 	int value;
-
+	char outputstring[5]={0};
 #if LCD_ON
 	char string1[21] = {"<--Accelerometer--->"};	// Create an empty lineset
 	char string2[21] = {"Axis x value:   "};
@@ -172,18 +173,27 @@ void main(void)
 	do
 	{
 /******** INITILIZE LOOP VARIABLES ***********/
-
-
+		TXREG = 'Y';	
+		while(BusyUSART());
+		sprintf(outputstring, (char *)"%04d", X_axis.D_byte);
+		putsUSART(outputstring);
+		TXREG = 'X';	
+		while(BusyUSART());
+		sprintf(outputstring, (char *)"%04d", Y_axis.D_byte);
+		putsUSART(outputstring);
+		TXREG = '\n';
+		while(BusyUSART());
 /******** Aquiring Tilt measurements *********/
 		byte_out.byte[0] = TAA_X_AXIS;
 		TAA = 0;
 		ShiftIO(byte_out, out_bits, &X_axis, in_bits);
 		TAA = 1;
 		X_axis.D_byte = X_axis.D_byte >> 2;
+
 		X_axis.byte[1] &= 0x0F;
-		if(X_axis.byte[1] == 0x01)
+		if(X_axis.byte[1] == 0x00)
 		{
-			X_axis.byte[0] = 0xFF - X_axis.byte[0];
+			X_axis.D_byte = X_axis.D_byte - 0x00FF;
 		}
 #if 0 		
 		while(BusyUSART());
@@ -193,8 +203,8 @@ void main(void)
 		while(BusyUSART());
 		TXREG = X_axis.byte[0];
 #endif
-
-#if 1
+	
+#if 0
 		
 		X_axis_array[array_position] = X_axis.byte[0];
 		
@@ -214,31 +224,32 @@ void main(void)
 		X_axis_average = X_axis_average / array_count;
 		
 		X_axis.D_byte += X_axis_average;
-
-		if(X_axis.byte[1] == 0x01)
-		{
-			string2[15] = '+';
-		}
-		else
-		{
-			string2[15] = '-';
-		}
-		
-		string2[16] = (X_axis.byte[0] >> 4)+0x30;
-		string2[17] = (X_axis.D_byte & 0x0F)+0x30;
-		
+//
+//		if(X_axis.byte[1] == 0x01)
+//		{
+//			string2[15] = '+';
+//		}
+//		else
+//		{
+//			string2[15] = '-';
+//		}
+//		
+//		string2[16] = (X_axis.byte[0] >> 4)+0x30;
+//		string2[17] = (X_axis.D_byte & 0x0F)+0x30;
+#endif		
 		byte_out.byte[0] = TAA_Y_AXIS;
 		TAA = 0;
 		ShiftIO(byte_out, out_bits, &Y_axis, in_bits);
 		TAA = 1;
 		
 		Y_axis.D_byte = Y_axis.D_byte >> 2;
-		Y_axis.byte[1] &= 0x0F;
-		if(Y_axis.byte[1] == 0x01)
+
+		Y_axis.byte[1] &= 0x03;
+		if(Y_axis.byte[1] == 0x00)
 		{
-			Y_axis.byte[0] = 0xFF - Y_axis.byte[0];
+			Y_axis.D_byte = Y_axis.D_byte - 0x00FF;
 		}
-		
+#if 0		
 		Y_axis_array[array_position] = Y_axis.byte[0];
 		
 		array_position++;
@@ -258,34 +269,34 @@ void main(void)
 		
 		Y_axis.D_byte += Y_axis_average;
 
-		if(Y_axis.byte[1] == 0x01)
-		{
-			string3[15] = '+';
-		}
-		else
-		{
-			string3[15] = '-';
-		}
-		
-		string3[16] = (Y_axis.byte[0] >> 4)+0x30;
-		string3[17] = (Y_axis.D_byte & 0x0F)+0x30;
+//		if(Y_axis.byte[1] == 0x01)
+//		{
+//			string3[15] = '+';
+//		}
+//		else
+//		{
+//			string3[15] = '-';
+//		}
+//		
+//		string3[16] = (Y_axis.byte[0] >> 4)+0x30;
+//		string3[17] = (Y_axis.D_byte & 0x0F)+0x30;
 				
 		byte_out.byte[0] = TAA_Z_AXIS;
 		TAA = 0;
 		ShiftIO(byte_out, out_bits, &Z_axis, in_bits);
 		TAA = 1;
 		
-		while(BusyXLCD());		// everything is OK
-		WriteCmdXLCD(LCD_LINE2);// write over whatever is on line 2 of the LCD
-
-		while(BusyXLCD());
-		putsXLCD(string2);
-		
-		while(BusyXLCD());		// everything is OK
-		WriteCmdXLCD(LCD_LINE3);// write over whatever is on line 2 of the LCD
-
-		while(BusyXLCD());
-		putsXLCD(string3);
+//		while(BusyXLCD());		// everything is OK
+//		WriteCmdXLCD(LCD_LINE2);// write over whatever is on line 2 of the LCD
+//
+//		while(BusyXLCD());
+//		putsXLCD(string2);
+//		
+//		while(BusyXLCD());		// everything is OK
+//		WriteCmdXLCD(LCD_LINE3);// write over whatever is on line 2 of the LCD
+//
+//		while(BusyXLCD());
+//		putsXLCD(string3);
 #endif
 
 		Delay10TCYx(200);
