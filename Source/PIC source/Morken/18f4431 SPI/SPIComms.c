@@ -60,7 +60,7 @@ void SPI_Init (void)
 							//1 = Idle state for clock is a high level (Microwire® default)
 							//0 = Idle state for clock is a low level (Microwire® alternate)
 
-	SSPSTATbits.CKE = 0;	//CKE: SPI Clock Edge Select bit (Figure 18-2, Figure 18-3, and Figure 18-4)
+	SSPSTATbits.CKE = 1;	//CKE: SPI Clock Edge Select bit (Figure 18-2, Figure 18-3, and Figure 18-4)
 							//SPI mode, CKP = 0:
 							//1 = Data transmitted on rising edge of SCK (Microwire® alternate)
 							//0 = Data transmitted on falling edge of SCK

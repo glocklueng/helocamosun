@@ -1,5 +1,5 @@
-MPLINK 4.11, Linker
-Linker Map File - Created Mon Apr 23 17:22:20 2007
+MPLINK 4.1, Linker
+Linker Map File - Created Sun May 27 13:42:22 2007
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -8,14 +8,14 @@ Linker Map File - Created Mon Apr 23 17:22:20 2007
                low_vector       code   0x000018    program   0x00000a
                    .cinit    romdata   0x00002a    program   0x00000e
          .code_SPIComms.o       code   0x000038    program   0x000206
-             .code_main.o       code   0x00023e    program   0x00011a
-               _cinit_scn       code   0x000358    program   0x00009e
-            .code_uopen.o       code   0x0003f6    program   0x000074
-             D10KTCYXCODE       code   0x00046a    program   0x00002e
-           .code_uwrite.o       code   0x000498    program   0x00002e
-             _startup_scn       code   0x0004c6    program   0x00001c
-           .code___init.o       code   0x0004e2    program   0x000002
-      .idata_SPIComms.o_i    romdata   0x0004e4    program   0x00000d
+             .code_main.o       code   0x00023e    program   0x000110
+               _cinit_scn       code   0x00034e    program   0x00009e
+            .code_uopen.o       code   0x0003ec    program   0x00007a
+             D10KTCYXCODE       code   0x000466    program   0x00002e
+           .code_uwrite.o       code   0x000494    program   0x00002e
+             _startup_scn       code   0x0004c2    program   0x00001c
+           .code___init.o       code   0x0004de    program   0x000002
+      .idata_SPIComms.o_i    romdata   0x0004e0    program   0x00000d
                 MATH_DATA      udata   0x000000       data   0x000002
                  .tmpdata      udata   0x000002       data   0x000002
                 DELAYDAT2      udata   0x000004       data   0x000001
@@ -33,45 +33,45 @@ Linker Map File - Created Mon Apr 23 17:22:20 2007
                            ---------   ---------      
                             0x000000    0x000005      
                             0x000018    0x000021      
-                            0x00002a    0x0004f0      
-            1239 out of 16664 program addresses used, program memory utilization is 7%
+                            0x00002a    0x0004ec      
+            1235 out of 16664 program addresses used, program memory utilization is 7%
 
 
 
                               Symbols - Sorted by Name
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                   D10K_1   0x000476    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kl   0x000482    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kx   0x000474    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-             Delay10KTCYx   0x00046a    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                OpenUSART   0x0003f6    program     extern C:\MCC18\src\TRADIT~1\pmc\USART\uopen.c
-                SPI_Close   0x000058    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-                 SPI_Init   0x000038    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-            SPI_Read_Byte   0x000084    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-        SPI_State_Machine   0x00008a    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-                SPI_Write   0x00005e    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-                  SPI_isr   0x00023e    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\main.c
-               WriteUSART   0x000498    program     extern C:\MCC18\src\TRADIT~1\pmc\USART\uwrite.c
-       _D10KTCYXCODE_0010   0x00047a    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-       _D10KTCYXCODE_001C   0x000486    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                   D10K_1   0x000472    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kl   0x00047e    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kx   0x000470    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+             Delay10KTCYx   0x000466    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                OpenUSART   0x0003ec    program     extern C:\MCC18\src\TRADIT~1\pmc\USART\uopen.c
+                SPI_Close   0x000058    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                 SPI_Init   0x000038    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+            SPI_Read_Byte   0x000084    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+        SPI_State_Machine   0x00008a    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                SPI_Write   0x00005e    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                  SPI_isr   0x00023e    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\main.c
+               WriteUSART   0x000494    program     extern C:\MCC18\src\TRADIT~1\pmc\USART\uwrite.c
+       _D10KTCYXCODE_0010   0x000476    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+       _D10KTCYXCODE_001C   0x000482    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
            ___if_lbl00001   0x000020    program     static                          
        ___return_lbl00000   0x000020    program     static                          
        ___return_lbl00000   0x000004    program     static                          
-       ___return_lbl00001   0x0004e0    program     static                          
-       ___return_lbl00002   0x0003f4    program     static                          
-                   __init   0x0004e2    program     extern C:\MCC18\src\TRADIT~1\stdclib\__init.c
-                _do_cinit   0x000358    program     extern C:\MCC18\src\traditional\startup\c018i.c
+       ___return_lbl00001   0x0004dc    program     static                          
+       ___return_lbl00002   0x0003ea    program     static                          
+                   __init   0x0004de    program     extern C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                _do_cinit   0x00034e    program     extern C:\MCC18\src\traditional\startup\c018i.c
                    _entry   0x000000    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                 _startup   0x0004c6    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                copy_loop   0x0003ca    program     static                          
-            copy_one_byte   0x0003d0    program     static                          
-                     done   0x0003f4    program     static                          
-             done_copying   0x0003de    program     static                          
-  interrupt_at_low_vector   0x000018    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\main.c
-                     loop   0x0004d6    program     static                          
-                     main   0x000328    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\main.c
-                     test   0x000372    program     static                          
+                 _startup   0x0004c2    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                copy_loop   0x0003c0    program     static                          
+            copy_one_byte   0x0003c6    program     static                          
+                     done   0x0003ea    program     static                          
+             done_copying   0x0003d4    program     static                          
+  interrupt_at_low_vector   0x000018    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\main.c
+                     loop   0x0004d2    program     static                          
+                     main   0x00031e    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\main.c
+                     test   0x000368    program     static                          
                     ADCHS   0x000f99       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                 ADCHSbits   0x000f99       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                    ADCON0   0x000fc2       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -94,7 +94,7 @@ Linker Map File - Created Mon Apr 23 17:22:20 2007
                   BAUDCTL   0x000faa       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
               BAUDCTLbits   0x000faa       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                       BSR   0x000fe0       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
-                  ByteNum   0x00006c       data     static E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                  ByteNum   0x00006c       data     static D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
                  CAP1BUFH   0x000f69       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                  CAP1BUFL   0x000f68       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
                   CAP1CON   0x000f63       data     extern C:\MCC18\SRC\TRADIT~1\PROC\p18f4431.asm
@@ -323,9 +323,9 @@ Linker Map File - Created Mon Apr 23 17:22:20 2007
                 curr_byte   0x000070       data     static C:\MCC18\src\traditional\startup\c018i.c
                curr_entry   0x000072       data     static C:\MCC18\src\traditional\startup\c018i.c
                  data_ptr   0x000074       data     static C:\MCC18\src\traditional\startup\c018i.c
-                dummydata   0x000060       data     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                dummydata   0x000060       data     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
                      prom   0x00006d       data     static C:\MCC18\src\traditional\startup\c018i.c
-                    state   0x00006b       data     static E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                    state   0x00006b       data     static D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
 
 
 
@@ -334,44 +334,44 @@ Linker Map File - Created Mon Apr 23 17:22:20 2007
                 ---------  ---------  ---------  --------- ---------                
                    _entry   0x000000    program     extern C:\MCC18\src\traditional\startup\c018i.c
        ___return_lbl00000   0x000004    program     static                          
-  interrupt_at_low_vector   0x000018    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\main.c
+  interrupt_at_low_vector   0x000018    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\main.c
        ___return_lbl00000   0x000020    program     static                          
            ___if_lbl00001   0x000020    program     static                          
-                 SPI_Init   0x000038    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-                SPI_Close   0x000058    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-                SPI_Write   0x00005e    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-            SPI_Read_Byte   0x000084    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-        SPI_State_Machine   0x00008a    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-                  SPI_isr   0x00023e    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\main.c
-                     main   0x000328    program     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\main.c
-                _do_cinit   0x000358    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                     test   0x000372    program     static                          
-                copy_loop   0x0003ca    program     static                          
-            copy_one_byte   0x0003d0    program     static                          
-             done_copying   0x0003de    program     static                          
-       ___return_lbl00002   0x0003f4    program     static                          
-                     done   0x0003f4    program     static                          
-                OpenUSART   0x0003f6    program     extern C:\MCC18\src\TRADIT~1\pmc\USART\uopen.c
-             Delay10KTCYx   0x00046a    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kx   0x000474    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                   D10K_1   0x000476    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-       _D10KTCYXCODE_0010   0x00047a    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-                    D10Kl   0x000482    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-       _D10KTCYXCODE_001C   0x000486    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
-               WriteUSART   0x000498    program     extern C:\MCC18\src\TRADIT~1\pmc\USART\uwrite.c
-                 _startup   0x0004c6    program     extern C:\MCC18\src\traditional\startup\c018i.c
-                     loop   0x0004d6    program     static                          
-       ___return_lbl00001   0x0004e0    program     static                          
-                   __init   0x0004e2    program     extern C:\MCC18\src\TRADIT~1\stdclib\__init.c
+                 SPI_Init   0x000038    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                SPI_Close   0x000058    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                SPI_Write   0x00005e    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+            SPI_Read_Byte   0x000084    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+        SPI_State_Machine   0x00008a    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                  SPI_isr   0x00023e    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\main.c
+                     main   0x00031e    program     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\main.c
+                _do_cinit   0x00034e    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                     test   0x000368    program     static                          
+                copy_loop   0x0003c0    program     static                          
+            copy_one_byte   0x0003c6    program     static                          
+             done_copying   0x0003d4    program     static                          
+       ___return_lbl00002   0x0003ea    program     static                          
+                     done   0x0003ea    program     static                          
+                OpenUSART   0x0003ec    program     extern C:\MCC18\src\TRADIT~1\pmc\USART\uopen.c
+             Delay10KTCYx   0x000466    program     extern C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kx   0x000470    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                   D10K_1   0x000472    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+       _D10KTCYXCODE_0010   0x000476    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+                    D10Kl   0x00047e    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+       _D10KTCYXCODE_001C   0x000482    program     static C:\MCC18\SRC\TRADIT~1\DELAYS\d10ktcyx.asm
+               WriteUSART   0x000494    program     extern C:\MCC18\src\TRADIT~1\pmc\USART\uwrite.c
+                 _startup   0x0004c2    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                     loop   0x0004d2    program     static                          
+       ___return_lbl00001   0x0004dc    program     static                          
+                   __init   0x0004de    program     extern C:\MCC18\src\TRADIT~1\stdclib\__init.c
                      SIGN   0x000000       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
                 __FPFLAGS   0x000001       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
             __FPFLAGSbits   0x000001       data     extern C:\MCC18\SRC\TRADIT~1\MATH\cmath18.asm
                   __tmp_0   0x000002       data     static C:\MCC18\src\TRADIT~1\pmc\USART\uopen.c
             DelayCounter2   0x000004       data     extern C:\MCC18\SRC\TRADIT~1\DELAYS\delayd2.asm
             DelayCounter1   0x000005       data     extern C:\MCC18\SRC\TRADIT~1\DELAYS\delayd1.asm
-                dummydata   0x000060       data     extern E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-                    state   0x00006b       data     static E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
-                  ByteNum   0x00006c       data     static E:\helo\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                dummydata   0x000060       data     extern D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                    state   0x00006b       data     static D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
+                  ByteNum   0x00006c       data     static D:\Helicopter Project\source\Source\PIC source\Morken\18f4431 SPI\SPIComms.c
                      prom   0x00006d       data     static C:\MCC18\src\traditional\startup\c018i.c
                 curr_byte   0x000070       data     static C:\MCC18\src\traditional\startup\c018i.c
                curr_entry   0x000072       data     static C:\MCC18\src\traditional\startup\c018i.c
