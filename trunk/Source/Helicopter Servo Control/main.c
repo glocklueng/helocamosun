@@ -196,7 +196,6 @@ void main(void)
 				default:
 					break;
 			}
-			
 			// Provisions for if we need 100ms timers
 			if(tFlag.new100msTickFlag)
 			{
