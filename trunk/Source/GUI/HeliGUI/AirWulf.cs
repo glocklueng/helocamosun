@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using helopanel;
 using GoogleMapsControl;
 using CommProtocolLib;
+using System.Threading;
 
 namespace HeliGui
 {
@@ -33,12 +34,15 @@ namespace HeliGui
         
         CommProtocol ComProt;
 
+        GPSParser GPSP;
+
         int RequestState = 0;
 
         int ReceivedPacketTimeout;
         bool PacketReceived;
         bool TimedOut = false;
-
+        int AltitudeSamples = 0;
+        double BaseStationAltitude = 0;
         #region gauges
         //Gauges to display flight data
         
@@ -74,7 +78,10 @@ namespace HeliGui
         public frmAirWulf()
         {
             InitializeComponent();
+
+            this.FormClosing += new FormClosingEventHandler(frmAirWulf_FormClosing);
             SetupFormElements();
+ 
         }
 
         /// <summary>
@@ -82,6 +89,8 @@ namespace HeliGui
         /// </summary>
         private void SetupFormElements()
         {
+            Load_GPS_Parser();
+
             this.Resize += new EventHandler(frmAirWulf_Resize);
             for (int i = 0; i < 10; i++)
             {
@@ -112,10 +121,15 @@ namespace HeliGui
             SetUpIndicatorLights();
 
             this.OnResize(new EventArgs());
+
         }
         #endregion
 
-
+        void Load_GPS_Parser()
+        {
+            GPSP = new GPSParser("COM11", this);
+            GPSP.GPSStringReceived += new GPSParser.GPSStringReceivedEventHandler(GPSP_GPSStringReceived);
+        }
         void frmAirWulf_Resize(object sender, EventArgs e)
         {
 
@@ -221,7 +235,9 @@ namespace HeliGui
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            this.Disposed += new EventHandler(frmAirWulf_Disposed);
+
+
+
             if (ComProt == null)
             {
                 ComProt = new CommProtocol(
@@ -246,7 +262,9 @@ namespace HeliGui
                     ComProt.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(ComProt_HandShakeAckReceived);
                     ComProt.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(ComProt_PreFlightPacketReceived);
                     ComProt.MotorRPMPacketReceived += new CommProtocol.MotorRPMPacketReceivedEventHandler(ComProt_MotorRPMPacketReceived);
-                    ComProt.GPSStringReceived += new CommProtocol.GPSStringReceivedEventHandler(ComProt_GPSStringReceived);
+                    
+
+                    
                     RequestInfoTimer.Start();
                 }
                 else
@@ -256,14 +274,38 @@ namespace HeliGui
             }
         }
 
-    
-        void frmAirWulf_Disposed(object sender, EventArgs e)
+
+        #region safe closing routine
+
+        void frmAirWulf_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (ComProt != null)
+            if(ComProt.ExpectedResponse.ResponseExpected) 
             {
-                ComProt.Dispose();
+                e.Cancel = true;
+                if (ComProt != null)
+                {
+                    ComProt.Dispose();
+                } 
+                if (GPSP != null)
+                {
+                    GPSP.Dispose();
+                }
+                System.Windows.Forms.Timer closeTimer = new System.Windows.Forms.Timer();
+                closeTimer.Interval = 500;
+                closeTimer.Start();
+                closeTimer.Tick += new EventHandler(closeTimer_Tick);
             }
+
         }
+
+        void closeTimer_Tick(object sender, EventArgs e)
+        {
+            this.Dispose();
+        }
+
+        #endregion
+
+
 
         #region gauge setup routines
         private void SetUpRPMGauge()
@@ -508,8 +550,6 @@ namespace HeliGui
             PacketReceived = true;
             RPM = e.RPM;
             RPMGauge.Value = RPM;
-
-
         }
 
         void ComProt_PreFlightPacketReceived(object sender, CommProtocol.PreFlightPacketReceivedEventArgs e)
@@ -569,7 +609,7 @@ namespace HeliGui
 
         void ComProt_ResponseTimeout(object sender, CommProtocol.ResponseTimeoutEventArgs e)
         {
-            PacketTimeoutLight.BlinkRate = 1000;
+            PacketTimeoutLight.BlinkRate = 1500;
             PacketTimeoutLight.OneShot = true;
             PacketTimeoutLight.Blink = true;
 
@@ -598,24 +638,76 @@ namespace HeliGui
                 Lon = e.Long;
                 Lat = e.Lat;
 
-                Double Longitude = -(Lon.Degrees + Lon.Minutes / 60.0 + (Lon.SecondsH + Lon.SecondsL / 1000.0) / 3600.0);
-                Double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.SecondsH + Lat.SecondsL / 1000.0) / 3600.0;
+                Double Longitude = -(Lon.Degrees + ((Lon.Minutes + (Lon.FractionalMinutes / 10000.0)) / 60.0));
+                Double Latitude = Lat.Degrees + ((Lat.Minutes + (Lat.FractionalMinutes / 10000.0)) / 60.0);
                 GoogleMapCtrl.GotoLoc(Latitude, Longitude);
             }
         }
-        void ComProt_GPSStringReceived(object sender, CommProtocol.GPSStringReceivedEventArgs e)
+        void GPSP_GPSStringReceived(object sender, GPSParser.GPSStringReceivedEventArgs e)
         {
-
-            CommPacketRXLight.On = true;
-            PacketReceived = true;
+            
             if (e.data.Long.Degrees != 0 && e.data.Lat.Degrees != 0)
             {
                 Lon = e.data.Long;
                 Lat = e.data.Lat;
 
-                Double Longitude = -(Lon.Degrees + Lon.Minutes / 60.0 + (Lon.SecondsH + Lon.SecondsL / 1000.0) / 3600.0);
-                Double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.SecondsH + Lat.SecondsL / 1000.0) / 3600.0;
-                GoogleMapCtrl.GotoLoc(Latitude, Longitude);
+                if (GoogleMapCtrl.BaseStationSet)
+                {
+
+
+                    RequestInfoTimer.Enabled = false;
+
+                    double Longitude = -(Lon.Degrees + Lon.Minutes / 60.0 + (Lon.FractionalMinutes / 1000.0) / 3600.0);
+                    double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.FractionalMinutes / 1000.0) / 3600.0;
+                    double LatCorrection = GoogleMapCtrl.BaseStation.latitude - Latitude;
+                    double LongCorrection = GoogleMapCtrl.BaseStation.longitude - Longitude;
+
+
+                    GPSCorrection gpsc = new GPSCorrection();
+                    if (AltitudeSamples < 10)
+                    {
+                        gpsc.Altitude = 0;//zero correction until we have enough base station samples
+                        BaseStationAltitude += e.data.Altitude;
+                        AltitudeSamples++;
+                        
+                    }
+                    if (AltitudeSamples == 10)
+                    {
+                        gpsc.Altitude = 0;//zero correction until we have enough base station samples
+                        AltitudeSamples = 11;
+                        BaseStationAltitude = BaseStationAltitude / 10.0;
+                    }
+                    
+                    if (AltitudeSamples == 11)
+                    {
+                        gpsc.Altitude = Convert.ToInt16((e.data.Altitude * 10) - (BaseStationAltitude * 10));
+                        txtAltitudeCorrection.Text = gpsc.Altitude.ToString();
+                    }
+                    gpsc.Time = new DateTime();
+                    gpsc.Time.AddSeconds(e.data.GPSDateTime.Second);
+
+                    gpsc.LatSeconds = (short)(LatCorrection * 3600.0 * 1000.0);
+                    gpsc.LongSeconds = (short)(LongCorrection * 3600.0 * 1000.0);
+
+                    txtLatCorrection.Text = gpsc.LatSeconds.ToString();
+                    txtLongCorrection.Text = gpsc.LongSeconds.ToString();
+
+                    if (ComProt != null)
+                    {
+                        int timeout = 0;
+                        while (ComProt.ExpectedResponse.ResponseExpected)
+                        {
+                            if (timeout > 1000)
+                            {
+                                break;
+                            }
+                            timeout++;
+                        }
+                        ComProt.SendGPSCorrectionFactor(gpsc);
+
+                        RequestInfoTimer.Enabled = true;
+                    }
+                }
             }
         }
 
