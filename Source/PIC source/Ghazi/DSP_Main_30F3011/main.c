@@ -4,7 +4,6 @@
 
 #include "RF.h"
 #include "SPI.h"
-#include "commands.h"
 #include <stdio.h>
 #define FCY				5000000 // Instruction cycle freq = xtal / 4
 
