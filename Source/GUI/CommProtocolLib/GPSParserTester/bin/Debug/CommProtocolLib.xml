@@ -1,0 +1,755 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CommProtocolLib</name>
+    </assembly>
+    <members>
+        <member name="T:CommProtocolLib.GPSCorrection">
+            <summary>
+            Corrections to be sent to the helicopter for Differential GPS corrections
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSCorrection.LatSeconds">
+            <summary>
+            signed latitude seconds error
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSCorrection.LongSeconds">
+            <summary>
+            signed longitude seconds error
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSCorrection.Altitude">
+            <summary>
+            signed decimeters altitude correction
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSCorrection.Time">
+            <summary>
+            time of this gps fix
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.Latitude">
+            <summary>
+            standard global latitude data structure
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Latitude.Degrees">
+            <summary>
+            standard latitude degrees (0-180)
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Latitude.Minutes">
+            <summary>
+            standard latitude minutes (0 to 60)
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Latitude.FractionalMinutes">
+            <summary>
+            fractional remainder of minutes in 10000ths of a minute (0 to 9999)
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Latitude.North">
+            <summary>
+            North latitude if true, otherwise south
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.Longitude">
+            <summary>
+            standard global longitude data structure
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Longitude.Degrees">
+            <summary>
+            standard longitude degrees (0-180)
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Longitude.Minutes">
+            <summary>
+            standard longitude minutes (0 to 60)
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Longitude.FractionalMinutes">
+            <summary>
+            fractional remainder of minutes in 10000ths or a minute (0 to 9999)
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Longitude.East">
+            <summary>
+            East latitude if true, otherwise West
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.HeadingSpeedAltitude">
+            <summary>
+            Data structure to keep track of heading speed and altitude of the helicopter
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.HeadingSpeedAltitude.Heading">
+            <summary>
+            heading in degrees, North is zero degrees, increases in clockwise direction
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.HeadingSpeedAltitude.Speed">
+            <summary>
+            Speed in meters per second, on the current heading
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.HeadingSpeedAltitude.Altitude">
+            <summary>
+            Altitude in meters
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.Attitude">
+            <summary>
+            Data structure to keep track of the helicopter's attitude (roll, pitch and yaw)
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Attitude.Roll">
+            <summary>
+            Helicopter's current roll value: 0 degrees is upright; increases as helicopter rolls in the starboard direction
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Attitude.Pitch">
+            <summary>
+            Helicopter's current pitch value: 0 degrees is upright; increases as helicopter pitches forward
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.Attitude.Yaw">
+            <summary>
+            Helicopters current yaw angle: 0 degrees is north; increases as helicopter rotates counter clockwise, as seen from above the helicopter
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.BatteryStatus">
+            <summary>
+            data structure for battery information packets 
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.BatteryStatus.Voltage">
+            <summary>
+            battery voltage reading
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.BatteryStatus.CurrentDraw">
+            <summary>
+            battery current draw reading
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.BatteryStatus.Temperature">
+            <summary>
+            battery temperature reading
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.PreFlightPacketData">
+            <summary>
+            Data structure containing pre-flight packet data
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.PreFlightPacketData.Lat">
+            <summary>
+            Pre-flight latitude
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.PreFlightPacketData.Long">
+            <summary>
+            Pre-flight longitude
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.PreFlightPacketData.GPSAltitude">
+            <summary>
+            Altiude of helicopter as reported by GPS
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.PreFlightPacketData.SonarAltitude">
+            <summary>
+            Altitude of helicopter as reported by the acoustic sensor
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.PreFlightPacketData.BatteryVoltage">
+            <summary>
+            Main battery voltage
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.PreFlightPacketData.BatteryTemp">
+            <summary>
+            main battery temperature
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.PreFlightPacketData.SensorStatus">
+            <summary>
+            a bit field containing sensor status
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.CommProtocol">
+            <summary>
+            Implementation of the helicopter communication protocol via the serial port
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.BufferPollTimer">
+            <summary>
+            Timer to poll the incoming serial port buffer
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.SerialPortOpen">
+            <summary>
+            Set to true when the serial port has been sucessfully opened
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.encoding">
+            <summary>
+            serial port encoding
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.ExpectedResponse">
+            <summary>
+            When a packet is sent there is an expected response from the helicopter
+            it is a full packet (with ACK)response or a data response.  This struct keeps track of the state.
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.NonVolatileIncomingDataBuffer">
+            <summary>
+            This variable contains all incoming bytes from the serial port.
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.TimeOut">
+            <summary>
+            Time to wait for a response after sending a data packet.  
+            If the timer expires before the expected packet is received the OnResponseTimeout event is invoked.
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.#ctor(System.String,System.Int32,System.Windows.Forms.Form)">
+            <summary>
+            Creates a new CommProtocol, with specified serial port parameters and a specified response timeout.  The other serial port parameters are all set to default
+            </summary>
+            <param name="PortName">the serial port name e.g. "COM1"</param>
+            <param name="BaudRate">a valid serial port baud rate e.g. 9600</param>
+            <param name="ParentForm">The the form instantiating this class</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.#ctor(System.String,System.Int32,System.IO.Ports.Parity,System.Int32,System.IO.Ports.StopBits,System.Windows.Forms.Form)">
+            <summary>
+            Creates a new CommProtocol, with specified serial port parameters and a specified response timeout
+            </summary>
+            <param name="PortName">the serial port name e.g. "COM1"</param>
+            <param name="BaudRate">a valid serial port baud rate e.g. 9600</param>
+            <param name="parity">a valid parity</param>
+            <param name="DataBits">the number of data bits per frame</param>
+            <param name="stopBits">the number of stop bits per frame</param>
+            <param name="ParentForm">The the form instantiating this class</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.#ctor(System.String,System.Int32,System.IO.Ports.Parity,System.Int32,System.IO.Ports.StopBits,System.Int32,System.Windows.Forms.Form)">
+            <summary>
+            Creates a new CommProtocol, with specified serial port parameters and a specified response timeout
+            </summary>
+            <param name="PortName">the serial port name e.g. "COM1"</param>
+            <param name="BaudRate">a valid serial port baud rate e.g. 9600</param>
+            <param name="parity">a valid parity</param>
+            <param name="DataBits">the number of data bits per frame</param>
+            <param name="stopBits">the number of stop bits per frame</param>
+            <param name="Timeout">Time to wait for a response after sending a data packet.  
+            If the timer expires before the expected packet is received the OnResponseTimeout event is invoked.</param>
+            <param name="ParentForm">The the form instantiating this class</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.Setup">
+            <summary>
+            Called by all constructors
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.Dispose">
+            <summary>
+            Call this at form close
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.CommsHandShakeInitiate">
+            <summary>
+            Send out a ping to prove the helicopter is communicating
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.CommsHandShakeTerminate">
+            <summary>
+            Instruct the helicopter to stop sending acks at the end of the hand shake sequence
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.SetMotorRPM(System.Byte)">
+            <summary>
+            Set the helicopter's motor's RPM
+            </summary>
+            <param name="RPM">A value between 0 and 100 representing percentage engine speed</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.SetCyclicPitch(System.Byte)">
+            <summary>
+            Set the cyclic pitch control from 0 to 100
+            </summary>
+            <param name="CyclicPitch">A value between 0 and 100 representing the servo angle</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.SetCyclicRoll(System.Byte)">
+            <summary>
+            Set the cyclic roll control from 0 to 100
+            </summary>
+            <param name="CyclicRoll"></param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.SetCollective(System.Byte)">
+            <summary>
+            Set the collective control from 0 to 100 percent
+            </summary>
+            <param name="Collective">percentage of collective</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.SetAntiTorque(System.Byte)">
+            <summary>
+            Set the anti-torque servo to the desired percentage
+            </summary>
+            <param name="AntiTorque">a percentage servo value</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.SetTunePoints(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Set tune points
+            </summary>
+            <param name="TuningPoint">Tuning set: 0x5A = Zero Points, 0x46 = 50% points, 0x4D = Max points</param>
+            <param name="RPM">percentage RPM</param>
+            <param name="PitchServo">percentage pitch servo</param>
+            <param name="RollServo">percentage Roll servo</param>
+            <param name="CollectiveServo">percentage collective servo</param>
+            <param name="AntiTorqueServo">percentage anti-torque servo</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.EngageEngine">
+            <summary>
+            Start the motor
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.Hover(System.Byte,System.UInt16)">
+            <summary>
+            Hover using a preset altitude, the current altitude, or the specified altitude
+            </summary>
+            <param name="mode">
+            0x50 to use preset altitude, 0x43 to use current altitude, and 0x4D to use specified. 
+            If 4D you must also specify the Altitude parameter. Otherwise it is ignored.
+            </param>
+            <param name="Altitude">
+            The specified altitude this value is ignored unless the mode parameter is set to 0x4D.
+            In this case the helicopter hovers at the specified value in meters
+            </param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.Goto(CommProtocolLib.Latitude,CommProtocolLib.Longitude,System.Byte,System.UInt16)">
+            <summary>
+            Send the helicopter to a gps cooridinate, and specify the action on arrival
+            </summary>
+            <param name="Lat">A filled Latitude struct</param>
+            <param name="Long">a filled longitude struct</param>
+            <param name="action">0x48 to hover on arrival and 0x53 to circle at arrival</param>
+            <param name="Altitude">Altitude to perform action at (metres)</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.ReturnToBase">
+            <summary>
+            instruct the helicpoter to return to its take off coordinate
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.RequestPreFlightPacket">
+            <summary>
+            Request a pre-flight packet, the helicopter should respond with a data packet
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.DiscreetMovementControl(System.Byte)">
+            <summary>
+            Move the helicopter a short distance the specified direction
+            </summary>
+            <param name="Direction">one of: 0x46(forward),0x52(reverse),0x50(Port) or 0x53(starboard)</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.RequestForInformation(System.Byte)">
+            <summary>
+            Request a data packet from the helicopter
+            </summary>
+            <param name="info">byte representing the desired information: 0x4C Location,
+            0x48 Heading/Speed/Altitude, 0x5A Attitude, 0x42 Battery Status, 0x52 Motor RPM</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.SendGPSCorrectionFactor(CommProtocolLib.GPSCorrection)">
+            <summary>
+            Sends a differential gps correction factor packet
+            </summary>
+            <param name="gpsc">a filled GPSCorrection struct</param>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.MatchIncomingPacket">
+            <summary>
+            this is public only for debugging purposes
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.BuildExpectedResponse(System.Byte[])">
+            <summary>
+            As the protocol specifies, the helicopter responds with non data requesting packets with a copy of that packet (with the ACK inserted).  
+            This method builds the packet that should be replied by the helicopter for comparison
+            </summary>
+            <param name="OutgoingPacket">The Packet sent by the base station</param>
+            <returns>the expected response by the helicopter</returns>
+        </member>
+        <member name="E:CommProtocolLib.CommProtocol.LocationPacketReceived">
+            <summary>
+            event raised when a location packet is received
+            </summary>
+        </member>
+        <member name="E:CommProtocolLib.CommProtocol.HeadingSpeedAltitudePacketReceived">
+            <summary>
+            Event raised when a heading/speed/altitude packed is received
+            </summary>
+        </member>
+        <member name="E:CommProtocolLib.CommProtocol.BadPacketReceived">
+            <summary>
+            Thrown when a bad packet is received, see BadPacketReceivedEventArgs.ErrorMessage for the details
+            </summary>
+        </member>
+        <member name="E:CommProtocolLib.CommProtocol.ResponseTimeout">
+            <summary>
+            This event is invoked when a command was sent to the helicopter 
+            and there was not a correct repsonse as defined in the protocol
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.CommProtocol.ExpectedResponses">
+            <summary>
+            When a packet is sent there is an expected response from the helicopter
+            it is a full packet (with ACK)response or a data response.
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.ExpectedResponses.ResponseExpected">
+            <summary>
+            If true a response is expected and no datapackets can be sent out until a response is received or a timeout occurs
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.ExpectedResponses.ExpectedPacket">
+            <summary>
+            The expected response packet, this is defined only for full packet responses
+            where the response can be fully predicted
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.ExpectedResponses.Name">
+            <summary>
+            Name of initiating function that sent the original packet (for debugging purposes)
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.ExpectedResponses.ResponseType">
+            <summary>
+            instance of the type enum
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.CommProtocol.ExpectedResponses.type">
+            <summary>
+            enumeration of the types of responses to expect after sending a packet
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.ExpectedResponses.type.FullPacketResponse">
+            <summary>
+            A full packet response with ACK (0x06) is expected
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.ExpectedResponses.type.DataResponse">
+            <summary>
+            A packet containing telemetry or other information is expected
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.ExpectedResponses.type.none">
+            <summary>
+            no response is expected
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.CommProtocol.LocationPacketReceivedEventHandler">
+            <summary>
+            Delegate for the event raised when a location packet is received.
+            </summary>
+            <param name="sender">The class raising the event</param>
+            <param name="e">An instance of the LocationPacketReceivedEvent args class containing latitude and longitude</param>
+        </member>
+        <member name="T:CommProtocolLib.CommProtocol.LocationPacketReceivedEventArgs">
+            <summary>
+            event args definition for a location received packet
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.LocationPacketReceivedEventArgs.Lat">
+            <summary>
+            The latitude sent by the event
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.LocationPacketReceivedEventArgs.Long">
+            <summary>
+            The longitude sent by the event
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.LocationPacketReceivedEventArgs.#ctor(CommProtocolLib.Latitude,CommProtocolLib.Longitude)">
+            <summary>
+            Class containing the latitude and longitude sent through the protocol.
+            </summary>
+            <param name="Lat"></param>
+            <param name="Long"></param>
+        </member>
+        <member name="T:CommProtocolLib.CommProtocol.HeadingSpeedAltitudePacketReceivedEventHandler">
+            <summary>
+            Delegate for the event raised when HeadingSpeedAltitudePacketReceivedEvent is raised
+            </summary>
+            <param name="sender">the class that raised the event</param>
+            <param name="e">instance of a HeadingSpeedAltitudePacketReceivedEventArgs class containing the heading speed and altitude</param>
+        </member>
+        <member name="T:CommProtocolLib.CommProtocol.HeadingSpeedAltitudePacketReceivedEventArgs">
+            <summary>
+            Class holding the the heading speed and altitude
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.HeadingSpeedAltitudePacketReceivedEventArgs.HSA">
+            <summary>
+            structure containing the heading speed and altitude
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.HeadingSpeedAltitudePacketReceivedEventArgs.#ctor(CommProtocolLib.HeadingSpeedAltitude)">
+            <summary>
+            Constructer for the HeadingSpeedAltitudePacketReceivedEventArgs class, needs a filled HeadingSpeedAltitude struct
+            </summary>
+            <param name="HSA"></param>
+        </member>
+        <member name="T:CommProtocolLib.CommProtocol.AttitudePacketReceivedEventHandler">
+            <summary>
+            Event handler for a attitude packet being received.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="F:CommProtocolLib.CommProtocol.ResponseTimeoutEventArgs.ExpectedResponse">
+            <summary>
+            Name of the function that inititated the transaction, and for which the response was expected.
+            </summary>
+        </member>
+        <member name="T:Multimedia.TimerMode">
+            <summary>
+            Defines constants for the multimedia Timer's event types.
+            </summary>
+        </member>
+        <member name="F:Multimedia.TimerMode.OneShot">
+            <summary>
+            Timer event occurs once.
+            </summary>
+        </member>
+        <member name="F:Multimedia.TimerMode.Periodic">
+            <summary>
+            Timer event occurs periodically.
+            </summary>
+        </member>
+        <member name="T:Multimedia.TimerCaps">
+            <summary>
+            Represents information about the multimedia Timer's capabilities.
+            </summary>
+        </member>
+        <member name="F:Multimedia.TimerCaps.periodMin">
+            <summary>
+            Minimum supported period in milliseconds.
+            </summary>
+        </member>
+        <member name="F:Multimedia.TimerCaps.periodMax">
+            <summary>
+            Maximum supported period in milliseconds.
+            </summary>
+        </member>
+        <member name="T:Multimedia.Timer">
+            <summary>
+            Represents the Windows multimedia timer.
+            </summary>
+        </member>
+        <member name="M:Multimedia.Timer.#cctor">
+            <summary>
+            Initialize class.
+            </summary>
+        </member>
+        <member name="M:Multimedia.Timer.#ctor(System.ComponentModel.IContainer)">
+            <summary>
+            Initializes a new instance of the Timer class with the specified IContainer.
+            </summary>
+            <param name="container">
+            The IContainer to which the Timer will add itself.
+            </param>
+        </member>
+        <member name="M:Multimedia.Timer.#ctor">
+            <summary>
+            Initializes a new instance of the Timer class.
+            </summary>
+        </member>
+        <member name="M:Multimedia.Timer.Start">
+            <summary>
+            Starts the timer.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">
+            The timer has already been disposed.
+            </exception>
+            <exception cref="T:Multimedia.TimerStartException">
+            The timer failed to start.
+            </exception>
+        </member>
+        <member name="M:Multimedia.Timer.Stop">
+            <summary>
+            Stops timer.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">
+            If the timer has already been disposed.
+            </exception>
+        </member>
+        <member name="M:Multimedia.Timer.Dispose">
+            <summary>
+            Frees timer resources.
+            </summary>
+        </member>
+        <member name="E:Multimedia.Timer.Started">
+            <summary>
+            Occurs when the Timer has started;
+            </summary>
+        </member>
+        <member name="E:Multimedia.Timer.Stopped">
+            <summary>
+            Occurs when the Timer has stopped;
+            </summary>
+        </member>
+        <member name="E:Multimedia.Timer.Tick">
+            <summary>
+            Occurs when the time period has elapsed.
+            </summary>
+        </member>
+        <member name="P:Multimedia.Timer.SynchronizingObject">
+            <summary>
+            Gets or sets the object used to marshal event-handler calls.
+            </summary>
+        </member>
+        <member name="P:Multimedia.Timer.Period">
+            <summary>
+            Gets or sets the time between Tick events.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">
+            If the timer has already been disposed.
+            </exception>   
+        </member>
+        <member name="P:Multimedia.Timer.Resolution">
+            <summary>
+            Gets or sets the timer resolution.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">
+            If the timer has already been disposed.
+            </exception>        
+            <remarks>
+            The resolution is in milliseconds. The resolution increases 
+            with smaller values; a resolution of 0 indicates periodic events 
+            should occur with the greatest possible accuracy. To reduce system 
+            overhead, however, you should use the maximum value appropriate 
+            for your application.
+            </remarks>
+        </member>
+        <member name="P:Multimedia.Timer.Mode">
+            <summary>
+            Gets the timer mode.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">
+            If the timer has already been disposed.
+            </exception>
+        </member>
+        <member name="P:Multimedia.Timer.IsRunning">
+            <summary>
+            Gets a value indicating whether the Timer is running.
+            </summary>
+        </member>
+        <member name="P:Multimedia.Timer.Capabilities">
+            <summary>
+            Gets the timer capabilities.
+            </summary>
+        </member>
+        <member name="T:Multimedia.TimerStartException">
+            <summary>
+            The exception that is thrown when a timer fails to start.
+            </summary>
+        </member>
+        <member name="M:Multimedia.TimerStartException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the TimerStartException class.
+            </summary>
+            <param name="message">
+            The error message that explains the reason for the exception. 
+            </param>
+        </member>
+        <member name="T:CommProtocolLib.GPSData">
+            <summary>
+            Structure for storing incoming GPS data
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSData.Lat">
+            <summary>
+            GPS latitude
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSData.Long">
+            <summary>
+            GPS longitude
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSData.GPSDateTime">
+            <summary>
+            Time and date of received gps packet
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSData.Altitude">
+            <summary>
+            GPS altitude 
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSData.Velocity">
+            <summary>
+            GPS velocity (m/s) in the direction of the GPS course
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSData.Course">
+            <summary>
+            GPS Course in degrees 
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.GPSParser">
+            <summary>
+            Class to handle NMEA strings over a serial port, and return GPS data
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSParser.BufferPollTimer">
+            <summary>
+            Timer to poll the incoming serial port buffer
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSParser.connected">
+            <summary>
+            Flag indicating whether or not the gps module is connected and sending valid GPS data
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.GPSParser.#ctor(System.String,System.Windows.Forms.Form)">
+            <summary>
+            Create a new GPSParser
+            </summary>
+            <param name="COMPort">com port to connect to eg "COM1"</param>
+            <param name="ParentForm">the form that owns this instance of the class</param>
+        </member>
+        <member name="M:CommProtocolLib.GPSParser.Dispose">
+            <summary>
+            Close the gps parser, this will ensure that no timer events trigger Invoke() for a disposed parent
+            </summary>
+        </member>
+        <member name="E:CommProtocolLib.GPSParser.GPSStringReceived">
+            <summary>
+            GPSStringReceived event
+            </summary>
+        </member>
+        <member name="T:CommProtocolLib.GPSParser.GPSStringReceivedEventHandler">
+            <summary>
+            Event handler for a GPS packet being recieved from the module
+            </summary>
+            <param name="sender">object from which the event originated</param>
+            <param name="e">event args containing GPS data</param>
+        </member>
+        <member name="T:CommProtocolLib.GPSParser.GPSStringReceivedEventArgs">
+            <summary>
+            class containing GPS data
+            </summary>
+        </member>
+        <member name="F:CommProtocolLib.GPSParser.GPSStringReceivedEventArgs.data">
+            <summary>
+            data receievd from the gps module
+            </summary>
+        </member>
+        <member name="M:CommProtocolLib.GPSParser.GPSStringReceivedEventArgs.#ctor(CommProtocolLib.GPSData)">
+            <summary>
+            constructor for GPSStringReceivedEventArgs
+            </summary>
+            <param name="data">GPS data recieved</param>
+        </member>
+    </members>
+</doc>
