@@ -34,6 +34,7 @@ namespace GoogleMapsControl
             this.txtLongitude = new System.Windows.Forms.TextBox();
             this.lblLatitude = new System.Windows.Forms.Label();
             this.lblLongitude = new System.Windows.Forms.Label();
+            this.btnSetBase = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // webBrowser1
@@ -88,10 +89,21 @@ namespace GoogleMapsControl
             this.lblLongitude.TabIndex = 5;
             this.lblLongitude.Text = "Longitude";
             // 
+            // btnSetBase
+            // 
+            this.btnSetBase.Location = new System.Drawing.Point(0, 635);
+            this.btnSetBase.Name = "btnSetBase";
+            this.btnSetBase.Size = new System.Drawing.Size(127, 23);
+            this.btnSetBase.TabIndex = 6;
+            this.btnSetBase.Text = "Define Base Station";
+            this.btnSetBase.UseVisualStyleBackColor = true;
+            this.btnSetBase.Click += new System.EventHandler(this.btnSetBase_Click);
+            // 
             // GoogleMapControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnSetBase);
             this.Controls.Add(this.lblLongitude);
             this.Controls.Add(this.lblLatitude);
             this.Controls.Add(this.txtLongitude);
@@ -113,5 +125,6 @@ namespace GoogleMapsControl
         private System.Windows.Forms.TextBox txtLongitude;
         private System.Windows.Forms.Label lblLatitude;
         private System.Windows.Forms.Label lblLongitude;
+        private System.Windows.Forms.Button btnSetBase;
     }
 }

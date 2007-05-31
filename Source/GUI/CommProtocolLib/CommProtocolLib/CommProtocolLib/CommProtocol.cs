@@ -47,9 +47,9 @@ namespace CommProtocolLib
         /// </summary>
         public byte Minutes;
         /// <summary>
-        /// thousanths of seconds
+        /// fractional remainder of minutes in 10000ths of a minute (0 to 9999)
         /// </summary>
-        public UInt16 Seconds;
+        public UInt16 FractionalMinutes;
         /// <summary>
         /// North latitude if true, otherwise south
         /// </summary>
@@ -69,9 +69,9 @@ namespace CommProtocolLib
         /// </summary>
         public byte Minutes;
         /// <summary>
-        /// thousanths of seconds
+        /// fractional remainder of minutes in 10000ths or a minute (0 to 9999)
         /// </summary>
-        public UInt16 Seconds;
+        public UInt16 FractionalMinutes;
         /// <summary>
         /// East latitude if true, otherwise West
         /// </summary>
@@ -85,7 +85,7 @@ namespace CommProtocolLib
         /// <summary>
         /// heading in degrees, North is zero degrees, increases in clockwise direction
         /// </summary>
-        public Int16 Heading;
+        public UInt16 Heading;
         /// <summary>
         /// Speed in meters per second, on the current heading
         /// </summary>
@@ -175,6 +175,8 @@ namespace CommProtocolLib
     {
         
         #region datamembers
+
+        private bool Disposed = false;
         /// <summary>
         /// Timer to poll the incoming serial port buffer
         /// </summary>
@@ -362,10 +364,10 @@ namespace CommProtocolLib
         /// </summary>
         public void Dispose()
         {
-
-            BufferPollTimer.Dispose();
-            ResponseTimer.Dispose();
-            SP.Dispose();
+            Disposed = true;
+            //BufferPollTimer.Dispose();
+            //ResponseTimer.Dispose();
+            //SP.Dispose();   
         }
         #endregion
 
@@ -759,8 +761,8 @@ namespace CommProtocolLib
                 OutGoingPacket[5] = Lat.Degrees;
                 OutGoingPacket[6] = Lat.Minutes;
                 //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
-                OutGoingPacket[7] = (byte)(Lat.Seconds / 1000);
-                OutGoingPacket[8] = (byte)(Lat.Seconds % 1000);
+                OutGoingPacket[7] = (byte)((Lat.FractionalMinutes & 0xFF00) >> 8);
+                OutGoingPacket[8] = (byte)(Lat.FractionalMinutes & 0xFF );
                 if (Lat.North)
                 {
                     OutGoingPacket[9] = 0x4E;
@@ -772,8 +774,8 @@ namespace CommProtocolLib
                 OutGoingPacket[10] = Long.Degrees;
                 OutGoingPacket[11] = Long.Minutes;
                 //highest 2 bits of the first seconds packet were used for bits 9 and 10 of the secondsL value
-                OutGoingPacket[12] = (byte)(Long.Seconds / 1000);
-                OutGoingPacket[13] = (byte)(Long.Seconds % 1000);
+                OutGoingPacket[12] = (byte)((Long.FractionalMinutes & 0xFF00)>>8);
+                OutGoingPacket[13] = (byte)(Long.FractionalMinutes & 0xFF);
                 if (Long.East)
                 {
                     OutGoingPacket[14] = 0x45;
@@ -981,7 +983,7 @@ namespace CommProtocolLib
                 
                 if ((int)IncomingDataBuffer[0] != 0xA5)
                 {
-                    ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header") });
+                    Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header") });
                     ClearBuffer();
                     CheckingForPacket = false;
                     return;
@@ -1014,14 +1016,14 @@ namespace CommProtocolLib
                             ClearBuffer();
                             //the response is successfully received
 
-                            ParentForm.Invoke(ExpectedResponseReceived, new object[] { this, new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name, buffercopy) });
+                            Invoke(ExpectedResponseReceived, new object[] { this, new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name, buffercopy) });
                             //  OnExpectedResponseReceived(new ExpectedResponseReceivedEventArgs(ExpectedResponse.Name,IncomingDataBuffer));
 
                         }
                         if (IncomingDataBuffer.Length >= ExpectedResponse.ExpectedPacket.Length)
                         {
                             //throw the event
-                            ParentForm.Invoke(BadPacketReceived,
+                            Invoke(BadPacketReceived,
                                 new object[] { this,
                             new BadPacketReceivedEventArgs(IncomingDataBuffer, "Received a bad packet response for command: " + ExpectedResponse.Name)
                         });
@@ -1033,7 +1035,7 @@ namespace CommProtocolLib
                 }
                 else
                 {
-                    ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header") });
+                    Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: no packet header") });
                     ClearBuffer();
                 }
             }
@@ -1079,7 +1081,7 @@ namespace CommProtocolLib
                     }
                     else
                     {
-                        ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown telemetry command") });
+                        Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown telemetry command") });
                         ClearBuffer();
                     }
                 }
@@ -1089,7 +1091,7 @@ namespace CommProtocolLib
                 }
                 else
                 {
-                    ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown command") });
+                    Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: unknown command") });
                     ClearBuffer();
                 }
             }
@@ -1136,7 +1138,7 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x00FF);
                 if (chk1 != (int)IncomingDataBuffer[15] || chk2 != (int)IncomingDataBuffer[16])
                 {
-                    ParentForm.Invoke(BadPacketReceived, new object[] { 
+                    Invoke(BadPacketReceived, new object[] { 
                         this,
                         new BadPacketReceivedEventArgs(IncomingDataBuffer,
                         string.Format("Invalid Location packet: invalid checksum received: {0:x4}, expected: {1:x4}",
@@ -1151,7 +1153,7 @@ namespace CommProtocolLib
                     Latitude Lat = new Latitude();
                     Lat.Degrees = (byte)IncomingDataBuffer[5];
                     Lat.Minutes = (byte)IncomingDataBuffer[6];
-                    Lat.Seconds = (ushort)((ushort)IncomingDataBuffer[7] << 8 + (ushort)IncomingDataBuffer[8]);
+                    Lat.FractionalMinutes = (ushort)(((ushort)IncomingDataBuffer[7] << 8) + (ushort)IncomingDataBuffer[8]);
                     if ((byte)IncomingDataBuffer[9] == 0x4E)
                     {
                         Lat.North = true;
@@ -1162,7 +1164,7 @@ namespace CommProtocolLib
                     }
                     else
                     {
-                        ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The north south byte of the Latitude in a received location packet is invalid.") });
+                        Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Invalid packet: The north south byte of the Latitude in a received location packet is invalid.") });
                         ClearBuffer();
                         return;
                     }
@@ -1170,7 +1172,7 @@ namespace CommProtocolLib
                     Longitude Long = new Longitude();
                     Long.Degrees = (byte)IncomingDataBuffer[10];
                     Long.Minutes = (byte)IncomingDataBuffer[11];
-                    Lat.Seconds = (ushort)((ushort)IncomingDataBuffer[7] << 8 + (ushort)IncomingDataBuffer[8]);
+                    Long.FractionalMinutes = (ushort)(((ushort)IncomingDataBuffer[12] << 8) + (ushort)IncomingDataBuffer[13]);
                     if ((byte)IncomingDataBuffer[14] == 0x45)
                     {
                         Long.East = true;
@@ -1181,7 +1183,7 @@ namespace CommProtocolLib
                     }
                     else
                     {
-                        ParentForm.Invoke(BadPacketReceived, new object[] {this, 
+                        Invoke(BadPacketReceived, new object[] {this, 
                             new BadPacketReceivedEventArgs(IncomingDataBuffer,
                             "Invalid packet: The east west byte of the Longitude in a received location packet is invalid.")
                         });
@@ -1190,14 +1192,14 @@ namespace CommProtocolLib
                     }
                     //invoke the event
                     ClearBuffer();
-                    ParentForm.Invoke(LocationPacketReceived, new object[] { this, new LocationPacketReceivedEventArgs(Lat, Long) });
+                    Invoke(LocationPacketReceived, new object[] { this, new LocationPacketReceivedEventArgs(Lat, Long) });
 
 
                 }
             }
             else if (IncomingDataBuffer.Length >= 19)
             {
-                ParentForm.Invoke(BadPacketReceived, new object[] { 
+                Invoke(BadPacketReceived, new object[] { 
                     this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad location packet received") 
                 });
                 ClearBuffer();
@@ -1243,7 +1245,7 @@ namespace CommProtocolLib
                 if (chk1 != (int)IncomingDataBuffer[10] || chk2 != (int)IncomingDataBuffer[11])
                 {
 
-                    ParentForm.Invoke(BadPacketReceived, new object[] {this,
+                    Invoke(BadPacketReceived, new object[] {this,
                        new BadPacketReceivedEventArgs(IncomingDataBuffer,
                        string.Format("Invalid heading speed altitude packet: invalid checksum: received {0:x4}, expected {1:x4}",
                        (Convert.ToUInt16((int)IncomingDataBuffer[10]) << 8) + (int)IncomingDataBuffer[11], sum))});
@@ -1254,12 +1256,12 @@ namespace CommProtocolLib
                 {
                     //good checksum
                     HeadingSpeedAltitude HSA = new HeadingSpeedAltitude();
-                    HSA.Heading = Convert.ToInt16(((int)IncomingDataBuffer[5] << 8) + (int)IncomingDataBuffer[6]);
+                    HSA.Heading = Convert.ToUInt16(((int)IncomingDataBuffer[5] << 8) + (int)IncomingDataBuffer[6]);
                     HSA.Speed = Convert.ToByte((int)IncomingDataBuffer[7]);
                     HSA.Altitude = Convert.ToUInt16(((int)IncomingDataBuffer[8] << 8) + (int)IncomingDataBuffer[9]);
                     //invoke the event
                     ClearBuffer();
-                    ParentForm.Invoke(HeadingSpeedAltitudePacketReceived, 
+                    Invoke(HeadingSpeedAltitudePacketReceived, 
                         new object[] { this, new HeadingSpeedAltitudePacketReceivedEventArgs(HSA)});
 
 
@@ -1267,7 +1269,7 @@ namespace CommProtocolLib
             }
             else if (IncomingDataBuffer.Length >= 14)
             {
-                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad heading/speed/altitude packetreceived") });
+                Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad heading/speed/altitude packetreceived") });
                 ClearBuffer();
             }
         }
@@ -1314,7 +1316,7 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x00FF);
                 if (chk1 != (int)IncomingDataBuffer[11] || chk2 != (int)IncomingDataBuffer[12])
                 {
-                    ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                    Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
                        string.Format("Invalid attitude packet: invalid checksum: received {0:x4}, expected {1:x4}",
                        (Convert.ToUInt16((int)IncomingDataBuffer[11]) << 8) + (int)IncomingDataBuffer[12], sum))});
 
@@ -1329,13 +1331,13 @@ namespace CommProtocolLib
                     a.Yaw = (short)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
                     //invoke the event
                     ClearBuffer();
-                    ParentForm.Invoke(AttitudePacketReceived, new object[] { this, new AttitudePacketReceivedEventArgs(a) });
+                    Invoke(AttitudePacketReceived, new object[] { this, new AttitudePacketReceivedEventArgs(a) });
 
                 }
             }
             else if (IncomingDataBuffer.Length >= 15)
             {
-                ParentForm.Invoke(BadPacketReceived, 
+                Invoke(BadPacketReceived, 
                     new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad attitude packet received") });
 
                 ClearBuffer();
@@ -1383,7 +1385,7 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x00FF);
                 if (chk1 != (int)IncomingDataBuffer[11] || chk2 != (int)IncomingDataBuffer[12])
                 {
-                    ParentForm.Invoke(BadPacketReceived, new object[] {this,
+                    Invoke(BadPacketReceived, new object[] {this,
                         new BadPacketReceivedEventArgs(IncomingDataBuffer, 
                         string.Format("Invalid battery status packet: invalid checksum: received {0:x4}, expected {1:x4}",
                        (Convert.ToUInt16((int)IncomingDataBuffer[11]) << 8) + (int)IncomingDataBuffer[12], sum))}
@@ -1400,13 +1402,13 @@ namespace CommProtocolLib
                     b.Temperature = (short)(((int)IncomingDataBuffer[9] << 8) + (int)IncomingDataBuffer[10]);
                     //invoke the event
                     ClearBuffer();
-                    ParentForm.Invoke(BatteryStatusPacketReceived, new object[] { this, new BatteryStatusPacketReceivedEventArgs(b) });
+                    Invoke(BatteryStatusPacketReceived, new object[] { this, new BatteryStatusPacketReceivedEventArgs(b) });
 
                 }
             }
             else if (IncomingDataBuffer.Length >= 15)
             {
-                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad battery status packet received") });
+                Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad battery status packet received") });
                 ClearBuffer();
             }
         }
@@ -1446,7 +1448,7 @@ namespace CommProtocolLib
                 byte chk2 = (byte)(sum & 0x00FF);
                 if (chk1 != (int)IncomingDataBuffer[6] || chk2 != (int)IncomingDataBuffer[7])
                 {
-                    ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                    Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
                        string.Format("Invalid on board error packet: invalid checksum: received {0:x4}, expected {1:x4}",
                        (((int)IncomingDataBuffer[6]) << 8) + (int)IncomingDataBuffer[7], sum))});
 
@@ -1457,7 +1459,7 @@ namespace CommProtocolLib
                     //checksum ok
                     //invoke the event
 
-                    ParentForm.Invoke(OnBoardErrorPacketReceived, 
+                    Invoke(OnBoardErrorPacketReceived, 
                         new object[] {this, new OnBoardErrorPacketReceivedEventArgs((byte)IncomingDataBuffer[5]) });
 
                     ClearBuffer(); 
@@ -1466,7 +1468,7 @@ namespace CommProtocolLib
             }
             else if (IncomingDataBuffer.Length >= 10)
             {
-                ParentForm.Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad on board error packet received") });
+                Invoke(BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad on board error packet received") });
 
                 ClearBuffer();
             }
@@ -1528,7 +1530,7 @@ namespace CommProtocolLib
                 if (chk1 != (int)IncomingDataBuffer[24] || chk2 != (int)IncomingDataBuffer[25])
                 {
 
-                    ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                    Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
                        string.Format("Invalid pre-flight packet: invalid checksum: received {0:x4}, expected {1:x4}",
                        (Convert.ToUInt16((int)IncomingDataBuffer[24]) << 8) + (int)IncomingDataBuffer[25], sum))});
                     ClearBuffer();
@@ -1541,7 +1543,7 @@ namespace CommProtocolLib
                     PFP.Lat = new Latitude();
                     PFP.Lat.Degrees = (byte)IncomingDataBuffer[5];
                     PFP.Lat.Minutes = (byte)IncomingDataBuffer[6];
-                    PFP.Lat.Seconds = (ushort)(((ushort)IncomingDataBuffer[7] << 8) + (ushort)IncomingDataBuffer[8]); 
+                    PFP.Lat.FractionalMinutes = (ushort)(((ushort)IncomingDataBuffer[7] << 8) + (ushort)IncomingDataBuffer[8]); 
                     if ((byte)IncomingDataBuffer[9] == 0x4E)
                     {
                         PFP.Lat.North = true;
@@ -1553,7 +1555,7 @@ namespace CommProtocolLib
                     else
                     {
 
-                        ParentForm.Invoke(BadPacketReceived, new object[] {
+                        Invoke(BadPacketReceived, new object[] {
                             this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
                             "Invalid packet: The north south byte of the Latitude in a received pre-flight packet is invalid.") });
                         ClearBuffer();
@@ -1562,7 +1564,7 @@ namespace CommProtocolLib
                     PFP.Long = new Longitude();
                     PFP.Long.Degrees = (byte)IncomingDataBuffer[10];
                     PFP.Long.Minutes = (byte)IncomingDataBuffer[11];
-                    PFP.Long.Seconds = (ushort)(((ushort)IncomingDataBuffer[12] <<8) +(ushort)IncomingDataBuffer[13]);
+                    PFP.Long.FractionalMinutes = (ushort)(((ushort)IncomingDataBuffer[12] <<8) +(ushort)IncomingDataBuffer[13]);
                     if ((byte)IncomingDataBuffer[14] == 0x45)
                     {
                         PFP.Long.East = true;
@@ -1574,7 +1576,7 @@ namespace CommProtocolLib
                     else
                     {
   
-                        ParentForm.Invoke(BadPacketReceived, new object[] {
+                        Invoke(BadPacketReceived, new object[] {
                             this, new BadPacketReceivedEventArgs(IncomingDataBuffer, 
                             "Invalid packet: The east west byte of the Latitude in a received pre-flight packet is invalid.") });
                         ClearBuffer();
@@ -1588,14 +1590,14 @@ namespace CommProtocolLib
                     PFP.SensorStatus = (byte)IncomingDataBuffer[23];
                     //invoke the event
                     ClearBuffer();
-                    ParentForm.Invoke(PreFlightPacketReceived, new object[] { this, new PreFlightPacketReceivedEventArgs(PFP) });
+                    Invoke(PreFlightPacketReceived, new object[] { this, new PreFlightPacketReceivedEventArgs(PFP) });
 
                 }
             }
             else if (IncomingDataBuffer.Length >= 28)
             {
 
-                ParentForm.Invoke(BadPacketReceived, new object[] { this, 
+                Invoke(BadPacketReceived, new object[] { this, 
                     new BadPacketReceivedEventArgs(IncomingDataBuffer,
                     "Bad packet footer for pre-flight packet") });
                 ClearBuffer();
@@ -1635,7 +1637,7 @@ namespace CommProtocolLib
                 if (chk1 != (int)IncomingDataBuffer[5] || chk2 != (int)IncomingDataBuffer[6])
                 {
 
-                    ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                    Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
                        string.Format("Invalid handshake ACK packet: invalid checksum: received 0x{0:x4}, expected 0x{1:x4}",
                        (Convert.ToUInt16((int)IncomingDataBuffer[5]) << 8) + (int)IncomingDataBuffer[6], sum))});
                     ClearBuffer();
@@ -1645,7 +1647,7 @@ namespace CommProtocolLib
                 {
                     //checksum ok
                     ClearBuffer();
-                    ParentForm.Invoke(HandShakeAckReceived, new object[] { this, new EventArgs() });
+                    Invoke(HandShakeAckReceived, new object[] { this, new EventArgs() });
 
                 }
             }
@@ -1653,7 +1655,7 @@ namespace CommProtocolLib
             {
 
 
-                ParentForm.Invoke(BadPacketReceived, new object[] { this, 
+                Invoke(BadPacketReceived, new object[] { this, 
                     new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad hand shake acknowledgement packet received") });
                 ClearBuffer();
 
@@ -1695,7 +1697,7 @@ namespace CommProtocolLib
                 if (chk1 != (int)IncomingDataBuffer[7] || chk2 != (int)IncomingDataBuffer[8])
                 {
 
-                    ParentForm.Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                    Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
                        string.Format("Invalid motor RPM packet: invalid checksum: received 0x{0:x4}, expected 0x{1:x4}",
                        (Convert.ToUInt16((int)IncomingDataBuffer[7]) << 8) + (int)IncomingDataBuffer[8], sum))});
                     ClearBuffer();
@@ -1706,7 +1708,7 @@ namespace CommProtocolLib
                     ushort RPM = (ushort)((IncomingDataBuffer[5]<<8) + IncomingDataBuffer[6]);
                     //checksum ok
                     ClearBuffer();
-                    ParentForm.Invoke(MotorRPMPacketReceived, new object[] { this, new MotorRPMPacketReceivedEventArgs(RPM) });
+                    Invoke(MotorRPMPacketReceived, new object[] { this, new MotorRPMPacketReceivedEventArgs(RPM) });
 
                 }
             }
@@ -1714,7 +1716,7 @@ namespace CommProtocolLib
             {
 
 
-                ParentForm.Invoke(BadPacketReceived, new object[] { this, 
+                Invoke(BadPacketReceived, new object[] { this, 
                     new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad motor RPM packet received") });
                 ClearBuffer();
 
@@ -1802,6 +1804,13 @@ namespace CommProtocolLib
 
 
         }
+        private void Invoke(Delegate Method, params object[] args)
+        {
+            if (!Disposed)
+            {
+                ParentForm.Invoke(Method, args);
+            }
+        }
         private void ResponseTimer_Tick(Object Sender, EventArgs e)
         {
             if (ExpectedResponse.ResponseExpected)
@@ -1809,7 +1818,7 @@ namespace CommProtocolLib
                 ResponseTimer.Stop();
                 //this means a response has timed out
                 //invoke the timeout event
-                ParentForm.Invoke(ResponseTimeout, new object[] { this, new ResponseTimeoutEventArgs(ExpectedResponse, IncomingDataBuffer) });
+                Invoke(ResponseTimeout, new object[] { this, new ResponseTimeoutEventArgs(ExpectedResponse, IncomingDataBuffer) });
                 ClearBuffer();
 
             }

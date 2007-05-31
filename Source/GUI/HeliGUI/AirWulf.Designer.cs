@@ -35,6 +35,12 @@ namespace HeliGui
             this.btnReloadGMC = new System.Windows.Forms.Button();
             this.RequestInfoTimer = new System.Windows.Forms.Timer(this.components);
             this.PacketRXTimer = new System.Windows.Forms.Timer(this.components);
+            this.txtLatCorrection = new System.Windows.Forms.TextBox();
+            this.txtLongCorrection = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtAltitudeCorrection = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnConnect
@@ -84,11 +90,65 @@ namespace HeliGui
             this.PacketRXTimer.Interval = 500;
             this.PacketRXTimer.Tick += new System.EventHandler(this.PacketRXTimer_Tick);
             // 
+            // txtLatCorrection
+            // 
+            this.txtLatCorrection.Location = new System.Drawing.Point(267, 37);
+            this.txtLatCorrection.Name = "txtLatCorrection";
+            this.txtLatCorrection.Size = new System.Drawing.Size(48, 20);
+            this.txtLatCorrection.TabIndex = 4;
+            // 
+            // txtLongCorrection
+            // 
+            this.txtLongCorrection.Location = new System.Drawing.Point(409, 39);
+            this.txtLongCorrection.Name = "txtLongCorrection";
+            this.txtLongCorrection.Size = new System.Drawing.Size(48, 20);
+            this.txtLongCorrection.TabIndex = 5;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(188, 40);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Lat Correction";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(321, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(82, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Long Correction";
+            // 
+            // txtAltitudeCorrection
+            // 
+            this.txtAltitudeCorrection.Location = new System.Drawing.Point(562, 40);
+            this.txtAltitudeCorrection.Name = "txtAltitudeCorrection";
+            this.txtAltitudeCorrection.Size = new System.Drawing.Size(40, 20);
+            this.txtAltitudeCorrection.TabIndex = 8;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(463, 42);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(93, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Altitude Correction";
+            // 
             // frmAirWulf
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1016, 741);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtAltitudeCorrection);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtLongCorrection);
+            this.Controls.Add(this.txtLatCorrection);
             this.Controls.Add(this.btnReloadGMC);
             this.Controls.Add(this.lblComPort);
             this.Controls.Add(this.cbxComPortSelect);
@@ -109,6 +169,12 @@ namespace HeliGui
         private System.Windows.Forms.Button btnReloadGMC;
         private System.Windows.Forms.Timer RequestInfoTimer;
         private System.Windows.Forms.Timer PacketRXTimer;
+        private System.Windows.Forms.TextBox txtLatCorrection;
+        private System.Windows.Forms.TextBox txtLongCorrection;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtAltitudeCorrection;
+        private System.Windows.Forms.Label label3;
     }
 }
 

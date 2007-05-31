@@ -40,7 +40,10 @@ namespace GoogleMapsControl
         }
         private float heading;
         bool waypointmode = false;
+        bool setbasemode = false;
         public LatLong CurrentPosition = new LatLong();
+        public LatLong BaseStation;
+        public bool BaseStationSet = false;
         public GoogleMapControl()
         {
 
@@ -68,7 +71,7 @@ namespace GoogleMapsControl
         public void GotoLoc(double latitude, double longitude)
         {
             
-            if (!waypointmode)
+            if (!waypointmode && !setbasemode)
             {
                 CurrentPosition.latitude = latitude;
                 txtLatitude.Text = latitude.ToString();
@@ -146,6 +149,7 @@ namespace GoogleMapsControl
             HtmlElement WaypointCoordsBox;
             if ((WaypointCoordsBox = webBrowser1.Document.GetElementById("waypointCoords")) != null)
             {
+
                 if (WaypointCoordsBox.OuterHtml.Contains("CHECKED"))
                 {
                     WaypointCoordsBox.OuterHtml = "<INPUT id=waypointCoords onclick=\"toggler('waypointCoords')\" type=checkbox >";
@@ -178,31 +182,69 @@ namespace GoogleMapsControl
                 GoogleMapLoaded(this, e);
             }
         }
-
+        void SetMarkerAtCurrentLoc()
+        {
+            webBrowser1.Document.InvokeScript("setMarkerAtCurrentLoc");
+        }
         private void btnEnterWayPointMode_Click(object sender, EventArgs e)
+        {
+            if (!setbasemode)
+            {
+                if (!waypointmode)
+                {
+                    ClearTracksAndMarkers();
+                    waypointmode = true;
+                }
+                else
+                {
+                    LatLong[] latlongs = GetWayPointCoords();
+                    string waypoints = "";
+                    foreach (LatLong latlong in latlongs)
+                    {
+                        waypoints += " Lat: " + latlong.latitude + " Long: " + latlong.longitude + "\r\n";
+                    }
+                    if (waypoints != "")
+                    {
+                        MessageBox.Show(waypoints, "Waypoints");
+                    }
+                    waypointmode = false;
+                }
+                ToggleWaypointCoords();
+                ToggleDynamicDragging();
+                ToggleMapTrack();
+            }
+        }
+
+
+        private void btnSetBase_Click(object sender, EventArgs e)
         {
             if (!waypointmode)
             {
-                ClearTracksAndMarkers();
-                waypointmode = true;
-            }
-            else
-            {
-                LatLong[] latlongs = GetWayPointCoords();
-                string waypoints = "";
-                foreach (LatLong latlong in latlongs)
+                if (!setbasemode)
                 {
-                    waypoints += " Lat: " + latlong.latitude + " Long: " + latlong.longitude + "\r\n";
+                    ClearTracksAndMarkers();
+                    setbasemode = true;
+                    ToggleDynamicDragging();
                 }
-                if (waypoints != "")
+                else
                 {
-                    MessageBox.Show(waypoints, "Waypoints");
+                    BaseStationSet = true;
+                    BaseStation = GetCoords();
+                    setbasemode = false;
+                    ToggleDynamicDragging();
+                    SetMarkerAtCurrentLoc();
                 }
-                waypointmode = false;
             }
-            ToggleWaypointCoords();
-            ToggleDynamicDragging();
-            ToggleMapTrack();
+        }
+        public LatLong GetCoords()
+        {
+            HtmlElement latlong = webBrowser1.Document.GetElementById("message1");
+            string[] splitLatLong = latlong.InnerHtml.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
+            LatLong CurrentCoords;
+            CurrentCoords.latitude = Convert.ToDouble(splitLatLong[4]);
+            CurrentCoords.longitude = Convert.ToDouble(splitLatLong[6]);
+            return CurrentCoords;
         }
         private void TestForInternetConnection()
         {
@@ -232,7 +274,7 @@ namespace GoogleMapsControl
                 MessageBox.Show("There is no internet connection available.  The google maps control can not load.");
                 InternetConnected = false;
             }
-            
+
 
         }
     }

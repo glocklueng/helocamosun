@@ -7,29 +7,63 @@ using System.IO.Ports;
 
 namespace CommProtocolLib
 {
+    /// <summary>
+    /// Structure for storing incoming GPS data
+    /// </summary>
     public struct GPSData
     {
+        /// <summary>
+        /// GPS latitude
+        /// </summary>
         public Latitude Lat;
+        /// <summary>
+        /// GPS longitude
+        /// </summary>
         public Longitude Long;
+        /// <summary>
+        /// Time and date of received gps packet
+        /// </summary>
         public DateTime GPSDateTime;
+        /// <summary>
+        /// GPS altitude 
+        /// </summary>
         public Double Altitude;
+        /// <summary>
+        /// GPS velocity (m/s) in the direction of the GPS course
+        /// </summary>
         public Double Velocity;
+        /// <summary>
+        /// GPS Course in degrees 
+        /// </summary>
         public Double Course;
     }
+    /// <summary>
+    /// Class to handle NMEA strings over a serial port, and return GPS data
+    /// </summary>
     public class GPSParser
     {
         /// <summary>
         /// Timer to poll the incoming serial port buffer
         /// </summary>
-        private Multimedia.Timer BufferPollTimer;
+        private System.Timers.Timer BufferPollTimer;
 
         Form ParentForm;
-        public GPSData gpsdata;
+        
+        private bool Disposed = false;
+
+        private GPSData gpsdata;
+        /// <summary>
+        /// Flag indicating whether or not the gps module is connected and sending valid GPS data
+        /// </summary>
         public bool connected = false;
         bool CheckingForPacket = false;
         SerialPort SP;
         string IncomingDataBuffer = "";
-
+        /// <summary>
+        /// Create a new GPSParser
+        /// </summary>
+        /// <param name="COMPort">com port to connect to eg "COM1"</param>
+        /// <param name="ParentForm">the form that owns this instance of the class</param>
         public GPSParser(string COMPort, Form ParentForm)
         {
 
@@ -37,15 +71,38 @@ namespace CommProtocolLib
             gpsdata.Lat.Degrees = 0xFF;
             SP = new SerialPort(COMPort, 19200, Parity.None, 8, StopBits.One);
             SP.Open();
-            BufferPollTimer = new Multimedia.Timer();
-            BufferPollTimer.Period = 10;
-            BufferPollTimer.Resolution = 1;
-            BufferPollTimer.Mode = TimerMode.Periodic;
-            BufferPollTimer.Tick += new EventHandler(BufferPollTimer_Tick);
+            BufferPollTimer = new System.Timers.Timer();
+            BufferPollTimer.Interval = 50;
+            BufferPollTimer.Elapsed += new System.Timers.ElapsedEventHandler(BufferPollTimer_Elapsed);
             BufferPollTimer.Start();            
         }
+        /// <summary>
+        /// Close the gps parser, this will ensure that no timer events trigger Invoke() for a disposed parent
+        /// </summary>
+        public void Dispose()
+        {
+            Disposed = true;
+            //BufferPollTimer.Dispose();
+            //SP.Dispose();
+            
+        }
+        private void Invoke(Delegate Method, params object[] args)
+        {
+            if (!Disposed)
+            {
+                ParentForm.Invoke(Method, args);
+            }
+        }
+        void BufferPollTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (!CheckingForPacket)
+            {
+                CheckingForPacket = true;
+                CheckForPacket();
+            }
+        }
 
-        public bool parseNMEAStrings(string NMEAstrings)
+        private bool parseNMEAStrings(string NMEAstrings)
         {
             gpsdata = new GPSData();
             string[] SplitNMEAStrings;
@@ -78,12 +135,12 @@ namespace CommProtocolLib
                     Double GPGGA_Lat = Convert.ToDouble(GPGGA_Data[2]);
                     gpsdata.Lat.Degrees = (byte)(GPGGA_Lat / 100.0);
                     gpsdata.Lat.Minutes = (byte)(GPGGA_Lat - gpsdata.Lat.Degrees * 100);       
-                    gpsdata.Lat.Seconds = Convert.ToUInt16((GPGGA_Lat % 1) * 60000.0);
+                    gpsdata.Lat.FractionalMinutes = Convert.ToUInt16((GPGGA_Lat % 1) * 10000.0);
 
                     Double GPGGA_Long = Convert.ToDouble(GPGGA_Data[4]);
                     gpsdata.Long.Degrees = (byte)(GPGGA_Long / 100.0);
                     gpsdata.Long.Minutes = (byte)(GPGGA_Long - gpsdata.Long.Degrees * 100);
-                    gpsdata.Long.Seconds = Convert.ToUInt16((GPGGA_Long % 1) * 60000.0);
+                    gpsdata.Long.FractionalMinutes = Convert.ToUInt16((GPGGA_Long % 1) * 10000.0);
 
 
                     gpsdata.Altitude = Convert.ToDouble(GPGGA_Data[9]);
@@ -137,19 +194,16 @@ namespace CommProtocolLib
                 return true;
         }
 
-
-        void BufferPollTimer_Tick(object sender, EventArgs e)
+        private void Invoke()
         {
-            if (!CheckingForPacket)
-            {
-                CheckingForPacket = true;
-                CheckForPacket();
-            }
+
         }
+
 
         private void CheckForPacket()
         {
             //bool GPSPacket = false;
+            
             for (int i = 0; i < SP.BytesToRead; i++)
             {
                 byte incomingByte = (byte)SP.ReadByte();
@@ -164,22 +218,15 @@ namespace CommProtocolLib
                 {
                     if (parseNMEAStrings(IncomingDataBuffer))
                     {
-                        //a gps packet was successfully received, or no satellites are connected
-                        if (!connected)
-                        {
-                            ParentForm.Invoke(GPSStringReceived, new object[] { this, new GPSStringReceivedEventArgs(gpsdata, false) });                                //no satellites
-                        }
-                        else
-                        {
-                            ParentForm.Invoke(GPSStringReceived, new object[] { this, new GPSStringReceivedEventArgs(gpsdata, true) });
-                        }
+                        Invoke(GPSStringReceived, new object[] { this, new GPSStringReceivedEventArgs(gpsdata) });
+                        
                         ClearBuffer();
                         CheckingForPacket = false;
                         return;
                     }
                     else
                     {
-                        //ParentForm.Invoke(CommProtocol.BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs("Invalid GPS Packet", "Invalid GPS packet.") });
+                        //Invoke(CommProtocol.BadPacketReceived, new object[] { this, new BadPacketReceivedEventArgs("Invalid GPS Packet", "Invalid GPS packet.") });
                         ClearBuffer();
                         CheckingForPacket = false;
                         return;
@@ -201,18 +248,33 @@ namespace CommProtocolLib
             IncomingDataBuffer = "";
         }
         #region gps string received event
+        /// <summary>
+        /// Event handler for a GPS packet being recieved from the module
+        /// </summary>
+        /// <param name="sender">object from which the event originated</param>
+        /// <param name="e">event args containing GPS data</param>
         public delegate void GPSStringReceivedEventHandler(object sender, GPSStringReceivedEventArgs e);
-
+        /// <summary>
+        /// GPSStringReceived event
+        /// </summary>
         public event GPSStringReceivedEventHandler GPSStringReceived;
 
-
+        /// <summary>
+        /// class containing GPS data
+        /// </summary>
         public class GPSStringReceivedEventArgs : EventArgs
         {
+            /// <summary>
+            /// data receievd from the gps module
+            /// </summary>
             public GPSData data;
-            public bool connected;
-            public GPSStringReceivedEventArgs(GPSData data, bool connected)
+            /// <summary>
+            /// constructor for GPSStringReceivedEventArgs
+            /// </summary>
+            /// <param name="data">GPS data recieved</param>
+            public GPSStringReceivedEventArgs(GPSData data)
             {
-                this.connected = connected;
+
                 this.data = data;
             }
 
