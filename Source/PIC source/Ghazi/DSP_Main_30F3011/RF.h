@@ -74,5 +74,5 @@ extern unsigned char ERCMDflag;
 
 //added by scott
 void set_variables(short pitch, short roll, short yaw);
-void set_GPSlat(char deg, char min, short sec);
-void set_GPSlong(char deg, char min, short sec);
+void set_GPSlat(char deg, char min, short min_frac);
+void set_GPSlong(char deg, char min, short min_frac);

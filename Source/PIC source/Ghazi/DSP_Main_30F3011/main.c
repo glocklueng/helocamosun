@@ -39,19 +39,19 @@ void GP_TX_ercmd ( char* code, unsigned char len);
 /*
 GP_helicopter.position.latitude.deg 		(1)
 GP_helicopter.position.latitude.min 		(1)
-GP_helicopter.position.latitude.sec 		(2)
+GP_helicopter.position.latitude.min_frac 	(2)
 
 GP_helicopter.position.longitude.deg 		(1)
 GP_helicopter.position.longitude.min 		(1)
-GP_helicopter.position.longitude.sec 		(2)
+GP_helicopter.position.longitude.min_frac 		(2)
 
 GP_helicopter.goto_position.latitude.deg 	(1)
 GP_helicopter.goto_position.latitude.min 	(1)
-GP_helicopter.goto_position.latitude.sec 	(2)
+GP_helicopter.goto_position.latitude.min_frac	(2)
 
 GP_helicopter.goto_position.longitude.deg 	(1)
 GP_helicopter.goto_position.longitude.min 	(1)
-GP_helicopter.goto_position.longitude.sec 	(2)
+GP_helicopter.goto_position.longitude.min_frac 	(2)
 
 GP_helicopter.hsa.heading 					(2)
 GP_helicopter.hsa.speed 					(2)
@@ -177,39 +177,38 @@ int main ( void )
 			);
 //
 //			
-//			if (SPI_tx_req( GSPI_LatReq, GSPI_LatData ))
-//			{
-//				latdeg[0] = GSPI_LatData[0];
-//				latdeg[1] = GSPI_LatData[1];
-//				latmin[0] = GSPI_LatData[2];
-//				latmin[1] = GSPI_LatData[3];
-//				latsec[0] = GSPI_LatData[5];
-//				latsec[1] = GSPI_LatData[6];
-//				latsec[2] = GSPI_LatData[7];
-//				latsec[3] = GSPI_LatData[8];
-//	
-//				seconds = atoi(latsec);
-//				
-//				set_GPSlat( (char)atoi(latdeg), (char)atoi(latmin), (short)seconds );
-//					
-//			}
-//				
-//			if (SPI_tx_req( GSPI_LongReq, GSPI_LongData ))
-//			{
-//				longdeg[0] = GSPI_LongData[0];
-//				longdeg[1] = GSPI_LongData[1];
-//				longdeg[2] = GSPI_LongData[2];
-//				longmin[0] = GSPI_LongData[3];
-//				longmin[1] = GSPI_LongData[4];
-//				longsec[0] = GSPI_LongData[6];
-//				longsec[1] = GSPI_LongData[7];
-//				longsec[2] = GSPI_LongData[8];
-//				longsec[3] = GSPI_LongData[9];
-//				
-//				seconds = atoi(longsec);
-//				set_GPSlong( (char)atoi(longdeg), (char)atoi(longmin), (short)seconds );
-//				
-//			}
+			if (SPI_tx_req( GSPI_LatReq, GSPI_LatData ))
+			{
+				latdeg[0] = GSPI_LatData[0];
+				latdeg[1] = GSPI_LatData[1];
+				latmin[0] = GSPI_LatData[2];
+				latmin[1] = GSPI_LatData[3];
+				latsec[0] = GSPI_LatData[5];
+				latsec[1] = GSPI_LatData[6];
+				latsec[2] = GSPI_LatData[7];
+				latsec[3] = GSPI_LatData[8];
+	
+				seconds = atoi(latsec);
+				set_GPSlat( (char)atoi(latdeg), (char)atoi(latmin), (short)seconds );
+					
+			}
+				
+			if (SPI_tx_req( GSPI_LongReq, GSPI_LongData ))
+			{
+				longdeg[0] = GSPI_LongData[0];
+				longdeg[1] = GSPI_LongData[1];
+				longdeg[2] = GSPI_LongData[2];
+				longmin[0] = GSPI_LongData[3];
+				longmin[1] = GSPI_LongData[4];
+				longsec[0] = GSPI_LongData[6];
+				longsec[1] = GSPI_LongData[7];
+				longsec[2] = GSPI_LongData[8];
+				longsec[3] = GSPI_LongData[9];
+				
+				seconds = atoi(longsec);
+				set_GPSlong( (char)atoi(longdeg), (char)atoi(longmin), (short)seconds );
+				
+			}
 
 		
 		}	

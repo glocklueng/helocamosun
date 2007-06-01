@@ -3,7 +3,8 @@ typedef struct
 {
 	signed short deg;
 	signed char min;
-	unsigned short sec;
+	unsigned short min_frac;
+	float minutes;
 	char hemi;
 } GPT_latlong;
 
