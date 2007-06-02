@@ -21,6 +21,8 @@ unsigned char GP_hs = 0;			// 1 = we are in handshake mode
 GPT_helicopter GP_helicopter;		// global helicopter structure
 unsigned char GP_engON = 0;
 
+char modeFuzzy = 0;					// default to Testing/Tuning control
+
 signed short latcorr = 0, longcorr = 0, altcorr = 0, seconds = 0;
 //char GP_handshake[]= { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 };
 
@@ -333,6 +335,19 @@ void GP_parse_data ( char vdata[], char len )
 					GP_yawsp[2] = vdata[6];
 					GP_ACK(vdata, len);
 					break;	
+				}
+				
+				case 0x66:		// Set Ops Mode
+				{
+					if (vdata[2])
+					{
+						modeFuzzy = 1;	
+					}
+					else
+					{
+						modeFuzzy = 0;
+					}
+					GP_ACK(vdata, len);
 				}
 			}
 		break;
