@@ -443,6 +443,9 @@ void GP_parse_data ( char vdata[], char len )
 						case 0x46:	// Forward
 						{
 							// Move forward one "unit"
+							
+							
+							
 							GP_ACK(vdata, len);
 							break;
 						}
@@ -610,8 +613,8 @@ void GP_TX_telemetry( unsigned char type )
 		//	packet[7] = GSPI_AccData[2];
 		//	packet[8] = GSPI_AccData[3];
 			
-			packet[9] = GSPI_CompData[0];
-			packet[10] = GSPI_CompData[1];
+			packet[9] = (char)((GP_helicopter.attitude.yaw & 0xff00) >> 8);   //GSPI_CompData[0];
+			packet[10] = (GP_helicopter.attitude.yaw & 0x00ff);             //GSPI_CompData[1];
 			//packet[9] = (GP_helicopter.attitude.yaw & 0xff00) >> 8;
 			//packet[10] = GP_helicopter.attitude.yaw & 0x00ff;
 			
@@ -791,9 +794,9 @@ void GP_init_chopper( void )
 	GP_helicopter.hsa.altitude = 0;
 	
 	// Attitude:
-	GP_helicopter.attitude.pitch = 0;
-	GP_helicopter.attitude.roll = 0;
-	GP_helicopter.attitude.yaw = 0;
+	GP_helicopter.attitude.pitch = 0;		// Accelerometer data[0]
+	GP_helicopter.attitude.roll = 0;		// Accelerometer data[1]
+	GP_helicopter.attitude.yaw = 0;			// Compass
 	
 	// Power Status:
 	GP_helicopter.batterystatus.voltage = 100;
@@ -806,10 +809,10 @@ void GP_init_chopper( void )
 	GP_helicopter.sensors = 0xFF;
 	
 	// PWMs
-	GP_helicopter.pwm.pitch = 0;
-	GP_helicopter.pwm.roll = 0;
-	GP_helicopter.pwm.yaw = 0;
-	GP_helicopter.pwm.coll = 0;
+	GP_helicopter.pwm.pitch = 50;
+	GP_helicopter.pwm.roll = 50;
+	GP_helicopter.pwm.yaw = 50;
+	GP_helicopter.pwm.coll = 50;
 	GP_helicopter.pwm.engRPM = 0;
 }
 
@@ -818,7 +821,7 @@ void set_PRY(short pitch, short roll, short yaw)
 
 		GP_helicopter.attitude.pitch = pitch;
 		GP_helicopter.attitude.roll = roll;
-		GP_helicopter.hsa.heading =yaw;
+		GP_helicopter.attitude.yaw =yaw;
 }
 
 void set_GPSlat(char deg, char min, short min_frac)
