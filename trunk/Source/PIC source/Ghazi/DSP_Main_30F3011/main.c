@@ -143,14 +143,16 @@ int main ( void )
 		{
 				
 		}
-			
-		if (newPWM)
+		
+		if (!modeFuzzy)
 		{
-			newPWM = 0;
-			fillpwmCommand();
-			SPI_tx_command(pwmCommand, 5);	
-		}
-			
+			if (newPWM)
+			{
+				newPWM = 0;
+				fillpwmCommand();
+				SPI_tx_command(pwmCommand, 5);	
+			}
+		}	
 		i++;
 		
 		if (i > 1000)
@@ -178,37 +180,42 @@ int main ( void )
 				GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
 				
 //***************** KYLE'S FUZZY CODE *********************************//				
-				pitch_angle_mf->sensor = GP_helicopter.attitude.pitch;
-			    pitch_rate_mf->sensor = 775.0;
-			     
-		 		Fuzzification( pitch_param, pitch_angle_mf);
-				
-				Fuzzification( tilt_rate_param, pitch_rate_mf);
-				
-//		        GP_helicopter.fuzzy.pitch = (short)doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
-		        
-				roll_angle_mf->sensor = GP_helicopter.attitude.roll;
-				roll_rate_mf->sensor = 775.0;
-				
-				Fuzzification( pitch_param, roll_angle_mf);
-				Fuzzification( tilt_rate_param, roll_rate_mf);
-
-//			    GP_helicopter.fuzzy.roll = (short)doRules(roll_mf, PitchRule);	// Kyle - changed doRules
-				fillpwmCommand();
-				SPI_tx_command(pwmCommand, 5);
-				
+				if (modeFuzzy)
+				{
+					pitch_angle_mf->sensor = GP_helicopter.attitude.pitch;
+				    pitch_rate_mf->sensor = 775.0;
+				     
+			 		Fuzzification( pitch_param, pitch_angle_mf);
+					
+					Fuzzification( tilt_rate_param, pitch_rate_mf);
+					
+	//		        GP_helicopter.fuzzy.pitch = (short)doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
+			        
+					roll_angle_mf->sensor = GP_helicopter.attitude.roll;
+					roll_rate_mf->sensor = 775.0;
+					
+					Fuzzification( pitch_param, roll_angle_mf);
+					Fuzzification( tilt_rate_param, roll_rate_mf);
+	
+	//			    GP_helicopter.fuzzy.roll = (short)doRules(roll_mf, PitchRule);	// Kyle - changed doRules
+					fillpwmCommand();
+					SPI_tx_command(pwmCommand, 5);
+				}
 //****************** END OF FUZZY CODE *********************************//		        
 			}
 			
 			if	(SPI_tx_req( GSPI_CompReq, GSPI_CompData ))
 			{
-				GP_helicopter.hsa.heading = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
+				GP_helicopter.attitude.yaw = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
 	//*************** KYLE'S FUZZY CODE ********************************//
-				if((compass_val > 0) && (compass_val < 45))
+				if (modeFuzzy)
 				{
-					if(GP_helicopter.hsa.heading > 315)
+					if((compass_val > 0) && (compass_val < 45))
 					{
-						GP_helicopter.hsa.heading = compass_val + (359-GP_helicopter.hsa.heading);
+						if(GP_helicopter.attitude.yaw > 315)
+						{
+							GP_helicopter.attitude.yaw = compass_val + (359-GP_helicopter.attitude.yaw);
+						}
 					}
 				}
 	//******************************************************************//

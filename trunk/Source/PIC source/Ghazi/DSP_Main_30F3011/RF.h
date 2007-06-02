@@ -70,6 +70,8 @@ extern unsigned char GP_handshake[];
 extern char error[];
 
 extern unsigned char ERCMDflag;
+
+extern char modeFuzzy;
 //---------------------------------------------------------------------
 
 //added by scott
