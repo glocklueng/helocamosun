@@ -77,14 +77,14 @@ unsigned char ERCMDflag;
 unsigned char clock;
 //**************** KYLE'S FUZZY VARIABLES **************************//
 fMember pitch_mf[3];
-fMember *pitch_angle_mf = &pitch_mf[0], 
-		*pitch_rate_mf  = &pitch_mf[1], 
-		*pitch_accel_mf = &pitch_mf[2];
+fMember *pitch_angle_mf = &(pitch_mf[0]), 
+		*pitch_rate_mf  = &(pitch_mf[1]), 
+		*pitch_accel_mf = &(pitch_mf[2]);
 		
-fMember roll_mf[3];
-fMember *roll_angle_mf = &roll_mf[0], 
-		*roll_rate_mf  = &roll_mf[1], 
-		*roll_accel_mf = &roll_mf[2];
+//fMember roll_mf[3];
+//fMember *roll_angle_mf = &(roll_mf[0]), 
+//		*roll_rate_mf  = &(roll_mf[1]), 
+//		*roll_accel_mf = &(roll_mf[2]);
 //******************************************************************//
 
 //GPT_helicopter GP_helicopter;		// global helicopter structure
@@ -186,18 +186,17 @@ int main ( void )
 				    pitch_rate_mf->sensor = 775.0;
 				     
 			 		Fuzzification( pitch_param, pitch_angle_mf);
-					
 					Fuzzification( tilt_rate_param, pitch_rate_mf);
 					
-	//		        GP_helicopter.fuzzy.pitch = (short)doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
+			        GP_helicopter.fuzzy.pitch = (short)doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
 			        
-					roll_angle_mf->sensor = GP_helicopter.attitude.roll;
-					roll_rate_mf->sensor = 775.0;
+					pitch_angle_mf->sensor = GP_helicopter.attitude.roll;
+					pitch_rate_mf->sensor = 775.0;
 					
-					Fuzzification( pitch_param, roll_angle_mf);
-					Fuzzification( tilt_rate_param, roll_rate_mf);
+					Fuzzification( pitch_param, pitch_angle_mf);
+					Fuzzification( tilt_rate_param, pitch_rate_mf);
 	
-	//			    GP_helicopter.fuzzy.roll = (short)doRules(roll_mf, PitchRule);	// Kyle - changed doRules
+				    GP_helicopter.fuzzy.roll = (short)doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
 					fillpwmCommand();
 					SPI_tx_command(pwmCommand, 5);
 				}
@@ -208,16 +207,16 @@ int main ( void )
 			{
 				GP_helicopter.attitude.yaw = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
 	//*************** KYLE'S FUZZY CODE ********************************//
-				if (modeFuzzy)
-				{
-					if((compass_val > 0) && (compass_val < 45))
-					{
-						if(GP_helicopter.attitude.yaw > 315)
-						{
-							GP_helicopter.attitude.yaw = compass_val + (359-GP_helicopter.attitude.yaw);
-						}
-					}
-				}
+//				if (modeFuzzy)
+//				{
+//					if((compass_val > 0) && (compass_val < 45))
+//					{
+//						if(GP_helicopter.attitude.yaw > 315)
+//						{
+//							GP_helicopter.attitude.yaw = compass_val + (359-GP_helicopter.attitude.yaw);
+//						}
+//					}
+//				}
 	//******************************************************************//
 			}
 			

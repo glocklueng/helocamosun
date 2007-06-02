@@ -11,7 +11,7 @@ LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\Program Files\Microchip\MPLAB C30\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
 SOLK=<src>|main.c|SPI.c|RF.c|fuzzy.c||<obj>||<lib>||<lkr>|p30f3011.gld||
 SuiteArgsString=
-ToolArgsString=-g
+ToolArgsString=
 TraceCmdString=
 [File001]
 Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
@@ -23,7 +23,7 @@ LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\Program Files\Microchip\MPLAB C30\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
 SOLK=<src>|main.c|SPI.c|RF.c|fuzzy.c||<obj>||<lib>||<lkr>|p30f3011.gld||
 SuiteArgsString=
-ToolArgsString=-g
+ToolArgsString=
 TraceCmdString=
 [File002]
 Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
@@ -35,7 +35,7 @@ LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\Program Files\Microchip\MPLAB C30\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
 SOLK=<src>|main.c|SPI.c|RF.c|fuzzy.c||<obj>||<lib>||<lkr>|p30f3011.gld||
 SuiteArgsString=
-ToolArgsString=-g
+ToolArgsString=
 TraceCmdString=
 [File003]
 Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
@@ -47,7 +47,7 @@ LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\Program Files\Microchip\MPLAB C30\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
 SOLK=<src>|main.c|SPI.c|RF.c|fuzzy.c||<obj>||<lib>||<lkr>|p30f3011.gld||
 SuiteArgsString=
-ToolArgsString=-g
+ToolArgsString=
 TraceCmdString=
 [File004]
 Location=DSP_Main_30F3011.cof
