@@ -45,6 +45,11 @@ typedef struct
 
 typedef struct
 {
+	signed char pitch, roll, yaw, coll, engRPM;
+} GPT_fuzzy;
+
+typedef struct
+{
 	GPT_goto_position goto_position;
 	GPT_HSA hsa;
 	GPT_attitude attitude;
@@ -54,5 +59,5 @@ typedef struct
 	unsigned short GPS_alt, SON_alt;
 	unsigned char sensors;
 	GPT_pwm pwm;
-	
+	GPT_fuzzy fuzzy;
 } GPT_helicopter;
