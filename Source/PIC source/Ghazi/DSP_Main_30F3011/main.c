@@ -1,9 +1,10 @@
 #include <p30fxxxx.h>
 #include <string.h>
-
+#include "fuzzy.h"
 
 #include "RF.h"
 #include "SPI.h"
+#include "commands.h"
 #include <stdio.h>
 #define FCY				5000000 // Instruction cycle freq = xtal / 4
 
@@ -74,6 +75,17 @@ extern unsigned char GSPI_AccData[];
 unsigned char T2flag;
 unsigned char ERCMDflag;
 unsigned char clock;
+//**************** KYLE'S FUZZY VARIABLES **************************//
+fMember pitch_mf[3];
+fMember *pitch_angle_mf = &pitch_mf[0], 
+		*pitch_rate_mf  = &pitch_mf[1], 
+		*pitch_accel_mf = &pitch_mf[2];
+		
+fMember roll_mf[3];
+fMember *roll_angle_mf = &roll_mf[0], 
+		*roll_rate_mf  = &roll_mf[1], 
+		*roll_accel_mf = &roll_mf[2];
+//******************************************************************//
 
 //GPT_helicopter GP_helicopter;		// global helicopter structure
 //*******************************   MAIN   **********************************
@@ -162,6 +174,28 @@ int main ( void )
 			{
 				GP_helicopter.attitude.pitch = (short)GSPI_AccData[0] * 256 + GSPI_AccData[1];
 				GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
+				
+//***************** KYLE'S FUZZY CODE *********************************//				
+				pitch_angle_mf->sensor = GP_helicopter.attitude.pitch;
+			    pitch_rate_mf->sensor = 775.0;
+			     
+		 		Fuzzification( pitch_param, pitch_angle_mf);
+				
+				Fuzzification( tilt_rate_param, pitch_rate_mf);
+				
+//		        GP_helicopter.fuzzy.pitch = (short)doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
+		        
+				roll_angle_mf->sensor = GP_helicopter.attitude.roll;
+				roll_rate_mf->sensor = 775.0;
+				
+				Fuzzification( pitch_param, roll_angle_mf);
+				Fuzzification( tilt_rate_param, roll_rate_mf);
+
+//			    GP_helicopter.fuzzy.roll = (short)doRules(roll_mf, PitchRule);	// Kyle - changed doRules
+				fillpwmCommand();
+				SPI_tx_command(pwmCommand, 5);
+				
+//****************** END OF FUZZY CODE *********************************//		        
 			}
 			
 			if	(SPI_tx_req( GSPI_CompReq, GSPI_CompData ))
