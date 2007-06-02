@@ -106,7 +106,9 @@ int main ( void )
 	unsigned char longdeg[4] = "";
 	unsigned char longmin[3] = "";
 	unsigned char longsec[5] = "";
-	
+	//********************** KYLE'S FUZZY CODE VARIABLE ************
+	unsigned short compass_val;
+	//**************************************************************
 	setupTRIS();
 
 	GP_init_UART(19200);
@@ -201,6 +203,15 @@ int main ( void )
 			if	(SPI_tx_req( GSPI_CompReq, GSPI_CompData ))
 			{
 				GP_helicopter.hsa.heading = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
+	//*************** KYLE'S FUZZY CODE ********************************//
+				if((compass_val > 0) && (compass_val < 45))
+				{
+					if(GP_helicopter.hsa.heading > 315)
+					{
+						GP_helicopter.hsa.heading = compass_val + (359-GP_helicopter.hsa.heading);
+					}
+				}
+	//******************************************************************//
 			}
 			
 			set_PRY
