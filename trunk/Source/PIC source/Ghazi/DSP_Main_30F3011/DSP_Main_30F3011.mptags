@@ -35,7 +35,7 @@ GP_ACK	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	31;"	p	line:3
 GP_TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	32;"	f	line:32	signature:( char ch )
 GP_TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	16;"	p	line:16	signature:( char )
 GP_TX_ercmd	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	37;"	p	line:37	file:	signature:( char* code, unsigned char len)
-GP_TX_ercmd	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	433;"	f	line:433	signature:( char* code, unsigned char len)
+GP_TX_ercmd	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	432;"	f	line:432	signature:( char* code, unsigned char len)
 GP_TX_error	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	42;"	f	line:42	signature:( char code )
 GP_TX_error	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	40;"	p	line:40	signature:( char code )
 GP_TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	62;"	f	line:62	signature:( unsigned char packet[], unsigned short len )
@@ -54,7 +54,7 @@ GP_handshake	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	3
 GP_helicopter	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	21;"	v	line:21
 GP_hs	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	19;"	v	line:19
 GP_init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	24;"	p	line:24	file:	signature:( unsigned int baud )
-GP_init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	414;"	f	line:414	signature:( unsigned int baud )
+GP_init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	413;"	f	line:413	signature:( unsigned int baud )
 GP_init_chopper	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	782;"	f	line:782	signature:( void )
 GP_init_chopper	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	34;"	p	line:34	signature:( void )
 GP_itoa	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	37;"	p	line:37	signature:(char *buffer, int i)
@@ -93,7 +93,7 @@ GSPI_VoltData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	12;"	
 GSPI_VoltReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	13;"	v	line:13
 GSPI_YawGyroData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	9;"	v	line:9
 Init_PWM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	26;"	p	line:26	file:	signature:( void )
-Init_PWM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	389;"	f	line:389	signature:( void )
+Init_PWM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	388;"	f	line:388	signature:( void )
 MAXPACKLEN::32	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	3;"	d	line:3
 MAXPACKLEN::32	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	5;"	d	line:5	file:
 MAXPACKLEN::32	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	2;"	d	line:2
@@ -134,11 +134,11 @@ _NL::0x00	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	21;"	d	
 _PL::0x04	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	25;"	d	line:25
 _POS::0x03	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	24;"	d	line:24
 _T1Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	32;"	p	line:32	file:	signature:(void)
-_T1Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	366;"	f	line:366	signature:(void)
-_T2Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	378;"	f	line:378	signature:(void)
+_T1Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	365;"	f	line:365	signature:(void)
+_T2Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	377;"	f	line:377	signature:(void)
 _THEN::0x59	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	28;"	d	line:28
 _U2RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	29;"	p	line:29	file:	signature:(void)
-_U2RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	355;"	f	line:355	signature:(void)
+_U2RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	354;"	f	line:354	signature:(void)
 _ZERO::0x02	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	23;"	d	line:23
 __FUZZ_H	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	4;"	d	line:4
 ack	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	747;"	l	line:747
@@ -182,7 +182,7 @@ eepromSSTris::TRISEbits.TRISE4	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30
 engRPM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	43;"	m	line:43
 engRPM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	48;"	m	line:48
 fMember	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	39;"	t	line:39
-fillpwmCommand	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	278;"	f	line:278	signature:( void )
+fillpwmCommand	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	277;"	f	line:277	signature:( void )
 fillpwmCommand	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	35;"	p	line:35	file:	signature:( void )
 fuzzy	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	62;"	m	line:62
 goto_position	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	53;"	m	line:53
@@ -194,13 +194,13 @@ i	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	64;"	l	line:64
 i	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	79;"	l	line:79
 i	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	95;"	l	line:95
 init_GVars	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	16;"	p	line:16	file:	signature:( void )
-init_GVars	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	312;"	f	line:312	signature:( void )
+init_GVars	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	311;"	f	line:311	signature:( void )
 init_LEDs	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	22;"	p	line:22	file:	signature:( void )
-init_LEDs	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	346;"	f	line:346	signature:( void )
+init_LEDs	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	345;"	f	line:345	signature:( void )
 init_T1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	18;"	p	line:18	file:	signature:( void )
-init_T1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	324;"	f	line:324	signature:( void )
+init_T1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	323;"	f	line:323	signature:( void )
 init_T2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	20;"	p	line:20	file:	signature:( void )
-init_T2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	334;"	f	line:334	signature:( void )
+init_T2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	333;"	f	line:333	signature:( void )
 inum	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	190;"	l	line:190
 k	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	247;"	l	line:247
 latcorr	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	26;"	v	line:26
@@ -254,10 +254,6 @@ rcv	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	80;"	l	line:80
 roll	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	28;"	m	line:28
 roll	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	43;"	m	line:43
 roll	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	48;"	m	line:48
-roll_accel_mf	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	87;"	v	line:87
-roll_angle_mf	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	85;"	v	line:85
-roll_mf	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	84;"	v	line:84
-roll_rate_mf	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	86;"	v	line:86
 ruleVal	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	189;"	l	line:189
 seconds	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	251;"	l	line:251
 seconds	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	26;"	v	line:26
@@ -271,7 +267,7 @@ set_GPSlong	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	80;"	p	l
 set_PRY	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	834;"	f	line:834	signature:(short pitch, short roll, short yaw)
 set_variables	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	78;"	p	line:78	signature:(short pitch, short roll, short yaw)
 setupTRIS	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	14;"	p	line:14	file:	signature:( void )
-setupTRIS	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	286;"	f	line:286	signature:( void )
+setupTRIS	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	285;"	f	line:285	signature:( void )
 speed	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	22;"	m	line:22
 state	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	75;"	l	line:75	file:
 state4_cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	100;"	l	line:100
