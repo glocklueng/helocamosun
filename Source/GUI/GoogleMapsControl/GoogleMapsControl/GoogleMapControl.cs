@@ -182,7 +182,34 @@ namespace GoogleMapsControl
                 GoogleMapLoaded(this, e);
             }
         }
-        void SetMarkerAtCurrentLoc()
+        public void SetMarkerAtLoc(double lat, double lon)
+        {
+            HtmlElement longitude = webBrowser1.Document.GetElementById("markerLongitude");
+            HtmlElement latitude = webBrowser1.Document.GetElementById("markerLatitude");
+            string[] splitLong = longitude.OuterHtml.Split('=');
+            string[] splitLat = latitude.OuterHtml.Split('=');
+
+            splitLong[splitLong.Length - 1] = lon.ToString() + ">";
+            splitLat[splitLat.Length - 1] = lat.ToString() + ">";
+
+            string rebuiltLat = "";
+            string rebuiltLon = "";
+            foreach (string s in splitLat)
+            {
+                rebuiltLat += s + "=";
+            }
+            rebuiltLat = rebuiltLat.TrimEnd(new char[] { '=' });
+            foreach (string s in splitLong)
+            {
+                rebuiltLon += s + "=";
+            }
+            rebuiltLon = rebuiltLon.TrimEnd(new char[] { '=' });
+
+            latitude.OuterHtml = rebuiltLat;
+            longitude.OuterHtml = rebuiltLon;
+            webBrowser1.Document.InvokeScript("setMarker");
+        }
+        public void SetMarkerAtCurrentLoc()
         {
             webBrowser1.Document.InvokeScript("setMarkerAtCurrentLoc");
         }
@@ -240,7 +267,7 @@ namespace GoogleMapsControl
         {
             HtmlElement latlong = webBrowser1.Document.GetElementById("message1");
             string[] splitLatLong = latlong.InnerHtml.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-
+            
             LatLong CurrentCoords;
             CurrentCoords.latitude = Convert.ToDouble(splitLatLong[4]);
             CurrentCoords.longitude = Convert.ToDouble(splitLatLong[6]);

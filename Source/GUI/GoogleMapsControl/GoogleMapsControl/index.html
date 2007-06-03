@@ -459,8 +459,23 @@ table.control {
                      });
         map.addOverlay(locMarker);
      }      
-
-
+/*
+    <!-- Set a marker at a particular lat/long coordinate with the specified image-->
+    function setMarker(image) {
+        var icon = new GIcon();
+        icon.image = image;
+        icon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+        icon.iconSize = new GSize(12, 20);
+        icon.shadowSize = new GSize(22, 20);
+        icon.iconAnchor = new GPoint(6, 20);
+        icon.infoWindowAnchor = new GPoint(5, 1);
+        locMarker = new GMarker(new GPoint(document.control.markerLongitude.value, document.control.markerLatitude.value), icon);
+        GEvent.addListener(locMarker, "click", function() {
+        locMarker.openInfoWindowHtml('<b>Description: </b> ' + document.control.markerDescription.value  + '<br><b>Latitude:</b> ' + document.control.markerLatitude.value + '<br><b>Longitude:</b> ' + document.control.markerLongitude.value);
+                     });
+        map.addOverlay(locMarker);
+     }
+ */
     <!-- Go to a particular lat/long coordinate -->
     function gotoLoc() {
         map.centerAtLatLng(new GPoint(document.control.gotoLongitude.value, document.control.gotoLatitude.value));

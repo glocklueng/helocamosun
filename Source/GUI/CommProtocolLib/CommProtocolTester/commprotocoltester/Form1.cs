@@ -30,6 +30,12 @@ namespace commprotocoltester
         CommProtocol cp;
 
         byte SetRPM = 0;
+        byte SetYaw = 50;
+        byte SetCollective = 50;
+        byte SetPitch = 50;
+        byte SetRoll = 50;
+
+        int PWMinitState = 0;
 
         int ConsecutiveBadPackets = 0;
         int OutgoingPacketState = 0;
@@ -38,6 +44,7 @@ namespace commprotocoltester
         {
             this.KeyPreview = true;
             this.KeyPress += new KeyPressEventHandler(Form1_KeyPress);
+
 
             InitializeComponent();
 
@@ -51,12 +58,18 @@ namespace commprotocoltester
             {
                 dbh = new DBHandler(@"C:\Comms_Test.mdb");
             }
-
+            cbxCtrlMode.SelectedIndex = 0;
             mtimer.Period = PacketInterval;
             mtimer.Resolution = 0;
             mtimer.Mode = TimerMode.Periodic;
             mtimer.Tick += new EventHandler(mtimer_Tick);
             mtimer.Start();
+
+            txtRPM.Text = SetRPM.ToString();
+            txtYaw.Text = SetYaw.ToString();
+            txtRoll.Text = SetRoll.ToString();
+            txtPitch.Text = SetPitch.ToString();
+            txtCollective.Text = SetCollective.ToString();
         }
 
         #region incoming packets
@@ -364,27 +377,32 @@ namespace commprotocoltester
 
         private void btnSetAntiTorque_Click(object sender, EventArgs e)
         {
-            cp.SetAntiTorque(Convert.ToByte(textBox3.Text));
+            SetYaw = Convert.ToByte(txtYaw.Text);
+            cp.SetAntiTorque(SetYaw);
         }
 
         private void btnSetCollective_Click(object sender, EventArgs e)
         {
-            cp.SetCollective(Convert.ToByte(textBox4.Text));
+            SetCollective = Convert.ToByte(txtCollective.Text);
+            cp.SetCollective(SetCollective);
         }
 
         private void btnSetCyclicPitch_Click(object sender, EventArgs e)
         {
-            cp.SetCyclicPitch(Convert.ToByte(textBox5.Text));
+            SetPitch = Convert.ToByte(txtPitch.Text);
+            cp.SetCyclicPitch(SetPitch);
         }
 
         private void btnSetCyclicRoll_Click(object sender, EventArgs e)
         {
-            cp.SetCyclicRoll(Convert.ToByte(textBox6.Text));
+            SetRoll = Convert.ToByte(txtRoll.Text);
+            cp.SetCyclicRoll(SetRoll);
         }
 
         private void btnSetMotorRPM_Click(object sender, EventArgs e)
         {
-            cp.SetMotorRPM(Convert.ToByte(textBox7.Text));
+            SetRPM = Convert.ToByte(txtRPM.Text);
+            cp.SetMotorRPM(SetRPM);
         }
 
         private void btnSetTunePoints_Click(object sender, EventArgs e)
@@ -574,23 +592,103 @@ namespace commprotocoltester
             char c = e.KeyChar;
             switch (c)
             {
+                case 'd':
+                    if (SetYaw < 100)
+                    {
+                        SetYaw++;
+                    }
+                    textBox1.AppendText("yaw set to: " + SetYaw + "\r\n");
+                    txtYaw.Text = SetYaw.ToString();
+                    cp.SetAntiTorque(SetYaw);
+                    break;
 
-                case 'q':
+                case 'a':
+                    if (SetYaw > 0)
+                    {
+                        SetYaw--;
+                    }
+                    textBox1.AppendText("yaw set to: " + SetYaw + "\r\n");
+                    txtYaw.Text = SetYaw.ToString();
+                    cp.SetAntiTorque(SetYaw);
+                    break;
+
+                case 's':
+                    if (SetCollective < 100)
+                    {
+                        SetCollective++;
+                    }
+                    textBox1.AppendText("Collective set to: " + SetCollective + "\r\n");
+                    txtCollective.Text = SetCollective.ToString();
+                    cp.SetCollective(SetCollective);
+                    break;
+
+                case 'w':
+                    if (SetCollective > 0)
+                    {
+                        SetCollective--;
+                    }
+                    textBox1.AppendText("Collective set to: " + SetCollective + "\r\n");
+                    txtCollective.Text = SetCollective.ToString();
+                    cp.SetCollective(SetCollective);
+                    break;
+
+                case 'i':
+                    if (SetPitch < 100)
+                    {
+                        SetPitch++;
+                    }
+                    textBox1.AppendText("Pitch set to: " + SetPitch + "\r\n");
+                    txtPitch.Text = SetPitch.ToString();
+                    cp.SetCyclicPitch(SetPitch);
+                    break;
+
+                case 'k':
+                    if (SetPitch > 0)
+                    {
+                        SetPitch--;
+                    }
+                    textBox1.AppendText("Pitch set to: " + SetPitch + "\r\n");
+                    txtPitch.Text = SetPitch.ToString();
+                    cp.SetCyclicPitch(SetPitch);
+                    break;
+
+                case 'l':
+                    if (SetRoll < 100)
+                    {
+                        SetRoll++;
+                    }
+                    textBox1.AppendText("Roll set to: " + SetRoll + "\r\n");
+                    txtRoll.Text = SetRoll.ToString();
+                    cp.SetCyclicRoll(SetRoll);
+                    break;
+                case 'j':
+                    if (SetRoll > 0)
+                    {
+                        SetRoll--;
+                    }
+                    textBox1.AppendText("Roll set to: " + SetRoll + "\r\n");
+                    txtRoll.Text = SetRoll.ToString();
+                    cp.SetCyclicRoll(SetRoll);
+                    break;
+                case 't':
                     if (SetRPM < 100)
                     {
                         SetRPM++;
-
                     }
                     textBox1.AppendText("RPM SET to: " + SetRPM + "\r\n");
+                    txtRPM.Text = SetRPM.ToString();
                     cp.SetMotorRPM(SetRPM);
                     break;
-                case 'a':
+                case 'g':
                     if (SetRPM > 0)
                     {
                         SetRPM--;
                     }
                     textBox1.AppendText("RPM SET to: " + SetRPM + "\r\n");
+                    txtRPM.Text = SetRPM.ToString();
                     cp.SetMotorRPM(SetRPM);
+                    break;
+                default:
                     break;
             }
         }
@@ -618,8 +716,8 @@ namespace commprotocoltester
         {
             GPSCorrection gpsc;
             gpsc.Altitude = 10;
-            gpsc.LatSeconds = 5;
-            gpsc.LongSeconds = 5;
+            gpsc.LatMinutes = 5;
+            gpsc.LongMinutes = 5;
             gpsc.Time = new DateTime();
             gpsc.Time.AddHours(2.43);
 
@@ -641,6 +739,71 @@ namespace commprotocoltester
                 }
             }
         }
+
+        private void btnInitPWMS_Click(object sender, EventArgs e)
+        {
+            PWMinitState = 0;
+            timer2.Start();
+
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (!cp.ExpectedResponse.ResponseExpected)
+            {
+                switch (PWMinitState)
+                {
+                    case 0:
+                        cp.SetAntiTorque(50);
+                        SetYaw = 50;
+                        txtYaw.Text = "50";
+                        PWMinitState++;
+                        break;
+                    case 1:
+                        cp.SetCollective(50);
+                        SetCollective = 50;
+                        txtCollective.Text = "50";
+                        PWMinitState++;
+                        break;
+                    case 2:
+                        cp.SetCyclicRoll(50);
+                        SetRoll = 50;
+                        txtRoll.Text = "50";
+                        PWMinitState++;
+                        break;
+                    case 3:
+                        cp.SetMotorRPM(0);
+                        SetRPM = 0;
+                        txtRPM.Text = "0";
+                        PWMinitState++;
+                        break;
+                    case 4:
+                        cp.SetCyclicPitch(50);
+                        SetPitch = 50;
+                        txtPitch.Text = "50";
+                        PWMinitState++;
+                        break;
+                    default:
+                        PWMinitState = 0;
+                        txtRPM.Text = "0";
+                        timer2.Stop();
+                        break;
+                }
+            }
+        }
+
+        private void btnSetOpsMode_Click(object sender, EventArgs e)
+        {
+            cp.SetOpsMode((byte)cbxCtrlMode.SelectedIndex);
+        }
+
+        private void btnKillMotor_Click(object sender, EventArgs e)
+        {
+            cp.SetMotorRPM(0);
+        }
+
+
+
         
     }
 }

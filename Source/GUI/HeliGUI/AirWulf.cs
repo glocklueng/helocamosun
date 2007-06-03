@@ -279,21 +279,24 @@ namespace HeliGui
 
         void frmAirWulf_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(ComProt.ExpectedResponse.ResponseExpected) 
+            if (GPSP != null)
             {
-                e.Cancel = true;
-                if (ComProt != null)
+                GPSP.Dispose();
+            }
+            if (ComProt != null)
+            {
+                if (ComProt.ExpectedResponse.ResponseExpected)
                 {
+                    e.Cancel = true;
+
                     ComProt.Dispose();
-                } 
-                if (GPSP != null)
-                {
-                    GPSP.Dispose();
+
+
+                    System.Windows.Forms.Timer closeTimer = new System.Windows.Forms.Timer();
+                    closeTimer.Interval = 500;
+                    closeTimer.Start();
+                    closeTimer.Tick += new EventHandler(closeTimer_Tick);
                 }
-                System.Windows.Forms.Timer closeTimer = new System.Windows.Forms.Timer();
-                closeTimer.Interval = 500;
-                closeTimer.Start();
-                closeTimer.Tick += new EventHandler(closeTimer_Tick);
             }
 
         }
@@ -578,10 +581,10 @@ namespace HeliGui
             CommPacketRXLight.On = true;
             PacketReceived = true;
             Att = e.attitude;
-            
-            compass.Angle = Att.Yaw;
-            Arthorizon.Roll = Att.Roll;
-            Arthorizon.Pitch = Att.Pitch;
+
+            compass.Angle = Att.Yaw;// -500;
+            Arthorizon.Roll = Att.Roll;// -500;
+            Arthorizon.Pitch = Att.Pitch;// -500;
         }
 
         void ComProt_HeadingSpeedAltitudePacketReceived(object sender, CommProtocol.HeadingSpeedAltitudePacketReceivedEventArgs e)
@@ -638,8 +641,8 @@ namespace HeliGui
                 Lon = e.Long;
                 Lat = e.Lat;
 
-                Double Longitude = -(Lon.Degrees + ((Lon.Minutes + (Lon.FractionalMinutes / 10000.0)) / 60.0));
-                Double Latitude = Lat.Degrees + ((Lat.Minutes + (Lat.FractionalMinutes / 10000.0)) / 60.0);
+                double Longitude = -(Lon.Degrees + ((Lon.Minutes + (Lon.FractionalMinutes / 10000.0)) / 60.0));
+                double Latitude = Lat.Degrees + ((Lat.Minutes + (Lat.FractionalMinutes / 10000.0)) / 60.0);
                 GoogleMapCtrl.GotoLoc(Latitude, Longitude);
             }
         }
@@ -650,17 +653,16 @@ namespace HeliGui
             {
                 Lon = e.data.Long;
                 Lat = e.data.Lat;
-
+                
                 if (GoogleMapCtrl.BaseStationSet)
                 {
-
-
                     RequestInfoTimer.Enabled = false;
 
-                    double Longitude = -(Lon.Degrees + Lon.Minutes / 60.0 + (Lon.FractionalMinutes / 1000.0) / 3600.0);
-                    double Latitude = Lat.Degrees + Lat.Minutes / 60.0 + (Lat.FractionalMinutes / 1000.0) / 3600.0;
-                    double LatCorrection = GoogleMapCtrl.BaseStation.latitude - Latitude;
-                    double LongCorrection = GoogleMapCtrl.BaseStation.longitude - Longitude;
+                    double Longitude = -(Lon.Degrees + ((Lon.Minutes + (Lon.FractionalMinutes / 10000.0)) / 60.0));
+                    double Latitude = Lat.Degrees + ((Lat.Minutes + (Lat.FractionalMinutes / 10000.0)) / 60.0);
+                    GoogleMapCtrl.SetMarkerAtLoc(Latitude, Longitude);
+                    double LatCorrection = 0;//GoogleMapCtrl.BaseStation.latitude - Latitude;
+                    double LongCorrection = 0;//GoogleMapCtrl.BaseStation.longitude - Longitude;
 
 
                     GPSCorrection gpsc = new GPSCorrection();
@@ -686,11 +688,11 @@ namespace HeliGui
                     gpsc.Time = new DateTime();
                     gpsc.Time.AddSeconds(e.data.GPSDateTime.Second);
 
-                    gpsc.LatSeconds = (short)(LatCorrection * 3600.0 * 1000.0);
-                    gpsc.LongSeconds = (short)(LongCorrection * 3600.0 * 1000.0);
+                    gpsc.LatMinutes = (short)(LatCorrection * 60.0 * 10000.0);
+                    gpsc.LongMinutes = (short)-(LongCorrection * 60.0 * 10000.0);
 
-                    txtLatCorrection.Text = gpsc.LatSeconds.ToString();
-                    txtLongCorrection.Text = gpsc.LongSeconds.ToString();
+                    txtLatCorrection.Text = gpsc.LatMinutes.ToString();
+                    txtLongCorrection.Text = gpsc.LongMinutes.ToString();
 
                     if (ComProt != null)
                     {
