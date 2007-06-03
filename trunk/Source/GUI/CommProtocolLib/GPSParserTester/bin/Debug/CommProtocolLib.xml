@@ -9,14 +9,14 @@
             Corrections to be sent to the helicopter for Differential GPS corrections
             </summary>
         </member>
-        <member name="F:CommProtocolLib.GPSCorrection.LatSeconds">
+        <member name="F:CommProtocolLib.GPSCorrection.LatMinutes">
             <summary>
-            signed latitude seconds error
+            signed latitude error in 10000ths of minutes (-9999 to 9999)
             </summary>
         </member>
-        <member name="F:CommProtocolLib.GPSCorrection.LongSeconds">
+        <member name="F:CommProtocolLib.GPSCorrection.LongMinutes">
             <summary>
-            signed longitude seconds error
+            signed longitude error in 10000ths of minutes (-9999 to 9999)
             </summary>
         </member>
         <member name="F:CommProtocolLib.GPSCorrection.Altitude">
@@ -267,6 +267,12 @@
             <summary>
             Instruct the helicopter to stop sending acks at the end of the hand shake sequence
             </summary>
+        </member>
+        <member name="M:CommProtocolLib.CommProtocol.SetOpsMode(System.Byte)">
+            <summary>
+            Change the control method of the helicopter
+            </summary>
+            <param name="mode">0x00 for testing/tuning, 0x01 for fuzzy</param>
         </member>
         <member name="M:CommProtocolLib.CommProtocol.SetMotorRPM(System.Byte)">
             <summary>

@@ -17,13 +17,13 @@ namespace CommProtocolLib
     public struct GPSCorrection
     {
         /// <summary>
-        /// signed latitude seconds error
+        /// signed latitude error in 10000ths of minutes (-9999 to 9999)
         /// </summary>
-        public short LatSeconds;
+        public short LatMinutes;
         /// <summary>
-        /// signed longitude seconds error
+        /// signed longitude error in 10000ths of minutes (-9999 to 9999)
         /// </summary>
-        public short LongSeconds;
+        public short LongMinutes;
         /// <summary>
         /// signed decimeters altitude correction
         /// </summary>
@@ -417,6 +417,43 @@ namespace CommProtocolLib
         #endregion
 
         #region Testing and tuning commands
+        /// <summary>
+        /// Change the control method of the helicopter
+        /// </summary>
+        /// <param name="mode">0x00 for testing/tuning, 0x01 for fuzzy</param>
+        public void SetOpsMode(byte mode)
+        {
+            /*
+            Set Ops Mode
+            0x54	Command type “Testing/Tuning”
+            0x66	Command “Set Operations Mode”
+            0xMM	Mode byte:
+		            0x00 = Testing/Tuning
+		            0x01 = Fuzzy Control
+             */
+            if (ExpectedResponse.ResponseExpected == false)
+            {
+                ushort checksum = 0;
+
+                OutGoingPacket = new byte[10];
+                OutGoingPacket[0] = 0xA5;//packet header
+                OutGoingPacket[1] = 0x5A;
+                OutGoingPacket[2] = 0x03;//number of bytes
+                OutGoingPacket[3] = 0x54;//testing tuning
+                OutGoingPacket[4] = 0x66;//set ops command
+                OutGoingPacket[5] = mode;
+
+                for (int i = 2; i < 6; i++)
+                {
+                    checksum += OutGoingPacket[i];//calculate checksum
+                }
+                OutGoingPacket[6] = (byte)((checksum & 0xFF00) >> 8);
+                OutGoingPacket[7] = (byte)(checksum & 0xFF);
+                OutGoingPacket[8] = 0xCC;//footer
+                OutGoingPacket[9] = 0x33;
+                SendPacket("SetOpsMode", ExpectedResponses.type.FullPacketResponse);
+            }
+        }
         /// <summary>
         /// Set the helicopter's motor's RPM
         /// </summary>
@@ -931,10 +968,10 @@ namespace CommProtocolLib
                 OutGoingPacket[2] = 0x0B;//number of bytes
                 OutGoingPacket[3] = 0x46;//flight ops command
                 OutGoingPacket[4] = 0x43;
-                OutGoingPacket[5] = (byte)((gpsc.LatSeconds & 0xFF00) >> 8);//upper lat seconds byte
-                OutGoingPacket[6] = (byte)(gpsc.LatSeconds & 0x00FF);
-                OutGoingPacket[7] = (byte)((gpsc.LongSeconds & 0xFF00) >> 8);//upper long seconds byte
-                OutGoingPacket[8] = (byte)(gpsc.LongSeconds & 0x00FF);
+                OutGoingPacket[5] = (byte)((gpsc.LatMinutes & 0xFF00) >> 8);//upper lat seconds byte
+                OutGoingPacket[6] = (byte)(gpsc.LatMinutes & 0x00FF);
+                OutGoingPacket[7] = (byte)((gpsc.LongMinutes & 0xFF00) >> 8);//upper long seconds byte
+                OutGoingPacket[8] = (byte)(gpsc.LongMinutes & 0x00FF);
                 OutGoingPacket[9] = (byte)((gpsc.Altitude & 0xFF00) >> 8);//upper altitude byte
                 OutGoingPacket[10] = (byte)(gpsc.Altitude & 0x00FF);
                 OutGoingPacket[11] = (byte)gpsc.Time.Hour;

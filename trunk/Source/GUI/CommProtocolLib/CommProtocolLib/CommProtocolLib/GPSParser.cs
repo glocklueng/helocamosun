@@ -82,8 +82,8 @@ namespace CommProtocolLib
         public void Dispose()
         {
             Disposed = true;
-            //BufferPollTimer.Dispose();
-            //SP.Dispose();
+            BufferPollTimer.Dispose();
+            SP.Dispose();
             
         }
         private void Invoke(Delegate Method, params object[] args)
