@@ -4,11 +4,11 @@ ADC.h
 #include "variables.h"
 
 #define RANGEFINDER		0
-#define PITCH			1
-#define ROLL			2
-#define YAW				3
-#define BATTERYVOLTAGE	4
-#define BATTERYCURRENT	5
+#define BATTERYCURRENT	1
+#define BATTERYVOLTAGE	2
+#define PITCH			3
+#define ROLL			4
+#define YAW				5
 
 extern	WORD RangeFinder,
 			 PitchGyro,
