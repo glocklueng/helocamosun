@@ -18,6 +18,7 @@ unsigned char GSPI_LatData[9] = "";
 unsigned char GSPI_LongData[10] = "";
 unsigned char GSPI_AltData[7] = "";
 unsigned char GSPI_SatData[2] = "";
+unsigned char GSPI_3GyroData[6] = "";
 
 void SPI_init ( char mode16, char falling )
 {

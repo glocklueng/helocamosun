@@ -1,3 +1,7 @@
+typedef struct
+{
+	short pitch, roll, yaw;
+} GPT_Gyro;
 
 typedef struct
 {
@@ -60,4 +64,5 @@ typedef struct
 	unsigned char sensors;
 	GPT_pwm pwm;
 	GPT_fuzzy fuzzy;
+	GPT_Gyro gyros;
 } GPT_helicopter;
