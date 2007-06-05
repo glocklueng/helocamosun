@@ -78,3 +78,4 @@ extern char modeFuzzy;
 void set_variables(short pitch, short roll, short yaw);
 void set_GPSlat(char deg, char min, short min_frac);
 void set_GPSlong(char deg, char min, short min_frac);
+void set_Gyros(signed short pitch, signed short roll, signed short yaw );

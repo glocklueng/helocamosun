@@ -545,6 +545,37 @@ void GP_parse_data ( char vdata[], char len )
 }
 
 
+void GP_TX_GeneralPurposePacket( unsigned char* data, unsigned char len)
+{
+	unsigned char packet[MAXPACKLEN] = "";
+	unsigned char cnt = 0;
+	unsigned short chksum = 0;
+	
+	packet[0] = 0xa5;
+	packet[1] = 0x5a;
+	packet[2] = len + 2;
+	packet[3] = 0x54;
+	packet[4] = 0xDD;	
+	
+	for (cnt = 5; cnt <= len + 4; cnt++)
+	{
+		packet[cnt] = data[cnt - 5];
+	}
+	
+	for (cnt = 2; cnt <= len + 4; cnt++)
+	{
+		chksum += packet[cnt];	
+	}
+	
+	packet[len+5] = (chksum & 0xFF00) >> 8;
+	packet[len+6] = chksum & 0x00FF;
+	
+	packet[len+7] = 0xCC;
+	packet[len+8] = 0x33;
+	
+	GP_TX_packet(packet, len + 9);
+}
+
 void GP_TX_telemetry( unsigned char type )
 {
 	unsigned char packet[MAXPACKLEN] = "";
@@ -854,7 +885,14 @@ void set_GPSlong(char deg, char min, short min_frac)
 		GP_helicopter.position.longitude.deg = deg;
 		GP_helicopter.position.longitude.min = min;
 		GP_helicopter.position.longitude.min_frac = min_frac;
-		corr_GPSlatlongalt(latcorr, longcorr, altcorr, seconds);
+//		corr_GPSlatlongalt(latcorr, longcorr, altcorr, seconds);
+}
+
+void set_Gyros(signed short pitch, signed short roll, signed short yaw )
+{
+		GP_helicopter.gyros.pitch = pitch;
+		GP_helicopter.gyros.roll = roll;
+		GP_helicopter.gyros.yaw = yaw;
 }
 
 void corr_GPSlatlongalt( signed short latc, signed short longc, signed short altc, unsigned short seconds)

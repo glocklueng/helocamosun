@@ -261,13 +261,21 @@ int main ( void )
 				
 			}
 
-		
+			SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+			SPI_tx_req( GSPI_3GyroReq, GSPI_3GyroData );
+			set_Gyros
+			(
+				(GSPI_3GyroData[0] << 8) + GSPI_3GyroData[1],
+				(GSPI_3GyroData[2] << 8) + GSPI_3GyroData[3],
+				(GSPI_3GyroData[4] << 8) + GSPI_3GyroData[5]
+			);
+			GP_TX_GeneralPurposePacket(GSPI_3GyroData, 6);
 		}	
 
 
 	
 	
-		SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+		
 	
 		
 	}

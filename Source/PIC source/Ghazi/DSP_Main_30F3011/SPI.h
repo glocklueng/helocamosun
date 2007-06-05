@@ -49,11 +49,11 @@ extern unsigned char GSPI_StatusData[2];
 extern unsigned char GSPI_TimeData[6];
 extern unsigned char GSPI_LatData[9];
 extern unsigned char GSPI_LongData[10];
-//extern unsigned char GSPI_LatData[10];
-//extern unsigned char GSPI_LongData[11];
 extern unsigned char GSPI_AltData[7];
 extern unsigned char GSPI_SatData[2];
+extern unsigned char GSPI_3GyroData[6];
+
 // These sensors are read directly into the DSP over the SPI bus
 
-extern unsigned char GSPI_YawGyroData[2];
-extern unsigned char GSPI_2GyroData[4];
+
+
