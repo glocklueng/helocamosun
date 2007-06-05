@@ -596,9 +596,11 @@ void GP_TX_telemetry( unsigned char type )
 			packet[5] = (GP_helicopter.hsa.heading & 0xff00) >> 8;
 			packet[6] = GP_helicopter.hsa.heading & 0x00ff;
 			packet[7] = GP_helicopter.hsa.speed;
-			packet[8] = (GP_helicopter.hsa.altitude & 0xff00) >> 8;
-			packet[9] = GP_helicopter.hsa.altitude & 0x00ff;
+//			packet[8] = (GP_helicopter.hsa.altitude & 0xff00) >> 8;
+//			packet[9] = GP_helicopter.hsa.altitude & 0x00ff;
 			
+			packet[8] = GSPI_AcousticData[0];
+			packet[9] = GSPI_AcousticData[1];
 			for (cnt = 2; cnt < 10; cnt++)
 			{
 				chksum += packet[cnt];	

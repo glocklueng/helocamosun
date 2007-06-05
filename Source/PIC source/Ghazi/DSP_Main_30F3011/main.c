@@ -267,7 +267,7 @@ int main ( void )
 
 	
 	
-//		SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
+		SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
 	
 		
 	}
