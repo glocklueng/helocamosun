@@ -7,7 +7,7 @@
 
 #define WAITING_FOR_COMMAND_STATE 	0
 #define ACCELEROMETER_COMMAND_STATE 1
-#define TWO_AXIS_GYRO_COMMAND_STATE 2
+#define GYRO_COMMAND_STATE 			2
 #define COMPASS_COMMAND_STATE 		3
 #define ACCOUSTIC_COMMAND_STATE 	4
 #define VOLTAGES_COMMAND_STATE 		5
@@ -23,7 +23,7 @@
 #define GPS_HEMISPHERE_STATE	    15
 
 #define ACCELEROMETER_COMMAND 	'A'
-#define TWO_AXIS_GYRO_COMMAND 	'G'
+#define GYRO_COMMAND 	'G'
 #define COMPASS_COMMAND 		'C'
 #define ACCOUSTIC_COMMAND 		'O'
 #define VOLTAGES_COMMAND 		'V'
@@ -147,9 +147,9 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				ByteNum = 0;
 				state = ACCELEROMETER_COMMAND_STATE;
 				break;
-			case TWO_AXIS_GYRO_COMMAND:
+			case GYRO_COMMAND:
 				ByteNum = 0;
-				state = TWO_AXIS_GYRO_COMMAND_STATE;
+				state = GYRO_COMMAND_STATE;
 				break;
 			case COMPASS_COMMAND:
 				ByteNum = 0;
@@ -220,11 +220,10 @@ unsigned char SPI_State_Machine(unsigned char Input)
 					return 0xFF;
 				}
 				break;
-		case TWO_AXIS_GYRO_COMMAND_STATE:
-				//send the accelerometer byte pointed to by bytenum
+		case GYRO_COMMAND_STATE:
 				ReturnValue = Gyro[ByteNum];
 				ByteNum++;
-				if(ByteNum > 4)//6 bytes in a accelerometer packet
+				if(ByteNum > 6)//6 bytes in a status packet
 				{
 					state = WAITING_FOR_COMMAND_STATE;
 					return 0xFF;
@@ -303,6 +302,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 					return 0xFF;
 				}
 				break;
+
 		case GPS_TIME_STATE:
 				ReturnValue = GPS_TIME[ByteNum];
 				ByteNum++;
@@ -356,7 +356,8 @@ unsigned char SPI_State_Machine(unsigned char Input)
 //					state = WAITING_FOR_COMMAND_STATE;
 //					return 0xFF;
 //				}
-//				break;		
+//				break;
+
         default:
 				state = WAITING_FOR_COMMAND_STATE;
 				ReturnValue = 0xA5;				

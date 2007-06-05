@@ -17,7 +17,7 @@ signed int 	PitchAverage;
 signed int 	RollAverage;
 signed int	YawAverage;
 
-char Gyro[4];
+char Gyro[6];
 char Voltages[4];
 char Accoustic[2];
 
@@ -30,7 +30,7 @@ void ADCInit(void)
 	ADCON0 = 0x00;	// Autoconversion single shot, Single Channel, A/D on
 	ADCON2 = 0x80;	// 16 Tad, FOSC/16	
 	ADCON3 = 0xC0;	// A/D result buffer unimplemented, Trigger source disabled
-	ADCON1 = 0x10;	// Vref+ = AVdd, Vref- = AVss, FIFO enabled
+	ADCON1 = 0x50;	// Vref+ = External Ref, Vref- = AVss, FIFO enabled
 	
 	ADCON0bits.ADON = 1;	// Start conversions	
 }
@@ -52,28 +52,37 @@ void ADCchannel(char channel)
 {
 	switch(channel)
 	{
-		case 0:		// Rangefinder
+		case RANGEFINDER:		// Rangefinder
 			ADCON0bits.ACMOD0 = 0;// Group A
 			ADCON0bits.ACMOD1 = 0;// Group A
 			ADCHS  = 0x00;	// AN0
-			
 		break;
-		case 1:		// Pitch
+		case BATTERYCURRENT:
 			ADCON0bits.ACMOD0 = 1;// Group B
-			ADCON0bits.ACMOD1 = 0;// Group B
+			ADCON0bits.ACMOD1 = 0;// Group B		
 			ADCHS  = 0x00;	// AN1
-			
 		break;
-		case 2:		// Roll
+		case BATTERYVOLTAGE:
 			ADCON0bits.ACMOD0 = 0;// Group C
 			ADCON0bits.ACMOD1 = 1;// Group C
 			ADCHS  = 0x00;	// AN2
 		break;
-		case 3:		// Yaw
-			ADCON0bits.ACMOD0 = 1;// Group D
-			ADCON0bits.ACMOD1 = 1;// Group D
-			ADCHS  = 0x00;	// AN3
+		case PITCH:		// Pitch gyro
+			ADCON0bits.ACMOD0 = 0;// Group A
+			ADCON0bits.ACMOD1 = 0;// Group A
+			ADCHS  = 0x01;	// AN4
 		break;
+		case ROLL:		// Roll gyro
+			ADCON0bits.ACMOD0 = 1;// Group B
+			ADCON0bits.ACMOD1 = 0;// Group B
+			ADCHS  = 0x10;	// AN5
+		break;
+		case YAW:		// Yaw gyro
+			ADCON0bits.ACMOD0 = 0;// Group C
+			ADCON0bits.ACMOD1 = 1;// Group C
+			ADCHS  = 0x04;	// AN6
+		break;
+
 		default:
 		break;
 	}
@@ -91,12 +100,10 @@ void ScanADC(void)
 	ADCchannel(PITCH);		// Pitch
 	Nop();
 	PitchGyro.D_byte = GetADC();
-	
 
 	ADCchannel(ROLL);		// Roll	
 	Nop();
 	RollGyro.D_byte = GetADC();
-	Gyro[0] = RollGyro.byte[0];
 	
 	ADCchannel(YAW);		// Yaw
 	Nop();
@@ -143,4 +150,11 @@ void GetADCAverage(void)
 	PitchAverage = PitchAverage / AVERAGEVALUE;
 	RollAverage = RollAverage / AVERAGEVALUE;
 	YawAverage = YawAverage / AVERAGEVALUE;
+	
+	Gyro[0] = PitchAverage>>8;
+	Gyro[1] = (char)PitchAverage;
+	Gyro[2] = RollAverage>>8;
+	Gyro[3] = (char)RollAverage;
+	Gyro[4] = YawAverage>>8;
+	Gyro[5] = (char)YawAverage;
 }

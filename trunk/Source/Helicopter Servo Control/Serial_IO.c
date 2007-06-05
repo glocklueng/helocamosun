@@ -313,26 +313,27 @@ void GetAxisAverage(void)
 	static int XAxisData[AVERAGEVALUE],
 			   YAxisData[AVERAGEVALUE],
 			   ZAxisData[AVERAGEVALUE];
+	char outputstring[5]={0};
+		
+	X_axis.D_byte = X_axis.D_byte >> 2;		// remove the lower 3 bits to 
+	Y_axis.D_byte = Y_axis.D_byte >> 2;		// elminate high frequency components
+	Z_axis.D_byte = Z_axis.D_byte >> 2;
 	
-	X_axis.D_byte = X_axis.D_byte >> 3;		// remove the lower 3 bits to 
-	Y_axis.D_byte = Y_axis.D_byte >> 3;		// elminate high frequency components
-	Z_axis.D_byte = Z_axis.D_byte >> 3;
+	X_axis.D_byte &= 0x03FF;
+	Y_axis.D_byte &= 0x03FF;
+	Z_axis.D_byte &= 0x03FF;
 	
-	X_axis.D_byte &= 0x00FF;
-	Y_axis.D_byte &= 0x00FF;
-	Z_axis.D_byte &= 0x00FF;
-	
-	if(X_axis.D_byte >= 128)
+	if(X_axis.byte[1] == 0x00)
 	{
-		X_axis.D_byte = -1*(256 - X_axis.D_byte);
+		X_axis.D_byte = X_axis.D_byte - 0x00FF;
 	}
-	if(Y_axis.D_byte >= 128)
+	if(Y_axis.byte[1] == 0x00)
 	{
-		Y_axis.D_byte = -1*(256 - Y_axis.D_byte);
+		Y_axis.D_byte = Y_axis.D_byte - 0x00FF;
 	}
-	if(Y_axis.D_byte >= 128)
+	if(Y_axis.byte[1] == 0x00)
 	{
-		Z_axis.D_byte = -1*(256 - Z_axis.D_byte);
+		Z_axis.D_byte = Z_axis.D_byte - 0x00FF;
 	}
 
 	if(AxisCount > AVERAGEVALUE - 1)
@@ -350,6 +351,18 @@ void GetAxisAverage(void)
 		Xaxistemp = 0;
 		Yaxistemp = 0;
 		Zaxistemp = 0;
+//		TXREG = 'X';	
+//		while(BusyUSART());
+//		TXREG = Accelerator[0];	
+//		while(BusyUSART());
+//		TXREG = Accelerator[1];	
+//		while(BusyUSART());
+//		TXREG = 'Y';
+//		while(BusyUSART());
+//		TXREG = Accelerator[2];	
+//		while(BusyUSART());
+//		TXREG = Accelerator[3];	
+//		while(BusyUSART());
 	}
 	else
 	{	

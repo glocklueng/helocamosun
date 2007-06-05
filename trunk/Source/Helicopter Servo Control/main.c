@@ -31,8 +31,8 @@
 #include "timers.h"
 #include "USART.h"
 #include "SPIComms.h"
-#include "rpm.h"
 #include "GPS.h"
+#include "rpm.h"
 
 
 /********************** Interrupt Function Definition ****************/
@@ -98,7 +98,7 @@ void SPI_isr (void)
 {
 	unsigned char Incoming_Data;
 	unsigned char Reply;
-	char outputstring[5]={0};
+
 		
 	Incoming_Data = SPI_Read_Byte();
 	
@@ -151,7 +151,6 @@ void main(void)
 	{
 		if(tFlag.newTickFlag)
 		{
-			
 			tFlag.newTickFlag=0;		// Set all flags to zero
 			TickCounter++;				// cycles 50ms period
 			TimeKeeping();
@@ -161,36 +160,38 @@ void main(void)
 				case 1:
 					GetCompassAngle();
 					ResetCompass();		// start compass module
-#ifdef USART_DEBUG
-					UpdateServos();		// Send servo values to the USART
-#endif
+
 					break;
 				case 2:		// 10ms
 					ScanADC();
 					GetADCAverage();
-#ifdef USART_DEBUG
-					UpdateADC();		// Send ADC values to the USART
-#endif
+					TXREG = 'G';	
+					while(BusyUSART());
+//					TXREG = Gyro[0];	// Pitch
+//					while(BusyUSART());
+//					TXREG = Gyro[1];	
+//					while(BusyUSART());
+//					TXREG = Gyro[2];	// Roll
+//					while(BusyUSART());	
+//					TXREG = Gyro[3];	
+//					while(BusyUSART());
+//					TXREG = Gyro[4];	
+//					while(BusyUSART());	// Yaw
+//					TXREG = Gyro[5];	
+//					while(BusyUSART());
 					break;
 				case 3:
 					RPM_Ready = 0;		// check the motor RPM
-#ifdef USART_DEBUG
-					UpdateRoll();		// Send Roll Values to the USART
-#endif
+
 					break;
 				case 4:		// 30ms
 					GetCompassValues();	// Get the compass values
 					GetCompassAverage();// Find the average x-y values
-#ifdef USART_DEBUG
-					UpdatePitch();		// Send Pitch values to the USART
-#endif
+
 					break;
 				case 5:
 					GetAxisValues();	// Get Tri-axis values
 					GetAxisAverage();	// Get the average values for x-y-z
-#ifdef USART_DEBUG
-					UpdateCompass();	// Send Compass values to the USART
-#endif
 					TickCounter = 0;	// Reset Tick Counter
 					break;
 				default:
@@ -205,7 +206,6 @@ void main(void)
 			{
 				LedStates();
 			}
-			
 		}
 	}
 	while(1);
