@@ -3,7 +3,7 @@
 #ifndef __FUZZ_H
 #define __FUZZ_H
 
-#define NUM_RULES 23
+#define NUM_RULES 25
 #define NUM_RANGE 5
 
 #define NL Z-2
@@ -38,7 +38,7 @@ typedef struct
 		float sensor;
 } fMember;
 
-extern char PitchRule[];
+extern char Rule[];
 extern char RollRule[];
 extern char YawRule[];
 extern char CollectiveRule[];
