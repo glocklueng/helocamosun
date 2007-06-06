@@ -269,7 +269,7 @@ int main ( void )
 				(GSPI_3GyroData[2] << 8) + GSPI_3GyroData[3],
 				(GSPI_3GyroData[4] << 8) + GSPI_3GyroData[5]
 			);
-			GP_TX_GeneralPurposePacket(GSPI_3GyroData, 6);
+			//GP_TX_GeneralPurposePacket(GSPI_3GyroData, 6);
 		}	
 
 
