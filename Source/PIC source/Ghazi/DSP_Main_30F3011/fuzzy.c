@@ -3,20 +3,21 @@
 #include <math.h>
 #include "fuzzy.h"
 
+#define PITCH_OFFSET 0
 float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
-      {10.0,  440.0, 469.0},
-      {441.0, 470.0, 499.0},
-      {471.0, 500.0, 529.0},
-      {501.0, 530.0, 559.0},
-      {531.0, 560.0, 990.0}
+      {10.0,  445.0, 471.0},
+      {452.0, 472.0, 492.0},
+      {473.0, 500.0, 526.0},
+      {507.0, 527.0, 547.0},
+      {528.0, 550.0, 990.0}
 };
 
 float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
-      {1.0,  772.0, 773.0},
-      {772.5, 773.0, 774.5},
-      {774.0, 775.0, 776.0},
-      {775.5, 777.0, 778.5},
-      {778.0, 779.0, 999.0}
+      {1.0,  461.0, 478.0},
+      {464.0, 480.0, 498.0},
+      {483.0, 500.0, 516.0},
+      {502.0, 518.0, 535.0},
+      {522.0, 540.0, 999.0}
 };
 
 #define NL_WEIGHT (0)         // output weightings -200
@@ -141,13 +142,13 @@ void Fuzzification( float input_param[][3], fMember *input_mf)
 //
 // The rule set for the fuzzy logic unit
 //
-char PitchRule[] =                          // SAMPLE RULE SET
+char Rule[] =                          // SAMPLE RULE SET
 { 
    ANGLE, _NL, RATE, _NL, _THEN, _NL,
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
    ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
    ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-//   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
+   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
    
    ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
    ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
@@ -167,7 +168,7 @@ char PitchRule[] =                          // SAMPLE RULE SET
    ANGLE, _POS,  RATE, _POS,  _THEN, _POS,
    ANGLE, _PL, RATE, _POS,  _THEN, _PL,
    
-//   ANGLE, _NL, RATE, _PL, _THEN, _POS,
+   ANGLE, _NL, RATE, _PL, _THEN, _POS,
    ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
    ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
    ANGLE, _POS,  RATE, _PL, _THEN, _PL,
