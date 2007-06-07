@@ -285,11 +285,11 @@ namespace commprotocoltester
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(577, 12);
+            this.textBox2.Location = new System.Drawing.Point(577, 15);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox2.Size = new System.Drawing.Size(438, 354);
+            this.textBox2.Size = new System.Drawing.Size(438, 548);
             this.textBox2.TabIndex = 20;
             // 
             // txtYaw
@@ -414,10 +414,10 @@ namespace commprotocoltester
             // btnKillMotor
             // 
             this.btnKillMotor.BackColor = System.Drawing.Color.Red;
-            this.btnKillMotor.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnKillMotor.Location = new System.Drawing.Point(577, 372);
+            this.btnKillMotor.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKillMotor.Location = new System.Drawing.Point(577, 569);
             this.btnKillMotor.Name = "btnKillMotor";
-            this.btnKillMotor.Size = new System.Drawing.Size(438, 289);
+            this.btnKillMotor.Size = new System.Drawing.Size(438, 113);
             this.btnKillMotor.TabIndex = 34;
             this.btnKillMotor.Text = "STOP MOTOR";
             this.btnKillMotor.UseVisualStyleBackColor = false;
@@ -427,7 +427,7 @@ namespace commprotocoltester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1038, 666);
+            this.ClientSize = new System.Drawing.Size(1038, 694);
             this.Controls.Add(this.btnKillMotor);
             this.Controls.Add(this.cbxCtrlMode);
             this.Controls.Add(this.btnSetOpsMode);

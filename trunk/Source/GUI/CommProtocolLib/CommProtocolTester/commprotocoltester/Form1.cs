@@ -581,9 +581,20 @@ namespace commprotocoltester
                 cp.HandShakeAckReceived += new CommProtocol.HandShakeAckReceivedEventHandler(cp_HandShakeAckReceived);
                 cp.PreFlightPacketReceived += new CommProtocol.PreFlightPacketReceivedEventHandler(cp_PreFlightPacketReceived);
                 cp.MotorRPMPacketReceived += new CommProtocol.MotorRPMPacketReceivedEventHandler(cp_MotorRPMPacketReceived);
-
+                cp.GPDataReceived += new CommProtocol.GPDataReceivedEventHandler(cp_GPDataReceived); 
             }
         }
+
+        void cp_GPDataReceived(object sender, CommProtocol.GPDataReceivedEventArgs e)
+        {
+            string data = "";
+            foreach(byte b in e.data)
+            {
+                data += string.Format("{0:x2}", b);
+            }
+            textBox1.AppendText("GP packet receieved: " + data + "\r\n");
+        }
+
 
 
 

@@ -11,7 +11,7 @@ using System.IO;
 
 namespace GPSParserTester
 {
-    
+
     public partial class GPSParserTester : Form
     {
         GoogleMapControl gmc = new GoogleMapControl();
@@ -58,10 +58,11 @@ namespace GPSParserTester
             {
                 File.Delete("COM9_GPS.txt");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
-            } gpsp = new GPSParser(comboBox1.SelectedItem.ToString(), this);
+            }
+            gpsp = new GPSParser(comboBox1.SelectedItem.ToString(), this);
             gpsp.GPSStringReceived += new GPSParser.GPSStringReceivedEventHandler(gpsp_GPSStringReceived);
 
         }
@@ -70,7 +71,7 @@ namespace GPSParserTester
         {
             double Longitude = -(e.data.Long.Degrees + (e.data.Long.Minutes + (e.data.Long.FractionalMinutes / 10000.0)) / 60.0);
             double Latitude = e.data.Lat.Degrees + (e.data.Lat.Minutes + (e.data.Lat.FractionalMinutes / 10000.0)) / 60.0;
-  
+
             gmc.SetMarkerAtLoc(Latitude, Longitude);
             textBox2.Clear();
             string gpsdata =
@@ -98,9 +99,5 @@ namespace GPSParserTester
             gpsp2 = new GPSParser(comboBox2.SelectedItem.ToString(), this);
             gpsp2.GPSStringReceived += new GPSParser.GPSStringReceivedEventHandler(gpsp2_GPSStringReceived);
         }
-
-
     }
-
-
 }

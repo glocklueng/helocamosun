@@ -173,7 +173,6 @@ namespace CommProtocolLib
     /// </summary>
     public class CommProtocol
     {
-        
         #region datamembers
 
         private bool Disposed = false;
@@ -683,6 +682,51 @@ namespace CommProtocolLib
 
         #region Flight operation commands
         /// <summary>
+        /// Set the helicopter's heading in degrees (0-359)
+        /// </summary>
+        /// <param name="heading"></param>
+        public void AlterHeading(short heading)
+        {
+            
+            /*
+            Alter Heading
+            0x46	Command type “Flight Ops”
+            0x44	Command “Alter Heading”	
+            0xHHHH	New heading
+
+            */
+            if (heading >= 0 && heading < 360)
+            {
+                if (ExpectedResponse.ResponseExpected == false)
+                {
+                    OutGoingPacket = new byte[11];
+                    OutGoingPacket[0] = 0xA5;//header
+                    OutGoingPacket[1] = 0x5A;
+                    OutGoingPacket[2] = 0x04;//length
+                    OutGoingPacket[3] = 0x46;//flight ops command
+                    OutGoingPacket[4] = 0x44;//alter heading command
+                    OutGoingPacket[5] = (byte)((heading & 0xFF00) >> 8);
+                    OutGoingPacket[6] = (byte)(heading & 0xFF);
+
+                    ushort checksum = 0;
+                    for (int i = 2; i < 7; i++)
+                    {
+                        checksum += OutGoingPacket[i];
+                    }
+
+                    OutGoingPacket[7] = (byte)((checksum & 0xFF00) >> 8);//checksum
+                    OutGoingPacket[8] = (byte)(checksum & 0xFF);
+                    OutGoingPacket[9] = 0xCC;
+                    OutGoingPacket[10] = 0x33;
+                    SendPacket("Alter heading", ExpectedResponses.type.FullPacketResponse);
+                }
+            }
+            else
+            {
+                throw new Exception("heading value must be greater or equal to 0 and less than 360");
+            }
+        }
+        /// <summary>
         /// Start the motor
         /// </summary>
         public void EngageEngine()
@@ -1125,6 +1169,10 @@ namespace CommProtocolLib
                 else if ((int)IncomingDataBuffer[3] == 0x43 && (int)IncomingDataBuffer[4] == 0x06)//comms handshake, ack received
                 {
                     ParseCommHandShakeAck();
+                }
+                else if ((int)IncomingDataBuffer[3] == 0x54 && (int)IncomingDataBuffer[4] == 0xDD)
+                {
+                    ParseGPDataDumpPacket();
                 }
                 else
                 {
@@ -1760,7 +1808,76 @@ namespace CommProtocolLib
             }
         }
         #endregion
-        
+
+        #region General purpose data dump
+        private void ParseGPDataDumpPacket()
+        {
+
+            /*
+           General Purpose Data Dump packet received
+           
+           with variable length data
+           
+           1 0xA5
+             0x5A    Packet Header
+             
+             0xLL   variable length (1 to 25)       
+            
+           4 0x54	Command type “Testing and tuning”
+             0xDD	Data dump
+         
+           6-30
+             0xdd Data
+                 
+           7-31 0xXX Checksum high
+           8-32 0xXX Checksum low
+
+           9-33 0xCC
+           10-34 0x33 //footer
+          */
+            string footer = new string(new char[] { (char)0xCC, (char)0x33 });
+            if (IncomingDataBuffer.Length >= 3)
+            {
+                int Length = IncomingDataBuffer[2];
+
+                if(IncomingDataBuffer.Length == (7 + Length) && IncomingDataBuffer.Contains(footer))
+                {
+                    //calculate checksum
+                    UInt16 sum = 0;
+                    for (int i = 2; i < (3 + Length); i++)
+                    {
+                        sum += (ushort)IncomingDataBuffer[i];
+                    }
+                    byte chk1 = (byte)((sum & 0xFF00) >> 8);
+                    byte chk2 = (byte)(sum & 0x00FF);
+                    if (chk1 != (int)IncomingDataBuffer[3 + Length] || chk2 != (int)IncomingDataBuffer[4 + Length])
+                    {
+
+                        Invoke(BadPacketReceived, new object[] {this, new BadPacketReceivedEventArgs(IncomingDataBuffer,
+                        string.Format("Invalid General purpose data dump packet: invalid checksum: received 0x{0:x2}, expected 0x{1:x2}",
+                        (Convert.ToUInt16((int)IncomingDataBuffer[3 + Length]) << 8) + (int)IncomingDataBuffer[4 + Length], sum))});
+                        ClearBuffer();
+                    }
+                    else
+                    {
+                        byte[] Data = new byte[Length - 2];
+                        for (int i = 0; i < Length - 2; i++)
+                        {
+                            Data[i] = (byte)IncomingDataBuffer[i+5];
+                        }
+                        ClearBuffer();
+                        Invoke(GPDataReceived, new Object[] { this, new GPDataReceivedEventArgs(Data) });
+                    }
+                }
+                else if (IncomingDataBuffer.Length >= (7 + Length))
+                {
+                    Invoke(BadPacketReceived, new object[] { this, 
+                    new BadPacketReceivedEventArgs(IncomingDataBuffer, "Bad general purpose data dump packet received") });
+                    ClearBuffer();
+                }
+            }
+        }
+        #endregion
         #endregion
 
         #region Private class methods
@@ -1837,9 +1954,6 @@ namespace CommProtocolLib
                         MessageBox.Show("While trying to send out serial port data, CommProtocol had this error: " + ex.Message, "CommProtocol Error");
                     }
                 }
-            
-
-
         }
         private void Invoke(Delegate Method, params object[] args)
         {
@@ -2099,6 +2213,21 @@ namespace CommProtocolLib
         }
         #endregion
 
+        #region General purpose data packet receieved
+        public delegate void GPDataReceivedEventHandler(object sender, GPDataReceivedEventArgs e);
+        public event GPDataReceivedEventHandler GPDataReceived;
+
+        public class GPDataReceivedEventArgs : EventArgs
+        {
+            public byte[] data;
+
+            public GPDataReceivedEventArgs(byte[] data)
+            {
+                this.data = data;
+            }
+        }
+
+        #endregion
         #endregion
     }
 }
