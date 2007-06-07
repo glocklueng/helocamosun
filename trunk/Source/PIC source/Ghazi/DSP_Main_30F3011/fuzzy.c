@@ -3,12 +3,13 @@
 #include <math.h>
 #include "fuzzy.h"
 
-#define PITCH_OFFSET 0
+
+
 float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
       {10.0,  445.0, 471.0},
-      {452.0, 472.0, 492.0},
+      {452.0, 472.0, 499.0},
       {473.0, 500.0, 526.0},
-      {507.0, 527.0, 547.0},
+      {501.0, 527.0, 547.0},
       {528.0, 550.0, 990.0}
 };
 
@@ -182,11 +183,11 @@ char Rule[] =                          // SAMPLE RULE SET
  * Returns - the necessary output (-100%~100%) to keep the unit balance *
  *                                                                      *
  ************************************************************************/
-float doRules( fMember *all_mf, char *Rules )
+float doRules( fMember * all_mf, char * Rules )
 {
    float RSS[NUM_RANGE] = {0};
-   char rIndex = 0, rNum = 0;
-   float *curInput;
+   short rIndex = 0, rNum = 0;	// changed from char to short
+   float * curInput;
    float ruleVal, wSum;
    int inum = 0;  // Kyle
    fMember vout_mf;	// Kyle
@@ -194,12 +195,6 @@ float doRules( fMember *all_mf, char *Rules )
 	 // Make sure that the RSS array starts at zero
 	 //   
 //   memset( RSS, 0, sizeof(float)*NUM_RANGE );
-
-   //
-   // Doing testing - Display the fuzzy numbers
-   //
-   //displayVals( angle_mf, 0 );
-   //displayVals( rate_mf, 1 );
 
    //
    // Process the ruleset like it was processor machine code
@@ -213,19 +208,18 @@ float doRules( fMember *all_mf, char *Rules )
       
       while( Rules[rIndex] != _THEN )
       {
-         //
-         // Determine which input is being used
-         //
+         
+//          Determine which input is being used
+         
          curInput = &(all_mf[ Rules[rIndex++] ].nl);
          
-         //
-         // Determine if the condition contains the lowest value for the 
-         //    statement
-         //
-         wSum = *(curInput + Rules[rIndex]);
+         
+//          Determine if the condition contains the lowest value for the 
+//          statement
+
          if( *(curInput + Rules[rIndex]) < ruleVal )
          {
-            ruleVal = *(curInput + Rules[rIndex]);
+            ruleVal = *(curInput+Rules[rIndex]);
          }
          
          rIndex++;
@@ -254,7 +248,7 @@ float doRules( fMember *all_mf, char *Rules )
    for( rIndex = 0; rIndex < NUM_RANGE; rIndex++ )
    {
       //*curInput = doSqrt( RSS[rIndex] );
-      wSum = sqrtf( RSS[rIndex] );
+     // wSum = sqrtf( RSS[rIndex] );
       *curInput = sqrtf( RSS[rIndex] );
       curInput++;
    }

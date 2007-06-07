@@ -3,6 +3,11 @@
 #ifndef __FUZZ_H
 #define __FUZZ_H
 
+#define PITCH_TILT_OFFSET 0
+#define PITCH_GYRO_OFFSET 0
+#define ROLL_TILT_OFFSET 0
+#define ROLL_GYRO_OFFSET 20
+
 #define NUM_RULES 25
 #define NUM_RANGE 5
 
