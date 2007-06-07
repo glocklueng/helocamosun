@@ -65,4 +65,5 @@ typedef struct
 	GPT_pwm pwm;
 	GPT_fuzzy fuzzy;
 	GPT_Gyro gyros;
+	unsigned short newHeading;
 } GPT_helicopter;
