@@ -188,7 +188,7 @@ int main ( void )
 			 		Fuzzification( pitch_param, pitch_angle_mf);
 					Fuzzification( tilt_rate_param, pitch_rate_mf);
 					
-			        GP_helicopter.fuzzy.pitch = (short)doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
+			        GP_helicopter.fuzzy.pitch = (short)doRules(pitch_mf, Rule);	// Kyle - changed doRules
 			        
 					pitch_angle_mf->sensor = GP_helicopter.attitude.roll;
 					pitch_rate_mf->sensor = 775.0;
@@ -196,7 +196,7 @@ int main ( void )
 					Fuzzification( pitch_param, pitch_angle_mf);
 					Fuzzification( tilt_rate_param, pitch_rate_mf);
 	
-				    GP_helicopter.fuzzy.roll = (short)doRules(pitch_mf, PitchRule);	// Kyle - changed doRules
+				    GP_helicopter.fuzzy.roll = (short)doRules(pitch_mf, Rule);	// Kyle - changed doRules
 					fillpwmCommand();
 					SPI_tx_command(pwmCommand, 5);
 				}

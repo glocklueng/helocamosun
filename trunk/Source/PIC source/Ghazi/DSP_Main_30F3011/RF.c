@@ -28,6 +28,7 @@ signed short latcorr = 0, longcorr = 0, altcorr = 0, seconds = 0;
 
 unsigned char newPWM = 0;
 
+unsigned char newHeadingFlag = 0;
 
 void GP_TX_char ( char ch )
 
@@ -487,6 +488,14 @@ void GP_parse_data ( char vdata[], char len )
 						}
 					}
 					break;	
+				}
+				
+				case 0x44:	// Alter Heading
+				{
+					GP_helicopter.newHeading = (vdata[2] << 8) + (vdata[3]);
+					GP_ACK(vdata, len);
+					newHeadingFlag = 1;
+					break;
 				}
 				
 				case 0x49:	// Request for info
