@@ -57,7 +57,6 @@ extern char GP_errorEOT;
 extern unsigned char GP_dump;
 extern unsigned char GP_hs;
 extern unsigned char GP_engON;
-extern unsigned char newHeadingFlag;
 extern GPT_helicopter GP_helicopter; // global helicopter structure
 //--------------------------- Messages --------------------------------
 extern char GP_err_chksum[];

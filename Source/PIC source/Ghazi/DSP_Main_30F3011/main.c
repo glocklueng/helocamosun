@@ -81,10 +81,13 @@ fMember *pitch_angle_mf = &(pitch_mf[0]),
 		*pitch_rate_mf  = &(pitch_mf[1]), 
 		*pitch_accel_mf = &(pitch_mf[2]);
 		
+
+
 //fMember roll_mf[3];
 //fMember *roll_angle_mf = &(roll_mf[0]), 
 //		*roll_rate_mf  = &(roll_mf[1]), 
 //		*roll_accel_mf = &(roll_mf[2]);
+
 //******************************************************************//
 
 //GPT_helicopter GP_helicopter;		// global helicopter structure
@@ -106,9 +109,7 @@ int main ( void )
 	unsigned char longdeg[4] = "";
 	unsigned char longmin[3] = "";
 	unsigned char longsec[5] = "";
-	//********************** KYLE'S FUZZY CODE VARIABLE ************
-	unsigned short compass_val;
-	//**************************************************************
+
 	setupTRIS();
 
 	GP_init_UART(19200);
@@ -180,14 +181,21 @@ int main ( void )
 				GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
 				
 //***************** KYLE'S FUZZY CODE *********************************//				
+
 				if (modeFuzzy)
 				{
-					pitch_angle_mf->sensor = GP_helicopter.attitude.pitch;
-				    pitch_rate_mf->sensor = 775.0;
+					pitch_angle_mf->sensor = GP_helicopter.attitude.pitch + PITCH_TILT_OFFSET;
+			    	pitch_rate_mf->sensor = GP_helicopter.gyros.pitch + PITCH_GYRO_OFFSET;
 				     
 			 		Fuzzification( pitch_param, pitch_angle_mf);
 					Fuzzification( tilt_rate_param, pitch_rate_mf);
 					
+
+			        GP_helicopter.pwm.pitch = (short)doRules(pitch_mf, Rule);	// Kyle - changed doRules
+
+					pitch_angle_mf->sensor = GP_helicopter.attitude.roll + ROLL_TILT_OFFSET;
+					pitch_rate_mf->sensor = GP_helicopter.gyros.pitch + ROLL_GYRO_OFFSET;
+
 			        GP_helicopter.fuzzy.pitch = (short)doRules(pitch_mf, Rule);	// Kyle - changed doRules
 			        
 					pitch_angle_mf->sensor = GP_helicopter.attitude.roll;
@@ -195,28 +203,58 @@ int main ( void )
 					
 					Fuzzification( pitch_param, pitch_angle_mf);
 					Fuzzification( tilt_rate_param, pitch_rate_mf);
+
+				    GP_helicopter.pwm.roll = (short)doRules(pitch_mf, Rule);	// Kyle - changed doRules
 	
 				    GP_helicopter.fuzzy.roll = (short)doRules(pitch_mf, Rule);	// Kyle - changed doRules
+
 					fillpwmCommand();
 					SPI_tx_command(pwmCommand, 5);
 				}
+
 //****************** END OF FUZZY CODE *********************************//		        
 			}
 			
 			if	(SPI_tx_req( GSPI_CompReq, GSPI_CompData ))
 			{
 				GP_helicopter.attitude.yaw = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
+				
 	//*************** KYLE'S FUZZY CODE ********************************//
-//				if (modeFuzzy)
-//				{
-//					if((compass_val > 0) && (compass_val < 45))
-//					{
-//						if(GP_helicopter.attitude.yaw > 315)
-//						{
-//							GP_helicopter.attitude.yaw = compass_val + (359-GP_helicopter.attitude.yaw);
-//						}
-//					}
-//				}
+				if (modeFuzzy)
+				{
+					if((GP_helicopter.newHeading >= 0) && (GP_helicopter.newHeading < 45))
+					{
+						if(GP_helicopter.attitude.yaw > 315)
+						{
+							GP_helicopter.attitude.yaw = GP_helicopter.newHeading + (359-GP_helicopter.attitude.yaw);
+						}
+						else if(GP_helicopter.newHeading > GP_helicopter.attitude.yaw)
+						{
+							GP_helicopter.attitude.yaw = GP_helicopter.attitude.yaw - GP_helicopter.newHeading;
+						}
+						else
+						{
+							GP_helicopter.attitude.yaw = GP_helicopter.attitude.yaw -GP_helicopter.newHeading;
+						}
+					}
+					else if((GP_helicopter.newHeading > 315) && (GP_helicopter.newHeading < 359))
+					{
+						if(GP_helicopter.attitude.yaw < 45)
+						{
+							GP_helicopter.attitude.yaw = GP_helicopter.newHeading + (359-GP_helicopter.attitude.yaw);
+						}
+						else if(GP_helicopter.newHeading > GP_helicopter.attitude.yaw)
+						{
+							GP_helicopter.attitude.yaw = GP_helicopter.newHeading - GP_helicopter.attitude.yaw;
+						}
+						else
+						{
+							GP_helicopter.attitude.yaw = GP_helicopter.attitude.yaw -GP_helicopter.newHeading;
+						}
+					}
+				}
+				pitch_angle_mf->sensor = GP_helicopter.attitude.yaw + YAW_TILT_OFFSET; // STORE THE DIFFERENCE
+				pitch_rate_mf->sensor = GP_helicopter.gyros.yaw - YAW_GYRO_OFFSET;
 	//******************************************************************//
 			}
 			
@@ -271,13 +309,7 @@ int main ( void )
 			);
 			//GP_TX_GeneralPurposePacket(GSPI_3GyroData, 6);
 		}	
-
-
 	
-	
-		
-	
-		
 	}
 	return 0;
 }
