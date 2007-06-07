@@ -15,9 +15,9 @@ float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
 
 float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
       {1.0,  461.0, 478.0},
-      {464.0, 480.0, 498.0},
+      {464.0, 480.0, 499.0},
       {483.0, 500.0, 516.0},
-      {502.0, 518.0, 535.0},
+      {501.0, 518.0, 535.0},
       {522.0, 540.0, 999.0}
 };
 
