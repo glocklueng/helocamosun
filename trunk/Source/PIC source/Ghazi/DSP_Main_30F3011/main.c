@@ -8,8 +8,8 @@
 #include <stdio.h>
 #define FCY				5000000 // Instruction cycle freq = xtal / 4
 
-#define uCReset			LATBbits.LATB0
-#define uCResetTris		TRISBbits.TRISB0
+#define uCReset			LATBbits.LATB8
+#define uCResetTris		TRISBbits.TRISB8
 
 void setupTRIS ( void );
 
@@ -71,6 +71,7 @@ GP_helicopter.batterystatus.temp			(2)
 //unsigned char PLL_test = "ER_CMD#L30D?";
 extern unsigned char newPWM;
 extern unsigned char GSPI_AccData[];
+
 //extern unsigned char GP_hs;
 unsigned char T2flag;
 unsigned char ERCMDflag;
@@ -109,7 +110,7 @@ int main ( void )
 	unsigned char longdeg[4] = "";
 	unsigned char longmin[3] = "";
 	unsigned char longsec[5] = "";
-	float temp;
+	short dummy2 = 700;
 	setupTRIS();
 
 	GP_init_UART(19200);
@@ -125,12 +126,13 @@ int main ( void )
 
 	// On boot up, reset the 4431 (this corrects an SPI issue where a bit
 	// is clocked into the 4431 SPI module when the dsPIC resets)
+	
 	uCReset = 1;
 	for (i=0; i < 10000; i++);
 	uCReset = 0;
 	for (i=0; i < 10000; i++);
 	uCReset = 1;
-	
+//	uCReset = 0;
 	while(1)
 	{
 		LATDbits.LATD0 ^= 1;
@@ -154,9 +156,9 @@ int main ( void )
 				SPI_tx_command(pwmCommand, 5);	
 			}
 		}	
-		i++;
+//		i++;
 		
-		if (i > 1000)
+		if (i > 10000)
 		{
 			c++;
 			i = 0;
@@ -175,7 +177,7 @@ int main ( void )
 			//GP_TX_char( (char) ( (average & 0xff00) >> 8 ) );
 			//GP_TX_char( (char) ( average & 0x00ff ) );
 //			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );		
-//***************** KYLE'S FUZZY CODE *********************************//				
+////***************** KYLE'S FUZZY CODE *********************************//				
 			if (SPI_tx_req(	GSPI_AccReq, GSPI_AccData ))
 			{
 				GP_helicopter.attitude.pitch = (short)GSPI_AccData[0] * 256 + GSPI_AccData[1];
@@ -201,14 +203,18 @@ int main ( void )
 
 				    GP_helicopter.pwm.roll = (short)doRules(pitch_mf, Rule);
 				    	
-//**************** ALTITUDE CONTROL **********//				    
-				    if(GP_helicopter.hsa.altitude > 250)
+////**************** ALTITUDE CONTROL **********//			
+// - - - - - - - - - - - APPEARS TO CAUSE RESETTING OF DSP - - - - - - - - - - - - - - - - - - 	    
+				    if(GP_helicopter.hsa.altitude > 100)
 				    {
 						pitch_angle_mf->sensor = 500;
 					}
 					else
 					{
-						pitch_angle_mf->sensor = 500 - (GP_helicopter.hsa.altitude/5) + hover_alt ;
+						
+						pitch_angle_mf->sensor = 500 - (short)(GP_helicopter.hsa.altitude + hover_alt); // credit SCOTT
+						pitch_angle_mf->sensor *= 0.1960;
+
 					}
 					pitch_rate_mf->sensor = 500.0;
 					
@@ -218,6 +224,8 @@ int main ( void )
 				    GP_helicopter.pwm.coll = (short)doRules(pitch_mf, Rule);
 				    fillpwmCommand();
 					SPI_tx_command(pwmCommand, 5);
+
+
 				}
 			}
 			
@@ -254,7 +262,7 @@ int main ( void )
 							// GP_helicopter.newHeading - 7 = bad
 							//(float)(GP_helicopter.newHeading + 7) = bad
 							//(GP_helicopter.attitude.yaw * 0.1394) + (GP_helicopter.newHeading * 0.1394) = bad
-//							pitch_angle_mf->sensor = (GP_helicopter.attitude.yaw * 0.1394);
+							//pitch_angle_mf->sensor = (GP_helicopter.attitude.yaw * 0.1394);
 							// GP_helicopter.gyros.yaw = (GP_helicopter.attitude.yaw * 0.1394); = good
 							// (GP_helicopter.attitude.yaw * 0.1394) +(GP_helicopter.newHeading * 0.1394) = bad
 							// GP_helicopter.attitude.yaw + GP_helicopter.newHeading = good
@@ -305,6 +313,8 @@ int main ( void )
 					
 				    GP_helicopter.pwm.yaw = (short)doRules(pitch_mf, Rule);
 				 }
+   				
+   				
    				fillpwmCommand();
 				SPI_tx_command(pwmCommand, 5);			
 //********************** END OF FUZZY CODE ***************************//
@@ -364,7 +374,7 @@ int main ( void )
 			);
 			//GP_TX_GeneralPurposePacket(GSPI_3GyroData, 6);
 		}	
-	
+
 	}
 	return 0;
 }
