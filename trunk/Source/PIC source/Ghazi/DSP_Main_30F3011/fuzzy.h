@@ -9,6 +9,7 @@
 #define ROLL_GYRO_OFFSET  484
 #define YAW_TILT_OFFSET   0
 #define YAW_GYRO_OFFSET   200
+#define COMPASS_SCALING   0.1392
 
 #define NUM_RULES 25
 #define NUM_RANGE 5

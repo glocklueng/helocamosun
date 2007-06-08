@@ -42,6 +42,8 @@ void GP_TX_error ( char code );
 
 void corr_GPSlatlongalt( signed short latc, signed short longc, signed short altc, unsigned short seconds);
 
+void set_Altitude ( unsigned short alt );
+
 //-------------------------- Global Variables -------------------------------
 extern unsigned char GP_bytercvd;  	// 0 = no byte in buffer, 1 = byte in buffer
 extern unsigned char GP_datavalid;	// 0 = no valid data ready, 1 = valid data ready
@@ -57,6 +59,7 @@ extern char GP_errorEOT;
 extern unsigned char GP_dump;
 extern unsigned char GP_hs;
 extern unsigned char GP_engON;
+extern unsigned short hover_alt; 	// Kyle added
 extern GPT_helicopter GP_helicopter; // global helicopter structure
 //--------------------------- Messages --------------------------------
 extern char GP_err_chksum[];

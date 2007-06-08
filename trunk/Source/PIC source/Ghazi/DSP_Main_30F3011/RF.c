@@ -27,7 +27,7 @@ signed short latcorr = 0, longcorr = 0, altcorr = 0, seconds = 0;
 //char GP_handshake[]= { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 };
 
 unsigned char newPWM = 0;
-
+unsigned short hover_alt = 0;
 
 void GP_TX_char ( char ch )
 
@@ -246,7 +246,6 @@ void GP_parse_data ( char vdata[], char len )
 {
 	unsigned short k;
 	
-	unsigned short hover_alt = 0;
 	char val[5] = "";
 	unsigned char seconds;
 	float Ton;
@@ -939,4 +938,9 @@ void corr_GPSlatlongalt( signed short latc, signed short longc, signed short alt
 	GP_helicopter.GPS_alt += altc;
 	
 //	GP_helicopter.position.latitude.min_frac = 9999;//(short) templat;
+}
+
+void set_Altitude ( unsigned short alt )
+{
+	GP_helicopter.hsa.altitude = alt;
 }
