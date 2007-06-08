@@ -342,10 +342,10 @@ void GetAxisAverage(void)
 		XAxisAverage = Xaxistemp / AVERAGEVALUE;
 		YAxisAverage = Yaxistemp / AVERAGEVALUE;
 		ZAxisAverage = Zaxistemp / AVERAGEVALUE;
-		Accelerator[0] = XAxisAverage>>8;
-		Accelerator[1] = (char)XAxisAverage;
-		Accelerator[2] = YAxisAverage>>8;
-		Accelerator[3] = (char)YAxisAverage;
+		Accelerator[0] = YAxisAverage>>8;
+		Accelerator[1] = (char)YAxisAverage;
+		Accelerator[2] = XAxisAverage>>8;
+		Accelerator[3] = (char)XAxisAverage;
 		Accelerator[4] = ZAxisAverage>>8;
 		Accelerator[5] = (char)ZAxisAverage;
 		Xaxistemp = 0;
