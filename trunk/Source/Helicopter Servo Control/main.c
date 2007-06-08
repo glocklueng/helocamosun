@@ -165,15 +165,22 @@ void main(void)
 				case 2:		// 10ms
 					ScanADC();
 					GetADCAverage();
-					TXREG = 'G';	
-					while(BusyUSART());
-//					TXREG = Gyro[0];	// Pitch
+//					TXREG = 'C';	
 //					while(BusyUSART());
-//					TXREG = Gyro[1];	
+//					TXREG = Gyro[4];	// Pitch
 //					while(BusyUSART());
-//					TXREG = Gyro[2];	// Roll
+//					TXREG = Gyro[5];	
+//					while(BusyUSART());
+//					
+//					TXREG = Compass[0];	// Pitch Tilt
 //					while(BusyUSART());	
-//					TXREG = Gyro[3];	
+//					TXREG = Compass[1];	
+//					while(BusyUSART());
+//					TXREG = 'X';	
+//					while(BusyUSART());					
+//					TXREG = Accelerator[2];	// Pitch Tilt
+//					while(BusyUSART());	
+//					TXREG = Accelerator[3];	
 //					while(BusyUSART());
 //					TXREG = Gyro[4];	
 //					while(BusyUSART());	// Yaw

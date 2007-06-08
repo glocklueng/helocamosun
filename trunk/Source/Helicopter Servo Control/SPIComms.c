@@ -23,7 +23,7 @@
 #define GPS_HEMISPHERE_STATE	    15
 
 #define ACCELEROMETER_COMMAND 	'A'
-#define GYRO_COMMAND 	'G'
+#define GYRO_COMMAND 			'G'
 #define COMPASS_COMMAND 		'C'
 #define ACCOUSTIC_COMMAND 		'O'
 #define VOLTAGES_COMMAND 		'V'
@@ -222,6 +222,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				break;
 		case GYRO_COMMAND_STATE:
 				ReturnValue = Gyro[ByteNum];
+//				ReturnValue = dummydata[ByteNum];
 				ByteNum++;
 				if(ByteNum > 6)//6 bytes in a status packet
 				{
