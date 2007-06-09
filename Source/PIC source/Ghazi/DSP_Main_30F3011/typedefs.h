@@ -55,15 +55,17 @@ typedef struct
 typedef struct
 {
 	GPT_goto_position goto_position;
+	GPT_position position;
 	GPT_HSA hsa;
 	GPT_attitude attitude;
 	GPT_batterystatus batterystatus;
-	GPT_position position;	
+		
 	unsigned short motorRPM;
 	unsigned short GPS_alt, SON_alt;
 	unsigned char sensors;
+	
 	GPT_pwm pwm;
 	GPT_fuzzy fuzzy;
 	GPT_Gyro gyros;
-	unsigned short newHeading;
+	unsigned short newHeading, newAltitude;
 } GPT_helicopter;
