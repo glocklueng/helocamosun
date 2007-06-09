@@ -1,13 +1,8 @@
-
 #define MAXPACKLEN 32
 
 // 4431 SPI Slave defines:
 #define uCSS			LATEbits.LATE2
 #define uCSSTris		TRISEbits.TRISE2
-
-// Yaw Gyro SPI Slave defines:
-#define YawGyroSS		LATEbits.LATE3
-#define YawGyroSSTris	TRISEbits.TRISE3
 
 // EEPROM SPI Slave defines:
 #define	eepromSS		LATEbits.LATE4
@@ -29,17 +24,12 @@ void SPI_tx_command ( unsigned char cmd[], char len );
 char SPI_tx_req ( unsigned char req[], unsigned char data[] );
 //transmit a request for info on the SPI bus, record the response in "data"
 
-int SPI_readYawGyro ( void );
-// reads the Yaw gyro
-
 int SPI_readTemp1 ( void );
 // returns the temperature read from the temperature sensor
 
 // These are the arrays that store data retrieved from the 4431
 // over the SPI bus. 
 extern unsigned char GSPI_AccData[6];
-
-
 extern unsigned char GSPI_CompData[2];
 extern unsigned char GSPI_AcousticData[2];
 extern unsigned char GSPI_VoltData[4];
@@ -53,7 +43,6 @@ extern unsigned char GSPI_AltData[7];
 extern unsigned char GSPI_SatData[2];
 extern unsigned char GSPI_3GyroData[6];
 
-// These sensors are read directly into the DSP over the SPI bus
 
 
 

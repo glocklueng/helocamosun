@@ -1,8 +1,7 @@
 #include <p30fxxxx.h>
-#include <string.h>
 
 #include "RF.h"
-#include "SPI.h"
+//#include "SPI.h"
 
 unsigned char GP_bytercvd = 0;  	// 0 = no byte in buffer, 1 = byte in buffer
 unsigned char GP_datavalid = 0;	// 0 = no valid data ready, 1 = valid data ready
@@ -27,7 +26,7 @@ signed short latcorr = 0, longcorr = 0, altcorr = 0, seconds = 0;
 //char GP_handshake[]= { 0xa5, 0x5a, 0x02, 0x43, 0x06, 0x00, 0x45, 0xCC, 0x33 };
 
 unsigned char newPWM = 0;
-unsigned short hover_alt = 0;
+//unsigned short hover_alt = 0;
 
 void GP_TX_char ( char ch )
 
@@ -81,8 +80,6 @@ void GP_state_machine ( void )
 	static unsigned short check = 0;
 	short lcv; 
 	char n;
-	
-//	GP_TX_char(GP_dump);
 	
 	if (GP_bytercvd)
 	{
@@ -262,11 +259,8 @@ void GP_parse_data ( char vdata[], char len )
 				{
 					GP_helicopter.pwm.engRPM = vdata[2];
 					
-					//Ton = (float)GP_helicopter.pwm.engRPM / 100000.0 + 0.001;
-					
-					Ton = (float)vdata[2] / 100000.0 + 0.001;
-					PDC1 = (int)(Ton * 156250); 
-//					PTCONbits.PTEN = 1;	// Enable PWM Time Base	
+					Ton = (float)vdata[2] / 100000.0 + 0.001;	// calculate the pwm on-time
+					PDC1 = (int)(Ton * 156250); 				// scale it to a PDC value, and set the PDC
 					GP_ACK(vdata, len);
 					break;
 				}
@@ -392,7 +386,7 @@ void GP_parse_data ( char vdata[], char len )
 						
 						case 0x4D: // hover at following altitude
 						{
-							hover_alt = vdata[3] * 256 + vdata[4];
+							GP_helicopter.newAltitude = vdata[3] * 256 + vdata[4];
 							GP_ACK(vdata, len);
 							break;
 						}
@@ -633,11 +627,9 @@ void GP_TX_telemetry( unsigned char type )
 			packet[5] = (GP_helicopter.hsa.heading & 0xff00) >> 8;
 			packet[6] = GP_helicopter.hsa.heading & 0x00ff;
 			packet[7] = GP_helicopter.hsa.speed;
-//			packet[8] = (GP_helicopter.hsa.altitude & 0xff00) >> 8;
-//			packet[9] = GP_helicopter.hsa.altitude & 0x00ff;
-			
-			packet[8] = GSPI_AcousticData[0];
-			packet[9] = GSPI_AcousticData[1];
+			packet[8] = (GP_helicopter.hsa.altitude & 0xff00) >> 8;	// GSPI_AcousticData[0];
+			packet[9] = GP_helicopter.hsa.altitude & 0x00ff;		// GSPI_AcousticData[1]; 
+
 			for (cnt = 2; cnt < 10; cnt++)
 			{
 				chksum += packet[cnt];	
@@ -652,6 +644,7 @@ void GP_TX_telemetry( unsigned char type )
 			GP_TX_packet(packet, 14);
 			break;
 		}
+		
 		case 0x5A:	// Attitude
 		{
 			packet[2] = 8;
@@ -661,17 +654,9 @@ void GP_TX_telemetry( unsigned char type )
 			packet[7] = (char)((GP_helicopter.attitude.pitch & 0xff00) >> 8);
 			packet[8] = (char)(GP_helicopter.attitude.pitch & 0x00ff);
 			
-		//	packet[5] = GSPI_AccData[0];
-		//	packet[6] = GSPI_AccData[1];
-			
-		//	packet[7] = GSPI_AccData[2];
-		//	packet[8] = GSPI_AccData[3];
-			
-			packet[9] = (char)((GP_helicopter.attitude.yaw & 0xff00) >> 8);   //GSPI_CompData[0];
-			packet[10] = (GP_helicopter.attitude.yaw & 0x00ff);             //GSPI_CompData[1];
-			//packet[9] = (GP_helicopter.attitude.yaw & 0xff00) >> 8;
-			//packet[10] = GP_helicopter.attitude.yaw & 0x00ff;
-			
+			packet[9] = (char)((GP_helicopter.attitude.yaw & 0xff00) >> 8);  
+			packet[10] = (GP_helicopter.attitude.yaw & 0x00ff);           
+
 			for (cnt = 2; cnt < 11; cnt++)
 			{
 				chksum += packet[cnt];	
@@ -811,7 +796,7 @@ void GP_ACK( char vdata[], char len )
 	ack[lcv + 3] = 0x33;
 	
 	GP_TX_packet(ack, len + 8);
-	//LATBbits.LATB4 ^= 1; // DEBUG
+
 }
 
 
@@ -852,7 +837,7 @@ void GP_init_chopper( void )
 	GP_helicopter.attitude.roll = 0;		// Accelerometer data[1]
 	GP_helicopter.attitude.yaw = 0;			// Compass
 	
-	// Power Status:
+	// Battery Status:
 	GP_helicopter.batterystatus.voltage = 100;
 	GP_helicopter.batterystatus.current = 0;
 	GP_helicopter.batterystatus.temp = 20;
@@ -861,6 +846,12 @@ void GP_init_chopper( void )
 	GP_helicopter.GPS_alt = 0;
 	GP_helicopter.SON_alt = 0;
 	GP_helicopter.sensors = 0xFF;
+	GP_helicopter.motorRPM = 0;
+	GP_helicopter.gyros.pitch = 0;
+	GP_helicopter.gyros.roll = 0;
+	GP_helicopter.gyros.yaw = 0;
+	GP_helicopter.GPS_alt = 0;
+	GP_helicopter.SON_alt = 0;
 	
 	// PWMs
 	GP_helicopter.pwm.pitch = 50;
@@ -868,6 +859,20 @@ void GP_init_chopper( void )
 	GP_helicopter.pwm.yaw = 50;
 	GP_helicopter.pwm.coll = 50;
 	GP_helicopter.pwm.engRPM = 0;
+
+	// fuzzy
+	GP_helicopter.fuzzy.pitch = 0;
+	GP_helicopter.fuzzy.roll = 0;
+	GP_helicopter.fuzzy.yaw = 0;
+	GP_helicopter.fuzzy.coll = 0;
+	GP_helicopter.fuzzy.engRPM = 0;
+	
+	// adjustments
+	GP_helicopter.newHeading = 0;
+	GP_helicopter.newAltitude = 0;
+	
+	// handshake flag
+	GP_hs = 0;
 }
 
 void set_PRY(short pitch, short roll, short yaw)

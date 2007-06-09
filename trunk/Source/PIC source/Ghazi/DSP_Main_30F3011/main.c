@@ -34,8 +34,6 @@ void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void);
 
 void fillpwmCommand ( void );
 
-void GP_TX_ercmd ( char* code, unsigned char len);
-
 //GPT_helicopter GP_helicopter;
 /*
 GP_helicopter.position.latitude.deg 		(1)
@@ -67,12 +65,9 @@ GP_helicopter.batterystatus.current			(2)
 GP_helicopter.batterystatus.temp			(2)
 */
 
-//char pwmCommand[] = { 'P', 0x01, 0x01, 0x01, 0x01 };
-//unsigned char PLL_test = "ER_CMD#L30D?";
 extern unsigned char newPWM;
 extern unsigned char GSPI_AccData[];
 
-//extern unsigned char GP_hs;
 unsigned char T2flag;
 unsigned char ERCMDflag;
 unsigned char clock;
@@ -216,15 +211,15 @@ int main ( void )
 			    GP_helicopter.pwm.roll = (short)doRules(pitch_mf, Rule);
 				    	
 ////**************** ALTITUDE CONTROL **********//			
-// - - - - - - - - - - - APPEARS TO CAUSE RESETTING OF DSP - - - - - - - - - - - - - - - - - - 	    
+    
 			    if(GP_helicopter.hsa.altitude > 100)
 			    {
 					pitch_angle_mf->sensor = 500;
 				}
 				else
 				{
-					
-					pitch_angle_mf->sensor = 500 - (short)(GP_helicopter.hsa.altitude + hover_alt); // credit SCOTT
+					// the following line
+					pitch_angle_mf->sensor = 500 - (short)(GP_helicopter.hsa.altitude + GP_helicopter.newAltitude); // credit SCOTT
 					pitch_angle_mf->sensor *= 0.1960;
 	
 				}
@@ -242,8 +237,6 @@ int main ( void )
 			
 			
 //**************** COMPASS SECTION *************//
-			
-				//GP_helicopter.attitude.yaw = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
 			
 //***************** KYLE'S FUZZY CODE *********************************//
 // Counterclockwise = negative value
@@ -333,9 +326,8 @@ int main ( void )
 //********************** END OF FUZZY CODE ***************************//
 			
 			
-			
-//
-//			
+			// Get the GPS Latitude from the 4431:
+					
 			if (SPI_tx_req( GSPI_LatReq, GSPI_LatData ))
 			{
 				latdeg[0] = GSPI_LatData[0];
@@ -351,7 +343,8 @@ int main ( void )
 				set_GPSlat( (char)atoi(latdeg), (char)atoi(latmin), (short)seconds );
 					
 			}
-				
+			
+			// Get the GPS Longitude from the 4431:	
 			if (SPI_tx_req( GSPI_LongReq, GSPI_LongData ))
 			{
 				longdeg[0] = GSPI_LongData[0];
@@ -369,10 +362,11 @@ int main ( void )
 				
 			}
 
+			// Get the altitude as reported by the acoustic sensor:
 			SPI_tx_req(	GSPI_AcousticReq, GSPI_AcousticData );
 			set_Altitude ( (GSPI_AcousticData[0] << 8) + GSPI_AcousticData[1]);
 			
-			
+			// Get the gyro data:
 			SPI_tx_req( GSPI_3GyroReq, GSPI_3GyroData );
 			set_Gyros
 			(
@@ -380,7 +374,7 @@ int main ( void )
 				(GSPI_3GyroData[2] << 8) + GSPI_3GyroData[3],
 				(GSPI_3GyroData[4] << 8) + GSPI_3GyroData[5]
 			);
-			//GP_TX_GeneralPurposePacket(GSPI_3GyroData, 6);
+		
 		}	
 
 	}
@@ -417,20 +411,12 @@ void setupTRIS ( void )
 	
 	tempSSTris = 0;
 	tempSS = 0;
-	
-	
 }
 
 void init_GVars ( void )
 {
-	GP_helicopter.pwm.pitch = 0;
-	GP_helicopter.pwm.roll = 0;
-	GP_helicopter.pwm.yaw = 0;
-	GP_helicopter.pwm.coll = 0;
-	GP_helicopter.pwm.engRPM = 0;
-	//GP_errorSOT = 0;
-	//GP_errorEOT = 0;
-	GP_hs = 0;	
+
+		
 }
 
 void init_T1 ( void )
@@ -542,8 +528,4 @@ void GP_init_UART( unsigned int baud )
 	IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
 }
 
-void GP_TX_ercmd ( char* code, unsigned char len)
-{
-	//GP_TX_packet(code, len);
-	ERCMDflag = 1;
-}
+
