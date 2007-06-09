@@ -113,12 +113,17 @@ int main ( void )
 	short dummy2 = 700;
 	setupTRIS();
 
+
+	
 	GP_init_UART(19200);
 
 	init_T1();
 	init_T2();
+
 	Init_PWM( );
 //	SPI_init( 0, 0 );	// THIS IS CORRECT FOR KYLE'S BOARD SPI_init( 0, 0 ) DO NOT CHANGE!!!
+
+
 	SPI_init( 0, 1 );
 	GP_init_chopper();
 	
@@ -132,7 +137,9 @@ int main ( void )
 	uCReset = 0;
 	for (i=0; i < 10000; i++);
 	uCReset = 1;
-//	uCReset = 0;
+	for (i=0; i < 1000000; i++);
+	
+	
 	while(1)
 	{
 		LATDbits.LATD0 ^= 1;
@@ -156,7 +163,7 @@ int main ( void )
 				SPI_tx_command(pwmCommand, 5);	
 			}
 		}	
-//		i++;
+		i++;
 		
 		if (i > 10000)
 		{
@@ -173,159 +180,160 @@ int main ( void )
 				c = 0;
 				total = average;	
 			}
-			
-			//GP_TX_char( (char) ( (average & 0xff00) >> 8 ) );
-			//GP_TX_char( (char) ( average & 0x00ff ) );
-//			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );		
+					
 ////***************** KYLE'S FUZZY CODE *********************************//				
-			if (SPI_tx_req(	GSPI_AccReq, GSPI_AccData ))
-			{
-				GP_helicopter.attitude.pitch = (short)GSPI_AccData[0] * 256 + GSPI_AccData[1];
-				GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
-				
-				if (modeFuzzy)
-				{
-//**************** PITCH CONTROL *************//
-					pitch_angle_mf->sensor = GP_helicopter.attitude.pitch + PITCH_TILT_OFFSET;
-			    	pitch_rate_mf->sensor = GP_helicopter.gyros.pitch + PITCH_GYRO_OFFSET;
-				     
-			 		Fuzzification( pitch_param, pitch_angle_mf);
-					Fuzzification( tilt_rate_param, pitch_rate_mf);
-
-			        GP_helicopter.pwm.pitch = (short)doRules(pitch_mf, Rule);
-			        	
-//**************** ROLL CONTROL **************//
-					pitch_angle_mf->sensor = GP_helicopter.attitude.roll + ROLL_TILT_OFFSET;
-					pitch_rate_mf->sensor = GP_helicopter.gyros.pitch + ROLL_GYRO_OFFSET;
-
-			 		Fuzzification( pitch_param, pitch_angle_mf);
-					Fuzzification( tilt_rate_param, pitch_rate_mf);
-
-				    GP_helicopter.pwm.roll = (short)doRules(pitch_mf, Rule);
-				    	
-////**************** ALTITUDE CONTROL **********//			
-// - - - - - - - - - - - APPEARS TO CAUSE RESETTING OF DSP - - - - - - - - - - - - - - - - - - 	    
-				    if(GP_helicopter.hsa.altitude > 100)
-				    {
-						pitch_angle_mf->sensor = 500;
-					}
-					else
-					{
-						
-						pitch_angle_mf->sensor = 500 - (short)(GP_helicopter.hsa.altitude + hover_alt); // credit SCOTT
-						pitch_angle_mf->sensor *= 0.1960;
-
-					}
-					pitch_rate_mf->sensor = 500.0;
-					
-					Fuzzification( pitch_param, pitch_angle_mf);
-					Fuzzification( tilt_rate_param, pitch_rate_mf);
-					
-				    GP_helicopter.pwm.coll = (short)doRules(pitch_mf, Rule);
-				    fillpwmCommand();
-					SPI_tx_command(pwmCommand, 5);
-
-
-				}
-			}
-			
-//**************** COMPASS SECTION *************//
-			if(SPI_tx_req( GSPI_CompReq, GSPI_CompData ))
-			{
-				GP_helicopter.attitude.yaw = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
-			
-//***************** KYLE'S FUZZY CODE *********************************//
-// Counterclockwise = negative value
-// Clockwise = postive value
-//**************** YAW CONTROL *************//
-				if(modeFuzzy)
-				{
-					GP_helicopter.newHeading = 0;
-					if((GP_helicopter.newHeading >= 0) && (GP_helicopter.newHeading < 45))
-					{
-						if(GP_helicopter.attitude.yaw > 315)
-						{
-							GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading + (359-GP_helicopter.attitude.yaw);
-							pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-						}
-						else if(GP_helicopter.newHeading >= GP_helicopter.attitude.yaw)
-						{
-							GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading - GP_helicopter.attitude.yaw;
-							pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-						}
-						else
-						{	
-							// GP_helicopter.newHeading * 0.1394 = good
-							//(GP_helicopter.attitude.yaw - GP_helicopter.newHeading )* 0.1394; = bad
-							//(GP_helicopter.attitude.yaw )* 0.1394 = good
-							//(GP_helicopter.newHeading - GP_helicopter.attitude.yaw) = bad
-							// GP_helicopter.newHeading - 7 = bad
-							//(float)(GP_helicopter.newHeading + 7) = bad
-							//(GP_helicopter.attitude.yaw * 0.1394) + (GP_helicopter.newHeading * 0.1394) = bad
-							//pitch_angle_mf->sensor = (GP_helicopter.attitude.yaw * 0.1394);
-							// GP_helicopter.gyros.yaw = (GP_helicopter.attitude.yaw * 0.1394); = good
-							// (GP_helicopter.attitude.yaw * 0.1394) +(GP_helicopter.newHeading * 0.1394) = bad
-							// GP_helicopter.attitude.yaw + GP_helicopter.newHeading = good
-							// 500 + (GP_helicopter.attitude.yaw + GP_helicopter.newHeading) = good
-							
-							GP_helicopter.gyros.yaw = 500 + GP_helicopter.attitude.yaw + GP_helicopter.newHeading;
-							
-							// pitch_angle_mf->sensor = GP_helicopter.gyros.yaw;= good
-							
-							pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-						}
-					}
-					else if((GP_helicopter.newHeading >= 315) && (GP_helicopter.newHeading < 359))
-					{
-						if(GP_helicopter.attitude.yaw < 45)
-						{
-							GP_helicopter.gyros.yaw = 500 + (359 - GP_helicopter.newHeading) + GP_helicopter.attitude.yaw + GP_helicopter.newHeading;
-							pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-						}
-						else if(GP_helicopter.newHeading > GP_helicopter.attitude.yaw)
-						{
-							GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading - GP_helicopter.attitude.yaw;
-							pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-						}
-						else if(GP_helicopter.newHeading <= GP_helicopter.attitude.yaw)
-						{
-							GP_helicopter.gyros.yaw = 500 + GP_helicopter.attitude.yaw - GP_helicopter.newHeading;
-							pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-						}
-					}
-					else
-					{
-						if(GP_helicopter.newHeading >= GP_helicopter.attitude.yaw)
-						{
-							GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading - GP_helicopter.attitude.yaw;
-							pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-						}
-						else
-						{
-							GP_helicopter.gyros.yaw = 500 + GP_helicopter.attitude.yaw - GP_helicopter.newHeading;
-							pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-						}
-					}
-					pitch_rate_mf->sensor = GP_helicopter.gyros.yaw - YAW_GYRO_OFFSET;
-					
-					Fuzzification( pitch_param, pitch_angle_mf);
-					Fuzzification( tilt_rate_param, pitch_rate_mf);
-					
-				    GP_helicopter.pwm.yaw = (short)doRules(pitch_mf, Rule);
-				 }
-   				
-   				
-   				fillpwmCommand();
-				SPI_tx_command(pwmCommand, 5);			
-//********************** END OF FUZZY CODE ***************************//
-			}
-			
+		
+			SPI_tx_req(	GSPI_AccReq, GSPI_AccData );
+			SPI_tx_req( GSPI_CompReq, GSPI_CompData );
 			set_PRY
 			(
 				(short)GSPI_AccData[0] * 256 + GSPI_AccData[1],
 				(short)GSPI_AccData[2] * 256 + GSPI_AccData[3],
 				(short)GSPI_CompData[0] * 256 + GSPI_CompData[1]
 			);
+			
+			//GP_helicopter.attitude.pitch = (short)GSPI_AccData[0] * 256 + GSPI_AccData[1];
+		//	GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
+			
+			if (modeFuzzy)
+			{
+//**************** PITCH CONTROL *************//
+				pitch_angle_mf->sensor = GP_helicopter.attitude.pitch + PITCH_TILT_OFFSET;
+		    	pitch_rate_mf->sensor = GP_helicopter.gyros.pitch + PITCH_GYRO_OFFSET;
+			     
+		 		Fuzzification( pitch_param, pitch_angle_mf);
+				Fuzzification( tilt_rate_param, pitch_rate_mf);
+	
+		        GP_helicopter.pwm.pitch = (short)doRules(pitch_mf, Rule);
+			        	
+//**************** ROLL CONTROL **************//
+				pitch_angle_mf->sensor = GP_helicopter.attitude.roll + ROLL_TILT_OFFSET;
+				pitch_rate_mf->sensor = GP_helicopter.gyros.pitch + ROLL_GYRO_OFFSET;
+	
+		 		Fuzzification( pitch_param, pitch_angle_mf);
+				Fuzzification( tilt_rate_param, pitch_rate_mf);
+	
+			    GP_helicopter.pwm.roll = (short)doRules(pitch_mf, Rule);
+				    	
+////**************** ALTITUDE CONTROL **********//			
+// - - - - - - - - - - - APPEARS TO CAUSE RESETTING OF DSP - - - - - - - - - - - - - - - - - - 	    
+			    if(GP_helicopter.hsa.altitude > 100)
+			    {
+					pitch_angle_mf->sensor = 500;
+				}
+				else
+				{
+					
+					pitch_angle_mf->sensor = 500 - (short)(GP_helicopter.hsa.altitude + hover_alt); // credit SCOTT
+					pitch_angle_mf->sensor *= 0.1960;
+	
+				}
+				pitch_rate_mf->sensor = 500.0;
+				
+				Fuzzification( pitch_param, pitch_angle_mf);
+				Fuzzification( tilt_rate_param, pitch_rate_mf);
+				
+			    GP_helicopter.pwm.coll = (short)doRules(pitch_mf, Rule);
+			    fillpwmCommand();
+				SPI_tx_command(pwmCommand, 5);
+
+
+			}
+			
+			
+//**************** COMPASS SECTION *************//
+			
+				//GP_helicopter.attitude.yaw = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
+			
+//***************** KYLE'S FUZZY CODE *********************************//
+// Counterclockwise = negative value
+// Clockwise = postive value
+//**************** YAW CONTROL *************//
+			if(modeFuzzy)
+			{
+				GP_helicopter.newHeading = 0;
+				if((GP_helicopter.newHeading >= 0) && (GP_helicopter.newHeading < 45))
+				{
+					if(GP_helicopter.attitude.yaw > 315)
+					{
+						GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading + (359-GP_helicopter.attitude.yaw);
+						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
+					}
+					else if(GP_helicopter.newHeading >= GP_helicopter.attitude.yaw)
+					{
+						GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading - GP_helicopter.attitude.yaw;
+						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
+					}
+					else
+					{	
+						// GP_helicopter.newHeading * 0.1394 = good
+						//(GP_helicopter.attitude.yaw - GP_helicopter.newHeading )* 0.1394; = bad
+						//(GP_helicopter.attitude.yaw )* 0.1394 = good
+						//(GP_helicopter.newHeading - GP_helicopter.attitude.yaw) = bad
+						// GP_helicopter.newHeading - 7 = bad
+						//(float)(GP_helicopter.newHeading + 7) = bad
+						//(GP_helicopter.attitude.yaw * 0.1394) + (GP_helicopter.newHeading * 0.1394) = bad
+						//pitch_angle_mf->sensor = (GP_helicopter.attitude.yaw * 0.1394);
+						// GP_helicopter.gyros.yaw = (GP_helicopter.attitude.yaw * 0.1394); = good
+						// (GP_helicopter.attitude.yaw * 0.1394) +(GP_helicopter.newHeading * 0.1394) = bad
+						// GP_helicopter.attitude.yaw + GP_helicopter.newHeading = good
+						// 500 + (GP_helicopter.attitude.yaw + GP_helicopter.newHeading) = good
+						
+						GP_helicopter.gyros.yaw = 500 + GP_helicopter.attitude.yaw + GP_helicopter.newHeading;
+						
+						// pitch_angle_mf->sensor = GP_helicopter.gyros.yaw;= good
+						
+						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
+					}
+				}
+				else if((GP_helicopter.newHeading >= 315) && (GP_helicopter.newHeading < 359))
+				{
+					if(GP_helicopter.attitude.yaw < 45)
+					{
+						GP_helicopter.gyros.yaw = 500 + (359 - GP_helicopter.newHeading) + GP_helicopter.attitude.yaw + GP_helicopter.newHeading;
+						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
+					}
+					else if(GP_helicopter.newHeading > GP_helicopter.attitude.yaw)
+					{
+						GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading - GP_helicopter.attitude.yaw;
+						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
+					}
+					else if(GP_helicopter.newHeading <= GP_helicopter.attitude.yaw)
+					{
+						GP_helicopter.gyros.yaw = 500 + GP_helicopter.attitude.yaw - GP_helicopter.newHeading;
+						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
+					}
+				}
+				else
+				{
+					if(GP_helicopter.newHeading >= GP_helicopter.attitude.yaw)
+					{
+						GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading - GP_helicopter.attitude.yaw;
+						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
+					}
+					else
+					{
+						GP_helicopter.gyros.yaw = 500 + GP_helicopter.attitude.yaw - GP_helicopter.newHeading;
+						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
+					}
+				}
+				pitch_rate_mf->sensor = GP_helicopter.gyros.yaw - YAW_GYRO_OFFSET;
+				
+				Fuzzification( pitch_param, pitch_angle_mf);
+				Fuzzification( tilt_rate_param, pitch_rate_mf);
+				
+			    GP_helicopter.pwm.yaw = (short)doRules(pitch_mf, Rule);
+			 }
+   				
+   		if (modeFuzzy)
+   		{	
+	 		fillpwmCommand();
+			SPI_tx_command(pwmCommand, 5);	
+		}		
+//********************** END OF FUZZY CODE ***************************//
+			
+			
+			
 //
 //			
 			if (SPI_tx_req( GSPI_LatReq, GSPI_LatData ))
