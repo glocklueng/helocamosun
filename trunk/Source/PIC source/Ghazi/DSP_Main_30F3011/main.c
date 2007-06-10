@@ -486,13 +486,13 @@ void __attribute__(( interrupt, no_auto_psv )) _T2Interrupt(void)
 
 void Init_PWM( void )
 {
-	PDC1 = 234;				// 50% DC = 1.5ms
+	PDC1 = 156;					// 50% DC = 1.5ms
 	//PTPERbits.PTPER = 2344;	// Timebase period (30ms)
 	PTPERbits.PTPER = 1406;
 	PTCONbits.PTSIDL = 0;
-	PTCONbits.PTOPS = 0;	// Postscale = 1:1
+	PTCONbits.PTOPS = 0;		// Postscale = 1:1
 	PTCONbits.PTCKPS = 0b11;	// Prescale = 1:64
-	PTCONbits.PTMOD = 0;	// Free-running mode
+	PTCONbits.PTMOD = 0;		// Free-running mode
 	
 	PTMRbits.PTMR = 0;		// Timebase register
 	
