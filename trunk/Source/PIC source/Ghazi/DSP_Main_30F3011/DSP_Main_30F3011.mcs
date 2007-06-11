@@ -2,7 +2,7 @@
 MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
 Version=1.0
 [File000]
-Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
 Folder=Intermediary
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -14,7 +14,7 @@ SuiteArgsString=
 ToolArgsString=
 TraceCmdString=
 [File001]
-Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
 Folder=Intermediary
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -26,7 +26,7 @@ SuiteArgsString=
 ToolArgsString=
 TraceCmdString=
 [File002]
-Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
 Folder=Intermediary
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -38,7 +38,7 @@ SuiteArgsString=
 ToolArgsString=
 TraceCmdString=
 [File003]
-Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
 Folder=Intermediary
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -50,7 +50,7 @@ SuiteArgsString=
 ToolArgsString=
 TraceCmdString=
 [File004]
-Location=DSP_Main_30F3011.cof
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\DSP_Main_30F3011.cof
 Folder=Output
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -62,7 +62,7 @@ SuiteArgsString=
 ToolArgsString=--stack=30 --no-check-sections -Map="$(TARGETBASE).map" -o"$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
 [File005]
-Location=DSP_Main_30F3011.hex
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\DSP_Main_30F3011.hex
 Folder=Output
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}

@@ -15,9 +15,9 @@
 
 #define pi			3.14159
 
-#define TAA			LATBbits.LATB5
+#define TAA			LATDbits.LATD6		// LATBbit.LATB5
 #define COMPASS		LATBbits.LATB2	
-#define TAA_DIR		TRISBbits.TRISB5	// Tri-Axis Accellerometer
+#define TAA_DIR		TRISDbits.TRISD6	// Tri-Axis Accellerometer
 #define COMPASS_DIR	TRISBbits.TRISB2	// Compass module
 
 extern	WORD X_axis,

@@ -3,7 +3,12 @@
 #ifndef __FUZZ_H
 #define __FUZZ_H
 
-#define NUM_RULES 23
+#define PITCH_TILT_OFFSET 0
+#define PITCH_GYRO_OFFSET 0
+#define ROLL_TILT_OFFSET 0
+#define ROLL_GYRO_OFFSET 20
+
+#define NUM_RULES 25
 #define NUM_RANGE 5
 
 #define NL Z-2
@@ -30,15 +35,15 @@
 //Struct to store weighted strengths of each i/o member function
 typedef struct
 {
-		float nl;                     // Accel backward
-		float n;                      // Balance backward
-		float z;                      // Zero
-		float p;                      // Balance forward
-		float pl;                     // Accel forward
-		float sensor;
+		double nl;                     // Accel backward
+		double n;                      // Balance backward
+		double z;                      // Zero
+		double p;                      // Balance forward
+		double pl;                     // Accel forward
+		double sensor;
 } fMember;
 
-extern char PitchRule[];
+extern char Rule[];
 extern char RollRule[];
 extern char YawRule[];
 extern char CollectiveRule[];
