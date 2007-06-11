@@ -6,6 +6,13 @@ timers.h
 #define TIMER1FLAG PIR1bits.C
 #define TIMER0FLAG INTCONbits.T0IF
 
+#define STATUS_LED1		LATDbits.LATD4
+#define SET_STATUS_LED1 TRISDbits.TRISD4
+#define STATUS_LED2 	LATBbits.LATB0
+#define SET_STATUS_LED2 TRISBbits.TRISB0
+#define ANTI_COLL_LED 	LATDbits.LATD5
+#define SET_ANTI_COLL_LED 	TRISDbits.TRISD5
+
 typedef struct 
 {
 	unsigned char newTickFlag:1;

@@ -299,6 +299,7 @@ unsigned char SPI_State_Machine(unsigned char Input)
 				if(ByteNum > 4)//4 bytes in a status packet
 				{
 					UpdatePWM();
+					ANTI_COLL_LED ^= 1;
 					state = WAITING_FOR_COMMAND_STATE;
 					return 0xFF;
 				}

@@ -1,73 +1,32 @@
 //Fuzz.c
 
-#include <string.h>
 #include <iostream>
 #include <math.h>
 #include "fuzz.h"
 
 using namespace std;
 
-float roll_param[NUM_RANGE][3]={	//degrees member function parameters
-      {41, 41, 44},
-      {42, 45, 48},
-      {46, 50, 54},
-      {52, 55, 58},
-      {56, 59, 59}
-};
-
 float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
-      {1.0,  41.0, 45.0},
-      {42.0, 45.0, 49.5},
-      {46.0, 50.0, 54.0},
-      {50.5, 55.0, 58.0},
-      {56.0, 59.0, 99.0}
+      {10.0,  445.0, 471.0},
+      {452.0, 472.0, 499.5},
+      {473.0, 500.0, 526.0},
+      {500.5, 527.0, 547.0},
+      {528.0, 550.0, 990.0}
 };
 
 float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
-      {1.0,  41.0, 45.0},
-      {42.0, 45.0, 49.9},
-      {46.0, 50.0, 54.0},
-      {50.1, 55.0, 58.0},
-      {56.0, 59.0, 99.0}
+      {1.0,  461.0, 478.0},
+      {464.0, 480.0, 498.0},
+      {483.0, 500.0, 516.0},
+      {502.0, 518.0, 535.0},
+      {522.0, 540.0, 999.0}
 };
 
-float yaw_param[NUM_RANGE][3]={	//degrees member function parameters
-      {-3, -3, -2},
-      {-2.6f, -1.6f, -0.66f},
-      {-1.33f, 0, 1.33f},
-      {0.66f, 1.6f, 2.6f},
-      {2, 3, 3}
-};
-
-float yaw_rate_param[NUM_RANGE][3]={	//degrees member function parameters
-      {-6, -6, -4},
-      {-5, -3, -1},
-      {-2, 0, 2},
-      {1, 3, 5},
-      {4, 6, 6}
-};
-
-float collective_param[NUM_RANGE][3]={	//degrees member function parameters
-      {41, 41, 44},
-      {42, 45, 48},
-      {46, 50, 54},
-      {52, 55, 58},
-      {56, 59, 59}
-};
-
-float collective_rate_param[NUM_RANGE][3]={	//degrees member function parameters
-      {41, 41, 44},
-      {42, 45, 48},
-      {46, 50, 54},
-      {52, 55, 58},
-      {56, 59, 59}
-};
-
-#define NL_WEIGHT (-35)         // output weightings -200
-#define N_WEIGHT (-14)           // -60
-#define Z_WEIGHT (0)             // 0
-#define P_WEIGHT (14)            // 60
-#define PL_WEIGHT (35)          // 200
+#define NL_WEIGHT (0)         // output weightings -200
+#define N_WEIGHT (25)           // -60
+#define Z_WEIGHT (50)             // 0
+#define P_WEIGHT (75)            // 60
+#define PL_WEIGHT (100)          // 200
 
 /************************************************************************
  *                                                                      *
@@ -185,112 +144,7 @@ void Fuzzification( float input_param[][3], fMember *input_mf)
 //
 // The rule set for the fuzzy logic unit
 //
-char RollRule[] =                          // SAMPLE RULE SET
-{ 
-   ANGLE, _NL, RATE, _NL, _THEN, _NL,
-   ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
-   ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
-   ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
-   
-   ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
-   ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
-   ANGLE, _ZERO,  RATE, _NEG,  _THEN, _NEG,
-   ANGLE, _POS,  RATE, _NEG,  _THEN, _POS,
-   ANGLE, _PL, RATE, _NEG,  _THEN, _POS,
-  
-   ANGLE, _NL, RATE, _ZERO,  _THEN, _NL,
-   ANGLE, _NEG,  RATE, _ZERO,  _THEN, _NEG, 
-   ANGLE, _ZERO,  RATE, _ZERO,  _THEN, _ZERO,
-   ANGLE, _POS,  RATE, _ZERO,  _THEN, _POS,
-   ANGLE, _PL, RATE, _ZERO,  _THEN, _PL,
-  
-   ANGLE, _NL, RATE, _POS,  _THEN, _NEG,
-   ANGLE, _NEG,  RATE, _POS,  _THEN, _NEG,
-   ANGLE, _ZERO,  RATE, _POS,  _THEN, _POS,
-   ANGLE, _POS,  RATE, _POS,  _THEN, _POS,
-   ANGLE, _PL, RATE, _POS,  _THEN, _PL,
-   
-   ANGLE, _NL, RATE, _PL, _THEN, _POS,
-   ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
-   ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
-   ANGLE, _POS,  RATE, _PL, _THEN, _PL,
-   ANGLE, _PL, RATE, _PL, _THEN, _PL
-};
-
-//
-// The rule set for the fuzzy logic unit
-//
-char PitchRule[] =                          // SAMPLE RULE SET
-{ 
-   ANGLE, _NL, RATE, _NL, _THEN, _NL,
-   ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
-   ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
-   ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-//   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
-   
-   ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
-   ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
-   ANGLE, _ZERO,  RATE, _NEG,  _THEN, _NEG,
-   ANGLE, _POS,  RATE, _NEG,  _THEN, _POS,
-   ANGLE, _PL, RATE, _NEG,  _THEN, _POS,
-  
-   ANGLE, _NL, RATE, _ZERO,  _THEN, _NL,
-   ANGLE, _NEG,  RATE, _ZERO,  _THEN, _NEG, 
-   ANGLE, _ZERO,  RATE, _ZERO,  _THEN, _ZERO,
-   ANGLE, _POS,  RATE, _ZERO,  _THEN, _POS,
-   ANGLE, _PL, RATE, _ZERO,  _THEN, _PL,
-  
-   ANGLE, _NL, RATE, _POS,  _THEN, _NEG,
-   ANGLE, _NEG,  RATE, _POS,  _THEN, _NEG,
-   ANGLE, _ZERO,  RATE, _POS,  _THEN, _POS,
-   ANGLE, _POS,  RATE, _POS,  _THEN, _POS,
-   ANGLE, _PL, RATE, _POS,  _THEN, _PL,
-   
-//   ANGLE, _NL, RATE, _PL, _THEN, _POS,
-   ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
-   ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
-   ANGLE, _POS,  RATE, _PL, _THEN, _PL,
-   ANGLE, _PL, RATE, _PL, _THEN, _PL
-};
-
-//
-// The rule set for the fuzzy logic unit
-//
-char YawRule[] =                          // SAMPLE RULE SET
-{ 
-   ANGLE, _NL, RATE, _NL, _THEN, _NL,
-   ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
-   ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
-   ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
-   
-   ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
-   ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
-   ANGLE, _ZERO,  RATE, _NEG,  _THEN, _NEG,
-   ANGLE, _POS,  RATE, _NEG,  _THEN, _POS,
-   ANGLE, _PL, RATE, _NEG,  _THEN, _POS,
-  
-   ANGLE, _NL, RATE, _ZERO,  _THEN, _NL,
-   ANGLE, _NEG,  RATE, _ZERO,  _THEN, _NEG, 
-   ANGLE, _ZERO,  RATE, _ZERO,  _THEN, _ZERO,
-   ANGLE, _POS,  RATE, _ZERO,  _THEN, _POS,
-   ANGLE, _PL, RATE, _ZERO,  _THEN, _PL,
-  
-   ANGLE, _NL, RATE, _POS,  _THEN, _NEG,
-   ANGLE, _NEG,  RATE, _POS,  _THEN, _NEG,
-   ANGLE, _ZERO,  RATE, _POS,  _THEN, _POS,
-   ANGLE, _POS,  RATE, _POS,  _THEN, _POS,
-   ANGLE, _PL, RATE, _POS,  _THEN, _PL,
-   
-   ANGLE, _NL, RATE, _PL, _THEN, _POS,
-   ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
-   ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
-   ANGLE, _POS,  RATE, _PL, _THEN, _PL,
-   ANGLE, _PL, RATE, _PL, _THEN, _PL
-};
-
-char CollectiveRule[] =                          // SAMPLE RULE SET
+char Rule[] =                          // SAMPLE RULE SET
 { 
    ANGLE, _NL, RATE, _NL, _THEN, _NL,
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
@@ -330,24 +184,19 @@ char CollectiveRule[] =                          // SAMPLE RULE SET
  * Returns - the necessary output (-100%~100%) to keep the unit balance *
  *                                                                      *
  ************************************************************************/
-float doRules( fMember *all_mf, char *Rules )
+float doRules( fMember * all_mf, char * Rules )
 {
-   float RSS[NUM_RANGE];
+   double RSS[NUM_RANGE] = {0};
    char rIndex = 0, rNum = 0;
-   float *curInput;
-   float ruleVal, wSum;
+   double * curInput;
+   double ruleVal;
+   double wSum;
    int inum = 0;  // Kyle
    fMember vout_mf;	// Kyle
 	 //
 	 // Make sure that the RSS array starts at zero
 	 //   
    memset( RSS, 0, sizeof(float)*NUM_RANGE );
-
-   //
-   // Doing testing - Display the fuzzy numbers
-   //
-   //displayVals( angle_mf, 0 );
-   //displayVals( rate_mf, 1 );
 
    //
    // Process the ruleset like it was processor machine code
@@ -368,23 +217,14 @@ float doRules( fMember *all_mf, char *Rules )
          
          //
          // Determine if the condition contains the lowest value for the 
-         //    statement
-         //
-         wSum = *(curInput + Rules[rIndex]);
+         // statement
+
          if( *(curInput + Rules[rIndex]) < ruleVal )
          {
-            ruleVal = *(curInput + Rules[rIndex]);
+            ruleVal = *(curInput+Rules[rIndex]);
          }
-         
          rIndex++;
-         
       }
-
-      //
-      // Doing testing - display the rule results
-      //
-      //dispRule( ruleVal, rNum );
-
       //
       // Add the value to the running RSS
       //
@@ -393,7 +233,6 @@ float doRules( fMember *all_mf, char *Rules )
       inum = Rules[rIndex++];
       RSS[ inum ] = RSS[ inum ] + ( ruleVal * ruleVal );
    }
-   
    //
    // Done processing the rules, complete the RSS equation to get the 
    //    output linguistics
@@ -402,7 +241,6 @@ float doRules( fMember *all_mf, char *Rules )
    for( rIndex = 0; rIndex < NUM_RANGE; rIndex++ )
    {
       //*curInput = doSqrt( RSS[rIndex] );
-      wSum = sqrtf( RSS[rIndex] );
       *curInput = sqrtf( RSS[rIndex] );
       curInput++;
    }
@@ -413,7 +251,7 @@ float doRules( fMember *all_mf, char *Rules )
    // Out = ( out.n*(-100) + out.z*(0) + out.p*(100) ) /
    // 			         ( out.n + out.z + out.p )
    //
-   wSum = 0;
+   wSum = 0.0;
 
    wSum =  vout_mf.nl * NL_WEIGHT;
    wSum += vout_mf.n  * N_WEIGHT;
@@ -422,7 +260,7 @@ float doRules( fMember *all_mf, char *Rules )
    wSum += vout_mf.pl * PL_WEIGHT;
    wSum /= ( vout_mf.nl + vout_mf.n + vout_mf.z + vout_mf.p + vout_mf.pl );
 
-   inum = (int)wSum;
+//   inum = (int)wSum;
    return wSum;     // inum
 }
 

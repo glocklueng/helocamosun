@@ -115,11 +115,6 @@ void main(void)
 {
 /*********** Varible declaration *************/
 	char TickCounter = 0;
-
-//	TRISDbits.TRISD4 = 0;	// for debugging purposes
-//	LATDbits.LATD4 = 1;		// for debugging purposes
-//	LATDbits.LATD4 ^= 1;		// for debugging purposes
-//	LATBbits.LATB0 ^= 1;
 	
 /********** Beginning of main code ***********/
 	SerialInit();
@@ -128,7 +123,7 @@ void main(void)
 	SPI_Init();
 	TimerInit();
 	InitCCP();
-	
+	ANTI_COLL_LED = 0;
 #ifdef USART_DEBUG
 	ClearScreen();
 	prepscreen();		// for debugging
@@ -138,10 +133,9 @@ void main(void)
 	INTCONbits.PEIE = 1;	// enable peripheral interrupt
 	INTCONbits.GIE = 1;		// enable global interrupt
 	
-
-	
-	TRISDbits.TRISD4 = 0;	// for debugging purposes
-	TRISBbits.TRISB0 = 0;
+	SET_STATUS_LED1 = 0;	// for debugging purposes
+	SET_STATUS_LED2 = 0;
+	SET_ANTI_COLL_LED = 0;
 	
 	LedStates();
 
@@ -154,7 +148,6 @@ void main(void)
 			tFlag.newTickFlag=0;		// Set all flags to zero
 			TickCounter++;				// cycles 50ms period
 			TimeKeeping();
-			LATDbits.LATD4 ^= 1;
 			switch(TickCounter)
 			{
 				case 1:
@@ -165,36 +158,13 @@ void main(void)
 				case 2:		// 10ms
 					ScanADC();
 					GetADCAverage();
-//					TXREG = 'C';	
-//					while(BusyUSART());
-//					TXREG = Gyro[4];	// Pitch
-//					while(BusyUSART());
-//					TXREG = Gyro[5];	
-//					while(BusyUSART());
-//					
-//					TXREG = Compass[0];	// Pitch Tilt
-//					while(BusyUSART());	
-//					TXREG = Compass[1];	
-//					while(BusyUSART());
-//					TXREG = 'X';	
-//					while(BusyUSART());					
-//					TXREG = Accelerator[2];	// Pitch Tilt
-//					while(BusyUSART());	
-//					TXREG = Accelerator[3];	
-//					while(BusyUSART());
-//					TXREG = Gyro[4];	
-//					while(BusyUSART());	// Yaw
-//					TXREG = Gyro[5];	
-//					while(BusyUSART());
 					break;
 				case 3:
 					RPM_Ready = 0;		// check the motor RPM
-
 					break;
 				case 4:		// 30ms
 					GetCompassValues();	// Get the compass values
 					GetCompassAverage();// Find the average x-y values
-
 					break;
 				case 5:
 					GetAxisValues();	// Get Tri-axis values
@@ -207,11 +177,12 @@ void main(void)
 			// Provisions for if we need 100ms timers
 			if(tFlag.new100msTickFlag)
 			{
+
 			}
 			// Provisions for if we need 1 second timers
 			if(tFlag.new1sTickFlag)
 			{
-				LedStates();
+//				LedStates();
 			}
 		}
 	}

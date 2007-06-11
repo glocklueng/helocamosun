@@ -5,12 +5,6 @@ timers.c
 #include "timers.h"
 #include "variables.h"
 
-#define STATUS_LED1	LATDbits.LATD4
-#define SET_STATUS_LED1 TRISDbits.TRISD4
-#define STATUS_LED2 LATBbits.LATB0
-#define SET_STATUS_LED2 TRISBbits.TRISB0
-
-
 TIMEFLAGS tFlag;
 CONTROL cFlag;
 TIMERS tDelay;
@@ -77,8 +71,9 @@ void LedStates(void)
 			STATUS_LED2 = 1;			// on		
 			break;
 		default:
-			STATUS_LED1 = 1; 			// on
-			STATUS_LED2 = 0;			// off
+			STATUS_LED1 ^= 1; 			// TOGGLE
+			STATUS_LED2 != STATUS_LED1;			// TOGGLE
+//			ANTI_COLL_LED = STATUS_LED2;
 			break;
 	}
 }
