@@ -1,57 +1,57 @@
 Archive member included because of file (symbol)
 
-c:/program files/microchip/mplab c30/bin/../lib\libpic30-coff.a(crt1.o)
+c:/program files/microchip/mplab c30/lib\libpic30-coff.a(crt1.o)
                               (_resetALT)
-c:/program files/microchip/mplab c30/bin/../lib\libpic30-coff.a(crt0.o)
+c:/program files/microchip/mplab c30/lib\libpic30-coff.a(crt0.o)
                               (_resetPRI)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(divsi3.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o (__divsi3)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(floatsisf.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o (__floatsisf)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(fixsfsi.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o (__fixsfsi)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(mulsf3.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o (__mulsf3)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(addsf3.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o (__subsf3)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(divsf3.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o (__divsf3)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(feqltle.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o (__ltsf2)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(fgtge.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o (__gesf2)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(sqrtf.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o (sqrtf)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(udivsi3.o)
-                              c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(divsi3.o) (__udivsi3)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(fpack.o)
-                              c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(floatsisf.o) (_fpack)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(funpack.o)
-                              c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(fixsfsi.o) (_funpack)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(funpack2.o)
-                              c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(mulsf3.o) (_funpack2)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(futil.o)
-                              c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(mulsf3.o) (_fPropagateNaN)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(fcompare.o)
-                              c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(feqltle.o) (_fcompare)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(errno.o)
-                              c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(sqrtf.o) (errno)
-c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(atoi.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o (atoi)
-c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(memset.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o (memset)
-c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(strlen.o)
-                              D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o (strlen)
-c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(xstoul.o)
-                              c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(atoi.o) (_Stoul)
-c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(isspace.os)
-                              c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(xstoul.o) (isspace)
-c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(tolower.os)
-                              c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(xstoul.o) (tolower)
-c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(memchr.o)
-                              c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(xstoul.o) (memchr)
-c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(mulsi3.o)
-                              c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(xstoul.o) (__mulsi3)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(divsi3.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o (__divsi3)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(floatsisf.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o (__floatsisf)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(fixsfsi.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o (__fixsfsi)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(mulsf3.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o (__mulsf3)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(addsf3.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o (__subsf3)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(divsf3.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o (__divsf3)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(feqltle.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o (__ltsf2)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(fgtge.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o (__gesf2)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(sqrtf.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o (sqrtf)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(udivsi3.o)
+                              c:/program files/microchip/mplab c30/lib\libm-coff.a(divsi3.o) (__udivsi3)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(fpack.o)
+                              c:/program files/microchip/mplab c30/lib\libm-coff.a(floatsisf.o) (_fpack)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(funpack.o)
+                              c:/program files/microchip/mplab c30/lib\libm-coff.a(fixsfsi.o) (_funpack)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(funpack2.o)
+                              c:/program files/microchip/mplab c30/lib\libm-coff.a(mulsf3.o) (_funpack2)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(futil.o)
+                              c:/program files/microchip/mplab c30/lib\libm-coff.a(mulsf3.o) (_fPropagateNaN)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(fcompare.o)
+                              c:/program files/microchip/mplab c30/lib\libm-coff.a(feqltle.o) (_fcompare)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(errno.o)
+                              c:/program files/microchip/mplab c30/lib\libm-coff.a(sqrtf.o) (errno)
+c:/program files/microchip/mplab c30/lib\libc-coff.a(atoi.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o (atoi)
+c:/program files/microchip/mplab c30/lib\libc-coff.a(memset.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o (memset)
+c:/program files/microchip/mplab c30/lib\libc-coff.a(strlen.o)
+                              D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o (strlen)
+c:/program files/microchip/mplab c30/lib\libc-coff.a(xstoul.o)
+                              c:/program files/microchip/mplab c30/lib\libc-coff.a(atoi.o) (_Stoul)
+c:/program files/microchip/mplab c30/lib\libc-coff.a(isspace.os)
+                              c:/program files/microchip/mplab c30/lib\libc-coff.a(xstoul.o) (isspace)
+c:/program files/microchip/mplab c30/lib\libc-coff.a(tolower.os)
+                              c:/program files/microchip/mplab c30/lib\libc-coff.a(xstoul.o) (tolower)
+c:/program files/microchip/mplab c30/lib\libc-coff.a(memchr.o)
+                              c:/program files/microchip/mplab c30/lib\libc-coff.a(xstoul.o) (memchr)
+c:/program files/microchip/mplab c30/lib\libm-coff.a(mulsi3.o)
+                              c:/program files/microchip/mplab c30/lib\libc-coff.a(xstoul.o) (__mulsi3)
 
 
 Program Memory Usage
@@ -382,10 +382,10 @@ eedata           0x7ffc00           0x000400
 
 Linker script and memory map
 
-LOAD D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
-LOAD D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
-LOAD D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
-LOAD D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
+LOAD D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
+LOAD D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
+LOAD D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
+LOAD D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
                     0x0001                  __NO_HANDLES = 0x1
                     0xf80000                  __FOSC = 0xf80000
                     0xf80002                  __FWDT = 0xf80002
@@ -414,68 +414,68 @@ LOAD D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
 .text             0x000100       0x251e
  *(.handle)
  *(.libc)
- .libc            0x000100         0x80 c:/program files/microchip/mplab c30/bin/../lib\libpic30-coff.a(crt0.o)
+ .libc            0x000100         0x80 c:/program files/microchip/mplab c30/lib\libpic30-coff.a(crt0.o)
                   0x000100                  _resetPRI
                   0x000100                  _reset
                   0x000114                  _psv_init
                   0x000124                  _data_init
- .libc            0x000180          0x6 c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(atoi.o)
+ .libc            0x000180          0x6 c:/program files/microchip/mplab c30/lib\libc-coff.a(atoi.o)
                   0x000180                  atoi
- .libc            0x000186         0x12 c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(memset.o)
+ .libc            0x000186         0x12 c:/program files/microchip/mplab c30/lib\libc-coff.a(memset.o)
                   0x000186                  memset
- .libc            0x000198          0xe c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(strlen.o)
+ .libc            0x000198          0xe c:/program files/microchip/mplab c30/lib\libc-coff.a(strlen.o)
                   0x000198                  strlen
- .libc            0x0001a6        0x128 c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(xstoul.o)
+ .libc            0x0001a6        0x128 c:/program files/microchip/mplab c30/lib\libc-coff.a(xstoul.o)
                   0x0001a6                  _Stoul
- .libc            0x0002ce         0x10 c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(isspace.os)
+ .libc            0x0002ce         0x10 c:/program files/microchip/mplab c30/lib\libc-coff.a(isspace.os)
                   0x0002ce                  isspace
- .libc            0x0002de          0xe c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(tolower.os)
+ .libc            0x0002de          0xe c:/program files/microchip/mplab c30/lib\libc-coff.a(tolower.os)
                   0x0002de                  tolower
- .libc            0x0002ec         0x14 c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(memchr.o)
+ .libc            0x0002ec         0x14 c:/program files/microchip/mplab c30/lib\libc-coff.a(memchr.o)
                   0x0002ec                  memchr
  *(.libm)
- .libm            0x000300         0x1e c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(divsi3.o)
+ .libm            0x000300         0x1e c:/program files/microchip/mplab c30/lib\libm-coff.a(divsi3.o)
                   0x000300                  __divsi3
- .libm            0x00031e         0x56 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(floatsisf.o)
+ .libm            0x00031e         0x56 c:/program files/microchip/mplab c30/lib\libm-coff.a(floatsisf.o)
                   0x00031e                  __floatsisf
- .libm            0x000374         0x42 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(fixsfsi.o)
+ .libm            0x000374         0x42 c:/program files/microchip/mplab c30/lib\libm-coff.a(fixsfsi.o)
                   0x000374                  __fixsfsi
- .libm            0x0003b6         0x68 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(mulsf3.o)
+ .libm            0x0003b6         0x68 c:/program files/microchip/mplab c30/lib\libm-coff.a(mulsf3.o)
                   0x0003b6                  __mulsf3
- .libm            0x00041e         0xbc c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(addsf3.o)
+ .libm            0x00041e         0xbc c:/program files/microchip/mplab c30/lib\libm-coff.a(addsf3.o)
                   0x00041e                  __subsf3
                   0x000420                  __addsf3
- .libm            0x0004da         0x84 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(divsf3.o)
+ .libm            0x0004da         0x84 c:/program files/microchip/mplab c30/lib\libm-coff.a(divsf3.o)
                   0x0004da                  __divsf3
- .libm            0x00055e          0x4 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(feqltle.o)
+ .libm            0x00055e          0x4 c:/program files/microchip/mplab c30/lib\libm-coff.a(feqltle.o)
                   0x00055e                  __eqsf2
                   0x00055e                  __ltsf2
                   0x00055e                  __lesf2
- .libm            0x000562          0x4 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(fgtge.o)
+ .libm            0x000562          0x4 c:/program files/microchip/mplab c30/lib\libm-coff.a(fgtge.o)
                   0x000562                  __gesf2
                   0x000562                  __gtsf2
- .libm            0x000566         0x6a c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(sqrtf.o)
+ .libm            0x000566         0x6a c:/program files/microchip/mplab c30/lib\libm-coff.a(sqrtf.o)
                   0x000566                  sqrtf
- .libm            0x0005d0         0x20 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(udivsi3.o)
+ .libm            0x0005d0         0x20 c:/program files/microchip/mplab c30/lib\libm-coff.a(udivsi3.o)
                   0x0005d0                  __udivsi3
- .libm            0x0005f0         0x4c c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(fpack.o)
+ .libm            0x0005f0         0x4c c:/program files/microchip/mplab c30/lib\libm-coff.a(fpack.o)
                   0x0005f0                  _fpack
- .libm            0x00063c         0x2a c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(funpack.o)
+ .libm            0x00063c         0x2a c:/program files/microchip/mplab c30/lib\libm-coff.a(funpack.o)
                   0x00063c                  _funpack
- .libm            0x000666         0x10 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(funpack2.o)
+ .libm            0x000666         0x10 c:/program files/microchip/mplab c30/lib\libm-coff.a(funpack2.o)
                   0x000666                  _funpack2
- .libm            0x000676         0x20 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(futil.o)
+ .libm            0x000676         0x20 c:/program files/microchip/mplab c30/lib\libm-coff.a(futil.o)
                   0x000676                  _fPropagateNaN
                   0x000688                  _fbopExit
                   0x000690                  _fbopReturnNaN
- .libm            0x000696         0x36 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(fcompare.o)
+ .libm            0x000696         0x36 c:/program files/microchip/mplab c30/lib\libm-coff.a(fcompare.o)
                   0x000696                  _fcompare
- .libm            0x0006cc          0xc c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(mulsi3.o)
+ .libm            0x0006cc          0xc c:/program files/microchip/mplab c30/lib\libm-coff.a(mulsi3.o)
                   0x0006cc                  __mulsi3
  *(.libdsp)
  *(.lib*)
  *(.text)
- .text            0x0006d8        0x800 D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
+ .text            0x0006d8        0x800 D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
                   0x0006d8                  main
                   0x000d70                  fillpwmCommand
                   0x000d86                  setupTRIS
@@ -488,11 +488,11 @@ LOAD D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
                   0x000e5e                  _T2Interrupt
                   0x000e72                  Init_PWM
                   0x000eb8                  GP_init_UART
- .text            0x000ed8        0x5d6 D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
+ .text            0x000ed8        0x5d6 D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
                   0x000ed8                  Equ_line
                   0x000f22                  Fuzzification
                   0x0012b6                  doRules
- .text            0x0014ae        0xfaa D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
+ .text            0x0014ae        0xfaa D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
                   0x0014ae                  GP_TX_char
                   0x0014c4                  GP_TX_error
                   0x00154a                  GP_TX_packet
@@ -508,7 +508,7 @@ LOAD D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
                   0x002394                  set_Gyros
                   0x0023ac                  corr_GPSlatlongalt
                   0x00244c                  set_Altitude
- .text            0x002458        0x1c6 D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
+ .text            0x002458        0x1c6 D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
                   0x002458                  SPI_init
                   0x0024aa                  SPI_tx_byte
                   0x0024be                  SPI_tx_word
@@ -1295,33 +1295,33 @@ userdata
                     0x0220                  SPI1 = 0x220
                     0x0220                  _SPI1 = 0x220
 START GROUP
-LOAD c:/program files/microchip/mplab c30/bin/../lib\libpic30-coff.a
-LOAD c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a
-LOAD c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a
+LOAD c:/program files/microchip/mplab c30/lib\libpic30-coff.a
+LOAD c:/program files/microchip/mplab c30/lib\libm-coff.a
+LOAD c:/program files/microchip/mplab c30/lib\libc-coff.a
 END GROUP
 OUTPUT(DSP_Main_30F3011.cof coff-pic30)
 LOAD data_init
 LOAD default_isr
 
 .const              0xa61e         0x38
- .const             0xa61e         0x12 D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
- .const             0xa630         0x14 D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
- .const             0xa644          0xa D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
- .const             0xa64e          0x8 D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
+ .const             0xa61e         0x12 D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
+ .const             0xa630         0x14 D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
+ .const             0xa644          0xa D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
+ .const             0xa64e          0x8 D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
 
 .ndata              0x0800        0x10e
- .ndata             0x0800        0x10e D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
+ .ndata             0x0800        0x10e D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
                     0x0800                  pitch_param
                     0x083c                  tilt_rate_param
                     0x0878                  Rule
 
 .nbss               0x090e         0x72
- .nbss              0x090e         0x72 D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
+ .nbss              0x090e         0x72 D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
                     0x091c                  GP_dump
                     0x091e                  GP_helicopter
 
 .ndata              0x0980         0x6c
- .ndata             0x0980         0x6c D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
+ .ndata             0x0980         0x6c D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
                     0x0980                  pwmCommand
                     0x0985                  GSPI_AccReq
                     0x098d                  GSPI_3GyroReq
@@ -1342,7 +1342,7 @@ LOAD default_isr
                     0x09ea                  pitch_accel_mf
 
 .ndata              0x09ec         0x60
- .ndata             0x09ec         0x60 D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
+ .ndata             0x09ec         0x60 D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
                     0x09ec                  GP_bytercvd
                     0x09ed                  GP_datavalid
                     0x09ee                  GP_data
@@ -1362,17 +1362,17 @@ LOAD default_isr
                     0x0a2a                  newPWM
 
 .nbss               0x0a4c         0x4c
- .nbss              0x0a4c         0x4c D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
+ .nbss              0x0a4c         0x4c D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
                     0x0a4c                  T2flag
                     0x0a4d                  ERCMDflag
                     0x0a4e                  clock
                     0x0a50                  pitch_mf
 
 .ndata              0x0a98         0x4a
- .ndata             0x0a98         0x4a c:/program files/microchip/mplab c30/bin/../lib\libc-coff.a(xstoul.o)
+ .ndata             0x0a98         0x4a c:/program files/microchip/mplab c30/lib\libc-coff.a(xstoul.o)
 
 .ndata              0x0ae2         0x42
- .ndata             0x0ae2         0x42 D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
+ .ndata             0x0ae2         0x42 D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
                     0x0ae2                  GSPI_AccData
                     0x0ae8                  GSPI_2GyroData
                     0x0aec                  GSPI_YawGyroData
@@ -1390,7 +1390,7 @@ LOAD default_isr
                     0x0b1e                  GSPI_3GyroData
 
 .nbss               0x0b24          0x2
- .nbss              0x0b24          0x2 c:/program files/microchip/mplab c30/bin/../lib\libm-coff.a(errno.o)
+ .nbss              0x0b24          0x2 c:/program files/microchip/mplab c30/lib\libm-coff.a(errno.o)
                     0x0b24                  errno
 
 .dinit            0x002656        0x1cc
