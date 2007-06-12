@@ -39,18 +39,18 @@ HelicopterController::HelicopterController()
 void HelicopterController::UpdateSensorValues(sixdof_fe_state_def  s)
 {
      
-     ForwardBackward_Accelerometer = s.THETA[1];
-     LeftRight_Accelerometer = s.THETA[0];
+     ForwardBackward_Accelerometer = s.THETA[1] * C_RAD2DEG;
+     LeftRight_Accelerometer = s.THETA[0] * C_RAD2DEG;
      UpDown_Accelerometer = s.accel[UPDOWN_ACCELEROMETER];             
     
-     Roll_Gyro = s.rate[ROLLRATE_GYRO];
-     Pitch_Gyro = s.rate[PITCHRATE_GYRO];
-     Yaw_Gyro = s.rate[YAWRATE_GYRO];
+     Roll_Gyro = s.rate[ROLLRATE_GYRO] * C_RAD2DEG;
+     Pitch_Gyro = s.rate[PITCHRATE_GYRO] * C_RAD2DEG;
+     Yaw_Gyro = s.rate[YAWRATE_GYRO] * C_RAD2DEG;
      
-     Compass = s.THETA[COMPASS];    
+     Compass = s.THETA[COMPASS] * C_RAD2DEG;    
      
-     Altitude = -s.NED[DOWN];
-     AltitudeRate = s.Ve[DOWN];
+     Altitude = -s.NED[DOWN] * C_FT2M;
+     AltitudeRate = s.Ve[DOWN] * C_FT2M;
      North = s.NED[NORTH];
      NorthRate = s.Ve[NORTH];
      East = s.NED[EAST];
@@ -59,9 +59,9 @@ void HelicopterController::UpdateSensorValues(sixdof_fe_state_def  s)
 double HelicopterController::RollCorrection(double CorrectRollAngle)
 {
   static double integral = 0;
-  double PropConst = 10;
-  double IntConst = 20;
-  double DerConst = 4;
+  double PropConst = 0.39;
+  double IntConst = 3.29;
+  double DerConst = 0.0185;
   double proportion;
   double derivative;
   
@@ -74,9 +74,9 @@ double HelicopterController::RollCorrection(double CorrectRollAngle)
 double HelicopterController::PitchCorrection(double CorrectPitchAngle)
 {
   static double integral = 0;
-  double PropConst = 12;
-  double IntConst = 20;
-  double DerConst = 4;
+  double PropConst = 0.5;
+  double IntConst = 3.28;
+  double DerConst = 0.08;
   double proportion;
   double derivative;
   
@@ -90,9 +90,9 @@ double HelicopterController::PitchCorrection(double CorrectPitchAngle)
 double HelicopterController::YawCorrection(double CorrectYawAngle)
 {
   static double integral = 0;
-  double PropConst = 20;
-  double IntConst = 25;
-  double DerConst = 6;
+  double PropConst = 0.3;
+  double IntConst = 0.8;
+  double DerConst = 0.07;
   double proportion;
   double derivative;
   
@@ -106,9 +106,9 @@ double HelicopterController::YawCorrection(double CorrectYawAngle)
 double HelicopterController::CollectiveCorrection(double CorrectAltitude)
 {
   static double integral = 0;
-  double PropConst = 0.15;
-  double IntConst = 0.08;
-  double DerConst = 0.05;
+  double PropConst = 15;
+  double IntConst = 8;
+  double DerConst = 5;
   double proportion;
   double derivative;
   
