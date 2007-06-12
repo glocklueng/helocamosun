@@ -34,39 +34,8 @@ void __attribute__(( interrupt, no_auto_psv )) _T1Interrupt(void);
 
 void fillpwmCommand ( void );
 
-//GPT_helicopter GP_helicopter;
-/*
-GP_helicopter.position.latitude.deg 		(1)
-GP_helicopter.position.latitude.min 		(1)
-GP_helicopter.position.latitude.min_frac 	(2)
-
-GP_helicopter.position.longitude.deg 		(1)
-GP_helicopter.position.longitude.min 		(1)
-GP_helicopter.position.longitude.min_frac 		(2)
-
-GP_helicopter.goto_position.latitude.deg 	(1)
-GP_helicopter.goto_position.latitude.min 	(1)
-GP_helicopter.goto_position.latitude.min_frac	(2)
-
-GP_helicopter.goto_position.longitude.deg 	(1)
-GP_helicopter.goto_position.longitude.min 	(1)
-GP_helicopter.goto_position.longitude.min_frac 	(2)
-
-GP_helicopter.hsa.heading 					(2)
-GP_helicopter.hsa.speed 					(2)
-GP_helicopter.hsa.altitude 					(2)
-
-GP_helicopter.attitude.pitch				(2)
-GP_helicopter.attitude.roll					(2)
-GP_helicopter.attitude.yaw					(2)
-
-GP_helicopter.batterystatus.voltage			(2)
-GP_helicopter.batterystatus.current			(2)
-GP_helicopter.batterystatus.temp			(2)
-*/
-
 extern unsigned char newPWM;
-extern unsigned char GSPI_AccData[];
+//extern unsigned char GSPI_AccData[];
 
 unsigned char T2flag;
 unsigned char ERCMDflag;
@@ -249,29 +218,16 @@ int main ( void )
 				{
 					if(GP_helicopter.attitude.yaw > 315)
 					{
-						GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading + (359-GP_helicopter.attitude.yaw);
+						GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading + (359-GP_helicopter.attitude.yaw); // Added parenthesis
 						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
 					}
 					else if(GP_helicopter.newHeading >= GP_helicopter.attitude.yaw)
 					{
-						GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading - GP_helicopter.attitude.yaw;
+						GP_helicopter.gyros.yaw = 500 - (GP_helicopter.newHeading - GP_helicopter.attitude.yaw); // Added parenthesis
 						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
 					}
 					else
-					{	
-						// GP_helicopter.newHeading * 0.1394 = good
-						//(GP_helicopter.attitude.yaw - GP_helicopter.newHeading )* 0.1394; = bad
-						//(GP_helicopter.attitude.yaw )* 0.1394 = good
-						//(GP_helicopter.newHeading - GP_helicopter.attitude.yaw) = bad
-						// GP_helicopter.newHeading - 7 = bad
-						//(float)(GP_helicopter.newHeading + 7) = bad
-						//(GP_helicopter.attitude.yaw * 0.1394) + (GP_helicopter.newHeading * 0.1394) = bad
-						//pitch_angle_mf->sensor = (GP_helicopter.attitude.yaw * 0.1394);
-						// GP_helicopter.gyros.yaw = (GP_helicopter.attitude.yaw * 0.1394); = good
-						// (GP_helicopter.attitude.yaw * 0.1394) +(GP_helicopter.newHeading * 0.1394) = bad
-						// GP_helicopter.attitude.yaw + GP_helicopter.newHeading = good
-						// 500 + (GP_helicopter.attitude.yaw + GP_helicopter.newHeading) = good
-						
+					{			
 						GP_helicopter.gyros.yaw = 500 + GP_helicopter.attitude.yaw + GP_helicopter.newHeading;
 						
 						// pitch_angle_mf->sensor = GP_helicopter.gyros.yaw;= good
@@ -288,12 +244,12 @@ int main ( void )
 					}
 					else if(GP_helicopter.newHeading > GP_helicopter.attitude.yaw)
 					{
-						GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading - GP_helicopter.attitude.yaw;
+						GP_helicopter.gyros.yaw = 500 - (GP_helicopter.newHeading - GP_helicopter.attitude.yaw); // Added parenthesis
 						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
 					}
 					else if(GP_helicopter.newHeading <= GP_helicopter.attitude.yaw)
 					{
-						GP_helicopter.gyros.yaw = 500 + GP_helicopter.attitude.yaw - GP_helicopter.newHeading;
+						GP_helicopter.gyros.yaw = 500 + (GP_helicopter.attitude.yaw - GP_helicopter.newHeading); // Added parenthesis
 						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
 					}
 				}
@@ -301,7 +257,7 @@ int main ( void )
 				{
 					if(GP_helicopter.newHeading >= GP_helicopter.attitude.yaw)
 					{
-						GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading - GP_helicopter.attitude.yaw;
+						GP_helicopter.gyros.yaw = 500 - (GP_helicopter.newHeading - GP_helicopter.attitude.yaw);  // Added parenthesis
 						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
 					}
 					else
