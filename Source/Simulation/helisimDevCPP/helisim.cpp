@@ -9,9 +9,9 @@
 #include "helisim.h"
 #include <stdio.h>
 #include <fstream>
-//#define FUZZYCONTROL
+#define FUZZYCONTROL
 
-#define PIDCONTROL
+//#define PIDCONTROL
 
 #ifdef PIDCONTROL
 #include "PIDcontrol.h"
@@ -201,7 +201,7 @@ void Dynamics(void)
 		pitch_rate_mf->sensor = 500+(xcell.sixdofX.rate[1]*C_FT2M);          // THETA[0] = roll
 
 		roll_angle_mf->sensor = 500+(xcell.sixdofX.THETA[0]*C_RAD2DEG_F);
-		roll_rate_mf->sensor = 500+(xcell.sixdofX.rate[0]*C_FT2M);
+		roll_rate_mf->sensor = 500;//+(xcell.sixdofX.rate[0]*C_FT2M);
 		
 		yaw_angle_mf->sensor = 480+(xcell.sixdofX.THETA[2]*C_RAD2DEG_F);
 		yaw_rate_mf->sensor = 500+(xcell.sixdofX.rate[2]*C_FT2M);
@@ -221,8 +221,8 @@ void Dynamics(void)
 		Fuzzification( pitch_param, collective_height_mf);
 		Fuzzification( tilt_rate_param, collective_rate_mf);
 		
-        U[2] = -1;//doRules(pitch_mf, Rule)*C_DEG2RAD_F; 
-        U[1] = doRules(roll_mf, Rule)*C_DEG2RAD_F;  
+        U[2] = doRules(pitch_mf, Rule)*C_DEG2RAD_F; 
+        U[1] = -doRules(roll_mf, Rule)*C_DEG2RAD_F;  
         U[3] = doRules(yaw_mf, Rule)*C_DEG2RAD_F;
         U[0] = 10;//doRules(collective_mf, Rule)-50;
 #endif
@@ -230,7 +230,7 @@ void Dynamics(void)
 
 	printf("YAW: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[2]*C_RAD2DEG, xcell.sixdofX.THETA[2]*C_RAD2DEG,U[3]*C_RAD2DEG);
     printf("PITCH: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[1]*C_RAD2DEG,xcell.sixdofX.THETA[1]*C_RAD2DEG,U[2]*C_RAD2DEG);	    
-   	printf("ROLL: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[0]* C_FT2M,xcell.sixdofX.THETA[0]*C_RAD2DEG_F,U[1]);
+   	printf("ROLL: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[0]* C_RAD2DEG,xcell.sixdofX.THETA[0]*C_RAD2DEG_F,U[1]*C_RAD2DEG);
   	printf("COLL: \tRATE: %f, \tALTITUDE: %f, \tCORRECTION: %f\n",-xcell.sixdofX.Ve[2]* C_FT2M, -xcell.sixdofX.NED[2]* C_FT2M, U[0]*C_RAD2DEG);
    	printf("ACCEL0: %f, ACCEL1: %f, ACCEL2: %f\n",xcell.sixdofX.accel[0]* C_FT2M,xcell.sixdofX.accel[1]* C_FT2M,xcell.sixdofX.accel[2]* C_FT2M);        	
     
@@ -246,8 +246,8 @@ void Dynamics(void)
         xcell.sixdofIn.hold_v	= 1;	//	hold Y-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_w	= 1;	//	hold Z-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_p	= 0;	//	hold X-axis body rate constant (1 hold, 0 free) side to side roll
-        xcell.sixdofIn.hold_q	= 0;	//	hold Y-axis body rate constant (1 hold, 0 free) forward backward roll
-        xcell.sixdofIn.hold_r	= 0;	//  hold Z-axis body rate constant (1 hold, 0 free) yaw
+        xcell.sixdofIn.hold_q	= 1;	//	hold Y-axis body rate constant (1 hold, 0 free) forward backward roll
+        xcell.sixdofIn.hold_r	= 1;	//  hold Z-axis body rate constant (1 hold, 0 free) yaw
 			
 		ModelGO(U);
 	}
