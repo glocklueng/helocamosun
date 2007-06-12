@@ -9,6 +9,7 @@
 #include "helisim.h"
 #include <stdio.h>
 #include <fstream>
+
 #define FUZZYCONTROL
 
 //#define PIDCONTROL
@@ -35,7 +36,7 @@ HelicopterController HC; //create a PID control object
 #endif
 
 #ifdef FUZZYCONTROL
-    double negative, zero, positive;
+   double negative, zero, positive;
     
         fMember pitch_mf[3];
     fMember *pitch_angle_mf = &pitch_mf[0], 
@@ -172,7 +173,7 @@ void Dynamics(void)
     rollAngle += 1;
     if(rollAngle>45.0)
     {
-     rollAngle = -45.0;   
+        rollAngle = -45.0;   
     }
 
     if(iterationcounter<100)
@@ -195,36 +196,52 @@ void Dynamics(void)
 #endif
 
 #ifdef FUZZYCONTROL
-    
+static int iteration_counter = 0;
 
-    	pitch_angle_mf->sensor = 500-(xcell.sixdofX.THETA[1]*C_RAD2DEG_F);        // THETA[1] = pitch
-		pitch_rate_mf->sensor = 500+(xcell.sixdofX.rate[1]*C_FT2M);          // THETA[0] = roll
+if(iteration_counter == 100)
+{
+            int i, j;
+        for(i = 0; i<5; i++)
+        {
+            for(j = 0; j<3; j++)
+            {
+                yaw_param[i][j]+= 0;    
+            }
+        }
+}
+iteration_counter++;
+    	pitch_angle_mf->sensor = xcell.sixdofX.THETA[1]*C_RAD2DEG_F;        // THETA[1] = pitch
+		pitch_rate_mf->sensor = 500;//+(xcell.sixdofX.rate[1]*C_FT2M);          // THETA[0] = roll
 
-		roll_angle_mf->sensor = 500+(xcell.sixdofX.THETA[0]*C_RAD2DEG_F);
+		roll_angle_mf->sensor = xcell.sixdofX.THETA[0]*C_RAD2DEG_F;
 		roll_rate_mf->sensor = 500;//+(xcell.sixdofX.rate[0]*C_FT2M);
-		
-		yaw_angle_mf->sensor = 480+(xcell.sixdofX.THETA[2]*C_RAD2DEG_F);
-		yaw_rate_mf->sensor = 500+(xcell.sixdofX.rate[2]*C_FT2M);
-		
-		collective_height_mf->sensor = xcell.sixdofX.accel[2];
-		collective_rate_mf->sensor = -xcell.sixdofX.NED[2];
-		
+
+		yaw_angle_mf->sensor = (xcell.sixdofX.THETA[2]*C_RAD2DEG_F);
+		yaw_rate_mf->sensor = 500;//+(xcell.sixdofX.rate[2]*C_FT2M);
+
+//		collective_height_mf->sensor = xcell.sixdofX.accel[2];
+//		collective_rate_mf->500;//sensor = -xcell.sixdofX.NED[2];
+//	
+    	Fuzzification( pitch_param, roll_angle_mf);
+		Fuzzification( tilt_rate_param, roll_rate_mf);
+        
+        U[1] = -doRules(roll_mf, Rule)*C_DEG2RAD_F;  
+  	
 		Fuzzification( pitch_param, pitch_angle_mf);
 		Fuzzification( tilt_rate_param, pitch_rate_mf);
 		
-		Fuzzification( pitch_param, roll_angle_mf);
-		Fuzzification( tilt_rate_param, roll_rate_mf);
-		
+        U[2] = doRules(pitch_mf, Rule)*C_DEG2RAD_F; 
+        	   
 		Fuzzification( pitch_param, yaw_angle_mf);
 		Fuzzification( tilt_rate_param, yaw_rate_mf);
 		
-		Fuzzification( pitch_param, collective_height_mf);
-		Fuzzification( tilt_rate_param, collective_rate_mf);
-		
-        U[2] = doRules(pitch_mf, Rule)*C_DEG2RAD_F; 
-        U[1] = -doRules(roll_mf, Rule)*C_DEG2RAD_F;  
-        U[3] = doRules(yaw_mf, Rule)*C_DEG2RAD_F;
-        U[0] = 10;//doRules(collective_mf, Rule)-50;
+    	U[3] = -doRules(yaw_mf, Rule)*C_DEG2RAD_F;
+
+//		Fuzzification( pitch_param, collective_height_mf);
+//		Fuzzification( tilt_rate_param, collective_rate_mf);
+//	
+//        U[0] = doRules(collective_mf, Rule)-50;
+        
 #endif
 
 
@@ -234,11 +251,25 @@ void Dynamics(void)
   	printf("COLL: \tRATE: %f, \tALTITUDE: %f, \tCORRECTION: %f\n",-xcell.sixdofX.Ve[2]* C_FT2M, -xcell.sixdofX.NED[2]* C_FT2M, U[0]*C_RAD2DEG);
    	printf("ACCEL0: %f, ACCEL1: %f, ACCEL2: %f\n",xcell.sixdofX.accel[0]* C_FT2M,xcell.sixdofX.accel[1]* C_FT2M,xcell.sixdofX.accel[2]* C_FT2M);        	
     
-    myfile << xcell.sixdofX.THETA[2]*C_RAD2DEG << "\t";
-    myfile << xcell.sixdofX.THETA[1]*C_RAD2DEG << "\t";
-    myfile << xcell.sixdofX.THETA[0]*C_RAD2DEG << "\t";    
-    myfile << -xcell.sixdofX.NED[2]* C_FT2M << "\n";
-            
+    //print out the parameters to the excel file
+    myfile << xcell.sixdofX.THETA[2]*C_RAD2DEG << "\t";//yaw angle
+    myfile << xcell.sixdofX.rate[2]*C_RAD2DEG << "\t";//yaw rate
+    
+    myfile << xcell.sixdofX.THETA[1]*C_RAD2DEG << "\t";//pitch angle
+    myfile << xcell.sixdofX.rate[1]*C_RAD2DEG << "\t";//pitch rate
+
+    myfile << xcell.sixdofX.THETA[0]*C_RAD2DEG << "\t";//roll angle    
+    myfile << xcell.sixdofX.rate[0]*C_RAD2DEG << "\t";//roll rate
+    
+    myfile << -xcell.sixdofX.NED[2]* C_FT2M << "\t";//altitude
+    myfile << xcell.sixdofX.Ve[2]*C_FT2M << "\t";//climb rate
+    
+    myfile << U[3] * C_RAD2DEG << "\t";//yaw correction
+    myfile << U[2] * C_RAD2DEG << "\t";//pitch correction
+    myfile << U[1] * C_RAD2DEG << "\t";//roll correction
+    myfile << U[0] * C_RAD2DEG << "\n";//collective correction
+        
+                
     for(n=0; n<(int)(windows_dt/model_dt); ++n)
 	{
        
@@ -246,8 +277,8 @@ void Dynamics(void)
         xcell.sixdofIn.hold_v	= 1;	//	hold Y-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_w	= 1;	//	hold Z-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_p	= 0;	//	hold X-axis body rate constant (1 hold, 0 free) side to side roll
-        xcell.sixdofIn.hold_q	= 1;	//	hold Y-axis body rate constant (1 hold, 0 free) forward backward roll
-        xcell.sixdofIn.hold_r	= 1;	//  hold Z-axis body rate constant (1 hold, 0 free) yaw
+        xcell.sixdofIn.hold_q	= 0;	//	hold Y-axis body rate constant (1 hold, 0 free) forward backward pitch
+        xcell.sixdofIn.hold_r	= 0;	//  hold Z-axis body rate constant (1 hold, 0 free) yaw
 			
 		ModelGO(U);
 	}
@@ -260,13 +291,27 @@ int
 main(int argc, char** argv)
 {
 
+
     myfile.open ("data.xls",ios::trunc);
+
+    //print the titles on the excel file    
+    myfile << "yaw angle (deg)" << "\t";
+    myfile << "yaw rate (deg/s)" << "\t";
     
-    myfile << "yaw angle" << "\t";
-    myfile << "pitch angle" << "\t";
-    myfile << "roll angle" << "\t";    
-    myfile << "altitude" << "\n";
+    myfile << "pitch angle (deg)" << "\t";
+    myfile << "pitch rate (deg/s)" << "\t";
     
+    myfile << "roll angle (deg)" << "\t";    
+    myfile << "roll rate (deg/s)" << "\t";
+    
+    myfile << "altitude (m/s)" << "\t";
+    myfile << "climb rate (m/s^2)" << "\t";
+    
+    myfile << "yaw correction (deg)" << "\t";
+    myfile << "pitch correction (deg)" << "\t";
+    myfile << "roll correction (deg)" << "\t";
+    myfile << "collective correction (deg)" << "\n";
+       
 	// Initialize the helicopter model
 	ModelInit();
 
