@@ -8,10 +8,10 @@
 
 #include "helisim.h"
 #include <stdio.h>
+#include <fstream>
+//#define FUZZYCONTROL
 
-#define FUZZYCONTROL
-
-//#define PIDCONTROL
+#define PIDCONTROL
 
 #ifdef PIDCONTROL
 #include "PIDcontrol.h"
@@ -21,11 +21,14 @@
 #include "../fuzzy test/fuzz.h"
 #endif
 
+using namespace std;
+
 double windows_dt = 0.05;
 
 int simWindow;
 int hudWindow;
 
+ofstream myfile;
 
 #ifdef PIDCONTROL
 HelicopterController HC; //create a PID control object
@@ -162,16 +165,36 @@ void Dynamics(void)
         
 
 #ifdef PIDCONTROL
-
+    static int iterationcounter = 0;
     static double rollAngle = 0;
     
+    iterationcounter++;
+    rollAngle += 1;
+    if(rollAngle>45.0)
+    {
+     rollAngle = -45.0;   
+    }
 //    rollAngle += 1;
 //    if(rollAngle>45.0)
 //    {
 //     rollAngle = -45.0;   
 //    }
-    
+    if(iterationcounter<100)
+    {
     HC.UpdateSensorValues(xcell.sixdofX);
+	U[0] = HC.CollectiveCorrection(2)*C_DEG2RAD;			                // main rotor collective
+	U[1] = HC.RollCorrection(1.9)*C_DEG2RAD;			// A1 (roll)
+	U[2] = HC.PitchCorrection(0)*C_DEG2RAD;		    // B1 (pitch)
+	U[3] = HC.YawCorrection(2)*C_DEG2RAD;			            // tail rotor collective
+    }
+    else
+    {
+    HC.UpdateSensorValues(xcell.sixdofX);
+	U[0] = HC.CollectiveCorrection(20)*C_DEG2RAD;			                // main rotor collective
+	U[1] = HC.RollCorrection(1.9)*C_DEG2RAD;			// A1 (roll)
+	U[2] = HC.PitchCorrection(0)*C_DEG2RAD;		    // B1 (pitch)
+	U[3] = HC.YawCorrection(2)*C_DEG2RAD;			            // tail rotor collective
+    }
 	U[0] = HC.CollectiveCorrection(10);			                // main rotor collective
 	U[1] = HC.RollCorrection(2*C_DEG2RAD)*C_DEG2RAD;			// A1 (roll)
 	U[2] = HC.PitchCorrection(-0.1*C_DEG2RAD)*C_DEG2RAD;		    // B1 (pitch)
@@ -211,11 +234,22 @@ void Dynamics(void)
         U[0] = 10;//doRules(collective_mf, Rule)-50;
 #endif
 
+
+	printf("YAW: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[2]*C_RAD2DEG, xcell.sixdofX.THETA[2]*C_RAD2DEG,U[3]*C_RAD2DEG);
 	printf("YAW: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[2]* C_FT2M, xcell.sixdofX.THETA[2]*C_RAD2DEG_F,U[3]);
 	printf("PITCH: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[1]* C_FT2M,xcell.sixdofX.THETA[1]*C_RAD2DEG_F,U[2]);	    
+	printf("PITCH: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[1]*C_RAD2DEG,xcell.sixdofX.THETA[1]*C_RAD2DEG,U[2]*C_RAD2DEG);	    
    	printf("ROLL: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[0]* C_FT2M,xcell.sixdofX.THETA[0]*C_RAD2DEG_F,U[1]);
+   	printf("ROLL: \tRATE: %f, \tANGLE: %f, \tCORRECTION: %f\n",xcell.sixdofX.rate[0]* C_RAD2DEG,xcell.sixdofX.THETA[0]*C_RAD2DEG,U[1]*C_RAD2DEG);
   	printf("COLL: \tRATE: %f, \tALTITUDE: %f, \tCORRECTION: %f\n",-xcell.sixdofX.Ve[2], -xcell.sixdofX.NED[2]*C_RAD2DEG_F, U[0]);
+  	printf("COLL: \tRATE: %f, \tALTITUDE: %f, \tCORRECTION: %f\n",-xcell.sixdofX.Ve[2]* C_FT2M, -xcell.sixdofX.NED[2]* C_FT2M, U[0]*C_RAD2DEG);
    	printf("ACCEL0: %f, ACCEL1: %f, ACCEL2: %f\n",xcell.sixdofX.accel[0]* C_FT2M,xcell.sixdofX.accel[1]* C_FT2M,xcell.sixdofX.accel[2]* C_FT2M);        	
+    
+    myfile << xcell.sixdofX.THETA[2]*C_RAD2DEG << "\t";
+    myfile << xcell.sixdofX.THETA[1]*C_RAD2DEG << "\t";
+    myfile << xcell.sixdofX.THETA[0]*C_RAD2DEG << "\t";    
+    myfile << -xcell.sixdofX.NED[2]* C_FT2M << "\n";
+            
     for(n=0; n<(int)(windows_dt/model_dt); ++n)
 	{
        
@@ -232,10 +266,18 @@ void Dynamics(void)
 }
 
 
+
 int
 main(int argc, char** argv)
 {
 
+    myfile.open ("data.xls",ios::trunc);
+    
+    myfile << "yaw angle" << "\t";
+    myfile << "pitch angle" << "\t";
+    myfile << "roll angle" << "\t";    
+    myfile << "altitude" << "\n";
+    
 	// Initialize the helicopter model
 	ModelInit();
 
@@ -250,5 +292,7 @@ main(int argc, char** argv)
 
 	glutMainLoop();
 
+    myfile.close();
+    
 	return(0);
 }
