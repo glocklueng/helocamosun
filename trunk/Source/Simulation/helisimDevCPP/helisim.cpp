@@ -162,8 +162,7 @@ void Dynamics(void)
 {
 
 	int n;
-	double U[4];
-        
+	double U[4]; 
 
 #ifdef PIDCONTROL
     static int iterationcounter = 0;
@@ -192,11 +191,12 @@ void Dynamics(void)
 	U[2] = HC.PitchCorrection(0)*C_DEG2RAD;		    // B1 (pitch)
 	U[3] = HC.YawCorrection(2)*C_DEG2RAD;			            // tail rotor collective
     }
+ 
 
 #endif
 
 #ifdef FUZZYCONTROL
-static int iteration_counter = 0;
+    static int iteration_counter = 0;
 
     if(iteration_counter == 100)
     {
@@ -205,7 +205,20 @@ static int iteration_counter = 0;
         {
             for(j = 0; j<3; j++)
             {
-                yaw_param[i][j]+= 30;    
+                //yaw_offset = 30;
+               yaw_param[i][j] += 20;    
+            }
+        }
+    }
+    if(iteration_counter == 200)
+    {
+        int i, j;
+        for(i = 0; i<5; i++)
+        {
+            for(j = 0; j<3; j++)
+            {
+                //yaw_offset = 10;
+               yaw_param[i][j] += 5;    
             }
         }
     }
@@ -217,7 +230,9 @@ static int iteration_counter = 0;
 	roll_rate_mf->sensor = 500;//+(xcell.sixdofX.rate[0]*C_FT2M);
 
 	yaw_angle_mf->sensor = (xcell.sixdofX.THETA[2]*C_RAD2DEG_F);
-	yaw_rate_mf->sensor = 500;//+(xcell.sixdofX.rate[2]*C_FT2M);
+//	printf("\nYawoffset: %f\n",yaw_offset);
+	
+	yaw_rate_mf->sensor = xcell.sixdofX.rate[2]*C_RAD2DEG_F;
 
 //		collective_height_mf->sensor = xcell.sixdofX.accel[2];
 //		collective_rate_mf->500;//sensor = -xcell.sixdofX.NED[2];
@@ -225,15 +240,15 @@ static int iteration_counter = 0;
     	Fuzzification( pitch_param, roll_angle_mf);
 		Fuzzification( tilt_rate_param, roll_rate_mf);
         
-        U[1] = -doRules(roll_mf, Rule)*C_DEG2RAD_F;  
+        U[1] = 0;//-doRules(roll_mf, Rule)*C_DEG2RAD_F;  
   	
 		Fuzzification( pitch_param, pitch_angle_mf);
 		Fuzzification( tilt_rate_param, pitch_rate_mf);
 		
-        U[2] = doRules(pitch_mf, Rule)*C_DEG2RAD_F; 
+        U[2] = 0;//doRules(pitch_mf, Rule)*C_DEG2RAD_F; 
         	   
-		Fuzzification( pitch_param, yaw_angle_mf);
-		Fuzzification( tilt_rate_param, yaw_rate_mf);
+		Fuzzification( yaw_param, yaw_angle_mf);
+		Fuzzification( yaw_rate_param, yaw_rate_mf);
 		
     	U[3] = -doRules(yaw_mf, Rule)*C_DEG2RAD_F;
 
@@ -241,6 +256,7 @@ static int iteration_counter = 0;
 //		Fuzzification( tilt_rate_param, collective_rate_mf);
 //	
 //        U[0] = doRules(collective_mf, Rule)-50;
+U[0] = 0.16;
         
 #endif
 
@@ -275,10 +291,10 @@ static int iteration_counter = 0;
        
         xcell.sixdofIn.hold_u   = 1;	//	hold X-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_v	= 1;	//	hold Y-axis body vel. constant (1 hold, 0 free)
-        xcell.sixdofIn.hold_w	= 1;	//	hold Z-axis body vel. constant (1 hold, 0 free)
+        xcell.sixdofIn.hold_w	= 0;	//	hold Z-axis body vel. constant (1 hold, 0 free)
         xcell.sixdofIn.hold_p	= 1;	//	hold X-axis body rate constant (1 hold, 0 free) side to side roll
         xcell.sixdofIn.hold_q	= 1;	//	hold Y-axis body rate constant (1 hold, 0 free) forward backward pitch
-        xcell.sixdofIn.hold_r	= 0;	//  hold Z-axis body rate constant (1 hold, 0 free) yaw
+        xcell.sixdofIn.hold_r	= 1;	//  hold Z-axis body rate constant (1 hold, 0 free) yaw
 			
 		ModelGO(U);
 	}
