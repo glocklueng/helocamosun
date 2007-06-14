@@ -164,7 +164,7 @@ void ModelInit(void)
 	// CG information
 	xcell.cg.fs_cg = 0.0;					// in
 	xcell.cg.wl_cg = 10.91;					// in
-	xcell.cg.wt = 19.5;						// lbs
+	xcell.cg.wt = 8.0;						// lbs
 	xcell.cg.ix = 0.2184;					// slug-ft^2
 	xcell.cg.iy = 0.3214;					// slug-ft^2
 	xcell.cg.iz = 0.4608;					// slug-ft^2
@@ -179,12 +179,12 @@ void ModelInit(void)
 	xcell.m.is = 0.0;						// longitudinal shaft tilt (rad)
 	xcell.m.e = 0.0225;						// ft
 	xcell.m.i_b = 0.0847;					// slug-ft^2
-	xcell.m.r = 2.25;						// ft
+	xcell.m.r = 1.1875;						// ft
 	xcell.m.ro = 0.6;						// ft
 	xcell.m.a = 6.0;						// */rad
 	xcell.m.cd0 = 0.01;						// nondimentional
 	xcell.m.b = 2;							// # of blades
-	xcell.m.c = 0.1979;						// ft
+	xcell.m.c = 0.1875;						// ft
 	xcell.m.twst = 0.0;						// rad
 	xcell.m.k1 = 0;							// delta-3 hinge	
 	xcell.m.dir = -1.0;						// MR direction of rotation viewed from top (1 = ccw; -1 = cw)
@@ -362,7 +362,7 @@ void ModelInit(void)
 	xcell.c.B1 = 0.0;						// pitch (rad + nose down)
 	xcell.c.mr_col = 2.5*C_DEG2RAD;			// mr col (rad)
 	xcell.c.tr_col = 4.5*C_DEG2RAD;			// tr col (rad)
-	xcell.c.mr_rev = 1500.0;				// mr RPM
+	xcell.c.mr_rev = 3000.0;				// mr RPM
 	xcell.c.tr_rev = 4.6*xcell.c.mr_rev;	// tr RPM
 	xcell.c.gyro_gain = 0.08;
 
