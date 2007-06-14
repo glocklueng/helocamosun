@@ -89,10 +89,10 @@ namespace HeliGui
         /// </summary>
         private void SetupFormElements()
         {
-            Load_GPS_Parser();
+            //Load_GPS_Parser();
 
             this.Resize += new EventHandler(frmAirWulf_Resize);
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 12; i++)
             {
                 cbxComPortSelect.Items.Add("COM" + (i + 1).ToString());
             }
@@ -382,8 +382,10 @@ namespace HeliGui
         private void SetUpArtHorizon()
         {
             Arthorizon = new ArtificialHorizon();
-
+            
             this.Controls.Add(Arthorizon);
+            Arthorizon.Roll = 5;
+            Arthorizon.Pitch = -5;
         }
         private void SetUpAltitudeGauge()
         {
@@ -582,9 +584,24 @@ namespace HeliGui
             PacketReceived = true;
             Att = e.attitude;
 
-            compass.Angle = Att.Yaw;// -500;
-            Arthorizon.Roll = Att.Roll;// -500;
-            Arthorizon.Pitch = Att.Pitch;// -500;
+            compass.Angle = Att.Yaw;
+            if (Att.Roll > 128)
+            {
+                Arthorizon.Roll = -(255 - Att.Roll);
+
+            }
+            else
+            {
+                Arthorizon.Roll = Att.Roll;
+            }
+            if (Att.Pitch > 128)
+            {
+                Arthorizon.Pitch = -(255 - Att.Pitch);
+            }
+            else
+            {
+                Arthorizon.Pitch = Att.Pitch;
+            }
         }
 
         void ComProt_HeadingSpeedAltitudePacketReceived(object sender, CommProtocol.HeadingSpeedAltitudePacketReceivedEventArgs e)
