@@ -13,7 +13,13 @@ float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
       {500.5, 527.0, 547.0},
       {528.0, 550.0, 990.0}
 };
-
+float yaw_param[NUM_RANGE][3]={	//degrees member function parameters
+      {10.0,  445.0, 471.0},
+      {452.0, 472.0, 499.5},
+      {473.0, 500.0, 526.0},
+      {500.5, 527.0, 547.0},
+      {528.0, 550.0, 990.0}
+};
 float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
       {1.0,  461.0, 478.0},
       {464.0, 480.0, 498.0},
@@ -22,11 +28,11 @@ float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
       {522.0, 540.0, 999.0}
 };
 
-#define NL_WEIGHT (0)         // output weightings -200
-#define N_WEIGHT (25)           // -60
-#define Z_WEIGHT (50)             // 0
-#define P_WEIGHT (75)            // 60
-#define PL_WEIGHT (100)          // 200
+#define NL_WEIGHT (-40)         // output weightings -200
+#define N_WEIGHT (-20)           // -60
+#define Z_WEIGHT (0)             // 0
+#define P_WEIGHT (20)            // 60
+#define PL_WEIGHT (40)          // 200
 
 /************************************************************************
  *                                                                      *

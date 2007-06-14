@@ -41,6 +41,7 @@ float  yawRate = 0;
 float  collectiveHeight = 0;
 float  collectiveRate = 0;
 
+#define COMPASS_SCALING 0.1392
 
 //////////////////////////////////////////////
 
@@ -50,7 +51,11 @@ int main(int argc, char *argv[])
     float   output = 0;
     int   reference, steer, out_steer;
     char  rows = 50, columns = 50, points = 0,cPoints = 0;
-   
+	short  temp_yaw;  
+    short newHeading,
+          attitude_yaw,
+          gyros_yaw,
+          pwm_yaw; 
 	while(run)
 	{
         ///PITCH
@@ -69,6 +74,65 @@ int main(int argc, char *argv[])
         output = doRules(pitch_mf, Rule);	// Kyle - changed doRules
         
 		cout<<"Correction Value: " << output << "\n";
+                attitude_yaw = 31;                 
+				newHeading = 90;
+				if((newHeading >= 0) && (newHeading < 45))
+				{
+					if(attitude_yaw > 315)
+					{
+						temp_yaw = 500 - (newHeading + (359-attitude_yaw));
+						pitch_angle_mf->sensor = temp_yaw * COMPASS_SCALING;
+					}
+					else if(newHeading >= attitude_yaw)
+					{
+						temp_yaw = 500 - (newHeading - attitude_yaw);
+						pitch_angle_mf->sensor = temp_yaw * COMPASS_SCALING;
+					}
+					else
+					{	
+						temp_yaw = 500 + attitude_yaw + newHeading;
+						pitch_angle_mf->sensor = temp_yaw * COMPASS_SCALING;
+					}
+				}
+				else if((newHeading >= 315) && (newHeading < 359))
+				{
+					if(attitude_yaw < 45)
+					{
+						temp_yaw = 500 + (359 - newHeading) + attitude_yaw + newHeading;
+						pitch_angle_mf->sensor = temp_yaw * COMPASS_SCALING;
+					}
+					else if(newHeading > attitude_yaw)
+					{
+						temp_yaw = 500 - (newHeading - attitude_yaw);
+						pitch_angle_mf->sensor = temp_yaw * COMPASS_SCALING;
+					}
+					else if(newHeading <= attitude_yaw)
+					{
+						temp_yaw = 500 + (attitude_yaw - newHeading);
+						pitch_angle_mf->sensor = temp_yaw * COMPASS_SCALING;
+					}
+				}
+				else
+				{
+					if(newHeading >= attitude_yaw)
+					{
+						temp_yaw = 500 - (newHeading - attitude_yaw);
+						pitch_angle_mf->sensor = temp_yaw * COMPASS_SCALING;
+					}
+					else
+					{
+						temp_yaw = 500 + (attitude_yaw - newHeading);
+						pitch_angle_mf->sensor = temp_yaw * COMPASS_SCALING;
+					}
+				}
+				pitch_angle_mf->sensor = 500;
+				pitch_rate_mf->sensor = gyros_yaw + 484;
+				
+				Fuzzification( pitch_param, pitch_angle_mf);
+				Fuzzification( tilt_rate_param, pitch_rate_mf);
+				
+			    pwm_yaw = (short)(doRules(pitch_mf, Rule)+50);
+//			    GP_helicopter.pwm.yaw = GP_helicopter.gyros.yaw;
 
 //        ///ROLL 
 //        cout<<"Enter roll angle\n";
