@@ -172,82 +172,85 @@ void GetCompassAverage(void)
 			   CompassYtemp = 0;
 	static char CompassCount = 0;
 	static char AverageCount = 0;
-	signed int Xtemp = Compass_X.D_byte,
-		   	   Ytemp = Compass_Y.D_byte;
-	
-    if (( Xtemp >= 1024) && (Ytemp >= 1024))
-    {
-          Xtemp = -1 * (2048.0 - Xtemp);
-          Ytemp = -1 * (2048.0 - Ytemp);
-    } else
-    
-    if (( Xtemp >= 1024) && (Ytemp < 1024))
-    {
-          Xtemp = -1 * (2048.0 - Xtemp);
-    } else
- 
-    if (( Xtemp < 1024) && (Ytemp >= 1024))
-    {
-          Ytemp = -1 * (2048.0 - Ytemp);
-    } 
-	
-	if(CompassCount > AVERAGEVALUE-1)
+	signed int Xtemp = Compass_X.D_byte & 0xFFF8,
+		   	   Ytemp = Compass_Y.D_byte & 0xFFF8;
+
+	if((Xtemp > 0) && (Xtemp < 2047) && (Ytemp > 0) && (Ytemp < 2047))
 	{
-		CompassCount = 0;
-		
-		CompassYtemp /= AVERAGEVALUE;
-		CompassXtemp /= AVERAGEVALUE;
-		xAxisComp = XAxisAverage * pi / 180; // convert to radians
-		yAxisComp = YAxisAverage * pi / 180;
-		CompassYAverage = CompassYtemp * cos( xAxisComp);
-		CompassXAverage = CompassXtemp * cos( yAxisComp);
-		CompassXtemp = 0;
-		CompassYtemp = 0;
-		
-		if (( CompassXAverage >= 0) && (CompassYAverage >= 0))
+	    if (( Xtemp >= 1024) && (Ytemp >= 1024))
 	    {
-	          fCompassAngle = atan( -1.0 * (float)CompassYAverage /(float) CompassXAverage );
-	          fCompassAngle *= (180.0 / pi);	// convert to degrees
-	          fCompassAngle += 360.0;
-	          CompassAngle = (unsigned int) fCompassAngle;
-	    } else
-	     
-	    if (( CompassXAverage < 0) && (CompassYAverage < 0))
-	    {
-	          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
-	          fCompassAngle *= (180.0 / pi);
-	          fCompassAngle += 180.0;
-	          CompassAngle = (unsigned int) fCompassAngle;
+	          Xtemp = -1 * (2048.0 - Xtemp);
+	          Ytemp = -1 * (2048.0 - Ytemp);
 	    } else
 	    
-	    if (( CompassXAverage < 0) && (CompassYAverage >= 0))
+	    if (( Xtemp >= 1024) && (Ytemp < 1024))
 	    {
-	          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
-	          fCompassAngle *= (180.0 / pi);
-	          fCompassAngle += 180.0;
-	          CompassAngle = (unsigned int) fCompassAngle;
+	          Xtemp = -1 * (2048.0 - Xtemp);
 	    } else
 	 
-	    if (( CompassXAverage >= 0) && (CompassYAverage < 0))
+	    if (( Xtemp < 1024) && (Ytemp >= 1024))
 	    {
-	          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
-	          fCompassAngle *= (180.0 / pi);
-	          CompassAngle = (unsigned int) fCompassAngle;
-	    }
+	          Ytemp = -1 * (2048.0 - Ytemp);
+	    } 
+		
+		if(CompassCount > AVERAGEVALUE-1)
+		{
+			CompassCount = 0;
+			
+			CompassYtemp /= AVERAGEVALUE;
+			CompassXtemp /= AVERAGEVALUE;
+//			xAxisComp = XAxisAverage * pi / 180; // convert to radians
+//			yAxisComp = YAxisAverage * pi / 180;
+			CompassYAverage = CompassYtemp-60;// * cos( xAxisComp);
+			CompassXAverage = CompassXtemp*2;// * cos( yAxisComp);
+			CompassXtemp = 0;
+			CompassYtemp = 0;
+			
+			if (( CompassXAverage >= 0) && (CompassYAverage >= 0))
+		    {
+		          fCompassAngle = atan( -1.0 * (float)CompassYAverage /(float) CompassXAverage );
+		          fCompassAngle *= (180.0 / pi);	// convert to degrees
+		          fCompassAngle += 360.0;
+		          CompassAngle = (unsigned int) fCompassAngle;
+		    } else
+		     
+		    if (( CompassXAverage < 0) && (CompassYAverage < 0))
+		    {
+		          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
+		          fCompassAngle *= (180.0 / pi);
+		          fCompassAngle += 180.0;
+		          CompassAngle = (unsigned int) fCompassAngle;
+		    } else
+		    
+		    if (( CompassXAverage < 0) && (CompassYAverage >= 0))
+		    {
+		          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
+		          fCompassAngle *= (180.0 / pi);
+		          fCompassAngle += 180.0;
+		          CompassAngle = (unsigned int) fCompassAngle;
+		    } else
+		 
+		    if (( CompassXAverage >= 0) && (CompassYAverage < 0))
+		    {
+		          fCompassAngle = atan(-1.0*(float)CompassYAverage/(float)CompassXAverage);
+		          fCompassAngle *= (180.0 / pi);
+		          CompassAngle = (unsigned int) fCompassAngle;
+		    }
+		}
+		else
+		{
+			CompassCount++;
+			CompassXtemp += Xtemp;
+			CompassYtemp += Ytemp;
+		}
+	
 	}
-	else
-	{
-		CompassCount++;
-		CompassXtemp += Xtemp;
-		CompassYtemp += Ytemp;
-	}
-
 }
 
 void GetCompassAngle(void)
 {
 	char loopcounter;
-	static char AverageCount = 0;
+	static char AverageCount;
 	static signed int CompassAverage[AVERAGEVALUE];
 	
 	CompassAverage[AverageCount] = CompassAngle;
@@ -255,7 +258,7 @@ void GetCompassAngle(void)
 	AverageCount++;
 	if( AverageCount > AVERAGEVALUE - 1 )
 	{
-	 AverageCount = 0;
+		AverageCount = 0;
 	}
 	
 	for(loopcounter = 0; loopcounter < (AVERAGEVALUE - 1); loopcounter++)
@@ -265,9 +268,9 @@ void GetCompassAngle(void)
 	
 	CompassAverageAngle = CompassAverageAngle / AVERAGEVALUE;
 	
-	 	    Compass[0] = CompassAverageAngle>>8;
-	      	Compass[1] = (char) CompassAverageAngle;
-	
+	Compass[0] = CompassAverageAngle>>8;
+	Compass[1] = (char) CompassAverageAngle;
+
 }
 /*
 Function: GetAxisValues
@@ -281,7 +284,12 @@ void GetAxisValues(void)
 	WORD byte_out;
 
 	TAA_DIR = 0;
-	
+
+	byte_out.byte[0] = TAA_Z_AXIS;	// Get the Z axis values
+	TAA = 0;
+	ShiftIO(byte_out, out_bits, &Z_axis, in_bits);
+	TAA = 1;
+		
 	byte_out.byte[0] = TAA_X_AXIS;	// Get the X axis values
 	TAA = 0;
 	ShiftIO(byte_out, out_bits, &X_axis, in_bits);
@@ -291,13 +299,6 @@ void GetAxisValues(void)
 	TAA = 0;
 	ShiftIO(byte_out, out_bits, &Y_axis, in_bits);
 	TAA = 1;
-
-	byte_out.byte[0] = TAA_Z_AXIS;	// Get the Z axis values
-	TAA = 0;
-	ShiftIO(byte_out, out_bits, &Z_axis, in_bits);
-	TAA = 1;
-	
-
 }
 /*
 Function: GetAxisAverage
@@ -319,21 +320,23 @@ void GetAxisAverage(void)
 	Y_axis.D_byte = Y_axis.D_byte >> 2;		// elminate high frequency components
 	Z_axis.D_byte = Z_axis.D_byte >> 2;
 	
-	X_axis.D_byte &= 0x03FF;
-	Y_axis.D_byte &= 0x03FF;
-	Z_axis.D_byte &= 0x03FF;
+	X_axis.D_byte &= 0x01FF;
+	Y_axis.D_byte &= 0x01FF;
+	Z_axis.D_byte &= 0x01FF;
 	
-	if(X_axis.byte[1] == 0x00)
+	if(X_axis.byte[1])
 	{
-		X_axis.D_byte = X_axis.D_byte - 0x00FF;
+		X_axis.D_byte = (X_axis.D_byte - 0x0100 );
 	}
-	if(Y_axis.byte[1] == 0x00)
+
+	if(Y_axis.byte[1])
 	{
-		Y_axis.D_byte = Y_axis.D_byte - 0x00FF;
+		Y_axis.D_byte = (Y_axis.D_byte - 0x0100 );
 	}
-	if(Y_axis.byte[1] == 0x00)
+
+	if(Y_axis.byte[1])
 	{
-		Z_axis.D_byte = Z_axis.D_byte - 0x00FF;
+		Z_axis.D_byte = (Z_axis.D_byte - 0x0100 );
 	}
 
 	if(AxisCount > AVERAGEVALUE - 1)
@@ -342,27 +345,15 @@ void GetAxisAverage(void)
 		XAxisAverage = Xaxistemp / AVERAGEVALUE;
 		YAxisAverage = Yaxistemp / AVERAGEVALUE;
 		ZAxisAverage = Zaxistemp / AVERAGEVALUE;
-		Accelerator[0] = YAxisAverage>>8;
-		Accelerator[1] = (char)YAxisAverage;
-		Accelerator[2] = XAxisAverage>>8;
-		Accelerator[3] = (char)XAxisAverage;
+		Accelerator[0] = XAxisAverage>>8;
+		Accelerator[1] = (char)XAxisAverage;
+		Accelerator[2] = YAxisAverage>>8;
+		Accelerator[3] = (char)YAxisAverage;
 		Accelerator[4] = ZAxisAverage>>8;
 		Accelerator[5] = (char)ZAxisAverage;
 		Xaxistemp = 0;
 		Yaxistemp = 0;
 		Zaxistemp = 0;
-//		TXREG = 'X';	
-//		while(BusyUSART());
-//		TXREG = Accelerator[0];	
-//		while(BusyUSART());
-//		TXREG = Accelerator[1];	
-//		while(BusyUSART());
-//		TXREG = 'Y';
-//		while(BusyUSART());
-//		TXREG = Accelerator[2];	
-//		while(BusyUSART());
-//		TXREG = Accelerator[3];	
-//		while(BusyUSART());
 	}
 	else
 	{	

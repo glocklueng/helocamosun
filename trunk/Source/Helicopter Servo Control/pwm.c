@@ -34,7 +34,7 @@ void PCPWMInit(void)
 	PDC1L 	= 0xD8;		// 536us, maximum duty cycle
 	
 	PDC2H 	= 0x01;		// Yaw
-	PDC2L 	= 0xB2;		// 526us, 50% duty cycle
+	PDC2L 	= 0xEE;		// 526us, 50% duty cycle
 	
 	PDC3H 	= 0x01;		// Collective
 	PDC3L 	= 0xA7;		// some random value
@@ -46,48 +46,43 @@ void PCPWMInit(void)
 
 void UpdatePWM(void)
 {
-	// PITCH
 	short temp = 0;
 	float fTemp;
-//	PDC0H = Accoustic[0];		// servo[1]
-//	PDC0L = Accoustic[1];
-//	
-//	TXREG = Accoustic[1];
-//	while(BusyUSART());	
-//	TXREG = Accoustic[0];
-//	while(BusyUSART());
-	fTemp = servos[1] * PITCH_CORRECTION_FACTOR;
-	temp = ((short)fTemp)+PITCH_MIN_VAL;
-	PDC0L = (char)temp;
-	PDC0H = (char)(temp>>8);
 	
-//	PDC0L = servos[1];		// 1.43ms, minimum duty cycle 0x0620
-//	TXREG = temp;
-//	while(BusyUSART());
-//	TXREG = temp>>8;
-//	while(BusyUSART());
+	// PITCH
+	if((servos[1] <= 0x5A)&&(servos[1] >= 0x0A))	// set the range between 10% and 90%
+	{
+		fTemp = servos[1] * PITCH_CORRECTION_FACTOR;
+		temp = ((short)fTemp)+PITCH_MIN_VAL;
+		PDC0L = (char)temp;
+		PDC0H = (char)(temp>>8);
+	}
 	// ROLL
-	fTemp = servos[2] * ROLL_CORRECTION_FACTOR;
-	temp = ((short)fTemp)+ROLL_MIN_VAL;
-	PDC1L = (char)temp;		// 536us, maximum duty cycle
-	PDC1H = (char)(temp>>8);
-//	TXREG = servos[2];
-//	while(BusyUSART());
+	if((servos[2] <= 0x64) && (servos[2] >= 0x0A))
+	{
+		fTemp = servos[2] * ROLL_CORRECTION_FACTOR;
+		temp = ((short)fTemp)+ROLL_MIN_VAL;
+		PDC1L = (char)temp;
+		PDC1H = (char)(temp>>8);
+	}
 
-//	while(BusyUSART());	
 	// YAW
-	fTemp = servos[3] * YAW_CORRECTION_FACTOR;
-	temp = ((short)fTemp)+YAW_MIN_VAL;
-	PDC2L = (char)temp;
-	PDC2H = (char)(temp>>8);		// 526us, 50% duty cycle
-//	TXREG = servos[3];
-//	while(BusyUSART());
+	servos[3] = servos[3];
+	if((servos[3] <= 0x64) && (servos[3] >= 0x0A))
+	{
+		fTemp = servos[3] * YAW_CORRECTION_FACTOR;
+		temp = ((short)fTemp)+YAW_MIN_VAL;
+		PDC2L = (char)temp;
+		PDC2H = (char)(temp>>8);
+	}
 
-//	while(BusyUSART());	
 	// COLLECTIVE
-	fTemp = servos[4] * COLLECTIVE_CORRECTION_FACTOR;
-	temp = ((short)fTemp)+COLLECTIVE_MIN_VAL;
-	PDC3L = (char)temp;
-	PDC3H = (char)(temp>>8);
+	if((servos[4] <= 0x64) && (servos[4] >= 0x0A))
+	{
+		fTemp = servos[4] * COLLECTIVE_CORRECTION_FACTOR;
+		temp = ((short)fTemp)+COLLECTIVE_MIN_VAL;
+		PDC3L = (char)temp;
+		PDC3H = (char)(temp>>8);
+	}
 }
 

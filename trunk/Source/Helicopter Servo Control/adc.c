@@ -2,6 +2,7 @@
 adc.c
 */
 #include <p18f4431.h>
+#include <usart.h>
 #include "variables.h"
 #include "adc.h"
 
@@ -157,4 +158,12 @@ void GetADCAverage(void)
 	Gyro[3] = (char)RollAverage;
 	Gyro[4] = YawAverage>>8;
 	Gyro[5] = (char)YawAverage;
+//	
+//	WriteUSART('X');	// Pitch
+//	while(BusyUSART());
+//	WriteUSART(Gyro[4]);	// Pitch
+//	while(BusyUSART());
+//	WriteUSART(Gyro[5]);	// Pitch
+//	while(BusyUSART());
+
 }
