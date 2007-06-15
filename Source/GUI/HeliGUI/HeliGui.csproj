@@ -32,11 +32,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CommProtocolLib\CommProtocolLib\CommProtocolLib\bin\Debug\CommProtocolLib.dll</HintPath>
     </Reference>
-    <Reference Include="GoogleMapsControl, Version=1.0.2674.24092, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="GoogleMapsControl, Version=1.0.2719.36885, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\GoogleMapsControl\GoogleMapsControl\bin\Debug\GoogleMapsControl.dll</HintPath>
     </Reference>
-    <Reference Include="helopanel, Version=1.0.2674.40301, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="helopanel, Version=1.0.2719.36806, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\helopanelUserControlLibrary\helopanel\bin\Debug\helopanel.dll</HintPath>
     </Reference>
