@@ -67,8 +67,15 @@ void UpdatePWM(void)
 	}
 
 	// YAW
-	servos[3] = servos[3];
-	if((servos[3] <= 0x64) && (servos[3] >= 0x0A))
+	if( servos[3] > 0x5A)
+	{
+		servos[3] = 0x5A;
+	}
+	if(servos[3] < 0x0A)
+	{
+		servos[3] = 0x0A;
+	}
+	if((servos[3] <= 0x5A) && (servos[3] >= 0x0A))
 	{
 		fTemp = servos[3] * YAW_CORRECTION_FACTOR;
 		temp = ((short)fTemp)+YAW_MIN_VAL;
