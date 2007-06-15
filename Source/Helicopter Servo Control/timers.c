@@ -72,8 +72,8 @@ void LedStates(void)
 			break;
 		default:
 			STATUS_LED1 ^= 1; 			// TOGGLE
-			STATUS_LED2 != STATUS_LED1;			// TOGGLE
-//			ANTI_COLL_LED = STATUS_LED2;
+			STATUS_LED2 ^= 1;			// TOGGLE
+//			ANTI_COLL_LED ^= 1;
 			break;
 	}
 }

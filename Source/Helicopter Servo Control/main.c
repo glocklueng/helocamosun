@@ -115,7 +115,7 @@ void main(void)
 {
 /*********** Varible declaration *************/
 	char TickCounter = 0;
-	
+
 /********** Beginning of main code ***********/
 	SerialInit();
 	PCPWMInit();
@@ -153,7 +153,6 @@ void main(void)
 				case 1:
 					GetCompassAngle();
 					ResetCompass();		// start compass module
-
 					break;
 				case 2:		// 10ms
 					ScanADC();
@@ -182,7 +181,7 @@ void main(void)
 			// Provisions for if we need 1 second timers
 			if(tFlag.new1sTickFlag)
 			{
-//				LedStates();
+				LedStates();
 			}
 		}
 	}
