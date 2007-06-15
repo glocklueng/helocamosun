@@ -949,3 +949,8 @@ void set_Altitude ( unsigned short alt )
 {
 	GP_helicopter.hsa.altitude = alt;
 }
+
+void set_YawPwm ( unsigned char pwm )
+{
+	GP_helicopter.pwm.yaw = pwm;
+}

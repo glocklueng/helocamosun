@@ -55,7 +55,7 @@ int main ( void )
 	unsigned short average, yawave;
 	int q, temp1, yaw = 0;
 	float seconds = 0;
-	unsigned char state4_cnt = 0;
+	unsigned char state4_cnt = 0, t;
 	unsigned char test[10] = "0123456789";
 	unsigned char yawchar[7] = "";
 	unsigned char latdeg[3] = "";
@@ -102,15 +102,15 @@ int main ( void )
 				
 		}
 		
-		if (!modeFuzzy)
-		{
+//		if (!modeFuzzy)
+//		{
 			if (newPWM)
 			{
 				newPWM = 0;
 				fillpwmCommand();
 				SPI_tx_command(pwmCommand, 5);	
 			}
-		}	
+//		}	
 		i++;
 		
 		if (i > 1000) // Reduced the time between requesting information for the gyros
@@ -134,13 +134,9 @@ int main ( void )
 //**************** COMPASS SECTION *************//
 			if(SPI_tx_req( GSPI_CompReq, GSPI_CompData ))
 			{
-				GP_helicopter.attitude.yaw = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
+			//	GP_helicopter.attitude.yaw = (short)GSPI_CompData[0] * 256 + GSPI_CompData[1];
 			
-			    UpdateSensorValues(GP_helicopter.attitude.yaw);
-
-   				GP_helicopter.pwm.yaw = YawCorrection();
-
-				SPI_tx_command(pwmCommand, 5);			
+			    			
 
 			}
 			
@@ -150,6 +146,15 @@ int main ( void )
 				(short)GSPI_AccData[2] * 256 + GSPI_AccData[3],
 				(short)GSPI_CompData[0] * 256 + GSPI_CompData[1]
 			);
+			
+			//UpdateSensorValues((float)GP_helicopter.attitude.yaw);
+			UpdateSensorValues(100);
+			t = YawCorrection(150);
+			set_YawPwm ( t );
+			GP_TX_char( t );
+			//set_YawPwm(10);
+			fillpwmCommand();
+			SPI_tx_command(pwmCommand, 5);
 			
 			if (SPI_tx_req( GSPI_LatReq, GSPI_LatData ))
 			{

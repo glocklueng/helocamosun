@@ -58,6 +58,7 @@ unsigned char YawCorrection(float CorrectYawAngle)
   {
 	returnval = (char)result;	  
   }
+  
   if(returnval<=-50)
   {
 	return 0;
@@ -68,7 +69,8 @@ unsigned char YawCorrection(float CorrectYawAngle)
   }
   else
   {
-	return returnval + 50;
+	//return returnval + 50;
+	return returnval + 100;
   }
  
 }

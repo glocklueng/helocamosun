@@ -36,7 +36,7 @@ file_005=RF.h
 file_006=SPI.h
 file_007=typedefs.h
 file_008=pid.h
-file_009=p30f3011.gld
+file_009=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\p30f3011.gld
 [SUITE_INFO]
 suite_guid={479DDE59-4D56-455E-855E-FFF59A3DB57E}
 suite_state=

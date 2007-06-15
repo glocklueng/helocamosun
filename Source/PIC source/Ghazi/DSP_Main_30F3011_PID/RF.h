@@ -80,7 +80,7 @@ void set_GPSlong(char deg, char min, short min_frac);
 void set_Gyros(signed short pitch, signed short roll, signed short yaw );
 void set_Altitude ( unsigned short alt );
 void set_PRY(short pitch, short roll, short yaw);
-
+void set_YawPwm ( unsigned char pwm );
 void corr_GPSlatlongalt( signed short latc, signed short longc, signed short altc, unsigned short seconds);
 // adjusts the saved GPS coordinates by the transmitted correction factor
 // <<< unimplemented ATT  >>>
