@@ -60,6 +60,8 @@ extern unsigned char GP_dump;
 extern unsigned char GP_hs;
 extern unsigned char GP_engON;
 extern GPT_helicopter GP_helicopter; // global helicopter structure
+extern unsigned char RX_flag;
+extern unsigned char fuzzyFlag;
 //--------------------------- Messages --------------------------------
 extern char GP_err_chksum[];
 extern char GP_err_SOT[];
@@ -84,3 +86,6 @@ void set_PRY(short pitch, short roll, short yaw);
 void corr_GPSlatlongalt( signed short latc, signed short longc, signed short altc, unsigned short seconds);
 // adjusts the saved GPS coordinates by the transmitted correction factor
 // <<< unimplemented ATT  >>>
+
+
+void clearRxBuffer( void );

@@ -19,7 +19,10 @@ unsigned char GP_hs = 0;			// 1 = we are in handshake mode
 
 GPT_helicopter GP_helicopter;		// global helicopter structure
 unsigned char GP_engON = 0;
- 
+
+unsigned char RX_flag = 0;
+unsigned char fuzzyFlag = 0;
+
 char modeFuzzy = 0;					// default to Testing/Tuning control
 
 signed short latcorr = 0, longcorr = 0, altcorr = 0, seconds = 0;
@@ -28,9 +31,23 @@ signed short latcorr = 0, longcorr = 0, altcorr = 0, seconds = 0;
 unsigned char newPWM = 0;
 //unsigned short hover_alt = 0;
 
+static unsigned short state = 0;
+static unsigned short chksum = 0;
+static unsigned short packet_length = 0;
+static unsigned char packet_cnt = 0;
+	
+static unsigned short checksum[2];
+static unsigned short check = 0;
+
 void GP_TX_char ( char ch )
 
 {
+	
+	if (INTCON1bits.ADDRERR)
+	{
+		INTCON1bits.ADDRERR = 0;
+		GP_TX_char(0x4C);	
+	}
 	// transmit 1 byte on the open UART port 
 	while ( !U2STAbits.TRMT );	// wait until the Transmit Shift Register is not full
 													
@@ -71,17 +88,21 @@ void GP_TX_packet ( unsigned char packet[], unsigned short len )
 
 void GP_state_machine ( void )
 {
-	static unsigned short state = 0;
-	static unsigned short chksum = 0;
-	static unsigned short packet_length = 0;
-	static unsigned char packet_cnt = 0;
+//	static unsigned short state = 0;
+//	static unsigned short chksum = 0;
+//	static unsigned short packet_length = 0;
+//	static unsigned char packet_cnt = 0;
+//	
+//	static unsigned short checksum[2];
+//	static unsigned short check = 0;
+	
 	static char packet[MAXPACKLEN] = "";
-	static unsigned short checksum[2];
-	static unsigned short check = 0;
 	short lcv; 
 	char n;
 	
-	if (GP_bytercvd)
+//	GP_TX_char(0x10);
+	
+	if (GP_bytercvd )
 	{
 		GP_bytercvd = 0;
 		
@@ -92,14 +113,19 @@ void GP_state_machine ( void )
 			{
 				if (GP_dump == 0xA5)
 				{
-					
 					chksum = 0;
 					state++;
-					LATDbits.LATD1 ^= 1;
 				}
 				else 
 				{
-
+					state = 0;
+					packet_length = 0;
+					packet_cnt = 0;
+					chksum = 0;
+					checksum[0] = 0;
+					checksum[1] = 0;
+					check = 0;
+					RX_flag = 0;
 				}
 				break;
 			}
@@ -113,9 +139,8 @@ void GP_state_machine ( void )
 
 				else 
 				{
-				//	GP_errorSOT = 1;
 					state = 0;
-					//GP_TX_char(0x01);
+					RX_flag = 0;
 				}
 				break;
 			}
@@ -179,6 +204,7 @@ void GP_state_machine ( void )
 				{
 					
 					state = 0;
+					RX_flag = 0;
 					chksum = 0;
 					packet_length = 0;
 					packet_cnt = 0;
@@ -197,7 +223,6 @@ void GP_state_machine ( void )
 				{
 					if (check == chksum)
 					{	
-						LATBbits.LATB4 ^= 1;
 						GP_datavalid = 1;
 						GP_data_len = packet_length;
 					}
@@ -214,6 +239,8 @@ void GP_state_machine ( void )
 					checksum[0] = 0;
 					checksum[1] = 0;
 					check = 0;
+					RX_flag = 0;
+					
 				}
 	
 				else
@@ -226,8 +253,8 @@ void GP_state_machine ( void )
 					checksum[0] = 0;
 					checksum[1] = 0;
 					check = 0;
+					RX_flag = 0;
 				}
-			
 				break;
 			}
 			default:
@@ -236,7 +263,21 @@ void GP_state_machine ( void )
 			}
 		}
 	}	
-	n = n;
+	
+//	else if (fuzzyFlag)
+//	
+//	{
+//		state = 0;
+//		packet_length = 0;
+//		packet_cnt = 0;
+//		chksum = 0;
+//		checksum[0] = 0;
+//		checksum[1] = 0;
+//		check = 0;
+//		RX_flag = 0;
+//		
+//	}
+	
 }
 
 void GP_parse_data ( char vdata[], char len )
@@ -247,7 +288,9 @@ void GP_parse_data ( char vdata[], char len )
 	unsigned char seconds;
 	float Ton;
 	int pwm;
-		
+				
+
+	
 	switch (vdata[0])
 	{
 		
@@ -499,7 +542,7 @@ void GP_parse_data ( char vdata[], char len )
 						case 0x42:	// battery status
 						case 0x52:	// motor RPM
 						{
-							
+						
 							GP_TX_telemetry(vdata[2]);
 							break;
 						}
@@ -542,6 +585,8 @@ void GP_parse_data ( char vdata[], char len )
 		}
 		
 	}	
+	
+
 }
 
 
@@ -948,4 +993,16 @@ void corr_GPSlatlongalt( signed short latc, signed short longc, signed short alt
 void set_Altitude ( unsigned short alt )
 {
 	GP_helicopter.hsa.altitude = alt;
+}
+
+void clearRxBuffer( void )
+{
+	state = 0;
+	chksum = 0;
+	packet_length = 0;
+	packet_cnt = 0;
+	checksum[0] = 0;
+	checksum[1] = 0;
+	check = 0;
+	RX_flag = 0;
 }
