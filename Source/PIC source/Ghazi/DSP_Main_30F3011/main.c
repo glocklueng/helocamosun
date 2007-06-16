@@ -68,7 +68,7 @@ int main ( void )
 	short  temp_yaw;
 	unsigned char state4_cnt = 0;
 	unsigned char test[10] = "0123456789";
-	unsigned char yawchar[7] = "";
+//	unsigned char yawchar[7] = "";
 	unsigned char latdeg[3] = "";
 	unsigned char latmin[3] = "";
 	unsigned char latsec[5] = "";
@@ -76,18 +76,74 @@ int main ( void )
 	unsigned char longmin[3] = "";
 	unsigned char longsec[5] = "";
 	short dummy2 = 700;
-	setupTRIS();
-
-
 	
+	setupTRIS();
 	GP_init_UART(19200);
 
+/*
+	• POR: Power-on Reset
+	• EXTR: Pin Reset (MCLR)
+	• SWR: RESET Instruction
+	• WDTR: Watchdog Timer Reset
+	• BOR: Brown-out Reset
+	• TRAPR: Trap Conflict Reset
+	• IOPR: Illegal Opcode Reset
+	• UWR: Uninitialized W Register Reset
+
+*/
+
+	if (RCONbits.POR)
+	{
+		GP_TX_char(0x01);
+		RCONbits.POR = 0;
+	}
+
+	if (RCONbits.EXTR)
+	{
+		GP_TX_char(0x02);
+		RCONbits.EXTR = 0;	
+	}
+		
+	if (RCONbits.SWR)
+	{
+		GP_TX_char(0x03);
+		RCONbits.SWR = 0;
+	}
+		
+	if (RCONbits.WDTO)
+	{
+		GP_TX_char(0x04);
+		RCONbits.WDTO = 0;
+	}
+		
+	if (RCONbits.BOR)
+	{
+		GP_TX_char(0x05);
+		RCONbits.BOR = 0;	
+	}
+		
+	if (RCONbits.TRAPR)
+	{
+		GP_TX_char(0x06);
+		RCONbits.TRAPR = 0;
+	}
+		
+	if (RCONbits.IOPUWR)
+	{
+		GP_TX_char(0x07);
+		RCONbits.IOPUWR = 0;
+	}
+		
+//	if (RCONbits.UWR)
+//	{
+//		GP_TX_char(0x08);
+//		RCONbits.UWR = 0;
+//	}
+		
 	init_T1();
 	init_T2();
 
 	Init_PWM( );
-//	SPI_init( 0, 0 );	// THIS IS CORRECT FOR KYLE'S BOARD SPI_init( 0, 0 ) DO NOT CHANGE!!!
-
 
 	SPI_init( 0, 1 );
 	GP_init_chopper();
@@ -104,14 +160,17 @@ int main ( void )
 	uCReset = 1;
 	for (i=0; i < 1000000; i++);
 	
+//	clearRxBuffer();
+	
 	while(1)
 	{
-		LATDbits.LATD0 ^= 1;
+		
 	//	LATEbits.LATE1 ^= 1;
 		if (GP_datavalid)
 		{
 			GP_datavalid = 0;
 			GP_parse_data(GP_data, GP_data_len);
+			RX_flag = 0;
 		}
 		else
 		{
@@ -129,11 +188,11 @@ int main ( void )
 		}	
 		i++;
 		
-		if (i > 1000) // Reduced the time between requesting information for the gyros
+		if (i >= 1000) // Reduced the time between requesting information for the gyros
 		{
 			c++;
 			i = 0;
-//			temp1 = SPI_readTemp1();
+			//			temp1 = SPI_readTemp1();
 			temp1 = (temp1 & 0x7FE0) >> 5;
 			total += temp1;
 		
@@ -156,11 +215,10 @@ int main ( void )
 				(short)GSPI_CompData[0] * 256 + GSPI_CompData[1]
 			);
 			
-			//GP_helicopter.attitude.pitch = (short)GSPI_AccData[0] * 256 + GSPI_AccData[1];
-		//	GP_helicopter.attitude.roll = (short)GSPI_AccData[2] * 256 + GSPI_AccData[3];
-			
-			if (modeFuzzy)
+			if (0)
 			{
+				//IEC1bits.U2RXIE = 0;		// disable the UART RX interrupt
+				
 //**************** PITCH CONTROL *************//
 
 				if(GP_helicopter.attitude.pitch >= 128)
@@ -198,7 +256,6 @@ int main ( void )
 				}
 				else
 				{
-					// the following line
 					pitch_angle_mf->sensor = 500 - (short)(GP_helicopter.hsa.altitude + GP_helicopter.newAltitude); // credit SCOTT
 					pitch_angle_mf->sensor *= 0.1960;
 				}
@@ -211,6 +268,8 @@ int main ( void )
 			    fillpwmCommand();
 				SPI_tx_command(pwmCommand, 5);
 			
+			//	IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
+			
 			}
 			
 			
@@ -220,8 +279,11 @@ int main ( void )
 // Counterclockwise = negative value
 // Clockwise = postive value
 //**************** YAW CONTROL *************//
-			if(modeFuzzy)
+			if(modeFuzzy && (!RX_flag) )
 			{
+				
+			//	fuzzyFlag = 1;
+				
 				GP_helicopter.newHeading = 260;
 				if((GP_helicopter.newHeading >= 0) && (GP_helicopter.newHeading < 45))
 				{
@@ -308,15 +370,37 @@ int main ( void )
 				temp_yaw = (short)((float)GP_helicopter.gyros.yaw * 0.07692);
 				pitch_rate_mf->sensor = 450 + temp_yaw;
 				
-				Fuzzification( pitch_param, pitch_angle_mf);
-				Fuzzification( tilt_rate_param, pitch_rate_mf);
 				
-			    GP_helicopter.pwm.yaw = (short)(doRules(pitch_mf, Rule));
+				if(!RX_flag)
+				{
+					if(fuzzyFlag)
+					{
+						fuzzyFlag = 0;
+						LATDbits.LATD3 = 1;
+						IEC1bits.U2RXIE = 0;		// disable the UART RX interrupt
+						Fuzzification( pitch_param, pitch_angle_mf);
+						Fuzzification( tilt_rate_param, pitch_rate_mf);
+						IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
+						LATDbits.LATD3 = 0;
+					}
+				}
+				if(!fuzzyFlag)
+				{
+					fuzzyFlag = 1;
+					LATDbits.LATD3 = 1;
+					IEC1bits.U2RXIE = 0;		// disable the UART RX interrupt
+				    GP_helicopter.pwm.yaw = (short)(doRules(pitch_mf, Rule));
+				    IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
+				    LATDbits.LATD3 = 0;			    
+			    }
+			    clearRxBuffer();
+			    //fuzzyFlag = 0;
 			 }
+			 
    		if (modeFuzzy)
    		{	
-	 		fillpwmCommand();
-			SPI_tx_command(pwmCommand, 5);	
+			fillpwmCommand();
+			SPI_tx_command(pwmCommand, 5);
 		}		
 //********************** END OF FUZZY CODE ***************************//
 			
@@ -393,6 +477,8 @@ void setupTRIS ( void )
 	TRISBbits.TRISB0 = 0;
 	TRISBbits.TRISB4 = 0;
 	TRISDbits.TRISD0 = 0;
+	TRISDbits.TRISD3 = 0;
+	TRISDbits.TRISD1 = 0;
 	TRISFbits.TRISF5 = 0;
 	TRISEbits.TRISE1 = 0;
 	
@@ -451,7 +537,13 @@ void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
 	IFS1bits.U2RXIF = 0;	// clear the receive interrupt flag
 	GP_bytercvd = 1;		// indicate a byte was received
 	GP_dump = U2RXREG;		// read the byte from the receive register
+//	if (fuzzyFlag && (GP_dump == 0x33) )
+//	{
+//	fuzzyFlag = 0;
+//	}
+	RX_flag = 1;
 	GP_state_machine();
+	LATDbits.LATD1 ^= 1;
 	IEC1bits.U2RXIE = 1;	// re-enable the receive interrupt
 
 }

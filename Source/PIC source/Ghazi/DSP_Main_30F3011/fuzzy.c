@@ -56,6 +56,7 @@ float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
 float Equ_line( float x, float x1, float x2, float y1, float y2)
 {
 		return (y2-y1)/(x2-x1)*(x - x1) + y1;		
+	
 }
 
 /*
