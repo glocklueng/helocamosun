@@ -565,7 +565,7 @@ namespace commprotocoltester
         private void btnConnect_Click(object sender, EventArgs e)
         {
 
-            cp = new CommProtocol(comboBox1.SelectedItem.ToString(),19200, Parity.None, 8, StopBits.One, 2000, this);
+            cp = new CommProtocol(comboBox1.SelectedItem.ToString(),19200, Parity.None, 8, StopBits.One, 200, this);
 
             if (cp != null)
             {
@@ -811,6 +811,11 @@ namespace commprotocoltester
         private void btnKillMotor_Click(object sender, EventArgs e)
         {
             cp.SetMotorRPM(0);
+        }
+
+        private void btnClearWindows_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
         }
 
 

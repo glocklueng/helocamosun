@@ -273,8 +273,7 @@ namespace HeliGui
                 }
             }
         }
-
-
+        
         #region safe closing routine
 
         void frmAirWulf_FormClosing(object sender, FormClosingEventArgs e)
@@ -307,8 +306,6 @@ namespace HeliGui
         }
 
         #endregion
-
-
 
         #region gauge setup routines
         private void SetUpRPMGauge()

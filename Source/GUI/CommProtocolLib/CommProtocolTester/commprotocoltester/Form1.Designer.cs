@@ -66,6 +66,7 @@ namespace commprotocoltester
             this.btnSetOpsMode = new System.Windows.Forms.Button();
             this.cbxCtrlMode = new System.Windows.Forms.ComboBox();
             this.btnKillMotor = new System.Windows.Forms.Button();
+            this.btnClearWindows = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -345,7 +346,7 @@ namespace commprotocoltester
             // 
             // btnstop
             // 
-            this.btnstop.Location = new System.Drawing.Point(439, 637);
+            this.btnstop.Location = new System.Drawing.Point(496, 635);
             this.btnstop.Name = "btnstop";
             this.btnstop.Size = new System.Drawing.Size(75, 23);
             this.btnstop.TabIndex = 28;
@@ -423,11 +424,22 @@ namespace commprotocoltester
             this.btnKillMotor.UseVisualStyleBackColor = false;
             this.btnKillMotor.Click += new System.EventHandler(this.btnKillMotor_Click);
             // 
+            // btnClearWindows
+            // 
+            this.btnClearWindows.Location = new System.Drawing.Point(421, 635);
+            this.btnClearWindows.Name = "btnClearWindows";
+            this.btnClearWindows.Size = new System.Drawing.Size(69, 23);
+            this.btnClearWindows.TabIndex = 35;
+            this.btnClearWindows.Text = "clear";
+            this.btnClearWindows.UseVisualStyleBackColor = true;
+            this.btnClearWindows.Click += new System.EventHandler(this.btnClearWindows_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1038, 694);
+            this.Controls.Add(this.btnClearWindows);
             this.Controls.Add(this.btnKillMotor);
             this.Controls.Add(this.cbxCtrlMode);
             this.Controls.Add(this.btnSetOpsMode);
@@ -504,6 +516,7 @@ namespace commprotocoltester
         private System.Windows.Forms.Button btnSetOpsMode;
         private System.Windows.Forms.ComboBox cbxCtrlMode;
         private System.Windows.Forms.Button btnKillMotor;
+        private System.Windows.Forms.Button btnClearWindows;
 
     }
 }
