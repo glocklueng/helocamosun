@@ -46,8 +46,6 @@ fMember *pitch_angle_mf = &(pitch_mf[0]),
 		*pitch_rate_mf  = &(pitch_mf[1]), 
 		*pitch_accel_mf = &(pitch_mf[2]);
 		
-
-
 //fMember roll_mf[3];
 //fMember *roll_angle_mf = &(roll_mf[0]), 
 //		*roll_rate_mf  = &(roll_mf[1]), 
@@ -160,8 +158,6 @@ int main ( void )
 	uCReset = 1;
 	for (i=0; i < 1000000; i++);
 	
-//	clearRxBuffer();
-	
 	while(1)
 	{
 		
@@ -176,7 +172,7 @@ int main ( void )
 		{
 				
 		}
-		
+
 		if (!modeFuzzy)
 		{
 			if (newPWM)
@@ -279,12 +275,12 @@ int main ( void )
 // Counterclockwise = negative value
 // Clockwise = postive value
 //**************** YAW CONTROL *************//
-			if(modeFuzzy && (!RX_flag) )
+			if(modeFuzzy )
 			{
 				
 			//	fuzzyFlag = 1;
 				
-				GP_helicopter.newHeading = 260;
+				GP_helicopter.newHeading = 160;
 				if((GP_helicopter.newHeading >= 0) && (GP_helicopter.newHeading < 45))
 				{
 					if(GP_helicopter.attitude.yaw > 315)
@@ -367,41 +363,44 @@ int main ( void )
 						pitch_angle_mf->sensor = 500 + temp_yaw;
 					}
 				}
-				temp_yaw = (short)((float)GP_helicopter.gyros.yaw * 0.07692);
+				temp_yaw = (short)((float)GP_helicopter.gyros.yaw * YAW_GYRO_SCALING);
 				pitch_rate_mf->sensor = 450 + temp_yaw;
-				
 				
 				if(!RX_flag)
 				{
-					if(fuzzyFlag)
-					{
-						fuzzyFlag = 0;
+					IEC1bits.U2RXIE = 0;		// disable the UART RX interrupt
+//					if(fuzzyFlag)
+//					{
+//						fuzzyFlag = 0;
 						LATDbits.LATD3 = 1;
-						IEC1bits.U2RXIE = 0;		// disable the UART RX interrupt
 						Fuzzification( pitch_param, pitch_angle_mf);
 						Fuzzification( tilt_rate_param, pitch_rate_mf);
-						IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
-						LATDbits.LATD3 = 0;
+//						LATDbits.LATD3 = 0;
+//					}
+//					else if(!fuzzyFlag)
+//					{
+//						fuzzyFlag = 1;
+//						LATDbits.LATD3 = 1;
+					    GP_helicopter.pwm.yaw = (short)(doRules(pitch_mf, Rule));
+					    LATDbits.LATD3 = 0;
+//				    }
+				    IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
+				    // clear the over-run buffer for when we are executing the fuzzy code and
+					// can't service the USART interrupt		
+					if(U2STAbits.OERR)	
+					{
+						U2STAbits.OERR = 0;		// clear the over run buffer flag
+						clearRxBuffer();		// clar the buffer
 					}
 				}
-				if(!fuzzyFlag)
-				{
-					fuzzyFlag = 1;
-					LATDbits.LATD3 = 1;
-					IEC1bits.U2RXIE = 0;		// disable the UART RX interrupt
-				    GP_helicopter.pwm.yaw = (short)(doRules(pitch_mf, Rule));
-				    IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
-				    LATDbits.LATD3 = 0;			    
-			    }
-			    clearRxBuffer();
 			    //fuzzyFlag = 0;
 			 }
 			 
-   		if (modeFuzzy)
-   		{	
-			fillpwmCommand();
-			SPI_tx_command(pwmCommand, 5);
-		}		
+	   		if (modeFuzzy)
+	   		{	
+				fillpwmCommand();
+				SPI_tx_command(pwmCommand, 5);
+			}		
 //********************** END OF FUZZY CODE ***************************//
 			
 			
@@ -535,13 +534,11 @@ void __attribute__(( interrupt, no_auto_psv )) _U2RXInterrupt(void)
 {
 	IEC1bits.U2RXIE = 0;	// disable the receive interrupt
 	IFS1bits.U2RXIF = 0;	// clear the receive interrupt flag
+
 	GP_bytercvd = 1;		// indicate a byte was received
 	GP_dump = U2RXREG;		// read the byte from the receive register
-//	if (fuzzyFlag && (GP_dump == 0x33) )
-//	{
-//	fuzzyFlag = 0;
-//	}
-	RX_flag = 1;
+
+
 	GP_state_machine();
 	LATDbits.LATD1 ^= 1;
 	IEC1bits.U2RXIE = 1;	// re-enable the receive interrupt
@@ -604,7 +601,23 @@ void GP_init_UART( unsigned int baud )
 	U2MODEbits.LPBACK = 0;		// disable loopback mode
 	U2MODEbits.PDSEL = 0b00;	// 8 data bits, no parity
 	U2MODEbits.STSEL = 0;		// 1 stop bit
-
+	U2STAbits.URXISEL = 0;		//a)  If URXISEL<1:0> = 00 or 01, an interrupt is
+								//	  generated every time a data word is transferred
+								//	  from the Receive Shift register (UxRSR) to the
+								//	  receive buffer. There may be one or more
+								//	  characters in the receive buffer.
+								//b)  If URXISEL<1:0> = 10, an interrupt is generated
+								//	  when a word is transferred from the Receive
+								//	  Shift register (UxRSR) to the receive buffer,
+								//	  which, as a result of the transfer, contains 3
+								//	  characters.
+								//c)  If URXISEL<1:0> = 11, an interrupt is set when
+								//	  a word is transferred from the Receive Shift
+								//	  register (UxRSR) to the receive buffer, which, as
+								//	  a result of the transfer, contains 4 characters
+								//	 (i.e., becomes full).
+	
+	
 //	U2BRG = ( FCY / (16 * baud) ); // calculate the BRG value for a
 									   // given baud rate
 

@@ -6,315 +6,1564 @@
 !_TAG_PROGRAM_VERSION	5.5.4	//
 !_TAG_REVISION_NAME	MCHPTags	//
 !_TAG_REVISION_VERSION	6.0.1	//
-ACCEL::0x02	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	26;"	d	line:26
-ANGLE::0x00	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	24;"	d	line:24
-COMPASS_SCALING::2.0	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	12;"	d	line:12
-ERCMDflag	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	41;"	v	line:41
-ERR_2GYRO_CONN::0x02;	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	6;"	d	line:6
-ERR_ACC_CONN::0x04;	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	8;"	d	line:8
-ERR_COMPASS_CONN::0x01;	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	5;"	d	line:5
-ERR_GPS_CONN::0x05;	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	9;"	d	line:9
-ERR_MCU_CONN::0x06;	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	10;"	d	line:10
-ERR_YGYRO_CONN::0x03;	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	7;"	d	line:7
-Equ_line	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	56;"	f	line:56	signature:( float x, float x1, float x2, float y1, float y2)
-Equ_line	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	69;"	p	line:69	signature:( float x, float x1, float x2, float y1, float y2)
-FCY::5000000	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	9;"	d	line:9	file:
-Fuzzification	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	67;"	f	line:67	signature:( float input_param[][3], fMember *input_mf)
-Fuzzification	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	70;"	p	line:70	signature:( float input_param[][3], fMember *input_mf)
-GPS_alt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	64;"	m	line:64
-GPT_Gyro	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	4;"	t	line:4
-GPT_HSA	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	28;"	t	line:28
-GPT_attitude	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	33;"	t	line:33
-GPT_batterystatus	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	38;"	t	line:38
-GPT_fuzzy	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	53;"	t	line:53
-GPT_goto_position	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	21;"	t	line:21
-GPT_helicopter	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	71;"	t	line:71
-GPT_latlong	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	13;"	t	line:13
-GPT_position	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	43;"	t	line:43
-GPT_pwm	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	48;"	t	line:48
-GP_ACK	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	814;"	f	line:814	signature:( char vdata[], char len )
-GP_ACK	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	23;"	p	line:23	signature:( char vdata[], char len )
-GP_TX_GeneralPurposePacket	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	593;"	f	line:593	signature:( unsigned char* data, unsigned char len)
-GP_TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	42;"	f	line:42	signature:( char ch )
-GP_TX_char	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	14;"	p	line:14	signature:( char )
-GP_TX_error	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	58;"	f	line:58	signature:( char code )
-GP_TX_error	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	26;"	p	line:26	signature:( char code )
-GP_TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	78;"	f	line:78	signature:( unsigned char packet[], unsigned short len )
-GP_TX_packet	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	17;"	p	line:17	signature:( unsigned char packet[], unsigned short len )
-GP_TX_telemetry	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	624;"	f	line:624	signature:( unsigned char type )
-GP_TX_telemetry	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	20;"	p	line:20	signature:( unsigned char type )
-GP_bytercvd	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	6;"	v	line:6
-GP_collsp	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	15;"	v	line:15
-GP_data	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	8;"	v	line:8
-GP_data_len	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	9;"	v	line:9
-GP_datavalid	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	7;"	v	line:7
-GP_dump	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	17;"	v	line:17
-GP_engON	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	21;"	v	line:21
-GP_engRPMsp	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	11;"	v	line:11
-GP_handshake	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	19;"	v	line:19
-GP_helicopter	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	20;"	v	line:20
-GP_hs	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	18;"	v	line:18
-GP_init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	24;"	p	line:24	file:	signature:( unsigned int baud )
-GP_init_UART	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	599;"	f	line:599	signature:( unsigned int baud )
-GP_init_chopper	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	851;"	f	line:851	signature:( void )
-GP_init_chopper	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	39;"	p	line:39	signature:( void )
-GP_itoa	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	42;"	p	line:42	signature:(char *buffer, int i)
-GP_parse_data	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	283;"	f	line:283	signature:( char vdata[], char len )
-GP_parse_data	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	34;"	p	line:34	signature:( char vdata[], char len )
-GP_pitchsp	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	12;"	v	line:12
-GP_rollsp	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	13;"	v	line:13
-GP_state_machine	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	89;"	f	line:89	signature:( void )
-GP_state_machine	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	31;"	p	line:31	signature:( void )
-GP_yawsp	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	14;"	v	line:14
-GSPI_2GyroData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	8;"	v	line:8
-GSPI_3GyroData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	21;"	v	line:21
-GSPI_3GyroReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	4;"	v	line:4
-GSPI_AccData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	7;"	v	line:7
-GSPI_AccReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	3;"	v	line:3
-GSPI_AcousticData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	11;"	v	line:11
-GSPI_AcousticReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	6;"	v	line:6
-GSPI_AltData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	19;"	v	line:19
-GSPI_AltReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	14;"	v	line:14
-GSPI_CompData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	10;"	v	line:10
-GSPI_CompReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	5;"	v	line:5
-GSPI_LatData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	17;"	v	line:17
-GSPI_LatReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	12;"	v	line:12
-GSPI_LongData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	18;"	v	line:18
-GSPI_LongReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	13;"	v	line:13
-GSPI_RpmData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	14;"	v	line:14
-GSPI_RpmReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	9;"	v	line:9
-GSPI_SatData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	20;"	v	line:20
-GSPI_SatReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	15;"	v	line:15
-GSPI_StatusData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	15;"	v	line:15
-GSPI_StatusReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	10;"	v	line:10
-GSPI_TempData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	13;"	v	line:13
-GSPI_TempReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	8;"	v	line:8
-GSPI_TimeData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	16;"	v	line:16
-GSPI_TimeReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	11;"	v	line:11
-GSPI_VoltData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	12;"	v	line:12
-GSPI_VoltReq	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	7;"	v	line:7
-GSPI_YawGyroData	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	9;"	v	line:9
-Init_PWM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	26;"	p	line:26	file:	signature:( void )
-Init_PWM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	574;"	f	line:574	signature:( void )
-MAXPACKLEN::32	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	3;"	d	line:3
-MAXPACKLEN::32	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	5;"	d	line:5	file:
-MAXPACKLEN::32	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	1;"	d	line:1
-N::Z-1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	18;"	d	line:18
-NL::Z-2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	17;"	d	line:17
-NL_WEIGHT::(100)	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	24;"	d	line:24	file:
-NUM_RANGE::5	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	15;"	d	line:15
-NUM_RULES::25	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	14;"	d	line:14
-N_WEIGHT::(75)	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	25;"	d	line:25	file:
-P::Z+1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	20;"	d	line:20
-PITCH_GYRO_OFFSET::20	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	7;"	d	line:7
-PITCH_TILT_OFFSET::0	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	6;"	d	line:6
-PL::Z+2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	21;"	d	line:21
-PL_WEIGHT::(0)	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	28;"	d	line:28	file:
-P_WEIGHT::(25)	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	27;"	d	line:27	file:
-RATE::0x01	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	25;"	d	line:25
-ROLL_GYRO_OFFSET::0	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	9;"	d	line:9
-ROLL_TILT_OFFSET::0	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	8;"	d	line:8
-RSS	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	189;"	l	line:189
-RX_flag	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	23;"	v	line:23
-Rule	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	147;"	v	line:147
-SON_alt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	64;"	m	line:64
-SPI_init	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	23;"	f	line:23	signature:( char mode16, char falling )
-SPI_init	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	15;"	p	line:15	signature:( char mode16, char falling )
-SPI_readTemp1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	116;"	f	line:116	signature:( void )
-SPI_readTemp1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	27;"	p	line:27	signature:( void )
-SPI_tx_byte	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	46;"	f	line:46	signature:( char ch)
-SPI_tx_byte	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	18;"	p	line:18	signature:( char )
-SPI_tx_command	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	62;"	f	line:62	signature:( unsigned char packet[], char len )
-SPI_tx_command	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	21;"	p	line:21	signature:( unsigned char cmd[], char len )
-SPI_tx_req	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	77;"	f	line:77	signature:( unsigned char packet[], unsigned char data[] )
-SPI_tx_req	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	24;"	p	line:24	signature:( unsigned char req[], unsigned char data[] )
-SPI_tx_word	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	54;"	f	line:54	signature:( unsigned short ch)
-T2flag	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	40;"	v	line:40
-Ton	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	289;"	l	line:289
-YAW_GYRO_OFFSET::200	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	11;"	d	line:11
-YAW_TILT_OFFSET::0	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	10;"	d	line:10
-Z::2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	19;"	d	line:19
-Z_WEIGHT::(50)	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	26;"	d	line:26	file:
-_NEG::0x01	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	30;"	d	line:30
-_NL::0x00	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	29;"	d	line:29
-_PL::0x04	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	33;"	d	line:33
-_POS::0x03	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	32;"	d	line:32
-_T1Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	32;"	p	line:32	file:	signature:(void)
-_T1Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	551;"	f	line:551	signature:(void)
-_T2Interrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	563;"	f	line:563	signature:(void)
-_THEN::0x59	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	36;"	d	line:36
-_U2RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	29;"	p	line:29	file:	signature:(void)
-_U2RXInterrupt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	534;"	f	line:534	signature:(void)
-_ZERO::0x02	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	31;"	d	line:31
-__FUZZ_H	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	4;"	d	line:4
-ack	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	816;"	l	line:816
-action	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	19;"	m	line:19
-altcorr	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	28;"	v	line:28
-altitude	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	27;"	m	line:27
-attitude	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	60;"	m	line:60
-average	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	65;"	l	line:65
-batterystatus	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	61;"	m	line:61
-bite	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	83;"	l	line:83
-c	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	48;"	l	line:48
-c	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	56;"	l	line:56
-c	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	63;"	l	line:63
-check	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	40;"	v	line:40	file:
-check	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	82;"	l	line:82
-checksum	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	39;"	v	line:39	file:
-chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	35;"	v	line:35	file:
-chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	597;"	l	line:597
-chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	628;"	l	line:628
-chksum	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	818;"	l	line:818
-clearRxBuffer	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	998;"	f	line:998	signature:( void )
-clearRxBuffer	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	91;"	p	line:91	signature:( void )
-clock	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	42;"	v	line:42
-cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	596;"	l	line:596
-cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	627;"	l	line:627
-cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	64;"	l	line:64
-cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	79;"	l	line:79
-coll	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	47;"	m	line:47
-coll	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	52;"	m	line:52
-corr_GPSlatlongalt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	954;"	f	line:954	signature:( signed short latc, signed short longc, signed short altc, unsigned short seconds)
-corr_GPSlatlongalt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	86;"	p	line:86	signature:( signed short latc, signed short longc, signed short altc, unsigned short seconds)
-curInput	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	191;"	l	line:191
-current	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	37;"	m	line:37
-d	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	63;"	l	line:63
-data	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	20;"	m	line:20
-deg	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	8;"	m	line:8
-delaycount	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	120;"	l	line:120
-doRules	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	187;"	f	line:187	signature:( fMember * all_mf, char * Rules )
-doRules	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	72;"	p	line:72	signature:(fMember *all_mf, char *Rule)
-dummy	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	118;"	l	line:118
-dummy	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	62;"	l	line:62
-dummy2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	78;"	l	line:78
-eepromSS::LATEbits.LATE4	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	8;"	d	line:8
-eepromSSTris::TRISEbits.TRISE4	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	9;"	d	line:9
-engRPM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	47;"	m	line:47
-engRPM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	52;"	m	line:52
-fMember	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	47;"	t	line:47
-fillpwmCommand	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	35;"	p	line:35	file:	signature:( void )
-fillpwmCommand	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	463;"	f	line:463	signature:( void )
-fuzzy	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	68;"	m	line:68
-fuzzyFlag	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	24;"	v	line:24
-goto_position	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	57;"	m	line:57
-gyros	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	69;"	m	line:69
-heading	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	25;"	m	line:25
-hemi	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	12;"	m	line:12
-hsa	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	59;"	m	line:59
-i	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	65;"	l	line:65
-i	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	80;"	l	line:80
-i	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	63;"	l	line:63
-init_GVars	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	16;"	p	line:16	file:	signature:( void )
-init_GVars	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	497;"	f	line:497	signature:( void )
-init_LEDs	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	22;"	p	line:22	file:	signature:( void )
-init_LEDs	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	525;"	f	line:525	signature:( void )
-init_T1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	18;"	p	line:18	file:	signature:( void )
-init_T1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	503;"	f	line:503	signature:( void )
-init_T2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	20;"	p	line:20	file:	signature:( void )
-init_T2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	513;"	f	line:513	signature:( void )
-inum	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	193;"	l	line:193
-k	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	285;"	l	line:285
-latcorr	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	28;"	v	line:28
-latdeg	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	72;"	l	line:72
-latitude	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	17;"	m	line:17
-latitude	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	42;"	m	line:42
-latmin	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	73;"	l	line:73
-latsec	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	74;"	l	line:74
-lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	100;"	l	line:100
-lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	80;"	l	line:80
-lcv	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	817;"	l	line:817
-longcorr	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	28;"	v	line:28
-longdeg	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	75;"	l	line:75
-longitude	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	18;"	m	line:18
-longitude	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	42;"	m	line:42
-longmin	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	76;"	l	line:76
-longsec	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	77;"	l	line:77
-main	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	60;"	f	line:60	signature:( void )
-min	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	9;"	m	line:9
-min_frac	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	10;"	m	line:10
-minutes	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	11;"	m	line:11
-modeFuzzy	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	26;"	v	line:26
-motorRPM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	63;"	m	line:63
-n	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	101;"	l	line:101
-n	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	42;"	m	line:42
-newAltitude	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	70;"	m	line:70
-newHeading	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	70;"	m	line:70
-newPWM	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	31;"	v	line:31
-nl	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	41;"	m	line:41
-p	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	44;"	m	line:44
-packet	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	595;"	l	line:595
-packet	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	626;"	l	line:626
-packet	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	62;"	l	line:62
-packet	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	99;"	l	line:99	file:
-packet_cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	37;"	v	line:37	file:
-packet_length	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	36;"	v	line:36	file:
-pitch	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	32;"	m	line:32
-pitch	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	3;"	m	line:3
-pitch	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	47;"	m	line:47
-pitch	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	52;"	m	line:52
-pitch_accel_mf	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	47;"	v	line:47
-pitch_angle_mf	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	45;"	v	line:45
-pitch_mf	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	44;"	v	line:44
-pitch_param	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	8;"	v	line:8
-pitch_rate_mf	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	46;"	v	line:46
-pl	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	45;"	m	line:45
-position	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	58;"	m	line:58
-pwm	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	290;"	l	line:290
-pwm	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	67;"	m	line:67
-pwmCommand	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	2;"	v	line:2
-q	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	66;"	l	line:66
-rIndex	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	190;"	l	line:190
-rNum	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	190;"	l	line:190
-rcv	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	81;"	l	line:81
-roll	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	32;"	m	line:32
-roll	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	3;"	m	line:3
-roll	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	47;"	m	line:47
-roll	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	52;"	m	line:52
-ruleVal	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	192;"	l	line:192
-seconds	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	288;"	l	line:288
-seconds	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	28;"	v	line:28
-seconds	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	67;"	l	line:67
-sensor	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	46;"	m	line:46
-sensors	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	65;"	m	line:65
-set_Altitude	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	993;"	f	line:993	signature:( unsigned short alt )
-set_Altitude	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	83;"	p	line:83	signature:( unsigned short alt )
-set_GPSlat	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	931;"	f	line:931	signature:(char deg, char min, short min_frac)
-set_GPSlat	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	80;"	p	line:80	signature:(char deg, char min, short min_frac)
-set_GPSlong	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	939;"	f	line:939	signature:(char deg, char min, short min_frac)
-set_GPSlong	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	81;"	p	line:81	signature:(char deg, char min, short min_frac)
-set_Gyros	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	947;"	f	line:947	signature:(signed short pitch, signed short roll, signed short yaw )
-set_Gyros	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	82;"	p	line:82	signature:(signed short pitch, signed short roll, signed short yaw )
-set_PRY	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	923;"	f	line:923	signature:(short pitch, short roll, short yaw)
-set_PRY	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	84;"	p	line:84	signature:(short pitch, short roll, short yaw)
-set_variables	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	79;"	p	line:79	signature:(short pitch, short roll, short yaw)
-setupTRIS	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	14;"	p	line:14	file:	signature:( void )
-setupTRIS	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	471;"	f	line:471	signature:( void )
-speed	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	26;"	m	line:26
-state	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	34;"	v	line:34	file:
-state4_cnt	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	69;"	l	line:69
-temp	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	37;"	m	line:37
-temp1	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	66;"	l	line:66
-tempSS::LATEbits.LATE5	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	12;"	d	line:12
-tempSSTris::TRISEbits.TRISE5	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	13;"	d	line:13
-temp_yaw	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	68;"	l	line:68
-templat	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	956;"	l	line:956
-templong	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	957;"	l	line:957
-test	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	70;"	l	line:70
-tilt_rate_param	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	16;"	v	line:16
-total	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	63;"	l	line:63
-totalyaw	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	64;"	l	line:64
-uCReset::LATBbits.LATB8	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	11;"	d	line:11	file:
-uCResetTris::TRISBbits.TRISB8	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	12;"	d	line:12	file:
-uCSS::LATEbits.LATE2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	4;"	d	line:4
-uCSSTris::TRISEbits.TRISE2	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	5;"	d	line:5
-val	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	287;"	l	line:287
-voltage	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	37;"	m	line:37
-vout_mf	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	194;"	l	line:194
-wSum	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	192;"	l	line:192
-yaw	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	66;"	l	line:66
-yaw	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	32;"	m	line:32
-yaw	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	3;"	m	line:3
-yaw	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	47;"	m	line:47
-yaw	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	52;"	m	line:52
-yawave	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	65;"	l	line:65
-z	D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	43;"	m	line:43
+A10M	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1004;"	m	line:1004	struct:tagI2CCONBITS
+ABAUD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1064;"	m	line:1064	struct:tagUxMODEBITS
+ACC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	94;"	t	line:94
+ACCEL::0x02	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	26;"	d	line:26
+ACCSAT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	177;"	m	line:177	struct:tagCORCONBITS
+ACKDT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	999;"	m	line:999	struct:tagI2CCONBITS
+ACKEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	998;"	m	line:998	struct:tagI2CCONBITS
+ACKSTAT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1029;"	m	line:1029	struct:tagI2CSTATBITS
+ADCHSBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1294;"	t	line:1294
+ADCMD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1618;"	m	line:1618	struct:tagPMD1BITS
+ADCON1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1254;"	t	line:1254
+ADCON2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1269;"	t	line:1269
+ADCON3BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1280;"	t	line:1280
+ADCS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1275;"	m	line:1275	struct:tagADCON3BITS
+ADCSSLBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1326;"	t	line:1326
+ADD10	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1024;"	m	line:1024	struct:tagI2CSTATBITS
+ADDEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1082;"	m	line:1082	struct:tagUxSTABITS
+ADDRERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	238;"	m	line:238	struct:tagINTCON1BITS
+ADIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	326;"	m	line:326	struct:tagIEC0BITS
+ADIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	275;"	m	line:275	struct:tagIFS0BITS
+ADIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	400;"	m	line:400	struct:tagIPC2BITS
+ADON	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1253;"	m	line:1253	struct:tagADCON1BITS
+ADPCFGBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1310;"	t	line:1310
+ADRC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1277;"	m	line:1277	struct:tagADCON3BITS
+ADSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1251;"	m	line:1251	struct:tagADCON1BITS
+ALTIO	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1068;"	m	line:1068	struct:tagUxMODEBITS
+ALTIVT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	257;"	m	line:257	struct:tagINTCON2BITS
+ALTS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1260;"	m	line:1260	struct:tagADCON2BITS
+ANGLE::0x00	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	24;"	d	line:24
+ASAM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1245;"	m	line:1245	struct:tagADCON1BITS
+BCL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1026;"	m	line:1026	struct:tagI2CSTATBITS
+BGST	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1549;"	m	line:1549	struct:tagRCONBITS
+BOR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1541;"	m	line:1541	struct:tagRCONBITS
+BORV_20::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2293;"	d	line:2293
+BORV_27::0xFFEF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2294;"	d	line:2294
+BORV_42::0xFFDF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2295;"	d	line:2295
+BORV_45::0xFFCF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2296;"	d	line:2296
+BREN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	216;"	m	line:216	struct:tagXBREVBITS
+BUFM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1261;"	m	line:1261	struct:tagADCON2BITS
+BUFS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1264;"	m	line:1264	struct:tagADCON2BITS
+BWM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	193;"	m	line:193	struct:tagMODCONBITS
+C	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	153;"	m	line:153	struct:tagSRBITS
+CEID	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	685;"	m	line:685	struct:tagDFLTCONBITS
+CF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1561;"	m	line:1561	struct:tagOSCCONBITS
+CH0NA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1287;"	m	line:1287	struct:tagADCHSBITS
+CH0NB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1291;"	m	line:1291	struct:tagADCHSBITS
+CH0SA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1286;"	m	line:1286	struct:tagADCHSBITS
+CH0SB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1290;"	m	line:1290	struct:tagADCHSBITS
+CH123NA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1289;"	m	line:1289	struct:tagADCHSBITS
+CH123NB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1293;"	m	line:1293	struct:tagADCHSBITS
+CH123SA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1288;"	m	line:1288	struct:tagADCHSBITS
+CH123SB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1292;"	m	line:1292	struct:tagADCHSBITS
+CHPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1265;"	m	line:1265	struct:tagADCON2BITS
+CKE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1196;"	m	line:1196	struct:tagSPIxCONBITS
+CKP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1194;"	m	line:1194	struct:tagSPIxCONBITS
+CN0IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	497;"	m	line:497	struct:tagCNEN1BITS
+CN0PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	522;"	m	line:522	struct:tagCNPU1BITS
+CN17IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	513;"	m	line:513	struct:tagCNEN2BITS
+CN17PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	538;"	m	line:538	struct:tagCNPU2BITS
+CN18IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	514;"	m	line:514	struct:tagCNEN2BITS
+CN18PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	539;"	m	line:539	struct:tagCNPU2BITS
+CN1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	498;"	m	line:498	struct:tagCNEN1BITS
+CN1PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	523;"	m	line:523	struct:tagCNPU1BITS
+CN2IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	499;"	m	line:499	struct:tagCNEN1BITS
+CN2PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	524;"	m	line:524	struct:tagCNPU1BITS
+CN3IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	500;"	m	line:500	struct:tagCNEN1BITS
+CN3PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	525;"	m	line:525	struct:tagCNPU1BITS
+CN4IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	501;"	m	line:501	struct:tagCNEN1BITS
+CN4PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	526;"	m	line:526	struct:tagCNPU1BITS
+CN5IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	502;"	m	line:502	struct:tagCNEN1BITS
+CN5PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	527;"	m	line:527	struct:tagCNPU1BITS
+CN6IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	503;"	m	line:503	struct:tagCNEN1BITS
+CN6PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	528;"	m	line:528	struct:tagCNPU1BITS
+CN7IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	504;"	m	line:504	struct:tagCNEN1BITS
+CN7PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	529;"	m	line:529	struct:tagCNPU1BITS
+CNEN1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	506;"	t	line:506
+CNEN2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	516;"	t	line:516
+CNIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	330;"	m	line:330	struct:tagIEC0BITS
+CNIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	279;"	m	line:279	struct:tagIFS0BITS
+CNIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	414;"	m	line:414	struct:tagIPC3BITS
+CNPU1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	531;"	t	line:531
+CNPU2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	541;"	t	line:541
+CNTERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	675;"	m	line:675	struct:tagQEICONBITS
+CODE_PROT_OFF::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2305;"	d	line:2305
+CODE_PROT_ON::0xFFF9	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2306;"	d	line:2306
+COMPASS_SCALING::2.0	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	12;"	d	line:12
+CORCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	185;"	t	line:185
+COSC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1567;"	m	line:1567	struct:tagOSCCONBITS
+COVTE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	241;"	m	line:241	struct:tagINTCON1BITS
+CSCNA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1266;"	m	line:1266	struct:tagADCON2BITS
+CSSL0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1316;"	m	line:1316	struct:tagADCSSLBITS
+CSSL1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1317;"	m	line:1317	struct:tagADCSSLBITS
+CSSL2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1318;"	m	line:1318	struct:tagADCSSLBITS
+CSSL3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1319;"	m	line:1319	struct:tagADCSSLBITS
+CSSL4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1320;"	m	line:1320	struct:tagADCSSLBITS
+CSSL5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1321;"	m	line:1321	struct:tagADCSSLBITS
+CSSL6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1322;"	m	line:1322	struct:tagADCSSLBITS
+CSSL7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1323;"	m	line:1323	struct:tagADCSSLBITS
+CSSL8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1324;"	m	line:1324	struct:tagADCSSLBITS
+CSW_FSCM_OFF::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2224;"	d	line:2224
+CSW_FSCM_ON::0x3FFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2226;"	d	line:2226
+CSW_ON_FSCM_OFF::0x7FFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2225;"	d	line:2225
+ClrWdt::{__asm__volatile("clrwdt");}	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2789;"	d	line:2789
+DA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	160;"	m	line:160	struct:tagSRBITS
+DC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	159;"	m	line:159	struct:tagSRBITS
+DFLTCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	688;"	t	line:688
+DISI	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	256;"	m	line:256	struct:tagINTCON2BITS
+DISICNT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	223;"	m	line:223	struct:tagDISICNTBITS
+DISICNTBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	225;"	t	line:225
+DISI_save	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2874;"	v	line:2874
+DISSDO	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1199;"	m	line:1199	struct:tagSPIxCONBITS
+DISSLW	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1003;"	m	line:1003	struct:tagI2CCONBITS
+DL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	181;"	m	line:181	struct:tagCORCONBITS
+DONE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1243;"	m	line:1243	struct:tagADCON1BITS
+DTA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	897;"	m	line:897	struct:tagDTCON1BITS
+DTAPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	898;"	m	line:898	struct:tagDTCON1BITS
+DTCON1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	900;"	t	line:900
+D_A	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1021;"	m	line:1021	struct:tagI2CSTATBITS
+EC::0xFBEB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2249;"	d	line:2249
+ECIO::0xFBEC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2246;"	d	line:2246
+ECIO_PLL16::0xFFEF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2233;"	d	line:2233
+ECIO_PLL4::0xFFED	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2231;"	d	line:2231
+ECIO_PLL8::0xFFEE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2232;"	d	line:2232
+EDT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	182;"	m	line:182	struct:tagCORCONBITS
+ERC::0xFBE9	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2250;"	d	line:2250
+ERCIO::0xFBE8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2251;"	d	line:2251
+ERCMDflag	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	41;"	v	line:41
+ERR_2GYRO_CONN::0x02;	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	6;"	d	line:6
+ERR_ACC_CONN::0x04;	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	8;"	d	line:8
+ERR_COMPASS_CONN::0x01;	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	5;"	d	line:5
+ERR_GPS_CONN::0x05;	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	9;"	d	line:9
+ERR_MCU_CONN::0x06;	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	10;"	d	line:10
+ERR_YGYRO_CONN::0x03;	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	7;"	d	line:7
+EXT::0xFBFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2230;"	d	line:2230
+EXTR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1547;"	m	line:1547	struct:tagRCONBITS
+Equ_line	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	56;"	f	line:56	signature:( float x, float x1, float x2, float y1, float y2)
+Equ_line	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	69;"	p	line:69	signature:( float x, float x1, float x2, float y1, float y2)
+FAEN1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	906;"	m	line:906	struct:tagFLTACONBITS
+FAEN2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	907;"	m	line:907	struct:tagFLTACONBITS
+FAEN3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	908;"	m	line:908	struct:tagFLTACONBITS
+FAOV1H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	912;"	m	line:912	struct:tagFLTACONBITS
+FAOV1L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	911;"	m	line:911	struct:tagFLTACONBITS
+FAOV2H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	914;"	m	line:914	struct:tagFLTACONBITS
+FAOV2L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	913;"	m	line:913	struct:tagFLTACONBITS
+FAOV3H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	916;"	m	line:916	struct:tagFLTACONBITS
+FAOV3L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	915;"	m	line:915	struct:tagFLTACONBITS
+FCY::5000000	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	9;"	d	line:9	file:
+FERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1079;"	m	line:1079	struct:tagUxSTABITS
+FLTACONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	918;"	t	line:918
+FLTAIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	358;"	m	line:358	struct:tagIEC2BITS
+FLTAIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	307;"	m	line:307	struct:tagIFS2BITS
+FLTAIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	471;"	m	line:471	struct:tagIPC10BITS
+FLTAM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	910;"	m	line:910	struct:tagFLTACONBITS
+FORM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1249;"	m	line:1249	struct:tagADCON1BITS
+FRC::0xF9FF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2228;"	d	line:2228
+FRC_PLL16::0xFFE3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2236;"	d	line:2236
+FRC_PLL4::0xFFE1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2234;"	d	line:2234
+FRC_PLL8::0xFFEA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2235;"	d	line:2235
+FRMEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1202;"	m	line:1202	struct:tagSPIxCONBITS
+Fuzzification	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	67;"	f	line:67	signature:( float input_param[][3], fMember *input_mf)
+Fuzzification	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	70;"	p	line:70	signature:( float input_param[][3], fMember *input_mf)
+GCEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1001;"	m	line:1001	struct:tagI2CCONBITS
+GCSTAT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1025;"	m	line:1025	struct:tagI2CSTATBITS
+GPS_alt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	64;"	m	line:64
+GPT_Gyro	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	4;"	t	line:4
+GPT_HSA	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	28;"	t	line:28
+GPT_attitude	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	33;"	t	line:33
+GPT_batterystatus	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	38;"	t	line:38
+GPT_fuzzy	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	53;"	t	line:53
+GPT_goto_position	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	21;"	t	line:21
+GPT_helicopter	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	71;"	t	line:71
+GPT_latlong	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	13;"	t	line:13
+GPT_position	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	43;"	t	line:43
+GPT_pwm	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	48;"	t	line:48
+GP_ACK	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	833;"	f	line:833	signature:( char vdata[], char len )
+GP_ACK	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	23;"	p	line:23	signature:( char vdata[], char len )
+GP_TX_GeneralPurposePacket	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	612;"	f	line:612	signature:( unsigned char* data, unsigned char len)
+GP_TX_char	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	43;"	f	line:43	signature:( char ch )
+GP_TX_char	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	14;"	p	line:14	signature:( char )
+GP_TX_error	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	59;"	f	line:59	signature:( char code )
+GP_TX_error	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	26;"	p	line:26	signature:( char code )
+GP_TX_packet	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	79;"	f	line:79	signature:( unsigned char packet[], unsigned short len )
+GP_TX_packet	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	17;"	p	line:17	signature:( unsigned char packet[], unsigned short len )
+GP_TX_telemetry	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	643;"	f	line:643	signature:( unsigned char type )
+GP_TX_telemetry	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	20;"	p	line:20	signature:( unsigned char type )
+GP_bytercvd	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	6;"	v	line:6
+GP_collsp	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	15;"	v	line:15
+GP_data	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	8;"	v	line:8
+GP_data_len	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	9;"	v	line:9
+GP_datavalid	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	7;"	v	line:7
+GP_dump	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	17;"	v	line:17
+GP_engON	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	21;"	v	line:21
+GP_engRPMsp	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	11;"	v	line:11
+GP_handshake	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	19;"	v	line:19
+GP_helicopter	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	20;"	v	line:20
+GP_hs	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	18;"	v	line:18
+GP_init_UART	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	24;"	p	line:24	file:	signature:( unsigned int baud )
+GP_init_UART	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	596;"	f	line:596	signature:( unsigned int baud )
+GP_init_chopper	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	870;"	f	line:870	signature:( void )
+GP_init_chopper	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	39;"	p	line:39	signature:( void )
+GP_itoa	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	42;"	p	line:42	signature:(char *buffer, int i)
+GP_parse_data	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	304;"	f	line:304	signature:( char vdata[], char len )
+GP_parse_data	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	34;"	p	line:34	signature:( char vdata[], char len )
+GP_pitchsp	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	12;"	v	line:12
+GP_rollsp	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	13;"	v	line:13
+GP_state_machine	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	90;"	f	line:90	signature:( void )
+GP_state_machine	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	31;"	p	line:31	signature:( void )
+GP_yawsp	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	14;"	v	line:14
+GSPI_2GyroData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	8;"	v	line:8
+GSPI_3GyroData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	21;"	v	line:21
+GSPI_3GyroReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	4;"	v	line:4
+GSPI_AccData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	7;"	v	line:7
+GSPI_AccReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	3;"	v	line:3
+GSPI_AcousticData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	11;"	v	line:11
+GSPI_AcousticReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	6;"	v	line:6
+GSPI_AltData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	19;"	v	line:19
+GSPI_AltReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	14;"	v	line:14
+GSPI_CompData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	10;"	v	line:10
+GSPI_CompReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	5;"	v	line:5
+GSPI_LatData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	17;"	v	line:17
+GSPI_LatReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	12;"	v	line:12
+GSPI_LongData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	18;"	v	line:18
+GSPI_LongReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	13;"	v	line:13
+GSPI_RpmData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	14;"	v	line:14
+GSPI_RpmReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	9;"	v	line:9
+GSPI_SatData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	20;"	v	line:20
+GSPI_SatReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	15;"	v	line:15
+GSPI_StatusData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	15;"	v	line:15
+GSPI_StatusReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	10;"	v	line:10
+GSPI_TempData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	13;"	v	line:13
+GSPI_TempReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	8;"	v	line:8
+GSPI_TimeData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	16;"	v	line:16
+GSPI_TimeReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	11;"	v	line:11
+GSPI_VoltData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	12;"	v	line:12
+GSPI_VoltReq	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	7;"	v	line:7
+GSPI_YawGyroData	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	9;"	v	line:9
+GWRP_OFF::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2307;"	d	line:2307
+GWRP_ON::0xFFFE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2308;"	d	line:2308
+H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	92;"	m	line:92	struct:tagACC
+HS2_PLL16::0xFFF3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2242;"	d	line:2242
+HS2_PLL4::0xFFF1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2240;"	d	line:2240
+HS2_PLL8::0xFFF2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2241;"	d	line:2241
+HS3_PLL16::0xFFF7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2245;"	d	line:2245
+HS3_PLL4::0xFFF5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2243;"	d	line:2243
+HS3_PLL8::0xFFF6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2244;"	d	line:2244
+HS::0xFBE2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2248;"	d	line:2248
+I2CADD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1036;"	m	line:1036	struct:tagI2CADDBITS
+I2CADDBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1038;"	t	line:1038
+I2CBRG	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	986;"	m	line:986	struct:tagI2CBRGBITS
+I2CBRGBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	988;"	t	line:988
+I2CCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1010;"	t	line:1010
+I2CEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1009;"	m	line:1009	struct:tagI2CCONBITS
+I2CMD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1624;"	m	line:1624	struct:tagPMD1BITS
+I2COV	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1022;"	m	line:1022	struct:tagI2CSTATBITS
+I2CRCV0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	958;"	m	line:958	struct:tagI2CRCVBITS
+I2CRCV1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	959;"	m	line:959	struct:tagI2CRCVBITS
+I2CRCV2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	960;"	m	line:960	struct:tagI2CRCVBITS
+I2CRCV3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	961;"	m	line:961	struct:tagI2CRCVBITS
+I2CRCV4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	962;"	m	line:962	struct:tagI2CRCVBITS
+I2CRCV5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	963;"	m	line:963	struct:tagI2CRCVBITS
+I2CRCV6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	964;"	m	line:964	struct:tagI2CRCVBITS
+I2CRCV7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	965;"	m	line:965	struct:tagI2CRCVBITS
+I2CRCVBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	966;"	t	line:966
+I2CSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1007;"	m	line:1007	struct:tagI2CCONBITS
+I2CSTATBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1030;"	t	line:1030
+I2CTRN0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	972;"	m	line:972	struct:tagI2CTRNBITS
+I2CTRN1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	973;"	m	line:973	struct:tagI2CTRNBITS
+I2CTRN2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	974;"	m	line:974	struct:tagI2CTRNBITS
+I2CTRN3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	975;"	m	line:975	struct:tagI2CTRNBITS
+I2CTRN4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	976;"	m	line:976	struct:tagI2CTRNBITS
+I2CTRN5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	977;"	m	line:977	struct:tagI2CTRNBITS
+I2CTRN6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	978;"	m	line:978	struct:tagI2CTRNBITS
+I2CTRN7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	979;"	m	line:979	struct:tagI2CTRNBITS
+I2CTRNBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	980;"	t	line:980
+IC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	706;"	t	line:706
+IC1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	316;"	m	line:316	struct:tagIEC0BITS
+IC1IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	265;"	m	line:265	struct:tagIFS0BITS
+IC1IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	368;"	m	line:368	struct:tagIPC0BITS
+IC1MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1644;"	m	line:1644	struct:tagPMD2BITS
+IC2IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	319;"	m	line:319	struct:tagIEC0BITS
+IC2IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	268;"	m	line:268	struct:tagIFS0BITS
+IC2IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	380;"	m	line:380	struct:tagIPC1BITS
+IC2MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1645;"	m	line:1645	struct:tagPMD2BITS
+IC7IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	338;"	m	line:338	struct:tagIEC1BITS
+IC7IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	287;"	m	line:287	struct:tagIFS1BITS
+IC7IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	424;"	m	line:424	struct:tagIPC4BITS
+IC7MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1647;"	m	line:1647	struct:tagPMD2BITS
+IC8IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	339;"	m	line:339	struct:tagIEC1BITS
+IC8IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	288;"	m	line:288	struct:tagIFS1BITS
+IC8IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	426;"	m	line:426	struct:tagIPC4BITS
+IC8MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1648;"	m	line:1648	struct:tagPMD2BITS
+ICBNE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	717;"	m	line:717	struct:tagICxCONBITS
+ICI	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	719;"	m	line:719	struct:tagICxCONBITS
+ICM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	716;"	m	line:716	struct:tagICxCONBITS
+ICOV	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	718;"	m	line:718	struct:tagICxCONBITS
+ICSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	722;"	m	line:722	struct:tagICxCONBITS
+ICTMR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	720;"	m	line:720	struct:tagICxCONBITS
+ICxCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	724;"	t	line:724
+IDLE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1542;"	m	line:1542	struct:tagRCONBITS
+IEC0BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	331;"	t	line:331
+IEC1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	348;"	t	line:348
+IEC2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	360;"	t	line:360
+IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	173;"	m	line:173	struct:tagCORCONBITS
+IFS0BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	280;"	t	line:280
+IFS1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	297;"	t	line:297
+IFS2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	309;"	t	line:309
+ILR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	481;"	m	line:481	struct:tagINTTREGBITS
+IMV	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	686;"	m	line:686	struct:tagDFLTCONBITS
+INDX	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	672;"	m	line:672	struct:tagQEICONBITS
+INT0EP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	252;"	m	line:252	struct:tagINTCON2BITS
+INT0IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	315;"	m	line:315	struct:tagIEC0BITS
+INT0IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	264;"	m	line:264	struct:tagIFS0BITS
+INT0IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	366;"	m	line:366	struct:tagIPC0BITS
+INT1EP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	253;"	m	line:253	struct:tagINTCON2BITS
+INT1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	337;"	m	line:337	struct:tagIEC1BITS
+INT1IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	286;"	m	line:286	struct:tagIFS1BITS
+INT1IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	422;"	m	line:422	struct:tagIPC4BITS
+INT2EP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	254;"	m	line:254	struct:tagINTCON2BITS
+INT2IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	344;"	m	line:344	struct:tagIEC1BITS
+INT2IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	293;"	m	line:293	struct:tagIFS1BITS
+INT2IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	442;"	m	line:442	struct:tagIPC5BITS
+INTCON1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	246;"	t	line:246
+INTCON2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	258;"	t	line:258
+INTTREGBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	486;"	t	line:486
+IOPUWR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1550;"	m	line:1550	struct:tagRCONBITS
+IPC0BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	374;"	t	line:374
+IPC10BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	473;"	t	line:473
+IPC1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	388;"	t	line:388
+IPC2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	402;"	t	line:402
+IPC3BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	416;"	t	line:416
+IPC4BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	430;"	t	line:430
+IPC5BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	444;"	t	line:444
+IPC6BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	454;"	t	line:454
+IPC9BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	463;"	t	line:463
+IPL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	158;"	m	line:158	struct:tagSRBITS
+IPL3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	176;"	m	line:176	struct:tagCORCONBITS
+IPMIEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1005;"	m	line:1005	struct:tagI2CCONBITS
+IRQTOCPU	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	485;"	m	line:485	struct:tagINTTREGBITS
+IUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	887;"	m	line:887	struct:tagPWMCON2BITS
+IWCOL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1023;"	m	line:1023	struct:tagI2CSTATBITS
+Idle::{__asm__volatile("pwrsav#1");}	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2791;"	d	line:2791
+Init_PWM	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	26;"	p	line:26	file:	signature:( void )
+Init_PWM	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	571;"	f	line:571	signature:( void )
+L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	91;"	m	line:91	struct:tagACC
+LATB0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1369;"	m	line:1369	struct:tagLATBBITS
+LATB1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1370;"	m	line:1370	struct:tagLATBBITS
+LATB2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1371;"	m	line:1371	struct:tagLATBBITS
+LATB3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1372;"	m	line:1372	struct:tagLATBBITS
+LATB4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1373;"	m	line:1373	struct:tagLATBBITS
+LATB5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1374;"	m	line:1374	struct:tagLATBBITS
+LATB6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1375;"	m	line:1375	struct:tagLATBBITS
+LATB7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1376;"	m	line:1376	struct:tagLATBBITS
+LATB8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1377;"	m	line:1377	struct:tagLATBBITS
+LATBBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1379;"	t	line:1379
+LATC13	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1406;"	m	line:1406	struct:tagLATCBITS
+LATC14	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1407;"	m	line:1407	struct:tagLATCBITS
+LATC15	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1408;"	m	line:1408	struct:tagLATCBITS
+LATCBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1409;"	t	line:1409
+LATD0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1437;"	m	line:1437	struct:tagLATDBITS
+LATD1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1438;"	m	line:1438	struct:tagLATDBITS
+LATD2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1439;"	m	line:1439	struct:tagLATDBITS
+LATD3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1440;"	m	line:1440	struct:tagLATDBITS
+LATDBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1442;"	t	line:1442
+LATE0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1478;"	m	line:1478	struct:tagLATEBITS
+LATE1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1479;"	m	line:1479	struct:tagLATEBITS
+LATE2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1480;"	m	line:1480	struct:tagLATEBITS
+LATE3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1481;"	m	line:1481	struct:tagLATEBITS
+LATE4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1482;"	m	line:1482	struct:tagLATEBITS
+LATE5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1483;"	m	line:1483	struct:tagLATEBITS
+LATE8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1485;"	m	line:1485	struct:tagLATEBITS
+LATEBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1487;"	t	line:1487
+LATF0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1521;"	m	line:1521	struct:tagLATFBITS
+LATF1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1522;"	m	line:1522	struct:tagLATFBITS
+LATF2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1523;"	m	line:1523	struct:tagLATFBITS
+LATF3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1524;"	m	line:1524	struct:tagLATFBITS
+LATF4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1525;"	m	line:1525	struct:tagLATFBITS
+LATF5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1526;"	m	line:1526	struct:tagLATFBITS
+LATF6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1527;"	m	line:1527	struct:tagLATFBITS
+LATFBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1529;"	t	line:1529
+LOCK	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1563;"	m	line:1563	struct:tagOSCCONBITS
+LP::0xF8FF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2227;"	d	line:2227
+LPBACK	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1065;"	m	line:1065	struct:tagUxMODEBITS
+LPOSCEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1559;"	m	line:1559	struct:tagOSCCONBITS
+LPRC::0xFAFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2229;"	d	line:2229
+MATHERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	239;"	m	line:239	struct:tagINTCON1BITS
+MAXPACKLEN::32	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	3;"	d	line:3
+MAXPACKLEN::32	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	5;"	d	line:5	file:
+MAXPACKLEN::32	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	1;"	d	line:1
+MCLR_DIS::0x7FFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2284;"	d	line:2284
+MCLR_EN::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2283;"	d	line:2283
+MI2CIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	329;"	m	line:329	struct:tagIEC0BITS
+MI2CIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	278;"	m	line:278	struct:tagIFS0BITS
+MI2CIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	412;"	m	line:412	struct:tagIPC3BITS
+MODCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	197;"	t	line:197
+MODE16	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1198;"	m	line:1198	struct:tagSPIxCONBITS
+MSTEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1193;"	m	line:1193	struct:tagSPIxCONBITS
+N	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	156;"	m	line:156	struct:tagSRBITS
+N::Z-1	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	18;"	d	line:18
+NL::Z-2	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	17;"	d	line:17
+NL_WEIGHT::(100)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	24;"	d	line:24	file:
+NOSC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1565;"	m	line:1565	struct:tagOSCCONBITS
+NSTDIS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	245;"	m	line:245	struct:tagINTCON1BITS
+NUM_RANGE::5	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	15;"	d	line:15
+NUM_RULES::25	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	14;"	d	line:14
+NVMCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1598;"	t	line:1598
+NVMIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	327;"	m	line:327	struct:tagIEC0BITS
+NVMIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	276;"	m	line:276	struct:tagIFS0BITS
+NVMIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	408;"	m	line:408	struct:tagIPC3BITS
+N_WEIGHT::(75)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	25;"	d	line:25	file:
+Nop::{__asm__volatile("nop");}	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2788;"	d	line:2788
+OA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	166;"	m	line:166	struct:tagSRBITS
+OAB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	162;"	m	line:162	struct:tagSRBITS
+OB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	165;"	m	line:165	struct:tagSRBITS
+OC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	764;"	t	line:764
+OC1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	317;"	m	line:317	struct:tagIEC0BITS
+OC1IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	266;"	m	line:266	struct:tagIFS0BITS
+OC1IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	370;"	m	line:370	struct:tagIPC0BITS
+OC1MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1639;"	m	line:1639	struct:tagPMD2BITS
+OC2IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	320;"	m	line:320	struct:tagIEC0BITS
+OC2IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	269;"	m	line:269	struct:tagIFS0BITS
+OC2IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	382;"	m	line:382	struct:tagIPC1BITS
+OC2MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1640;"	m	line:1640	struct:tagPMD2BITS
+OC3IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	340;"	m	line:340	struct:tagIEC1BITS
+OC3IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	289;"	m	line:289	struct:tagIFS1BITS
+OC3IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	428;"	m	line:428	struct:tagIPC4BITS
+OC3MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1641;"	m	line:1641	struct:tagPMD2BITS
+OC4IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	341;"	m	line:341	struct:tagIEC1BITS
+OC4IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	290;"	m	line:290	struct:tagIFS1BITS
+OC4IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	436;"	m	line:436	struct:tagIPC5BITS
+OC4MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1642;"	m	line:1642	struct:tagPMD2BITS
+OCFLT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	776;"	m	line:776	struct:tagOCxCONBITS
+OCM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	774;"	m	line:774	struct:tagOCxCONBITS
+OCSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	778;"	m	line:778	struct:tagOCxCONBITS
+OCTSEL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	775;"	m	line:775	struct:tagOCxCONBITS
+OCxCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	780;"	t	line:780
+OERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1078;"	m	line:1078	struct:tagUxSTABITS
+OSCCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1569;"	t	line:1569
+OSCFAIL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	236;"	m	line:236	struct:tagINTCON1BITS
+OSCTUNBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1580;"	t	line:1580
+OSWEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1558;"	m	line:1558	struct:tagOSCCONBITS
+OSYNC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	886;"	m	line:886	struct:tagPWMCON2BITS
+OV	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	155;"	m	line:155	struct:tagSRBITS
+OVATE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	243;"	m	line:243	struct:tagINTCON1BITS
+OVBTE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	242;"	m	line:242	struct:tagINTCON1BITS
+OVDCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	938;"	t	line:938
+P	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1020;"	m	line:1020	struct:tagI2CSTATBITS
+P::Z+1	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	20;"	d	line:20
+PBOR_OFF::0xFF7F	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2292;"	d	line:2292
+PBOR_ON::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2291;"	d	line:2291
+PCDOUT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	668;"	m	line:668	struct:tagQEICONBITS
+PCFG0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1300;"	m	line:1300	struct:tagADPCFGBITS
+PCFG1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1301;"	m	line:1301	struct:tagADPCFGBITS
+PCFG2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1302;"	m	line:1302	struct:tagADPCFGBITS
+PCFG3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1303;"	m	line:1303	struct:tagADPCFGBITS
+PCFG4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1304;"	m	line:1304	struct:tagADPCFGBITS
+PCFG5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1305;"	m	line:1305	struct:tagADPCFGBITS
+PCFG6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1306;"	m	line:1306	struct:tagADPCFGBITS
+PCFG7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1307;"	m	line:1307	struct:tagADPCFGBITS
+PCFG8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1308;"	m	line:1308	struct:tagADPCFGBITS
+PDSEL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1062;"	m	line:1062	struct:tagUxMODEBITS
+PEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	996;"	m	line:996	struct:tagI2CCONBITS
+PEN1H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	871;"	m	line:871	struct:tagPWMCON1BITS
+PEN1L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	867;"	m	line:867	struct:tagPWMCON1BITS
+PEN2H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	872;"	m	line:872	struct:tagPWMCON1BITS
+PEN2L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	868;"	m	line:868	struct:tagPWMCON1BITS
+PEN3H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	873;"	m	line:873	struct:tagPWMCON1BITS
+PEN3L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	869;"	m	line:869	struct:tagPWMCON1BITS
+PERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1080;"	m	line:1080	struct:tagUxSTABITS
+PIC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	706;"	t	line:706
+PITCH_GYRO_OFFSET::20	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	7;"	d	line:7
+PITCH_TILT_OFFSET::0	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	6;"	d	line:6
+PL::Z+2	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	21;"	d	line:21
+PL_WEIGHT::(0)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	28;"	d	line:28	file:
+PMD1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1633;"	t	line:1633
+PMD2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1649;"	t	line:1649
+PMOD1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	875;"	m	line:875	struct:tagPWMCON1BITS
+PMOD2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	876;"	m	line:876	struct:tagPWMCON1BITS
+PMOD3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	877;"	m	line:877	struct:tagPWMCON1BITS
+POC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	764;"	t	line:764
+POR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1540;"	m	line:1540	struct:tagRCONBITS
+PORTBBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1363;"	t	line:1363
+PORTCBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1399;"	t	line:1399
+PORTDBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1431;"	t	line:1431
+PORTEBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1472;"	t	line:1472
+PORTFBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1515;"	t	line:1515
+POSRES	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	665;"	m	line:665	struct:tagQEICONBITS
+POST	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1564;"	m	line:1564	struct:tagOSCCONBITS
+POUT1H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	925;"	m	line:925	struct:tagOVDCONBITS
+POUT1L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	924;"	m	line:924	struct:tagOVDCONBITS
+POUT2H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	927;"	m	line:927	struct:tagOVDCONBITS
+POUT2L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	926;"	m	line:926	struct:tagOVDCONBITS
+POUT3H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	929;"	m	line:929	struct:tagOVDCONBITS
+POUT3L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	928;"	m	line:928	struct:tagOVDCONBITS
+POVD1H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	932;"	m	line:932	struct:tagOVDCONBITS
+POVD1L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	931;"	m	line:931	struct:tagOVDCONBITS
+POVD2H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	934;"	m	line:934	struct:tagOVDCONBITS
+POVD2L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	933;"	m	line:933	struct:tagOVDCONBITS
+POVD3H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	936;"	m	line:936	struct:tagOVDCONBITS
+POVD3L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	935;"	m	line:935	struct:tagOVDCONBITS
+PPRE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1191;"	m	line:1191	struct:tagSPIxCONBITS
+PROGOP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1591;"	m	line:1591	struct:tagNVMCONBITS
+PSPI	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1172;"	t	line:1172
+PSV	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	175;"	m	line:175	struct:tagCORCONBITS
+PTCKPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	831;"	m	line:831	struct:tagPTCONBITS
+PTCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	837;"	t	line:837
+PTDIR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	844;"	m	line:844	struct:tagPTMRBITS
+PTEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	836;"	m	line:836	struct:tagPTCONBITS
+PTMOD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	830;"	m	line:830	struct:tagPTCONBITS
+PTMR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	843;"	m	line:843	struct:tagPTMRBITS
+PTMRBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	845;"	t	line:845
+PTOPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	832;"	m	line:832	struct:tagPTCONBITS
+PTPER	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	851;"	m	line:851	struct:tagPTPERBITS
+PTPERBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	853;"	t	line:853
+PTSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	834;"	m	line:834	struct:tagPTCONBITS
+PUART	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1053;"	t	line:1053
+PWMCON1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	879;"	t	line:879
+PWMCON2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	891;"	t	line:891
+PWMIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	355;"	m	line:355	struct:tagIEC2BITS
+PWMIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	304;"	m	line:304	struct:tagIFS2BITS
+PWMIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	461;"	m	line:461	struct:tagIPC9BITS
+PWMMD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1626;"	m	line:1626	struct:tagPMD1BITS
+PWMxH_ACT_HI::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2287;"	d	line:2287
+PWMxH_ACT_LO::0xFDFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2288;"	d	line:2288
+PWMxL_ACT_HI::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2289;"	d	line:2289
+PWMxL_ACT_LO::0xFEFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2290;"	d	line:2290
+PWRT_16::0xFFFE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2299;"	d	line:2299
+PWRT_4::0xFFFD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2298;"	d	line:2298
+PWRT_64::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2300;"	d	line:2300
+PWRT_OFF::0xFFFC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2297;"	d	line:2297
+P_WEIGHT::(25)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	27;"	d	line:27	file:
+QECK	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	683;"	m	line:683	struct:tagDFLTCONBITS
+QEICONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	676;"	t	line:676
+QEIIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	356;"	m	line:356	struct:tagIEC2BITS
+QEIIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	305;"	m	line:305	struct:tagIFS2BITS
+QEIIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	469;"	m	line:469	struct:tagIPC10BITS
+QEIM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	670;"	m	line:670	struct:tagQEICONBITS
+QEIMD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1627;"	m	line:1627	struct:tagPMD1BITS
+QEISIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	673;"	m	line:673	struct:tagQEICONBITS
+QEOUT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	684;"	m	line:684	struct:tagDFLTCONBITS
+RA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	157;"	m	line:157	struct:tagSRBITS
+RATE::0x01	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	25;"	d	line:25
+RB0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1353;"	m	line:1353	struct:tagPORTBBITS
+RB1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1354;"	m	line:1354	struct:tagPORTBBITS
+RB2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1355;"	m	line:1355	struct:tagPORTBBITS
+RB3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1356;"	m	line:1356	struct:tagPORTBBITS
+RB4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1357;"	m	line:1357	struct:tagPORTBBITS
+RB5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1358;"	m	line:1358	struct:tagPORTBBITS
+RB6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1359;"	m	line:1359	struct:tagPORTBBITS
+RB7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1360;"	m	line:1360	struct:tagPORTBBITS
+RB8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1361;"	m	line:1361	struct:tagPORTBBITS
+RBF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1017;"	m	line:1017	struct:tagI2CSTATBITS
+RC13	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1396;"	m	line:1396	struct:tagPORTCBITS
+RC14	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1397;"	m	line:1397	struct:tagPORTCBITS
+RC15	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1398;"	m	line:1398	struct:tagPORTCBITS
+RCEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	997;"	m	line:997	struct:tagI2CCONBITS
+RCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1552;"	t	line:1552
+RD0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1426;"	m	line:1426	struct:tagPORTDBITS
+RD1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1427;"	m	line:1427	struct:tagPORTDBITS
+RD2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1428;"	m	line:1428	struct:tagPORTDBITS
+RD3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1429;"	m	line:1429	struct:tagPORTDBITS
+RE0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1463;"	m	line:1463	struct:tagPORTEBITS
+RE1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1464;"	m	line:1464	struct:tagPORTEBITS
+RE2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1465;"	m	line:1465	struct:tagPORTEBITS
+RE3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1466;"	m	line:1466	struct:tagPORTEBITS
+RE4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1467;"	m	line:1467	struct:tagPORTEBITS
+RE5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1468;"	m	line:1468	struct:tagPORTEBITS
+RE8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1470;"	m	line:1470	struct:tagPORTEBITS
+RF0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1507;"	m	line:1507	struct:tagPORTFBITS
+RF1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1508;"	m	line:1508	struct:tagPORTFBITS
+RF2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1509;"	m	line:1509	struct:tagPORTFBITS
+RF3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1510;"	m	line:1510	struct:tagPORTFBITS
+RF4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1511;"	m	line:1511	struct:tagPORTFBITS
+RF5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1512;"	m	line:1512	struct:tagPORTFBITS
+RF6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1513;"	m	line:1513	struct:tagPORTFBITS
+RIDLE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1081;"	m	line:1081	struct:tagUxSTABITS
+RND	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	174;"	m	line:174	struct:tagCORCONBITS
+ROLL_GYRO_OFFSET::0	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	9;"	d	line:9
+ROLL_TILT_OFFSET::0	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	8;"	d	line:8
+RSEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	995;"	m	line:995	struct:tagI2CCONBITS
+RSS	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	189;"	l	line:189
+RST_IOPIN::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2285;"	d	line:2285
+RST_PWMPIN::0xFBFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2286;"	d	line:2286
+RX_flag	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	23;"	v	line:23
+R_W	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1018;"	m	line:1018	struct:tagI2CSTATBITS
+Rule	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	147;"	v	line:147
+S	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1019;"	m	line:1019	struct:tagI2CSTATBITS
+SA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	164;"	m	line:164	struct:tagSRBITS
+SAB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	161;"	m	line:161	struct:tagSRBITS
+SAMC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1278;"	m	line:1278	struct:tagADCON3BITS
+SAMP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1244;"	m	line:1244	struct:tagADCON1BITS
+SATA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	180;"	m	line:180	struct:tagCORCONBITS
+SATB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	179;"	m	line:179	struct:tagCORCONBITS
+SATDW	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	178;"	m	line:178	struct:tagCORCONBITS
+SB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	163;"	m	line:163	struct:tagSRBITS
+SCLREL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1006;"	m	line:1006	struct:tagI2CCONBITS
+SEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	994;"	m	line:994	struct:tagI2CCONBITS
+SET_CPU_IPL::(ipl){\	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2873;"	d	line:2873
+SEVOPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	889;"	m	line:889	struct:tagPWMCON2BITS
+SEVTCMP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	859;"	m	line:859	struct:tagSEVTCMPBITS
+SEVTCMPBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	861;"	t	line:861
+SEVTDIR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	860;"	m	line:860	struct:tagSEVTCMPBITS
+SI2CIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	328;"	m	line:328	struct:tagIEC0BITS
+SI2CIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	277;"	m	line:277	struct:tagIFS0BITS
+SI2CIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	410;"	m	line:410	struct:tagIPC3BITS
+SIMSAM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1246;"	m	line:1246	struct:tagADCON1BITS
+SLEEP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1543;"	m	line:1543	struct:tagRCONBITS
+SMEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1002;"	m	line:1002	struct:tagI2CCONBITS
+SMP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1197;"	m	line:1197	struct:tagSPIxCONBITS
+SMPI	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1262;"	m	line:1262	struct:tagADCON2BITS
+SON_alt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	64;"	m	line:64
+SPI	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1172;"	t	line:1172
+SPI1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	323;"	m	line:323	struct:tagIEC0BITS
+SPI1IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	272;"	m	line:272	struct:tagIFS0BITS
+SPI1IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	394;"	m	line:394	struct:tagIPC2BITS
+SPI1MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1620;"	m	line:1620	struct:tagPMD1BITS
+SPIEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1186;"	m	line:1186	struct:tagSPIxSTATBITS
+SPIFSD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1201;"	m	line:1201	struct:tagSPIxCONBITS
+SPIRBF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1179;"	m	line:1179	struct:tagSPIxSTATBITS
+SPIROV	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1182;"	m	line:1182	struct:tagSPIxSTATBITS
+SPISIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1184;"	m	line:1184	struct:tagSPIxSTATBITS
+SPITBF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1180;"	m	line:1180	struct:tagSPIxSTATBITS
+SPI_init	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	23;"	f	line:23	signature:( char mode16, char falling )
+SPI_init	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	15;"	p	line:15	signature:( char mode16, char falling )
+SPI_readTemp1	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	116;"	f	line:116	signature:( void )
+SPI_readTemp1	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	27;"	p	line:27	signature:( void )
+SPI_tx_byte	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	46;"	f	line:46	signature:( char ch)
+SPI_tx_byte	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	18;"	p	line:18	signature:( char )
+SPI_tx_command	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	62;"	f	line:62	signature:( unsigned char packet[], char len )
+SPI_tx_command	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	21;"	p	line:21	signature:( unsigned char cmd[], char len )
+SPI_tx_req	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	77;"	f	line:77	signature:( unsigned char packet[], unsigned char data[] )
+SPI_tx_req	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	24;"	p	line:24	signature:( unsigned char req[], unsigned char data[] )
+SPI_tx_word	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	54;"	f	line:54	signature:( unsigned short ch)
+SPIxCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1204;"	t	line:1204
+SPIxSTATBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1187;"	t	line:1187
+SPRE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1192;"	m	line:1192	struct:tagSPIxCONBITS
+SRBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	167;"	t	line:167
+SSEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1195;"	m	line:1195	struct:tagSPIxCONBITS
+SSRC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1248;"	m	line:1248	struct:tagADCON1BITS
+STKERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	237;"	m	line:237	struct:tagINTCON1BITS
+STREN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1000;"	m	line:1000	struct:tagI2CCONBITS
+STSEL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1061;"	m	line:1061	struct:tagUxMODEBITS
+SWDTEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1545;"	m	line:1545	struct:tagRCONBITS
+SWPAB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	669;"	m	line:669	struct:tagQEICONBITS
+SWR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1546;"	m	line:1546	struct:tagRCONBITS
+Sleep::{__asm__volatile("pwrsav#0");}	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2790;"	d	line:2790
+T1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	318;"	m	line:318	struct:tagIEC0BITS
+T1IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	267;"	m	line:267	struct:tagIFS0BITS
+T1IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	372;"	m	line:372	struct:tagIPC0BITS
+T1MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1628;"	m	line:1628	struct:tagPMD1BITS
+T2IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	321;"	m	line:321	struct:tagIEC0BITS
+T2IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	270;"	m	line:270	struct:tagIFS0BITS
+T2IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	384;"	m	line:384	struct:tagIPC1BITS
+T2MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1629;"	m	line:1629	struct:tagPMD1BITS
+T2flag	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	40;"	v	line:40
+T32	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	582;"	m	line:582	struct:tagTCON_EVEN
+T3IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	322;"	m	line:322	struct:tagIEC0BITS
+T3IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	271;"	m	line:271	struct:tagIFS0BITS
+T3IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	386;"	m	line:386	struct:tagIPC1BITS
+T3MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1630;"	m	line:1630	struct:tagPMD1BITS
+T4IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	342;"	m	line:342	struct:tagIEC1BITS
+T4IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	291;"	m	line:291	struct:tagIFS1BITS
+T4IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	438;"	m	line:438	struct:tagIPC5BITS
+T4MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1631;"	m	line:1631	struct:tagPMD1BITS
+T5IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	343;"	m	line:343	struct:tagIEC1BITS
+T5IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	292;"	m	line:292	struct:tagIFS1BITS
+T5IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	440;"	m	line:440	struct:tagIPC5BITS
+T5MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1632;"	m	line:1632	struct:tagPMD1BITS
+TBF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1016;"	m	line:1016	struct:tagI2CSTATBITS
+TCKPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	555;"	m	line:555	struct:tagTCON_16BIT
+TCKPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	583;"	m	line:583	struct:tagTCON_EVEN
+TCKPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	596;"	m	line:596	struct:tagTCON_ODD
+TCON_16BIT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	561;"	t	line:561
+TCON_EVEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	589;"	t	line:589
+TCON_ODD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	602;"	t	line:602
+TCS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	552;"	m	line:552	struct:tagTCON_16BIT
+TCS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	580;"	m	line:580	struct:tagTCON_EVEN
+TCS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	594;"	m	line:594	struct:tagTCON_ODD
+TGATE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	556;"	m	line:556	struct:tagTCON_16BIT
+TGATE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	584;"	m	line:584	struct:tagTCON_EVEN
+TGATE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	597;"	m	line:597	struct:tagTCON_ODD
+TMODE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	484;"	m	line:484	struct:tagINTTREGBITS
+TON	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	560;"	m	line:560	struct:tagTCON_16BIT
+TON	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	588;"	m	line:588	struct:tagTCON_EVEN
+TON	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	601;"	m	line:601	struct:tagTCON_ODD
+TQCKPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	666;"	m	line:666	struct:tagQEICONBITS
+TQCS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	664;"	m	line:664	struct:tagQEICONBITS
+TQGATE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	667;"	m	line:667	struct:tagQEICONBITS
+TRAPR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1551;"	m	line:1551	struct:tagRCONBITS
+TRISB0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1337;"	m	line:1337	struct:tagTRISBBITS
+TRISB1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1338;"	m	line:1338	struct:tagTRISBBITS
+TRISB2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1339;"	m	line:1339	struct:tagTRISBBITS
+TRISB3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1340;"	m	line:1340	struct:tagTRISBBITS
+TRISB4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1341;"	m	line:1341	struct:tagTRISBBITS
+TRISB5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1342;"	m	line:1342	struct:tagTRISBBITS
+TRISB6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1343;"	m	line:1343	struct:tagTRISBBITS
+TRISB7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1344;"	m	line:1344	struct:tagTRISBBITS
+TRISB8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1345;"	m	line:1345	struct:tagTRISBBITS
+TRISBBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1347;"	t	line:1347
+TRISC13	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1386;"	m	line:1386	struct:tagTRISCBITS
+TRISC14	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1387;"	m	line:1387	struct:tagTRISCBITS
+TRISC15	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1388;"	m	line:1388	struct:tagTRISCBITS
+TRISCBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1389;"	t	line:1389
+TRISD0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1415;"	m	line:1415	struct:tagTRISDBITS
+TRISD1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1416;"	m	line:1416	struct:tagTRISDBITS
+TRISD2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1417;"	m	line:1417	struct:tagTRISDBITS
+TRISD3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1418;"	m	line:1418	struct:tagTRISDBITS
+TRISDBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1420;"	t	line:1420
+TRISE0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1448;"	m	line:1448	struct:tagTRISEBITS
+TRISE1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1449;"	m	line:1449	struct:tagTRISEBITS
+TRISE2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1450;"	m	line:1450	struct:tagTRISEBITS
+TRISE3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1451;"	m	line:1451	struct:tagTRISEBITS
+TRISE4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1452;"	m	line:1452	struct:tagTRISEBITS
+TRISE5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1453;"	m	line:1453	struct:tagTRISEBITS
+TRISE8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1455;"	m	line:1455	struct:tagTRISEBITS
+TRISEBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1457;"	t	line:1457
+TRISF0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1493;"	m	line:1493	struct:tagTRISFBITS
+TRISF1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1494;"	m	line:1494	struct:tagTRISFBITS
+TRISF2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1495;"	m	line:1495	struct:tagTRISFBITS
+TRISF3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1496;"	m	line:1496	struct:tagTRISFBITS
+TRISF4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1497;"	m	line:1497	struct:tagTRISFBITS
+TRISF5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1498;"	m	line:1498	struct:tagTRISFBITS
+TRISF6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1499;"	m	line:1499	struct:tagTRISFBITS
+TRISFBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1501;"	t	line:1501
+TRMT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1084;"	m	line:1084	struct:tagUxSTABITS
+TRSTAT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1028;"	m	line:1028	struct:tagI2CSTATBITS
+TSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	558;"	m	line:558	struct:tagTCON_16BIT
+TSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	586;"	m	line:586	struct:tagTCON_EVEN
+TSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	599;"	m	line:599	struct:tagTCON_ODD
+TSYNC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	553;"	m	line:553	struct:tagTCON_16BIT
+TUN0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1575;"	m	line:1575	struct:tagOSCTUNBITS
+TUN1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1576;"	m	line:1576	struct:tagOSCTUNBITS
+TUN2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1577;"	m	line:1577	struct:tagOSCTUNBITS
+TUN3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1578;"	m	line:1578	struct:tagOSCTUNBITS
+TWRI	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1593;"	m	line:1593	struct:tagNVMCONBITS
+Ton	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	310;"	l	line:310
+U	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	93;"	m	line:93	struct:tagACC
+U1MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1622;"	m	line:1622	struct:tagPMD1BITS
+U1RXIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	324;"	m	line:324	struct:tagIEC0BITS
+U1RXIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	273;"	m	line:273	struct:tagIFS0BITS
+U1RXIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	396;"	m	line:396	struct:tagIPC2BITS
+U1TXIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	325;"	m	line:325	struct:tagIEC0BITS
+U1TXIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	274;"	m	line:274	struct:tagIFS0BITS
+U1TXIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	398;"	m	line:398	struct:tagIPC2BITS
+U2MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1623;"	m	line:1623	struct:tagPMD1BITS
+U2RXIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	345;"	m	line:345	struct:tagIEC1BITS
+U2RXIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	294;"	m	line:294	struct:tagIFS1BITS
+U2RXIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	450;"	m	line:450	struct:tagIPC6BITS
+U2TXIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	346;"	m	line:346	struct:tagIEC1BITS
+U2TXIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	295;"	m	line:295	struct:tagIFS1BITS
+U2TXIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	452;"	m	line:452	struct:tagIPC6BITS
+UART	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1053;"	t	line:1053
+UARTEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1072;"	m	line:1072	struct:tagUxMODEBITS
+UDIS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	885;"	m	line:885	struct:tagPWMCON2BITS
+UPDN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	671;"	m	line:671	struct:tagQEICONBITS
+UPDN_SRC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	663;"	m	line:663	struct:tagQEICONBITS
+URX8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1116;"	m	line:1116	struct:tagUxRXREGBITS
+URXDA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1077;"	m	line:1077	struct:tagUxSTABITS
+URXISEL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1083;"	m	line:1083	struct:tagUxSTABITS
+URXREG0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1108;"	m	line:1108	struct:tagUxRXREGBITS
+URXREG1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1109;"	m	line:1109	struct:tagUxRXREGBITS
+URXREG2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1110;"	m	line:1110	struct:tagUxRXREGBITS
+URXREG3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1111;"	m	line:1111	struct:tagUxRXREGBITS
+URXREG4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1112;"	m	line:1112	struct:tagUxRXREGBITS
+URXREG5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1113;"	m	line:1113	struct:tagUxRXREGBITS
+URXREG6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1114;"	m	line:1114	struct:tagUxRXREGBITS
+URXREG7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1115;"	m	line:1115	struct:tagUxRXREGBITS
+US	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	183;"	m	line:183	struct:tagCORCONBITS
+USIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1070;"	m	line:1070	struct:tagUxMODEBITS
+UTX8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1102;"	m	line:1102	struct:tagUxTXREGBITS
+UTXBF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1085;"	m	line:1085	struct:tagUxSTABITS
+UTXBRK	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1087;"	m	line:1087	struct:tagUxSTABITS
+UTXEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1086;"	m	line:1086	struct:tagUxSTABITS
+UTXISEL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1089;"	m	line:1089	struct:tagUxSTABITS
+UTXREG0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1094;"	m	line:1094	struct:tagUxTXREGBITS
+UTXREG1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1095;"	m	line:1095	struct:tagUxTXREGBITS
+UTXREG2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1096;"	m	line:1096	struct:tagUxTXREGBITS
+UTXREG3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1097;"	m	line:1097	struct:tagUxTXREGBITS
+UTXREG4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1098;"	m	line:1098	struct:tagUxTXREGBITS
+UTXREG5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1099;"	m	line:1099	struct:tagUxTXREGBITS
+UTXREG6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1100;"	m	line:1100	struct:tagUxTXREGBITS
+UTXREG7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1101;"	m	line:1101	struct:tagUxTXREGBITS
+UxMODEBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1073;"	t	line:1073
+UxRXREGBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1118;"	t	line:1118
+UxSTABITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1090;"	t	line:1090
+UxTXREGBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1104;"	t	line:1104
+VCFG	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1268;"	m	line:1268	struct:tagADCON2BITS
+VECNUM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	479;"	m	line:479	struct:tagINTTREGBITS
+VHOLD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	483;"	m	line:483	struct:tagINTTREGBITS
+WAKE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1066;"	m	line:1066	struct:tagUxMODEBITS
+WDTO	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1544;"	m	line:1544	struct:tagRCONBITS
+WDTPSA_1::0xFFCF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2259;"	d	line:2259
+WDTPSA_512::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2262;"	d	line:2262
+WDTPSA_64::0xFFEF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2261;"	d	line:2261
+WDTPSA_8::0xFFDF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2260;"	d	line:2260
+WDTPSB_10::0xFFF9	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2272;"	d	line:2272
+WDTPSB_11::0xFFFA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2273;"	d	line:2273
+WDTPSB_12::0xFFFB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2274;"	d	line:2274
+WDTPSB_13::0xFFFC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2275;"	d	line:2275
+WDTPSB_14::0xFFFD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2276;"	d	line:2276
+WDTPSB_15::0xFFFE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2277;"	d	line:2277
+WDTPSB_16::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2278;"	d	line:2278
+WDTPSB_1::0xFFF0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2263;"	d	line:2263
+WDTPSB_2::0xFFF1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2264;"	d	line:2264
+WDTPSB_3::0xFFF2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2265;"	d	line:2265
+WDTPSB_4::0xFFF3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2266;"	d	line:2266
+WDTPSB_5::0xFFF4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2267;"	d	line:2267
+WDTPSB_6::0xFFF5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2268;"	d	line:2268
+WDTPSB_7::0xFFF6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2269;"	d	line:2269
+WDTPSB_8::0xFFF7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2270;"	d	line:2270
+WDTPSB_9::0xFFF8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2271;"	d	line:2271
+WDT_OFF::0x7FFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2258;"	d	line:2258
+WDT_ON::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2257;"	d	line:2257
+WR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1597;"	m	line:1597	struct:tagNVMCONBITS
+WREN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1596;"	m	line:1596	struct:tagNVMCONBITS
+WRERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1595;"	m	line:1595	struct:tagNVMCONBITS
+XB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	215;"	m	line:215	struct:tagXBREVBITS
+XBREVBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	217;"	t	line:217
+XMODEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	196;"	m	line:196	struct:tagMODCONBITS
+XT::0xFBE4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2247;"	d	line:2247
+XTL::0xFBE0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2252;"	d	line:2252
+XT_PLL16::0xFFE7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2239;"	d	line:2239
+XT_PLL4::0xFFE5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2237;"	d	line:2237
+XT_PLL8::0xFFE6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2238;"	d	line:2238
+XWM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	191;"	m	line:191	struct:tagMODCONBITS
+YAW_GYRO_SCALING::0.07692	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	11;"	d	line:11
+YAW_TILT_OFFSET::0	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	10;"	d	line:10
+YMODEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	195;"	m	line:195	struct:tagMODCONBITS
+YWM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	192;"	m	line:192	struct:tagMODCONBITS
+Z	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	154;"	m	line:154	struct:tagSRBITS
+Z::2	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	19;"	d	line:19
+Z_WEIGHT::(50)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	26;"	d	line:26	file:
+_A10M::I2CCONbits.A10M	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1961;"	d	line:1961
+_ACCSAT::CORCONbits.ACCSAT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1678;"	d	line:1678
+_ACKDT::I2CCONbits.ACKDT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1956;"	d	line:1956
+_ACKEN::I2CCONbits.ACKEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1955;"	d	line:1955
+_ACKSTAT::I2CSTATbits.ACKSTAT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1980;"	d	line:1980
+_ADCMD::PMD1bits.ADCMD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2193;"	d	line:2193
+_ADCS::ADCON3bits.ADCS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2001;"	d	line:2001
+_ADD10::I2CSTATbits.ADD10	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1976;"	d	line:1976
+_ADDRERR::INTCON1bits.ADDRERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1700;"	d	line:1700
+_ADIE::IEC0bits.ADIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1761;"	d	line:1761
+_ADIF::IFS0bits.ADIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1726;"	d	line:1726
+_ADIP::IPC2bits.ADIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1800;"	d	line:1800
+_ADON::ADCON1bits.ADON	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1990;"	d	line:1990
+_ADRC::ADCON3bits.ADRC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2002;"	d	line:2002
+_ADSIDL::ADCON1bits.ADSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1989;"	d	line:1989
+_ALTIVT::INTCON2bits.ALTIVT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1712;"	d	line:1712
+_ALTS::ADCON2bits.ALTS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1993;"	d	line:1993
+_ASAM::ADCON1bits.ASAM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1985;"	d	line:1985
+_BCL::I2CSTATbits.BCL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1978;"	d	line:1978
+_BGST::RCONbits.BGST	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2166;"	d	line:2166
+_BOR::RCONbits.BOR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2159;"	d	line:2159
+_BREN::XBREVbits.BREN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1695;"	d	line:1695
+_BUFM::ADCON2bits.BUFM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1994;"	d	line:1994
+_BUFS::ADCON2bits.BUFS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1996;"	d	line:1996
+_BWM::MODCONbits.BWM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1689;"	d	line:1689
+_C::SRbits.C	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1658;"	d	line:1658
+_CEID::DFLTCONbits.CEID	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1876;"	d	line:1876
+_CF::OSCCONbits.CF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2173;"	d	line:2173
+_CH0NA::ADCHSbits.CH0NA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2007;"	d	line:2007
+_CH0NB::ADCHSbits.CH0NB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2011;"	d	line:2011
+_CH0SA::ADCHSbits.CH0SA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2006;"	d	line:2006
+_CH0SB::ADCHSbits.CH0SB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2010;"	d	line:2010
+_CH123NA::ADCHSbits.CH123NA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2009;"	d	line:2009
+_CH123NB::ADCHSbits.CH123NB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2013;"	d	line:2013
+_CH123SA::ADCHSbits.CH123SA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2008;"	d	line:2008
+_CH123SB::ADCHSbits.CH123SB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2012;"	d	line:2012
+_CN0IE::CNEN1bits.CN0IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1832;"	d	line:1832
+_CN0PUE::CNPU1bits.CN0PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1846;"	d	line:1846
+_CN17IE::CNEN2bits.CN17IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1842;"	d	line:1842
+_CN17PUE::CNPU2bits.CN17PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1856;"	d	line:1856
+_CN18IE::CNEN2bits.CN18IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1843;"	d	line:1843
+_CN18PUE::CNPU2bits.CN18PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1857;"	d	line:1857
+_CN1IE::CNEN1bits.CN1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1833;"	d	line:1833
+_CN1PUE::CNPU1bits.CN1PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1847;"	d	line:1847
+_CN2IE::CNEN1bits.CN2IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1834;"	d	line:1834
+_CN2PUE::CNPU1bits.CN2PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1848;"	d	line:1848
+_CN3IE::CNEN1bits.CN3IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1835;"	d	line:1835
+_CN3PUE::CNPU1bits.CN3PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1849;"	d	line:1849
+_CN4IE::CNEN1bits.CN4IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1836;"	d	line:1836
+_CN4PUE::CNPU1bits.CN4PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1850;"	d	line:1850
+_CN5IE::CNEN1bits.CN5IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1837;"	d	line:1837
+_CN5PUE::CNPU1bits.CN5PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1851;"	d	line:1851
+_CN6IE::CNEN1bits.CN6IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1838;"	d	line:1838
+_CN6PUE::CNPU1bits.CN6PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1852;"	d	line:1852
+_CN7IE::CNEN1bits.CN7IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1839;"	d	line:1839
+_CN7PUE::CNPU1bits.CN7PUE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1853;"	d	line:1853
+_CNIE::IEC0bits.CNIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1765;"	d	line:1765
+_CNIF::IFS0bits.CNIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1730;"	d	line:1730
+_CNIP::IPC3bits.CNIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1806;"	d	line:1806
+_CNTERR::QEICONbits.CNTERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1871;"	d	line:1871
+_COSC::OSCCONbits.COSC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2177;"	d	line:2177
+_COVTE::INTCON1bits.COVTE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1702;"	d	line:1702
+_CSCNA::ADCON2bits.CSCNA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1997;"	d	line:1997
+_CSSL0::ADCSSLbits.CSSL0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2027;"	d	line:2027
+_CSSL1::ADCSSLbits.CSSL1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2028;"	d	line:2028
+_CSSL2::ADCSSLbits.CSSL2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2029;"	d	line:2029
+_CSSL3::ADCSSLbits.CSSL3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2030;"	d	line:2030
+_CSSL4::ADCSSLbits.CSSL4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2031;"	d	line:2031
+_CSSL5::ADCSSLbits.CSSL5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2032;"	d	line:2032
+_CSSL6::ADCSSLbits.CSSL6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2033;"	d	line:2033
+_CSSL7::ADCSSLbits.CSSL7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2034;"	d	line:2034
+_CSSL8::ADCSSLbits.CSSL8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2035;"	d	line:2035
+_DA::SRbits.DA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1665;"	d	line:1665
+_DC::SRbits.DC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1664;"	d	line:1664
+_DISI::INTCON2bits.DISI	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1711;"	d	line:1711
+_DISSLW::I2CCONbits.DISSLW	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1960;"	d	line:1960
+_DL::CORCONbits.DL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1682;"	d	line:1682
+_DONE::ADCON1bits.DONE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1983;"	d	line:1983
+_DTA::DTCON1bits.DTA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1909;"	d	line:1909
+_DTAPS::DTCON1bits.DTAPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1910;"	d	line:1910
+_D_A::I2CSTATbits.D_A	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1973;"	d	line:1973
+_EDT::CORCONbits.EDT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1683;"	d	line:1683
+_EEDATA::(N)__attribute__((space(eedata	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2813;"	d	line:2813
+_EXTR::RCONbits.EXTR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2165;"	d	line:2165
+_FAEN1::FLTACONbits.FAEN1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1913;"	d	line:1913
+_FAEN2::FLTACONbits.FAEN2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1914;"	d	line:1914
+_FAEN3::FLTACONbits.FAEN3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1915;"	d	line:1915
+_FAOV1H::FLTACONbits.FAOV1H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1918;"	d	line:1918
+_FAOV1L::FLTACONbits.FAOV1L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1917;"	d	line:1917
+_FAOV2H::FLTACONbits.FAOV2H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1920;"	d	line:1920
+_FAOV2L::FLTACONbits.FAOV2L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1919;"	d	line:1919
+_FAOV3H::FLTACONbits.FAOV3H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1922;"	d	line:1922
+_FAOV3L::FLTACONbits.FAOV3L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1921;"	d	line:1921
+_FBEN1::FLTBCONbits.FBEN1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1925;"	d	line:1925
+_FBEN2::FLTBCONbits.FBEN2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1926;"	d	line:1926
+_FBEN3::FLTBCONbits.FBEN3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1927;"	d	line:1927
+_FBORPOR::(x)__attribute__((section("__F	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2281;"	d	line:2281
+_FBOV1H::FLTBCONbits.FBOV1H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1930;"	d	line:1930
+_FBOV1L::FLTBCONbits.FBOV1L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1929;"	d	line:1929
+_FBOV2H::FLTBCONbits.FBOV2H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1932;"	d	line:1932
+_FBOV2L::FLTBCONbits.FBOV2L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1931;"	d	line:1931
+_FBOV3H::FLTBCONbits.FBOV3H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1934;"	d	line:1934
+_FBOV3L::FLTBCONbits.FBOV3L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1933;"	d	line:1933
+_FGS::(x)__attribute__((section("__F	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2303;"	d	line:2303
+_FLTAIE::IEC2bits.FLTAIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1782;"	d	line:1782
+_FLTAIF::IFS2bits.FLTAIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1747;"	d	line:1747
+_FLTAIP::IPC10bits.FLTAIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1829;"	d	line:1829
+_FLTAM::FLTACONbits.FLTAM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1916;"	d	line:1916
+_FLTBM::FLTBCONbits.FLTBM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1928;"	d	line:1928
+_FORM::ADCON1bits.FORM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1988;"	d	line:1988
+_FOSC::(x)__attribute__((section("__F	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2222;"	d	line:2222
+_FUID0::(x)__attribute__((section("__F	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2311;"	d	line:2311
+_FUID1::(x)__attribute__((section("__F	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2312;"	d	line:2312
+_FUID2::(x)__attribute__((section("__F	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2313;"	d	line:2313
+_FUID3::(x)__attribute__((section("__F	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2314;"	d	line:2314
+_FWDT::(x)__attribute__((section("__F	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2255;"	d	line:2255
+_GCEN::I2CCONbits.GCEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1958;"	d	line:1958
+_GCSTAT::I2CSTATbits.GCSTAT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1977;"	d	line:1977
+_I2CEN::I2CCONbits.I2CEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1965;"	d	line:1965
+_I2CMD::PMD1bits.I2CMD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2197;"	d	line:2197
+_I2COV::I2CSTATbits.I2COV	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1974;"	d	line:1974
+_I2CSIDL::I2CCONbits.I2CSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1964;"	d	line:1964
+_IC1IE::IEC0bits.IC1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1751;"	d	line:1751
+_IC1IF::IFS0bits.IC1IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1716;"	d	line:1716
+_IC1IP::IPC0bits.IC1IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1786;"	d	line:1786
+_IC1MD::PMD2bits.IC1MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2211;"	d	line:2211
+_IC2IE::IEC0bits.IC2IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1754;"	d	line:1754
+_IC2IF::IFS0bits.IC2IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1719;"	d	line:1719
+_IC2IP::IPC1bits.IC2IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1791;"	d	line:1791
+_IC2MD::PMD2bits.IC2MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2212;"	d	line:2212
+_IC7IE::IEC1bits.IC7IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1769;"	d	line:1769
+_IC7IF::IFS1bits.IC7IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1734;"	d	line:1734
+_IC7IP::IPC4bits.IC7IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1810;"	d	line:1810
+_IC7MD::PMD2bits.IC7MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2213;"	d	line:2213
+_IC8IE::IEC1bits.IC8IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1770;"	d	line:1770
+_IC8IF::IFS1bits.IC8IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1735;"	d	line:1735
+_IC8IP::IPC4bits.IC8IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1811;"	d	line:1811
+_IC8MD::PMD2bits.IC8MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2214;"	d	line:2214
+_IDLE::RCONbits.IDLE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2160;"	d	line:2160
+_IF::CORCONbits.IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1674;"	d	line:1674
+_IMV::DFLTCONbits.IMV	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1877;"	d	line:1877
+_INDX::QEICONbits.INDX	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1869;"	d	line:1869
+_INT0EP::INTCON2bits.INT0EP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1708;"	d	line:1708
+_INT0IE::IEC0bits.INT0IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1750;"	d	line:1750
+_INT0IF::IFS0bits.INT0IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1715;"	d	line:1715
+_INT0IP::IPC0bits.INT0IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1785;"	d	line:1785
+_INT1EP::INTCON2bits.INT1EP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1709;"	d	line:1709
+_INT1IE::IEC1bits.INT1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1768;"	d	line:1768
+_INT1IF::IFS1bits.INT1IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1733;"	d	line:1733
+_INT1IP::IPC4bits.INT1IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1809;"	d	line:1809
+_INT2EP::INTCON2bits.INT2EP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1710;"	d	line:1710
+_INT2IE::IEC1bits.INT2IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1775;"	d	line:1775
+_INT2IF::IFS1bits.INT2IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1740;"	d	line:1740
+_INT2IP::IPC5bits.INT2IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1818;"	d	line:1818
+_IOPUWR::RCONbits.IOPUWR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2167;"	d	line:2167
+_IPL3::CORCONbits.IPL3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1677;"	d	line:1677
+_IPL::SRbits.IPL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1663;"	d	line:1663
+_IPMIEN::I2CCONbits.IPMIEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1962;"	d	line:1962
+_ISR::__attribute__((interrupt))	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2844;"	d	line:2844
+_ISRFAST::__attribute__((interrupt,shado	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2845;"	d	line:2845
+_IWCOL::I2CSTATbits.IWCOL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1975;"	d	line:1975
+_LATB0::LATBbits.LATB0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2060;"	d	line:2060
+_LATB1::LATBbits.LATB1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2061;"	d	line:2061
+_LATB2::LATBbits.LATB2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2062;"	d	line:2062
+_LATB3::LATBbits.LATB3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2063;"	d	line:2063
+_LATB4::LATBbits.LATB4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2064;"	d	line:2064
+_LATB5::LATBbits.LATB5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2065;"	d	line:2065
+_LATB6::LATBbits.LATB6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2066;"	d	line:2066
+_LATB7::LATBbits.LATB7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2067;"	d	line:2067
+_LATB8::LATBbits.LATB8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2068;"	d	line:2068
+_LATC13::LATCbits.LATC13	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2081;"	d	line:2081
+_LATC14::LATCbits.LATC14	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2082;"	d	line:2082
+_LATC15::LATCbits.LATC15	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2083;"	d	line:2083
+_LATD0::LATDbits.LATD0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2098;"	d	line:2098
+_LATD1::LATDbits.LATD1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2099;"	d	line:2099
+_LATD2::LATDbits.LATD2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2100;"	d	line:2100
+_LATD3::LATDbits.LATD3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2101;"	d	line:2101
+_LATE0::LATEbits.LATE0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2122;"	d	line:2122
+_LATE1::LATEbits.LATE1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2123;"	d	line:2123
+_LATE2::LATEbits.LATE2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2124;"	d	line:2124
+_LATE3::LATEbits.LATE3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2125;"	d	line:2125
+_LATE4::LATEbits.LATE4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2126;"	d	line:2126
+_LATE5::LATEbits.LATE5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2127;"	d	line:2127
+_LATE8::LATEbits.LATE8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2128;"	d	line:2128
+_LATF0::LATFbits.LATF0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2149;"	d	line:2149
+_LATF1::LATFbits.LATF1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2150;"	d	line:2150
+_LATF2::LATFbits.LATF2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2151;"	d	line:2151
+_LATF3::LATFbits.LATF3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2152;"	d	line:2152
+_LATF4::LATFbits.LATF4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2153;"	d	line:2153
+_LATF5::LATFbits.LATF5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2154;"	d	line:2154
+_LATF6::LATFbits.LATF6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2155;"	d	line:2155
+_LOCK::OSCCONbits.LOCK	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2174;"	d	line:2174
+_LPOSCEN::OSCCONbits.LPOSCEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2172;"	d	line:2172
+_MATHERR::INTCON1bits.MATHERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1701;"	d	line:1701
+_MI2CIE::IEC0bits.MI2CIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1764;"	d	line:1764
+_MI2CIF::IFS0bits.MI2CIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1729;"	d	line:1729
+_MI2CIP::IPC3bits.MI2CIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1805;"	d	line:1805
+_N::SRbits.N	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1661;"	d	line:1661
+_NEAR::__attribute__((near))	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2823;"	d	line:2823
+_NEG::0x01	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	30;"	d	line:30
+_NL::0x00	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	29;"	d	line:29
+_NOSC::OSCCONbits.NOSC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2176;"	d	line:2176
+_NSTDIS::INTCON1bits.NSTDIS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1705;"	d	line:1705
+_NVMIE::IEC0bits.NVMIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1762;"	d	line:1762
+_NVMIF::IFS0bits.NVMIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1727;"	d	line:1727
+_NVMIP::IPC3bits.NVMIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1803;"	d	line:1803
+_OA::SRbits.OA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1671;"	d	line:1671
+_OAB::SRbits.OAB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1667;"	d	line:1667
+_OB::SRbits.OB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1670;"	d	line:1670
+_OC1IE::IEC0bits.OC1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1752;"	d	line:1752
+_OC1IF::IFS0bits.OC1IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1717;"	d	line:1717
+_OC1IP::IPC0bits.OC1IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1787;"	d	line:1787
+_OC1MD::PMD2bits.OC1MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2207;"	d	line:2207
+_OC2IE::IEC0bits.OC2IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1755;"	d	line:1755
+_OC2IF::IFS0bits.OC2IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1720;"	d	line:1720
+_OC2IP::IPC1bits.OC2IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1792;"	d	line:1792
+_OC2MD::PMD2bits.OC2MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2208;"	d	line:2208
+_OC3IE::IEC1bits.OC3IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1771;"	d	line:1771
+_OC3IF::IFS1bits.OC3IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1736;"	d	line:1736
+_OC3IP::IPC4bits.OC3IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1812;"	d	line:1812
+_OC3MD::PMD2bits.OC3MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2209;"	d	line:2209
+_OC4IE::IEC1bits.OC4IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1772;"	d	line:1772
+_OC4IF::IFS1bits.OC4IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1737;"	d	line:1737
+_OC4IP::IPC5bits.OC4IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1815;"	d	line:1815
+_OC4MD::PMD2bits.OC4MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2210;"	d	line:2210
+_OSCFAIL::INTCON1bits.OSCFAIL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1698;"	d	line:1698
+_OSWEN::OSCCONbits.OSWEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2171;"	d	line:2171
+_OSYNC::PWMCON2bits.OSYNC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1905;"	d	line:1905
+_OV::SRbits.OV	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1660;"	d	line:1660
+_OVATE::INTCON1bits.OVATE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1704;"	d	line:1704
+_OVBTE::INTCON1bits.OVBTE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1703;"	d	line:1703
+_P::I2CSTATbits.P	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1972;"	d	line:1972
+_PCDOUT::QEICONbits.PCDOUT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1865;"	d	line:1865
+_PCFG0::ADPCFGbits.PCFG0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2016;"	d	line:2016
+_PCFG1::ADPCFGbits.PCFG1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2017;"	d	line:2017
+_PCFG2::ADPCFGbits.PCFG2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2018;"	d	line:2018
+_PCFG3::ADPCFGbits.PCFG3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2019;"	d	line:2019
+_PCFG4::ADPCFGbits.PCFG4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2020;"	d	line:2020
+_PCFG5::ADPCFGbits.PCFG5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2021;"	d	line:2021
+_PCFG6::ADPCFGbits.PCFG6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2022;"	d	line:2022
+_PCFG7::ADPCFGbits.PCFG7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2023;"	d	line:2023
+_PCFG8::ADPCFGbits.PCFG8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2024;"	d	line:2024
+_PEN1H::PWMCON1bits.PEN1H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1896;"	d	line:1896
+_PEN1L::PWMCON1bits.PEN1L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1893;"	d	line:1893
+_PEN2H::PWMCON1bits.PEN2H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1897;"	d	line:1897
+_PEN2L::PWMCON1bits.PEN2L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1894;"	d	line:1894
+_PEN3H::PWMCON1bits.PEN3H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1898;"	d	line:1898
+_PEN3L::PWMCON1bits.PEN3L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1895;"	d	line:1895
+_PEN::I2CCONbits.PEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1953;"	d	line:1953
+_PERSISTENT::__attribute__((persistent))	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2822;"	d	line:2822
+_PL::0x04	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	33;"	d	line:33
+_PMOD1::PWMCON1bits.PMOD1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1899;"	d	line:1899
+_PMOD2::PWMCON1bits.PMOD2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1900;"	d	line:1900
+_PMOD3::PWMCON1bits.PMOD3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1901;"	d	line:1901
+_POR::RCONbits.POR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2158;"	d	line:2158
+_POS::0x03	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	32;"	d	line:32
+_POSRES::QEICONbits.POSRES	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1862;"	d	line:1862
+_POST::OSCCONbits.POST	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2175;"	d	line:2175
+_POUT1H::OVDCONbits.POUT1H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1938;"	d	line:1938
+_POUT1L::OVDCONbits.POUT1L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1937;"	d	line:1937
+_POUT2H::OVDCONbits.POUT2H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1940;"	d	line:1940
+_POUT2L::OVDCONbits.POUT2L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1939;"	d	line:1939
+_POUT3H::OVDCONbits.POUT3H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1942;"	d	line:1942
+_POUT3L::OVDCONbits.POUT3L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1941;"	d	line:1941
+_POVD1H::OVDCONbits.POVD1H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1944;"	d	line:1944
+_POVD1L::OVDCONbits.POVD1L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1943;"	d	line:1943
+_POVD2H::OVDCONbits.POVD2H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1946;"	d	line:1946
+_POVD2L::OVDCONbits.POVD2L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1945;"	d	line:1945
+_POVD3H::OVDCONbits.POVD3H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1948;"	d	line:1948
+_POVD3L::OVDCONbits.POVD3L	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1947;"	d	line:1947
+_PROGOP::NVMCONbits.PROGOP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2186;"	d	line:2186
+_PSV::CORCONbits.PSV	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1676;"	d	line:1676
+_PTCKPS::PTCONbits.PTCKPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1881;"	d	line:1881
+_PTDIR::PTMRbits.PTDIR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1887;"	d	line:1887
+_PTEN::PTCONbits.PTEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1884;"	d	line:1884
+_PTMOD::PTCONbits.PTMOD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1880;"	d	line:1880
+_PTOPS::PTCONbits.PTOPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1882;"	d	line:1882
+_PTSIDL::PTCONbits.PTSIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1883;"	d	line:1883
+_PWMIE::IEC2bits.PWMIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1780;"	d	line:1780
+_PWMIF::IFS2bits.PWMIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1745;"	d	line:1745
+_PWMIP::IPC9bits.PWMIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1825;"	d	line:1825
+_PWMMD::PMD1bits.PWMMD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2198;"	d	line:2198
+_QECK::DFLTCONbits.QECK	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1874;"	d	line:1874
+_QEIIE::IEC2bits.QEIIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1781;"	d	line:1781
+_QEIIF::IFS2bits.QEIIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1746;"	d	line:1746
+_QEIIP::IPC10bits.QEIIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1828;"	d	line:1828
+_QEIM::QEICONbits.QEIM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1867;"	d	line:1867
+_QEIMD::PMD1bits.QEIMD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2199;"	d	line:2199
+_QEISIDL::QEICONbits.QEISIDL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1870;"	d	line:1870
+_QEOUT::DFLTCONbits.QEOUT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1875;"	d	line:1875
+_RA::SRbits.RA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1662;"	d	line:1662
+_RB0::PORTBbits.RB0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2049;"	d	line:2049
+_RB1::PORTBbits.RB1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2050;"	d	line:2050
+_RB2::PORTBbits.RB2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2051;"	d	line:2051
+_RB3::PORTBbits.RB3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2052;"	d	line:2052
+_RB4::PORTBbits.RB4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2053;"	d	line:2053
+_RB5::PORTBbits.RB5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2054;"	d	line:2054
+_RB6::PORTBbits.RB6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2055;"	d	line:2055
+_RB7::PORTBbits.RB7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2056;"	d	line:2056
+_RB8::PORTBbits.RB8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2057;"	d	line:2057
+_RBF::I2CSTATbits.RBF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1969;"	d	line:1969
+_RC13::PORTCbits.RC13	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2076;"	d	line:2076
+_RC14::PORTCbits.RC14	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2077;"	d	line:2077
+_RC15::PORTCbits.RC15	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2078;"	d	line:2078
+_RCEN::I2CCONbits.RCEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1954;"	d	line:1954
+_RD0::PORTDbits.RD0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2092;"	d	line:2092
+_RD1::PORTDbits.RD1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2093;"	d	line:2093
+_RD2::PORTDbits.RD2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2094;"	d	line:2094
+_RD3::PORTDbits.RD3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2095;"	d	line:2095
+_RE0::PORTEbits.RE0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2113;"	d	line:2113
+_RE1::PORTEbits.RE1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2114;"	d	line:2114
+_RE2::PORTEbits.RE2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2115;"	d	line:2115
+_RE3::PORTEbits.RE3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2116;"	d	line:2116
+_RE4::PORTEbits.RE4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2117;"	d	line:2117
+_RE5::PORTEbits.RE5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2118;"	d	line:2118
+_RE8::PORTEbits.RE8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2119;"	d	line:2119
+_RF0::PORTFbits.RF0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2140;"	d	line:2140
+_RF1::PORTFbits.RF1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2141;"	d	line:2141
+_RF2::PORTFbits.RF2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2142;"	d	line:2142
+_RF3::PORTFbits.RF3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2143;"	d	line:2143
+_RF4::PORTFbits.RF4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2144;"	d	line:2144
+_RF5::PORTFbits.RF5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2145;"	d	line:2145
+_RF6::PORTFbits.RF6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2146;"	d	line:2146
+_RND::CORCONbits.RND	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1675;"	d	line:1675
+_RSEN::I2CCONbits.RSEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1952;"	d	line:1952
+_R_W::I2CSTATbits.R_W	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1970;"	d	line:1970
+_S::I2CSTATbits.S	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1971;"	d	line:1971
+_SA::SRbits.SA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1669;"	d	line:1669
+_SAB::SRbits.SAB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1666;"	d	line:1666
+_SAMC::ADCON3bits.SAMC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2003;"	d	line:2003
+_SAMP::ADCON1bits.SAMP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1984;"	d	line:1984
+_SATA::CORCONbits.SATA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1681;"	d	line:1681
+_SATB::CORCONbits.SATB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1680;"	d	line:1680
+_SATDW::CORCONbits.SATDW	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1679;"	d	line:1679
+_SB::SRbits.SB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1668;"	d	line:1668
+_SCLREL::I2CCONbits.SCLREL	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1963;"	d	line:1963
+_SEN::I2CCONbits.SEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1951;"	d	line:1951
+_SEVOPS::PWMCON2bits.SEVOPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1906;"	d	line:1906
+_SEVTDIR::SEVTCMPbits.SEVTDIR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1890;"	d	line:1890
+_SI2CIE::IEC0bits.SI2CIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1763;"	d	line:1763
+_SI2CIF::IFS0bits.SI2CIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1728;"	d	line:1728
+_SI2CIP::IPC3bits.SI2CIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1804;"	d	line:1804
+_SIMSAM::ADCON1bits.SIMSAM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1986;"	d	line:1986
+_SLEEP::RCONbits.SLEEP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2161;"	d	line:2161
+_SMEN::I2CCONbits.SMEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1959;"	d	line:1959
+_SMPI::ADCON2bits.SMPI	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1995;"	d	line:1995
+_SPI1IE::IEC0bits.SPI1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1758;"	d	line:1758
+_SPI1IF::IFS0bits.SPI1IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1723;"	d	line:1723
+_SPI1IP::IPC2bits.SPI1IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1797;"	d	line:1797
+_SPI1MD::PMD1bits.SPI1MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2194;"	d	line:2194
+_SSRC::ADCON1bits.SSRC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1987;"	d	line:1987
+_STKERR::INTCON1bits.STKERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1699;"	d	line:1699
+_STREN::I2CCONbits.STREN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1957;"	d	line:1957
+_SWDTEN::RCONbits.SWDTEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2163;"	d	line:2163
+_SWPAB::QEICONbits.SWPAB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1866;"	d	line:1866
+_SWR::RCONbits.SWR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2164;"	d	line:2164
+_T1IE::IEC0bits.T1IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1753;"	d	line:1753
+_T1IF::IFS0bits.T1IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1718;"	d	line:1718
+_T1IP::IPC0bits.T1IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1788;"	d	line:1788
+_T1Interrupt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	32;"	p	line:32	file:	signature:(void)
+_T1Interrupt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	548;"	f	line:548	signature:(void)
+_T1MD::PMD1bits.T1MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2200;"	d	line:2200
+_T2IE::IEC0bits.T2IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1756;"	d	line:1756
+_T2IF::IFS0bits.T2IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1721;"	d	line:1721
+_T2IP::IPC1bits.T2IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1793;"	d	line:1793
+_T2Interrupt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	560;"	f	line:560	signature:(void)
+_T2MD::PMD1bits.T2MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2201;"	d	line:2201
+_T3IE::IEC0bits.T3IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1757;"	d	line:1757
+_T3IF::IFS0bits.T3IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1722;"	d	line:1722
+_T3IP::IPC1bits.T3IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1794;"	d	line:1794
+_T3MD::PMD1bits.T3MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2202;"	d	line:2202
+_T4IE::IEC1bits.T4IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1773;"	d	line:1773
+_T4IF::IFS1bits.T4IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1738;"	d	line:1738
+_T4IP::IPC5bits.T4IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1816;"	d	line:1816
+_T4MD::PMD1bits.T4MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2203;"	d	line:2203
+_T5IE::IEC1bits.T5IE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1774;"	d	line:1774
+_T5IF::IFS1bits.T5IF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1739;"	d	line:1739
+_T5IP::IPC5bits.T5IP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1817;"	d	line:1817
+_T5MD::PMD1bits.T5MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2204;"	d	line:2204
+_TBF::I2CSTATbits.TBF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1968;"	d	line:1968
+_THEN::0x59	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	36;"	d	line:36
+_TQCKPS::QEICONbits.TQCKPS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1863;"	d	line:1863
+_TQCS::QEICONbits.TQCS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1861;"	d	line:1861
+_TQGATE::QEICONbits.TQGATE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1864;"	d	line:1864
+_TRAPR::RCONbits.TRAPR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2168;"	d	line:2168
+_TRISB0::TRISBbits.TRISB0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2038;"	d	line:2038
+_TRISB1::TRISBbits.TRISB1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2039;"	d	line:2039
+_TRISB2::TRISBbits.TRISB2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2040;"	d	line:2040
+_TRISB3::TRISBbits.TRISB3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2041;"	d	line:2041
+_TRISB4::TRISBbits.TRISB4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2042;"	d	line:2042
+_TRISB5::TRISBbits.TRISB5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2043;"	d	line:2043
+_TRISB6::TRISBbits.TRISB6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2044;"	d	line:2044
+_TRISB7::TRISBbits.TRISB7	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2045;"	d	line:2045
+_TRISB8::TRISBbits.TRISB8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2046;"	d	line:2046
+_TRISC13::TRISCbits.TRISC13	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2071;"	d	line:2071
+_TRISC14::TRISCbits.TRISC14	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2072;"	d	line:2072
+_TRISC15::TRISCbits.TRISC15	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2073;"	d	line:2073
+_TRISD0::TRISDbits.TRISD0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2086;"	d	line:2086
+_TRISD1::TRISDbits.TRISD1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2087;"	d	line:2087
+_TRISD2::TRISDbits.TRISD2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2088;"	d	line:2088
+_TRISD3::TRISDbits.TRISD3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2089;"	d	line:2089
+_TRISE0::TRISEbits.TRISE0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2104;"	d	line:2104
+_TRISE1::TRISEbits.TRISE1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2105;"	d	line:2105
+_TRISE2::TRISEbits.TRISE2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2106;"	d	line:2106
+_TRISE3::TRISEbits.TRISE3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2107;"	d	line:2107
+_TRISE4::TRISEbits.TRISE4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2108;"	d	line:2108
+_TRISE5::TRISEbits.TRISE5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2109;"	d	line:2109
+_TRISE8::TRISEbits.TRISE8	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2110;"	d	line:2110
+_TRISF0::TRISFbits.TRISF0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2131;"	d	line:2131
+_TRISF1::TRISFbits.TRISF1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2132;"	d	line:2132
+_TRISF2::TRISFbits.TRISF2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2133;"	d	line:2133
+_TRISF3::TRISFbits.TRISF3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2134;"	d	line:2134
+_TRISF4::TRISFbits.TRISF4	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2135;"	d	line:2135
+_TRISF5::TRISFbits.TRISF5	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2136;"	d	line:2136
+_TRISF6::TRISFbits.TRISF6	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2137;"	d	line:2137
+_TRSTAT::I2CSTATbits.TRSTAT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1979;"	d	line:1979
+_TUN0::OSCTUNbits.TUN0	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2180;"	d	line:2180
+_TUN1::OSCTUNbits.TUN1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2181;"	d	line:2181
+_TUN2::OSCTUNbits.TUN2	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2182;"	d	line:2182
+_TUN3::OSCTUNbits.TUN3	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2183;"	d	line:2183
+_TWRI::NVMCONbits.TWRI	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2187;"	d	line:2187
+_U1MD::PMD1bits.U1MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2195;"	d	line:2195
+_U1RXIE::IEC0bits.U1RXIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1759;"	d	line:1759
+_U1RXIF::IFS0bits.U1RXIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1724;"	d	line:1724
+_U1RXIP::IPC2bits.U1RXIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1798;"	d	line:1798
+_U1TXIE::IEC0bits.U1TXIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1760;"	d	line:1760
+_U1TXIF::IFS0bits.U1TXIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1725;"	d	line:1725
+_U1TXIP::IPC2bits.U1TXIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1799;"	d	line:1799
+_U2MD::PMD1bits.U2MD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2196;"	d	line:2196
+_U2RXIE::IEC1bits.U2RXIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1776;"	d	line:1776
+_U2RXIF::IFS1bits.U2RXIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1741;"	d	line:1741
+_U2RXIP::IPC6bits.U2RXIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1821;"	d	line:1821
+_U2RXInterrupt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	29;"	p	line:29	file:	signature:(void)
+_U2RXInterrupt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	533;"	f	line:533	signature:(void)
+_U2TXIE::IEC1bits.U2TXIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1777;"	d	line:1777
+_U2TXIF::IFS1bits.U2TXIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1742;"	d	line:1742
+_U2TXIP::IPC6bits.U2TXIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1822;"	d	line:1822
+_UDIS::PWMCON2bits.UDIS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1904;"	d	line:1904
+_UPDN::QEICONbits.UPDN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1868;"	d	line:1868
+_UPDN_SRC::QEICONbits.UPDN_SRC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1860;"	d	line:1860
+_US::CORCONbits.US	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1684;"	d	line:1684
+_VCFG::ADCON2bits.VCFG	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1998;"	d	line:1998
+_WDTO::RCONbits.WDTO	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2162;"	d	line:2162
+_WR::NVMCONbits.WR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2190;"	d	line:2190
+_WREN::NVMCONbits.WREN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2189;"	d	line:2189
+_WRERR::NVMCONbits.WRERR	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2188;"	d	line:2188
+_XB::XBREVbits.XB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1694;"	d	line:1694
+_XBSS::(N)__attribute__((space(xmemor	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2809;"	d	line:2809
+_XDATA::(N)__attribute__((space(xmemor	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2810;"	d	line:2810
+_XMODEN::MODCONbits.XMODEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1691;"	d	line:1691
+_XWM::MODCONbits.XWM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1687;"	d	line:1687
+_YBSS::(N)__attribute__((space(ymemor	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2811;"	d	line:2811
+_YDATA::(N)__attribute__((space(ymemor	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2812;"	d	line:2812
+_YMODEN::MODCONbits.YMODEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1690;"	d	line:1690
+_YWM::MODCONbits.YWM	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1688;"	d	line:1688
+_Z::SRbits.Z	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1659;"	d	line:1659
+_ZERO::0x02	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	31;"	d	line:31
+__30F3011_H	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	62;"	d	line:62
+__FUZZ_H	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	4;"	d	line:4
+ack	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	835;"	l	line:835
+action	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	19;"	m	line:19
+altcorr	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	29;"	v	line:29
+altitude	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	27;"	m	line:27
+attitude	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	60;"	m	line:60
+average	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	63;"	l	line:63
+batterystatus	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	61;"	m	line:61
+bite	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	83;"	l	line:83
+c	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	48;"	l	line:48
+c	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	56;"	l	line:56
+c	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	61;"	l	line:61
+check	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	41;"	v	line:41	file:
+check	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	82;"	l	line:82
+checksum	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	40;"	v	line:40	file:
+chksum	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	36;"	v	line:36	file:
+chksum	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	616;"	l	line:616
+chksum	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	647;"	l	line:647
+chksum	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	837;"	l	line:837
+clearRxBuffer	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	1017;"	f	line:1017	signature:( void )
+clearRxBuffer	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	92;"	p	line:92	signature:( void )
+clock	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	42;"	v	line:42
+cnt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	615;"	l	line:615
+cnt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	646;"	l	line:646
+cnt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	64;"	l	line:64
+cnt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	79;"	l	line:79
+coll	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	47;"	m	line:47
+coll	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	52;"	m	line:52
+corr_GPSlatlongalt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	973;"	f	line:973	signature:( signed short latc, signed short longc, signed short altc, unsigned short seconds)
+corr_GPSlatlongalt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	87;"	p	line:87	signature:( signed short latc, signed short longc, signed short altc, unsigned short seconds)
+curInput	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	191;"	l	line:191
+current	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	37;"	m	line:37
+d	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	61;"	l	line:61
+data	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	20;"	m	line:20
+deg	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	8;"	m	line:8
+delaycount	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	120;"	l	line:120
+doRules	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	187;"	f	line:187	signature:( fMember * all_mf, char * Rules )
+doRules	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	72;"	p	line:72	signature:(fMember *all_mf, char *Rule)
+dummy	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	118;"	l	line:118
+dummy	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	60;"	l	line:60
+dummy2	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	76;"	l	line:76
+eepromSS::LATEbits.LATE4	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	8;"	d	line:8
+eepromSSTris::TRISEbits.TRISE4	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	9;"	d	line:9
+engRPM	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	47;"	m	line:47
+engRPM	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	52;"	m	line:52
+fMember	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	47;"	t	line:47
+fillpwmCommand	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	35;"	p	line:35	file:	signature:( void )
+fillpwmCommand	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	462;"	f	line:462	signature:( void )
+fuzzy	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	68;"	m	line:68
+fuzzyFlag	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	25;"	v	line:25
+goto_position	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	57;"	m	line:57
+gyros	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	69;"	m	line:69
+heading	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	25;"	m	line:25
+hemi	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	12;"	m	line:12
+hsa	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	59;"	m	line:59
+i	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	65;"	l	line:65
+i	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	80;"	l	line:80
+i	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	61;"	l	line:61
+icxbuf	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	704;"	m	line:704	struct:tagIC
+icxcon	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	705;"	m	line:705	struct:tagIC
+init_GVars	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	16;"	p	line:16	file:	signature:( void )
+init_GVars	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	496;"	f	line:496	signature:( void )
+init_LEDs	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	22;"	p	line:22	file:	signature:( void )
+init_LEDs	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	524;"	f	line:524	signature:( void )
+init_T1	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	18;"	p	line:18	file:	signature:( void )
+init_T1	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	502;"	f	line:502	signature:( void )
+init_T2	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	20;"	p	line:20	file:	signature:( void )
+init_T2	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	512;"	f	line:512	signature:( void )
+inum	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	193;"	l	line:193
+k	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	306;"	l	line:306
+latcorr	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	29;"	v	line:29
+latdeg	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	70;"	l	line:70
+latitude	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	17;"	m	line:17
+latitude	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	42;"	m	line:42
+latmin	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	71;"	l	line:71
+latsec	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	72;"	l	line:72
+lcv	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	101;"	l	line:101
+lcv	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	81;"	l	line:81
+lcv	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	836;"	l	line:836
+longcorr	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	29;"	v	line:29
+longdeg	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	73;"	l	line:73
+longitude	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	18;"	m	line:18
+longitude	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	42;"	m	line:42
+longmin	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	74;"	l	line:74
+longsec	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	75;"	l	line:75
+main	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	58;"	f	line:58	signature:( void )
+min	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	9;"	m	line:9
+min_frac	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	10;"	m	line:10
+minutes	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	11;"	m	line:11
+modeFuzzy	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	27;"	v	line:27
+motorRPM	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	63;"	m	line:63
+n	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	102;"	l	line:102
+n	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	42;"	m	line:42
+newAltitude	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	70;"	m	line:70
+newHeading	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	70;"	m	line:70
+newPWM	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	32;"	v	line:32
+nl	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	41;"	m	line:41
+ocxcon	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	763;"	m	line:763	struct:tagOC
+ocxr	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	762;"	m	line:762	struct:tagOC
+ocxrs	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	761;"	m	line:761	struct:tagOC
+p	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	44;"	m	line:44
+packet	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	100;"	l	line:100	file:
+packet	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	614;"	l	line:614
+packet	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	63;"	l	line:63
+packet	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	645;"	l	line:645
+packet_cnt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	38;"	v	line:38	file:
+packet_length	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	37;"	v	line:37	file:
+pitch	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	32;"	m	line:32
+pitch	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	3;"	m	line:3
+pitch	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	47;"	m	line:47
+pitch	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	52;"	m	line:52
+pitch_accel_mf	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	47;"	v	line:47
+pitch_angle_mf	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	45;"	v	line:45
+pitch_mf	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	44;"	v	line:44
+pitch_param	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	8;"	v	line:8
+pitch_rate_mf	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	46;"	v	line:46
+pl	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	45;"	m	line:45
+position	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	58;"	m	line:58
+pwm	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	311;"	l	line:311
+pwm	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	67;"	m	line:67
+pwmCommand	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\commands.h	2;"	v	line:2
+q	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	64;"	l	line:64
+rIndex	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	190;"	l	line:190
+rNum	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	190;"	l	line:190
+rcv	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.c	81;"	l	line:81
+roll	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	32;"	m	line:32
+roll	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	3;"	m	line:3
+roll	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	47;"	m	line:47
+roll	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	52;"	m	line:52
+ruleVal	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	192;"	l	line:192
+seconds	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	29;"	v	line:29
+seconds	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	309;"	l	line:309
+seconds	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	65;"	l	line:65
+sensor	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	46;"	m	line:46
+sensors	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	65;"	m	line:65
+set_Altitude	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	1012;"	f	line:1012	signature:( unsigned short alt )
+set_Altitude	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	84;"	p	line:84	signature:( unsigned short alt )
+set_GPSlat	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	950;"	f	line:950	signature:(char deg, char min, short min_frac)
+set_GPSlat	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	81;"	p	line:81	signature:(char deg, char min, short min_frac)
+set_GPSlong	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	958;"	f	line:958	signature:(char deg, char min, short min_frac)
+set_GPSlong	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	82;"	p	line:82	signature:(char deg, char min, short min_frac)
+set_Gyros	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	966;"	f	line:966	signature:(signed short pitch, signed short roll, signed short yaw )
+set_Gyros	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	83;"	p	line:83	signature:(signed short pitch, signed short roll, signed short yaw )
+set_PRY	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	942;"	f	line:942	signature:(short pitch, short roll, short yaw)
+set_PRY	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	85;"	p	line:85	signature:(short pitch, short roll, short yaw)
+set_variables	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.h	80;"	p	line:80	signature:(short pitch, short roll, short yaw)
+setupTRIS	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	14;"	p	line:14	file:	signature:( void )
+setupTRIS	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	470;"	f	line:470	signature:( void )
+speed	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	26;"	m	line:26
+spixbuf	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1171;"	m	line:1171	struct:tagSPI
+spixcon	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1170;"	m	line:1170	struct:tagSPI
+spixstat	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1169;"	m	line:1169	struct:tagSPI
+state	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	35;"	v	line:35	file:
+state4_cnt	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	67;"	l	line:67
+tagACC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	90;"	s	line:90
+tagADCHSBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1285;"	s	line:1285
+tagADCON1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1242;"	s	line:1242
+tagADCON2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1259;"	s	line:1259
+tagADCON3BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1274;"	s	line:1274
+tagADCSSLBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1315;"	s	line:1315
+tagADPCFGBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1299;"	s	line:1299
+tagCNEN1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	496;"	s	line:496
+tagCNEN2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	511;"	s	line:511
+tagCNPU1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	521;"	s	line:521
+tagCNPU2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	536;"	s	line:536
+tagCORCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	172;"	s	line:172
+tagDFLTCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	681;"	s	line:681
+tagDISICNTBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	222;"	s	line:222
+tagDTCON1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	896;"	s	line:896
+tagFLTACONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	905;"	s	line:905
+tagI2CADDBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1035;"	s	line:1035
+tagI2CBRGBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	985;"	s	line:985
+tagI2CCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	993;"	s	line:993
+tagI2CRCVBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	957;"	s	line:957
+tagI2CSTATBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1015;"	s	line:1015
+tagI2CTRNBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	971;"	s	line:971
+tagIC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	703;"	s	line:703
+tagICxCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	715;"	s	line:715
+tagIEC0BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	314;"	s	line:314
+tagIEC1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	336;"	s	line:336
+tagIEC2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	353;"	s	line:353
+tagIFS0BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	263;"	s	line:263
+tagIFS1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	285;"	s	line:285
+tagIFS2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	302;"	s	line:302
+tagINTCON1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	234;"	s	line:234
+tagINTCON2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	251;"	s	line:251
+tagINTTREGBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	478;"	s	line:478
+tagIPC0BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	365;"	s	line:365
+tagIPC10BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	468;"	s	line:468
+tagIPC1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	379;"	s	line:379
+tagIPC2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	393;"	s	line:393
+tagIPC3BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	407;"	s	line:407
+tagIPC4BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	421;"	s	line:421
+tagIPC5BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	435;"	s	line:435
+tagIPC6BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	449;"	s	line:449
+tagIPC9BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	459;"	s	line:459
+tagLATBBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1368;"	s	line:1368
+tagLATCBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1404;"	s	line:1404
+tagLATDBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1436;"	s	line:1436
+tagLATEBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1477;"	s	line:1477
+tagLATFBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1520;"	s	line:1520
+tagMODCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	190;"	s	line:190
+tagNVMCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1590;"	s	line:1590
+tagOC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	760;"	s	line:760
+tagOCxCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	773;"	s	line:773
+tagOSCCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1557;"	s	line:1557
+tagOSCTUNBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1574;"	s	line:1574
+tagOVDCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	923;"	s	line:923
+tagPMD1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1617;"	s	line:1617
+tagPMD2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1638;"	s	line:1638
+tagPORTBBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1352;"	s	line:1352
+tagPORTCBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1394;"	s	line:1394
+tagPORTDBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1425;"	s	line:1425
+tagPORTEBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1462;"	s	line:1462
+tagPORTFBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1506;"	s	line:1506
+tagPTCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	829;"	s	line:829
+tagPTMRBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	842;"	s	line:842
+tagPTPERBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	850;"	s	line:850
+tagPWMCON1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	866;"	s	line:866
+tagPWMCON2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	884;"	s	line:884
+tagQEICONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	662;"	s	line:662
+tagRCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1539;"	s	line:1539
+tagSEVTCMPBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	858;"	s	line:858
+tagSPI	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1168;"	s	line:1168
+tagSPIxCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1190;"	s	line:1190
+tagSPIxSTATBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1178;"	s	line:1178
+tagSRBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	152;"	s	line:152
+tagTCON_16BIT	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	550;"	s	line:550
+tagTCON_EVEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	578;"	s	line:578
+tagTCON_ODD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	592;"	s	line:592
+tagTRISBBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1336;"	s	line:1336
+tagTRISCBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1384;"	s	line:1384
+tagTRISDBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1414;"	s	line:1414
+tagTRISEBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1447;"	s	line:1447
+tagTRISFBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1492;"	s	line:1492
+tagUART	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1047;"	s	line:1047
+tagUxMODEBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1060;"	s	line:1060
+tagUxRXREGBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1107;"	s	line:1107
+tagUxSTABITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1076;"	s	line:1076
+tagUxTXREGBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1093;"	s	line:1093
+tagXBREVBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	214;"	s	line:214
+temp	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	37;"	m	line:37
+temp1	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	64;"	l	line:64
+tempSS::LATEbits.LATE5	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	12;"	d	line:12
+tempSSTris::TRISEbits.TRISE5	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	13;"	d	line:13
+temp_yaw	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	66;"	l	line:66
+templat	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	975;"	l	line:975
+templong	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	976;"	l	line:976
+test	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	68;"	l	line:68
+tilt_rate_param	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	16;"	v	line:16
+total	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	61;"	l	line:61
+totalyaw	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	62;"	l	line:62
+uCReset::LATBbits.LATB8	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	11;"	d	line:11	file:
+uCResetTris::TRISBbits.TRISB8	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	12;"	d	line:12	file:
+uCSS::LATEbits.LATE2	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	4;"	d	line:4
+uCSSTris::TRISEbits.TRISE2	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.h	5;"	d	line:5
+uxbrg	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1052;"	m	line:1052	struct:tagUART
+uxmode	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1048;"	m	line:1048	struct:tagUART
+uxrxreg	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1051;"	m	line:1051	struct:tagUART
+uxsta	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1049;"	m	line:1049	struct:tagUART
+uxtxreg	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1050;"	m	line:1050	struct:tagUART
+val	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.c	308;"	l	line:308
+voltage	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	37;"	m	line:37
+vout_mf	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	194;"	l	line:194
+wSum	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	192;"	l	line:192
+yaw	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	64;"	l	line:64
+yaw	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	32;"	m	line:32
+yaw	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	3;"	m	line:3
+yaw	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	47;"	m	line:47
+yaw	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\typedefs.h	52;"	m	line:52
+yawave	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.c	63;"	l	line:63
+z	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	43;"	m	line:43

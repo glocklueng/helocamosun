@@ -2,7 +2,7 @@
 MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
 Version=1.0
 [File000]
-Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\main.o
 Folder=Intermediary
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -11,10 +11,10 @@ LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\Program Files\Microchip\MPLAB C30\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
 SOLK=<src>|main.c|fuzzy.c|RF.c|SPI.c||<obj>||<lib>||<lkr>|p30f3011.gld||
 SuiteArgsString=
-ToolArgsString=
+ToolArgsString=-Os -fschedule-insns -fschedule-insns2
 TraceCmdString=
 [File001]
-Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.o
 Folder=Intermediary
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -23,10 +23,10 @@ LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\Program Files\Microchip\MPLAB C30\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
 SOLK=<src>|main.c|fuzzy.c|RF.c|SPI.c||<obj>||<lib>||<lkr>|p30f3011.gld||
 SuiteArgsString=
-ToolArgsString=
+ToolArgsString=-Os -fschedule-insns -fschedule-insns2
 TraceCmdString=
 [File002]
-Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\RF.o
 Folder=Intermediary
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -35,10 +35,10 @@ LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\Program Files\Microchip\MPLAB C30\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
 SOLK=<src>|main.c|fuzzy.c|RF.c|SPI.c||<obj>||<lib>||<lkr>|p30f3011.gld||
 SuiteArgsString=
-ToolArgsString=
+ToolArgsString=-Os -fschedule-insns -fschedule-insns2
 TraceCmdString=
 [File003]
-Location=D:\Helicopter\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\SPI.o
 Folder=Intermediary
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -47,10 +47,10 @@ LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\Program Files\Microchip\MPLAB C30\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
 SOLK=<src>|main.c|fuzzy.c|RF.c|SPI.c||<obj>||<lib>||<lkr>|p30f3011.gld||
 SuiteArgsString=
-ToolArgsString=
+ToolArgsString=-Os -fschedule-insns -fschedule-insns2
 TraceCmdString=
 [File004]
-Location=DSP_Main_30F3011.cof
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\DSP_Main_30F3011.cof
 Folder=Output
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -59,10 +59,10 @@ LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-ld.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\Program Files\Microchip\MPLAB C30\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
 SOLK=<src>|main.c|fuzzy.c|RF.c|SPI.c||<obj>||<lib>||<lkr>|p30f3011.gld||
 SuiteArgsString=
-ToolArgsString=--stack=30 --no-check-sections -Map="$(TARGETBASE).map" -o"$(TARGETBASE).$(TARGETSUFFIX)"
+ToolArgsString=--stack=50 --no-check-sections -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
 [File005]
-Location=DSP_Main_30F3011.hex
+Location=D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\DSP_Main_30F3011.hex
 Folder=Output
 DeviceName=dsPIC30F3011
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -71,7 +71,7 @@ LanguageToolLocation=C:\Program Files\Microchip\MPLAB C30\bin\pic30-ld.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)||$(INCDIR)|C:\Program Files\Microchip\MPLAB C30\include||$(LIBDIR)|C:\Program Files\Microchip\MPLAB C30\lib||$(LKRDIR)||
 SOLK=<src>|main.c|fuzzy.c|RF.c|SPI.c||<obj>||<lib>||<lkr>|p30f3011.gld||
 SuiteArgsString=
-ToolArgsString=--stack=30 --no-check-sections -Map="$(TARGETBASE).map" -o"$(TARGETBASE).$(TARGETSUFFIX)"
+ToolArgsString=--stack=50 --no-check-sections -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
 [TOOL_LOC_STAMPS]
 tool_loc{069BD372-6CA0-40D4-BF2F-5DC806D05083}=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe

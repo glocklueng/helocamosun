@@ -21,6 +21,7 @@ GPT_helicopter GP_helicopter;		// global helicopter structure
 unsigned char GP_engON = 0;
 
 unsigned char RX_flag = 0;
+
 unsigned char fuzzyFlag = 0;
 
 char modeFuzzy = 0;					// default to Testing/Tuning control
@@ -113,8 +114,10 @@ void GP_state_machine ( void )
 			{
 				if (GP_dump == 0xA5)
 				{
+					RX_flag = 1;
 					chksum = 0;
 					state++;
+
 				}
 				else 
 				{
@@ -126,6 +129,7 @@ void GP_state_machine ( void )
 					checksum[1] = 0;
 					check = 0;
 					RX_flag = 0;
+
 				}
 				break;
 			}
@@ -140,7 +144,14 @@ void GP_state_machine ( void )
 				else 
 				{
 					state = 0;
+					packet_length = 0;
+					packet_cnt = 0;
+					chksum = 0;
+					checksum[0] = 0;
+					checksum[1] = 0;
+					check = 0;					
 					RX_flag = 0;
+
 				}
 				break;
 			}
@@ -202,14 +213,15 @@ void GP_state_machine ( void )
 
 				else 
 				{
-					
 					state = 0;
-					RX_flag = 0;
-					chksum = 0;
 					packet_length = 0;
 					packet_cnt = 0;
-					//GP_TX_char(0x06);
-					
+					chksum = 0;
+					checksum[0] = 0;
+					checksum[1] = 0;
+					check = 0;
+					RX_flag = 0;
+
 				}
 				break;
 			}
@@ -240,7 +252,7 @@ void GP_state_machine ( void )
 					checksum[1] = 0;
 					check = 0;
 					RX_flag = 0;
-					
+
 				}
 	
 				else
@@ -254,12 +266,21 @@ void GP_state_machine ( void )
 					checksum[1] = 0;
 					check = 0;
 					RX_flag = 0;
+
 				}
 				break;
 			}
 			default:
 			{
-				LATDbits.LATD2 ^= 1;
+				state = 0;
+				packet_length = 0;
+				packet_cnt = 0;
+				chksum = 0;
+				checksum[0] = 0;
+				checksum[1] = 0;
+				check = 0;
+				RX_flag = 0;
+				
 			}
 		}
 	}	
@@ -288,9 +309,7 @@ void GP_parse_data ( char vdata[], char len )
 	unsigned char seconds;
 	float Ton;
 	int pwm;
-				
 
-	
 	switch (vdata[0])
 	{
 		
