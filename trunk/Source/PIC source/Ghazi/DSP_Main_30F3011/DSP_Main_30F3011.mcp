@@ -2,6 +2,7 @@
 magic_cookie={66E99B07-E706-4689-9E80-9B2582898A13}
 file_version=1.0
 [PATH_INFO]
+BuildDirPolicy=BuildDirIsSourceDir
 dir_src=
 dir_bin=
 dir_tmp=
@@ -26,6 +27,7 @@ file_006=no
 file_007=no
 file_008=no
 file_009=no
+file_010=no
 [FILE_INFO]
 file_000=main.c
 file_001=fuzzy.c
@@ -36,14 +38,15 @@ file_005=fuzzy.h
 file_006=RF.h
 file_007=SPI.h
 file_008=typedefs.h
-file_009=p30f3011.gld
+file_009=C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h
+file_010=p30f3011.gld
 [SUITE_INFO]
 suite_guid={479DDE59-4D56-455E-855E-FFF59A3DB57E}
 suite_state=
 [TOOL_SETTINGS]
 TS{7D9C6ECE-785D-44CB-BA22-17BF2E119622}=--relax
-TS{25AC22BD-2378-4FDB-BFB6-7345A15512D3}=
-TS{7DAC9A1D-4C45-45D6-B25A-D117C74E8F5A}=--stack=30 --no-check-sections -Map="$(TARGETBASE).map" -o"$(TARGETBASE).$(TARGETSUFFIX)"
+TS{25AC22BD-2378-4FDB-BFB6-7345A15512D3}=-Os -fschedule-insns -fschedule-insns2
+TS{7DAC9A1D-4C45-45D6-B25A-D117C74E8F5A}=--stack=50 --no-check-sections -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TS{509E5861-1E2A-483B-8B6B-CA8DB7F2DD78}=
 [INSTRUMENTED_TRACE]
 enable=0

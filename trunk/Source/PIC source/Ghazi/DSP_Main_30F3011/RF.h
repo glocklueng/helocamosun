@@ -62,6 +62,7 @@ extern unsigned char GP_engON;
 extern GPT_helicopter GP_helicopter; // global helicopter structure
 extern unsigned char RX_flag;
 extern unsigned char fuzzyFlag;
+
 //--------------------------- Messages --------------------------------
 extern char GP_err_chksum[];
 extern char GP_err_SOT[];
