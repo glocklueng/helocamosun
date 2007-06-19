@@ -1,14 +1,14 @@
-float CurrentAltitude;
-float AltitudeRate;
+static float CurrentAltitude;
+static float AltitudeRate;
 
-float Heading_Angle;
-float Yaw_Rate;
+static float Heading_Angle;
+static float Yaw_Rate;
 
-float Pitch_Angle;
-float Pitch_Rate;
+static float Pitch_Angle;
+static float Pitch_Rate;
 
-float Roll_Angle;
-float Roll_Rate;
+static float Roll_Angle;
+static float Roll_Rate;
 
 void UpdateSensorValues(float Heading)
 {
@@ -58,7 +58,6 @@ unsigned char YawCorrection(float CorrectYawAngle)
   {
 	returnval = (char)result;	  
   }
-  
   if(returnval<=-50)
   {
 	return 0;
@@ -69,12 +68,10 @@ unsigned char YawCorrection(float CorrectYawAngle)
   }
   else
   {
-	//return returnval + 50;
-	return returnval + 100;
+	return returnval + 50;
   }
  
 }
-
 unsigned char PitchCorrection(float CorrectPitchAngle)
 {
   static float integral = 0;
