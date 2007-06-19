@@ -377,32 +377,69 @@ namespace commprotocoltester
 
         private void btnSetAntiTorque_Click(object sender, EventArgs e)
         {
-            SetYaw = Convert.ToByte(txtYaw.Text);
-            cp.SetAntiTorque(SetYaw);
+            try
+            {
+                SetYaw = Convert.ToByte(txtYaw.Text);
+                cp.SetAntiTorque(SetYaw);
+            }
+            catch (Exception ex)
+            {
+                txtYaw.Text = "0";
+            }
         }
 
         private void btnSetCollective_Click(object sender, EventArgs e)
         {
-            SetCollective = Convert.ToByte(txtCollective.Text);
-            cp.SetCollective(SetCollective);
+            try
+            {
+                SetCollective = Convert.ToByte(txtCollective.Text);
+                cp.SetCollective(SetCollective);
+            }
+            catch (Exception ex)
+            {
+                txtCollective.Text = "0";
+            }
         }
 
         private void btnSetCyclicPitch_Click(object sender, EventArgs e)
         {
-            SetPitch = Convert.ToByte(txtPitch.Text);
-            cp.SetCyclicPitch(SetPitch);
+            try
+            {
+
+                SetPitch = Convert.ToByte(txtPitch.Text);
+                cp.SetCyclicPitch(SetPitch);
+            }
+            catch (Exception ex)
+            {
+                txtPitch.Text = "0";
+            }
         }
 
         private void btnSetCyclicRoll_Click(object sender, EventArgs e)
         {
-            SetRoll = Convert.ToByte(txtRoll.Text);
-            cp.SetCyclicRoll(SetRoll);
+            try
+            {
+
+                SetRoll = Convert.ToByte(txtRoll.Text);
+                cp.SetCyclicRoll(SetRoll);
+            }
+            catch (Exception ex)
+            {
+                txtRoll.Text = "0";
+            }
         }
 
         private void btnSetMotorRPM_Click(object sender, EventArgs e)
         {
-            SetRPM = Convert.ToByte(txtRPM.Text);
-            cp.SetMotorRPM(SetRPM);
+            try
+            {
+                SetRPM = Convert.ToByte(txtRPM.Text);
+                cp.SetMotorRPM(SetRPM);
+            }
+            catch (Exception ex)
+            {
+                txtRPM.Text = "0";
+            }
         }
 
         private void btnSetTunePoints_Click(object sender, EventArgs e)
@@ -816,6 +853,19 @@ namespace commprotocoltester
         private void btnClearWindows_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
+        }
+
+        private void btnSetHeading_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                short heading = Convert.ToInt16(txtHeading.Text);
+                cp.AlterHeading(heading);
+            }
+            catch (Exception ex)
+            {
+                txtHeading.Text = "0";
+            }
         }
 
 
