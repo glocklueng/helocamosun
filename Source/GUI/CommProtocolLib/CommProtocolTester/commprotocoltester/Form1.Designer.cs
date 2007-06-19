@@ -67,6 +67,8 @@ namespace commprotocoltester
             this.cbxCtrlMode = new System.Windows.Forms.ComboBox();
             this.btnKillMotor = new System.Windows.Forms.Button();
             this.btnClearWindows = new System.Windows.Forms.Button();
+            this.btnSetHeading = new System.Windows.Forms.Button();
+            this.txtHeading = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -434,11 +436,31 @@ namespace commprotocoltester
             this.btnClearWindows.UseVisualStyleBackColor = true;
             this.btnClearWindows.Click += new System.EventHandler(this.btnClearWindows_Click);
             // 
+            // btnSetHeading
+            // 
+            this.btnSetHeading.Location = new System.Drawing.Point(12, 667);
+            this.btnSetHeading.Name = "btnSetHeading";
+            this.btnSetHeading.Size = new System.Drawing.Size(135, 23);
+            this.btnSetHeading.TabIndex = 36;
+            this.btnSetHeading.Text = "Set heading";
+            this.btnSetHeading.UseVisualStyleBackColor = true;
+            this.btnSetHeading.Click += new System.EventHandler(this.btnSetHeading_Click);
+            // 
+            // txtHeading
+            // 
+            this.txtHeading.Location = new System.Drawing.Point(153, 669);
+            this.txtHeading.Name = "txtHeading";
+            this.txtHeading.Size = new System.Drawing.Size(44, 20);
+            this.txtHeading.TabIndex = 37;
+            this.txtHeading.Text = "240";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1038, 694);
+            this.Controls.Add(this.txtHeading);
+            this.Controls.Add(this.btnSetHeading);
             this.Controls.Add(this.btnClearWindows);
             this.Controls.Add(this.btnKillMotor);
             this.Controls.Add(this.cbxCtrlMode);
@@ -517,6 +539,8 @@ namespace commprotocoltester
         private System.Windows.Forms.ComboBox cbxCtrlMode;
         private System.Windows.Forms.Button btnKillMotor;
         private System.Windows.Forms.Button btnClearWindows;
+        private System.Windows.Forms.Button btnSetHeading;
+        private System.Windows.Forms.TextBox txtHeading;
 
     }
 }
