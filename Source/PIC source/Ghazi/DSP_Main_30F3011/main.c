@@ -36,7 +36,8 @@ void fillpwmCommand ( void );
 
 extern unsigned char newPWM;
 //extern unsigned char GSPI_AccData[];
-
+char fuzzy_correction;
+char yaw_corr;
 unsigned char T2flag;
 unsigned char ERCMDflag;
 unsigned char clock;
@@ -45,11 +46,6 @@ fMember pitch_mf[3];
 fMember *pitch_angle_mf = &(pitch_mf[0]), 
 		*pitch_rate_mf  = &(pitch_mf[1]), 
 		*pitch_accel_mf = &(pitch_mf[2]);
-		
-//fMember roll_mf[3];
-//fMember *roll_angle_mf = &(roll_mf[0]), 
-//		*roll_rate_mf  = &(roll_mf[1]), 
-//		*roll_accel_mf = &(roll_mf[2]);
 
 //******************************************************************//
 
@@ -64,6 +60,7 @@ int main ( void )
 	int q, temp1, yaw = 0;
 	float seconds = 0;
 	short  temp_yaw;
+	short compass_rate_correction;
 	unsigned char state4_cnt = 0;
 	unsigned char test[10] = "0123456789";
 //	unsigned char yawchar[7] = "";
@@ -73,6 +70,8 @@ int main ( void )
 	unsigned char longdeg[4] = "";
 	unsigned char longmin[3] = "";
 	unsigned char longsec[5] = "";
+	unsigned char temp[4] = "";
+	
 	short dummy2 = 700;
 	
 	setupTRIS();
@@ -161,7 +160,6 @@ int main ( void )
 	while(1)
 	{
 		
-	//	LATEbits.LATE1 ^= 1;
 		if (GP_datavalid)
 		{
 			GP_datavalid = 0;
@@ -178,13 +176,28 @@ int main ( void )
 			if (newPWM)
 			{
 				newPWM = 0;
+				if(GP_helicopter.pwm.yaw > 50)
+				{
+					fuzzy_correction = GP_helicopter.pwm.yaw - 50;
+					yaw_corr = 1;
+				}
+				else if(GP_helicopter.pwm.yaw < 50)
+				{
+					fuzzy_correction = 50 - GP_helicopter.pwm.yaw;
+					yaw_corr = 0;
+				}
+				else 
+				{
+					fuzzy_correction = 0;
+					yaw_corr = 0;
+				}
 				fillpwmCommand();
 				SPI_tx_command(pwmCommand, 5);	
 			}
 		}	
 		i++;
 		
-		if (i >= 1000) // Reduced the time between requesting information for the gyros
+		if (i >= 500) // Reduced the time between requesting information for the gyros
 		{
 			c++;
 			i = 0;
@@ -264,8 +277,6 @@ int main ( void )
 			    fillpwmCommand();
 				SPI_tx_command(pwmCommand, 5);
 			
-			//	IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
-			
 			}
 			
 			
@@ -278,42 +289,26 @@ int main ( void )
 			if(modeFuzzy )
 			{
 				
-			//	fuzzyFlag = 1;
-				
-				GP_helicopter.newHeading = 160;
 				if((GP_helicopter.newHeading >= 0) && (GP_helicopter.newHeading < 45))
 				{
 					if(GP_helicopter.attitude.yaw > 315)
 					{
-
 						temp_yaw = (GP_helicopter.newHeading + (359-GP_helicopter.attitude.yaw));
 						temp_yaw = (short)((float)temp_yaw * COMPASS_SCALING);
-						pitch_angle_mf->sensor = 500 + temp_yaw;
-
-						GP_helicopter.gyros.yaw = 500 - GP_helicopter.newHeading + (359-GP_helicopter.attitude.yaw); // Added parenthesis
-						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-
+						pitch_angle_mf->sensor = COMPASS_CENTER_POINT + temp_yaw;
 					}
 					else if(GP_helicopter.newHeading >= GP_helicopter.attitude.yaw)
 					{
 
 						temp_yaw = (GP_helicopter.newHeading - GP_helicopter.attitude.yaw);
 						temp_yaw = (short)((float)temp_yaw * COMPASS_SCALING);
-						pitch_angle_mf->sensor = 500 - temp_yaw;
-
-						GP_helicopter.gyros.yaw = 500 - (GP_helicopter.newHeading - GP_helicopter.attitude.yaw); // Added parenthesis
-						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-
+						pitch_angle_mf->sensor = COMPASS_CENTER_POINT - temp_yaw;
 					}
 					else
-
 					{	
 						temp_yaw = GP_helicopter.attitude.yaw + GP_helicopter.newHeading;
 						temp_yaw = (short)((float)temp_yaw * COMPASS_SCALING);
-						pitch_angle_mf->sensor = 500 + temp_yaw;
-
-						GP_helicopter.gyros.yaw = 500 + GP_helicopter.attitude.yaw + GP_helicopter.newHeading;
-						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
+						pitch_angle_mf->sensor = COMPASS_CENTER_POINT + temp_yaw;
 					}
 				}
 				else if((GP_helicopter.newHeading >= 315) && (GP_helicopter.newHeading < 359))
@@ -322,78 +317,77 @@ int main ( void )
 					{
 						temp_yaw = (359 - GP_helicopter.newHeading) + GP_helicopter.attitude.yaw + GP_helicopter.newHeading;
 						temp_yaw = (short)((float)temp_yaw * COMPASS_SCALING);
-						pitch_angle_mf->sensor = 500 + temp_yaw;
+						pitch_angle_mf->sensor = COMPASS_CENTER_POINT + temp_yaw;
 					}
 					else if(GP_helicopter.newHeading > GP_helicopter.attitude.yaw)
 					{
 
 						temp_yaw = (GP_helicopter.newHeading - GP_helicopter.attitude.yaw);
 						temp_yaw = (short)((float)temp_yaw * COMPASS_SCALING);
-						pitch_angle_mf->sensor = 500 - temp_yaw;
-
-						GP_helicopter.gyros.yaw = 500 - (GP_helicopter.newHeading - GP_helicopter.attitude.yaw); // Added parenthesis
-						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-
+						pitch_angle_mf->sensor = COMPASS_CENTER_POINT - temp_yaw;
 					}
 					else if(GP_helicopter.newHeading <= GP_helicopter.attitude.yaw)
 					{
-
 						temp_yaw = (GP_helicopter.attitude.yaw - GP_helicopter.newHeading);
 						temp_yaw = (short)((float)temp_yaw * COMPASS_SCALING);
-						pitch_angle_mf->sensor = 500 + temp_yaw;
-
-						GP_helicopter.gyros.yaw = 500 + (GP_helicopter.attitude.yaw - GP_helicopter.newHeading); // Added parenthesis
-						pitch_angle_mf->sensor = GP_helicopter.gyros.yaw * COMPASS_SCALING;
-
+						pitch_angle_mf->sensor = COMPASS_CENTER_POINT + temp_yaw;
 					}
 				}
 				else
 				{
 					if(GP_helicopter.newHeading >= GP_helicopter.attitude.yaw)
 					{
-
 						temp_yaw = (GP_helicopter.newHeading - GP_helicopter.attitude.yaw);
 						temp_yaw = (short)((float)temp_yaw * COMPASS_SCALING);
-						pitch_angle_mf->sensor = 500 - temp_yaw;
+						pitch_angle_mf->sensor = COMPASS_CENTER_POINT - temp_yaw;
 					}
 					else
 					{
 						temp_yaw = (GP_helicopter.attitude.yaw - GP_helicopter.newHeading);
 						temp_yaw = (short)((float)temp_yaw * COMPASS_SCALING);
-						pitch_angle_mf->sensor = 500 + temp_yaw;
+						pitch_angle_mf->sensor = COMPASS_CENTER_POINT + temp_yaw;
 					}
 				}
-				temp_yaw = (short)((float)GP_helicopter.gyros.yaw * YAW_GYRO_SCALING);
-				pitch_rate_mf->sensor = 450 + temp_yaw;
 				
+				temp_yaw = (short)((float)GP_helicopter.gyros.yaw * YAW_GYRO_SCALING);
+				pitch_rate_mf->sensor = 450 + temp_yaw;	// ideally 450 + temp_yaw should equal 500
+				
+//				compass_rate_correction = 450 + temp_yaw;
+//				if(compass_rate_correction > 500)
+//				{
+//					compass_rate_correction = (compass_rate_correction - 500);
+//					pitch_angle_mf->sensor = (float)compass_rate_correction/0.03396;
+//				}
+//				else if(compass_rate_correction < 500)
+//				{
+//					compass_rate_correction = (500 - compass_rate_correction);
+//					pitch_angle_mf->sensor = (float)compass_rate_correction/0.03396;
+//				}
+//				
 				if(!RX_flag)
 				{
 					IEC1bits.U2RXIE = 0;		// disable the UART RX interrupt
-//					if(fuzzyFlag)
-//					{
-//						fuzzyFlag = 0;
-						LATDbits.LATD3 = 1;
-						Fuzzification( pitch_param, pitch_angle_mf);
-						Fuzzification( tilt_rate_param, pitch_rate_mf);
-//						LATDbits.LATD3 = 0;
-//					}
-//					else if(!fuzzyFlag)
-//					{
-//						fuzzyFlag = 1;
-//						LATDbits.LATD3 = 1;
-					    GP_helicopter.pwm.yaw = (short)(doRules(pitch_mf, Rule));
-					    LATDbits.LATD3 = 0;
-//				    }
+
+					LATDbits.LATD3 = 1;
+					Fuzzification( pitch_param, pitch_angle_mf);
+					Fuzzification( tilt_rate_param, pitch_rate_mf);
+	
+				    GP_helicopter.pwm.yaw = (short)(doRules(pitch_mf, Rule));
+				    LATDbits.LATD3 = 0;
+
 				    IEC1bits.U2RXIE = 1;		// enable the UART RX interrupt
+				    
 				    // clear the over-run buffer for when we are executing the fuzzy code and
-					// can't service the USART interrupt		
+					// can't service the USART interrupt
 					if(U2STAbits.OERR)	
 					{
 						U2STAbits.OERR = 0;		// clear the over run buffer flag
 						clearRxBuffer();		// clar the buffer
 					}
+					
+					
+					
 				}
-			    //fuzzyFlag = 0;
 			 }
 			 
 	   		if (modeFuzzy)

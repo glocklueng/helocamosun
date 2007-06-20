@@ -7,7 +7,7 @@ pwm.h
 #define COLLECTIVE_CORRECTION_FACTOR 2.80
 #define PITCH_MIN_VAL 				 0x014F
 #define ROLL_MIN_VAL 				 0x0147
-#define YAW_MIN_VAL 				 0x01C6
+#define YAW_MIN_VAL 				 0x01CF
 #define COLLECTIVE_MIN_VAL 			 0x0138
 
 void PCPWMInit(void);
