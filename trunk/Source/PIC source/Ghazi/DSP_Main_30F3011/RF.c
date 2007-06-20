@@ -932,7 +932,7 @@ void GP_init_chopper( void )
 	GP_helicopter.fuzzy.engRPM = 0;
 	
 	// adjustments
-	GP_helicopter.newHeading = 0;
+	GP_helicopter.newHeading = 260;
 	GP_helicopter.newAltitude = 0;
 	
 	// handshake flag

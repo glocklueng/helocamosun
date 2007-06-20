@@ -34,7 +34,7 @@ void PCPWMInit(void)
 	PDC1L 	= 0xD8;		// 536us, maximum duty cycle
 	
 	PDC2H 	= 0x01;		// Yaw
-	PDC2L 	= 0xEE;		// 526us, 50% duty cycle
+	PDC2L 	= 0xE8;		// 526us, 50% duty cycle
 	
 	PDC3H 	= 0x01;		// Collective
 	PDC3L 	= 0xA7;		// some random value
@@ -67,15 +67,15 @@ void UpdatePWM(void)
 	}
 
 	// YAW
-	if( servos[3] > 0x5A)
+	if( servos[3] > 0x60)
 	{
-		servos[3] = 0x5A;
+		servos[3] = 0x60;
 	}
-	if(servos[3] < 0x0A)
+	if(servos[3] < 0x04)
 	{
-		servos[3] = 0x0A;
+		servos[3] = 0x04;
 	}
-	if((servos[3] <= 0x5A) && (servos[3] >= 0x0A))
+	if((servos[3] <= 0x60) && (servos[3] >= 0x04))
 	{
 		fTemp = servos[3] * YAW_CORRECTION_FACTOR;
 		temp = ((short)fTemp)+YAW_MIN_VAL;

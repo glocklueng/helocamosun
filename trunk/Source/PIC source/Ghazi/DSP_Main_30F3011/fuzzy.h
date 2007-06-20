@@ -8,8 +8,9 @@
 #define ROLL_TILT_OFFSET  0
 #define ROLL_GYRO_OFFSET  0
 #define YAW_TILT_OFFSET   0
-#define YAW_GYRO_SCALING  0.07692
-#define COMPASS_SCALING   2.0
+#define YAW_GYRO_SCALING  0.08942
+#define COMPASS_SCALING   2.5
+#define COMPASS_CENTER_POINT 500
 
 #define NUM_RULES 25
 #define NUM_RANGE 5
@@ -46,6 +47,8 @@ typedef struct
 		float sensor;
 } fMember;
 
+extern char yaw_corr;
+extern char fuzzy_correction;
 extern char Rule[];
 extern char RollRule[];
 extern char YawRule[];

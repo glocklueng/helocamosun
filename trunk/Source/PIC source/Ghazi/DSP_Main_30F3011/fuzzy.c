@@ -3,29 +3,27 @@
 #include <math.h>
 #include "fuzzy.h"
 
-
-
 float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
-      {10.0,  445.0, 471.0},
-      {452.0, 472.0, 500.0},
-      {473.0, 500.0, 526.0},
-      {500.0, 527.0, 547.0},
-      {528.0, 550.0, 990.0}
+      {10.0,  450.0, 490.0},
+      {450.0, 490.0, 500.0},
+      {490.0, 500.0, 520.0},
+      {500.0, 520.0, 550.0},
+      {520.0, 550.0, 990.0}
 };
 
 float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
-      {1.0,  461.0, 478.0},
-      {464.0, 480.0, 500.0},
-      {483.0, 500.0, 516.0},
-      {500.0, 518.0, 535.0},
-      {522.0, 540.0, 999.0}
+      {1.0,   450.0, 480.0},
+      {450.0, 480.0, 500.0},
+      {480.0, 500.0, 520.0},
+      {500.0, 520.0, 550.0},
+      {520.0, 550.0, 999.0}
 };
 
-#define NL_WEIGHT (100)         // output weightings -200
-#define N_WEIGHT (75)           // -60
-#define Z_WEIGHT (50)             // 0
-#define P_WEIGHT (25)            // 60
-#define PL_WEIGHT (0)          // 200
+#define NL_WEIGHT 	(68)	// output 
+#define N_WEIGHT 	(58)    // -60
+#define Z_WEIGHT 	(50)    // 0
+#define P_WEIGHT 	(42)    // 60
+#define PL_WEIGHT 	(38)  	// 
 
 /************************************************************************
  *                                                                      *
@@ -56,7 +54,6 @@ float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
 float Equ_line( float x, float x1, float x2, float y1, float y2)
 {
 		return (y2-y1)/(x2-x1)*(x - x1) + y1;		
-	
 }
 
 /*
@@ -148,13 +145,13 @@ char Rule[] =                          // SAMPLE RULE SET
 { 
    ANGLE, _NL, RATE, _NL, _THEN, _NL,
    ANGLE, _NEG,  RATE, _NL, _THEN, _NL,
-   ANGLE, _ZERO,  RATE, _NL, _THEN, _NL,
-   ANGLE, _POS,  RATE, _NL, _THEN, _NEG,
-   ANGLE, _PL, RATE, _NL, _THEN, _NEG,
+   ANGLE, _ZERO,  RATE, _NL, _THEN, _NEG,
+   ANGLE, _POS,  RATE, _NL, _THEN, _POS,	// change here
+   ANGLE, _PL, RATE, _NL, _THEN, _POS,
    
    ANGLE, _NL, RATE, _NEG,  _THEN, _NL,
    ANGLE, _NEG,  RATE, _NEG,  _THEN, _NEG,
-   ANGLE, _ZERO,  RATE, _NEG,  _THEN, _NEG,
+   ANGLE, _ZERO,  RATE, _NEG,  _THEN, _POS,
    ANGLE, _POS,  RATE, _NEG,  _THEN, _POS,
    ANGLE, _PL, RATE, _NEG,  _THEN, _POS,
   
@@ -166,13 +163,13 @@ char Rule[] =                          // SAMPLE RULE SET
   
    ANGLE, _NL, RATE, _POS,  _THEN, _NEG,
    ANGLE, _NEG,  RATE, _POS,  _THEN, _NEG,
-   ANGLE, _ZERO,  RATE, _POS,  _THEN, _POS,
+   ANGLE, _ZERO,  RATE, _POS,  _THEN, _NEG,
    ANGLE, _POS,  RATE, _POS,  _THEN, _POS,
    ANGLE, _PL, RATE, _POS,  _THEN, _PL,
    
-   ANGLE, _NL, RATE, _PL, _THEN, _POS,
-   ANGLE, _NEG,  RATE, _PL, _THEN, _POS,
-   ANGLE, _ZERO,  RATE, _PL, _THEN, _PL,
+   ANGLE, _NL, RATE, _PL, _THEN, _NEG,
+   ANGLE, _NEG,  RATE, _PL, _THEN, _NEG,	// change here
+   ANGLE, _ZERO,  RATE, _PL, _THEN, _POS,
    ANGLE, _POS,  RATE, _PL, _THEN, _PL,
    ANGLE, _PL, RATE, _PL, _THEN, _PL
 };
@@ -261,15 +258,23 @@ float doRules( fMember * all_mf, char * Rules )
    // 			         ( out.n + out.z + out.p )
    //
    wSum = 0;
-
-   wSum =  vout_mf.nl * NL_WEIGHT;
-   wSum += vout_mf.n  * N_WEIGHT;
-   wSum += vout_mf.z  * Z_WEIGHT;
-   wSum += vout_mf.p  * P_WEIGHT;
-   wSum += vout_mf.pl * PL_WEIGHT;
+   if(yaw_corr)
+   {
+	   wSum =  vout_mf.nl * (NL_WEIGHT + fuzzy_correction);
+	   wSum += vout_mf.n  * (N_WEIGHT  + fuzzy_correction);
+	   wSum += vout_mf.z  * (Z_WEIGHT  + fuzzy_correction);
+	   wSum += vout_mf.p  * (P_WEIGHT  + fuzzy_correction);
+	   wSum += vout_mf.pl * (PL_WEIGHT + fuzzy_correction);
+   }
+   else
+   {
+	   wSum =  vout_mf.nl * (NL_WEIGHT - fuzzy_correction);
+	   wSum += vout_mf.n  * (N_WEIGHT  - fuzzy_correction);
+	   wSum += vout_mf.z  * (Z_WEIGHT  - fuzzy_correction);
+	   wSum += vout_mf.p  * (P_WEIGHT  - fuzzy_correction);
+	   wSum += vout_mf.pl * (PL_WEIGHT - fuzzy_correction);	   
+   }
    wSum /= ( vout_mf.nl + vout_mf.n + vout_mf.z + vout_mf.p + vout_mf.pl );
-
-   inum = (int)wSum;
    return wSum;     // inum
 }
 
