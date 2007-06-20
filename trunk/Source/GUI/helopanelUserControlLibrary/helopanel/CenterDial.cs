@@ -89,7 +89,7 @@ namespace helopanel
         private float value = 5.7f;
         public float Value
         {
-            set { this.Invalidate();  this.value = value; }
+            set { this.Invalidate(); this.value = value; ValueIndicator.SetToolTip(this, value.ToString()); }
             get { return value; }
         }
         public float TickBaseArcMin = 0;
@@ -135,8 +135,10 @@ namespace helopanel
         /// </summary>
         public bool CounterClockWise = false;
         private ArrayList RedLineRanges = new ArrayList();
+        
         public NeedleType needleType = NeedleType.Simple;
 
+        private ToolTip ValueIndicator = new ToolTip();
         #endregion
         #region contstructors
         /// <summary>
@@ -144,6 +146,7 @@ namespace helopanel
         /// </summary>
         public CenterDial()
         {
+            ValueIndicator.SetToolTip(this, Value.ToString());
 
 
         }
@@ -184,6 +187,7 @@ namespace helopanel
             {
                 RedLineRanges.Add(r);
             }
+            ValueIndicator.SetToolTip(this, Value.ToString());
         }
         /// <summary>
         /// Create a new Centerdial with specified settings
@@ -246,7 +250,7 @@ namespace helopanel
             this.ScrewColor = ScrewColor;
             this.GaugeSurfaceColor = GaugeSurfaceColor;
 
-
+            ValueIndicator.SetToolTip(this, Value.ToString());
         }
 
 

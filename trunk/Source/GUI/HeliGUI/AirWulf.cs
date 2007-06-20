@@ -423,11 +423,13 @@ namespace HeliGui
             BatteryVoltageGauge.CounterClockWise = false;
             BatteryVoltageGauge.LowestValueAngle = 90;
 
+
             RedLineRange BatteryUnderVoltage = new RedLineRange();
             BatteryUnderVoltage.UpperBound = 16;
             BatteryUnderVoltage.LowerBound = 0;
             BatteryVoltageGauge.AddRedLineRange(BatteryUnderVoltage);
             this.Controls.Add(BatteryVoltageGauge);
+            BatteryVoltageGauge.Value = 18;
         }
         private void SetUpBatteryTemperatureGauge()
         {
