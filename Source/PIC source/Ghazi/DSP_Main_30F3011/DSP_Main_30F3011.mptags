@@ -406,7 +406,7 @@ MSTEN	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1193;"	m	line:11
 N	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	156;"	m	line:156	struct:tagSRBITS
 N::Z-1	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	19;"	d	line:19
 NL::Z-2	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	18;"	d	line:18
-NL_WEIGHT::(68)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	22;"	d	line:22	file:
+NL_WEIGHT::(60)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	22;"	d	line:22	file:
 NOSC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1565;"	m	line:1565	struct:tagOSCCONBITS
 NSTDIS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	245;"	m	line:245	struct:tagINTCON1BITS
 NUM_RANGE::5	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	16;"	d	line:16
@@ -415,7 +415,7 @@ NVMCONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1598;"	t	li
 NVMIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	327;"	m	line:327	struct:tagIEC0BITS
 NVMIF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	276;"	m	line:276	struct:tagIFS0BITS
 NVMIP	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	408;"	m	line:408	struct:tagIPC3BITS
-N_WEIGHT::(58)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	23;"	d	line:23	file:
+N_WEIGHT::(54)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	23;"	d	line:23	file:
 Nop::{__asm__volatile("nop");}	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2788;"	d	line:2788
 OA	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	166;"	m	line:166	struct:tagSRBITS
 OAB	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	162;"	m	line:162	struct:tagSRBITS
@@ -479,7 +479,7 @@ PIC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	706;"	t	line:706
 PITCH_GYRO_OFFSET::20	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	7;"	d	line:7
 PITCH_TILT_OFFSET::0	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	6;"	d	line:6
 PL::Z+2	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.h	22;"	d	line:22
-PL_WEIGHT::(38)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	26;"	d	line:26	file:
+PL_WEIGHT::(40)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	26;"	d	line:26	file:
 PMD1BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1633;"	t	line:1633
 PMD2BITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	1649;"	t	line:1649
 PMOD1	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	875;"	m	line:875	struct:tagPWMCON1BITS
@@ -536,7 +536,7 @@ PWRT_16::0xFFFE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2299;"
 PWRT_4::0xFFFD	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2298;"	d	line:2298
 PWRT_64::0xFFFF	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2300;"	d	line:2300
 PWRT_OFF::0xFFFC	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	2297;"	d	line:2297
-P_WEIGHT::(42)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	25;"	d	line:25	file:
+P_WEIGHT::(45)	D:\Helicopter Project\source\Source\PIC source\Ghazi\DSP_Main_30F3011\fuzzy.c	25;"	d	line:25	file:
 QECK	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	683;"	m	line:683	struct:tagDFLTCONBITS
 QEICONBITS	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	676;"	t	line:676
 QEIIE	C:\Program Files\Microchip\MPLAB C30\support\h\p30f3011.h	356;"	m	line:356	struct:tagIEC2BITS

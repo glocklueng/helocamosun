@@ -4,11 +4,11 @@
 #include "fuzzy.h"
 
 float pitch_param[NUM_RANGE][3]={	//degrees member function parameters
-      {10.0,  450.0, 490.0},
-      {450.0, 490.0, 500.0},
-      {490.0, 500.0, 520.0},
-      {500.0, 520.0, 550.0},
-      {520.0, 550.0, 990.0}
+      {10.0,  450.0, 475.0},
+      {460.0, 475.0, 490.0},
+      {475.0, 500.0, 525.0},
+      {510.0, 525.0, 540.0},
+      {525.0, 550.0, 990.0}
 };
 
 float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
@@ -19,11 +19,11 @@ float tilt_rate_param[NUM_RANGE][3] = {	//rate member function parameters
       {520.0, 550.0, 999.0}
 };
 
-#define NL_WEIGHT 	(68)	// output 
-#define N_WEIGHT 	(58)    // -60
+#define NL_WEIGHT 	(60)	// output 
+#define N_WEIGHT 	(54)    // -60
 #define Z_WEIGHT 	(50)    // 0
-#define P_WEIGHT 	(42)    // 60
-#define PL_WEIGHT 	(38)  	// 
+#define P_WEIGHT 	(45)    // 60
+#define PL_WEIGHT 	(40)  	// 
 
 /************************************************************************
  *                                                                      *
