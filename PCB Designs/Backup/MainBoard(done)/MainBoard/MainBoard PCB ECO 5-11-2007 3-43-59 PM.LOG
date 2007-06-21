@@ -1,0 +1,19 @@
+Removed Pin From Net: NetName=UC SDIO Pin=SPIBus/ICD uC PGC-1
+Removed Pin From Net: NetName=NetPIC18F4431_16 Pin=SPIBus/ICD uC PGC-2
+Removed Pin From Net: NetName=UC PGC Pin=SPIBus/ICD uC PGC-3
+Removed Pin From Net: NetName=UC SCK Pin=SPIBus/ICD uC PGD-1
+Removed Pin From Net: NetName=NetPIC18F4431_17 Pin=SPIBus/ICD uC PGD-2
+Removed Pin From Net: NetName=UC PGD Pin=SPIBus/ICD uC PGD-3
+Removed Member From Class: ClassName=MainBoard Member=SPIBus/ICD uC PGC
+Removed Member From Class: ClassName=MainBoard Member=SPIBus/ICD uC PGC
+Removed Member From Class: ClassName=MainBoard Member=SPIBus/ICD uC PGD
+Removed Member From Class: ClassName=MainBoard Member=SPIBus/ICD uC PGD
+Added Component: Designator=SPIBus/ICD(HDR2X3_CEN)
+Added Pin To Net: NetName=UC PGC Pin=SPIBus/ICD-1
+Added Pin To Net: NetName=NetPIC18F4431_16 Pin=SPIBus/ICD-2
+Added Pin To Net: NetName=UC SDIO Pin=SPIBus/ICD-3
+Added Pin To Net: NetName=UC PGD Pin=SPIBus/ICD-4
+Added Pin To Net: NetName=NetPIC18F4431_17 Pin=SPIBus/ICD-5
+Added Pin To Net: NetName=UC SCK Pin=SPIBus/ICD-6
+Added Member To Class: ClassName=MainBoard Member=Component SPIBus/ICD Header 3X2A
+Added Room: Name=MainBoard

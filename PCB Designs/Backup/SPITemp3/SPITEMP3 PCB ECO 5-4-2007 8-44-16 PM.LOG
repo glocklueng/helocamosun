@@ -1,0 +1,17 @@
+Added Component: Designator=AD7314(AD7314)
+Added Component: Designator=TempHeader(HDR1X6)
+Added Pin To Net: NetName=CE Pin=AD7314-2
+Added Pin To Net: NetName=SCK Pin=AD7314-3
+Added Pin To Net: NetName=GND Pin=AD7314-4
+Added Pin To Net: NetName=SDO Pin=AD7314-5
+Added Pin To Net: NetName=SDI Pin=AD7314-6
+Added Pin To Net: NetName=5V Pin=AD7314-8
+Added Pin To Net: NetName=5V Pin=TempHeader-1
+Added Pin To Net: NetName=SDI Pin=TempHeader-2
+Added Pin To Net: NetName=SDO Pin=TempHeader-3
+Added Pin To Net: NetName=SCK Pin=TempHeader-4
+Added Pin To Net: NetName=CE Pin=TempHeader-5
+Added Pin To Net: NetName=GND Pin=TempHeader-6
+Added Member To Class: ClassName=SPITEMP3 Member=Component AD7314 SPI Temp Sensor
+Added Member To Class: ClassName=SPITEMP3 Member=Component TempHeader Header 6
+Added Room: Name=SPITEMP3

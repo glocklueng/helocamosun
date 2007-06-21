@@ -1,0 +1,12 @@
+Added Component: Designator=R11(CR1608-0603)
+Added Component: Designator=R12(CR1608-0603)
+Added Component: Designator=ZD1(Zener Diode)
+Added Pin To Net: NetName=UC REFERENCE Pin=R11-1
+Added Pin To Net: NetName=5V Pin=R11-2
+Added Pin To Net: NetName=GND Pin=R12-1
+Added Pin To Net: NetName=UC REFERENCE Pin=R12-2
+Added Pin To Net: NetName=GND Pin=ZD1-1
+Added Pin To Net: NetName=UC REFERENCE Pin=ZD1-2
+Added Member To Class: ClassName=MainBoard Member=Component R11 Res3
+Added Member To Class: ClassName=MainBoard Member=Component R12 Res3
+Added Member To Class: ClassName=MainBoard Member=Component ZD1 CZRF52C3

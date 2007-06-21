@@ -1,0 +1,45 @@
+Change Component Designator: OldDesignator=SMD 1206 1 NewDesignator=SMD 1206 11
+Change Component Designator: OldDesignator=SMD 1206 2 NewDesignator=SMD 1206 12
+Change Component Designator: OldDesignator=SMD 1206 3 NewDesignator=SMD 1206 13
+Change Component Designator: OldDesignator=SMD 1206 4 NewDesignator=SMD 1206 14
+Added Component: Designator=SMD 1206 1(SMD 1206)
+Added Component: Designator=SMD 1206 2(SMD 1206)
+Added Component: Designator=SMD 1206 3(SMD 1206)
+Added Component: Designator=SMD 1206 4(SMD 1206)
+Added Component: Designator=SMD 1206 5(SMD 1206)
+Added Component: Designator=SMD 1206 6(SMD 1206)
+Added Component: Designator=SMD 1206 7(SMD 1206)
+Added Component: Designator=SMD 1206 8(SMD 1206)
+Added Component: Designator=SMD 1206 9(SMD 1206)
+Added Component: Designator=SMD 1206 10(SMD 1206)
+Added Pin To Net: NetName=5V Pin=SMD 1206 1-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 1-2
+Added Pin To Net: NetName=5V Pin=SMD 1206 2-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 2-2
+Added Pin To Net: NetName=5V Pin=SMD 1206 3-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 3-2
+Added Pin To Net: NetName=5V Pin=SMD 1206 4-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 4-2
+Added Pin To Net: NetName=5V Pin=SMD 1206 5-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 5-2
+Added Pin To Net: NetName=5V Pin=SMD 1206 6-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 6-2
+Added Pin To Net: NetName=5V Pin=SMD 1206 7-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 7-2
+Added Pin To Net: NetName=5V Pin=SMD 1206 8-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 8-2
+Added Pin To Net: NetName=5V Pin=SMD 1206 9-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 9-2
+Added Pin To Net: NetName=3.3V Pin=SMD 1206 10-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 10-2
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 5 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 6 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 7 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 8 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 9 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 10 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 11 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 12 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 13 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 14 SMD 1206
+Added Room: Name=MainBoard

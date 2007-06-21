@@ -1,0 +1,8 @@
+Removed Pin From Net: NetName=SDO Pin=TempHeader-1
+Removed Pin From Net: NetName=5V Pin=TempHeader-3
+Removed Pin From Net: NetName=CE Pin=TempHeader-4
+Removed Pin From Net: NetName=GND Pin=TempHeader-6
+Added Pin To Net: NetName=5V Pin=TempHeader-1
+Added Pin To Net: NetName=SDO Pin=TempHeader-3
+Added Pin To Net: NetName=GND Pin=TempHeader-4
+Added Pin To Net: NetName=CE Pin=TempHeader-6

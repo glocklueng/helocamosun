@@ -1,0 +1,16 @@
+Removed Pin From Net: NetName=5V Pin=Servo#1(Yaw)-1
+Removed Pin From Net: NetName=SERVO_YAW Pin=Servo#1(Yaw)-2
+Removed Pin From Net: NetName=5V Pin=Servo#2(Pitch)-1
+Removed Pin From Net: NetName=SERVO_PITCH Pin=Servo#2(Pitch)-2
+Removed Pin From Net: NetName=5V Pin=Servo#3(Roll)-1
+Removed Pin From Net: NetName=SERVO_ROLL Pin=Servo#3(Roll)-2
+Removed Pin From Net: NetName=5V Pin=Servo#4(Collective)-1
+Removed Pin From Net: NetName=SERVO_COLLECTIVE Pin=Servo#4(Collective)-2
+Added Pin To Net: NetName=SERVO_YAW Pin=Servo#1(Yaw)-1
+Added Pin To Net: NetName=5V Pin=Servo#1(Yaw)-2
+Added Pin To Net: NetName=SERVO_PITCH Pin=Servo#2(Pitch)-1
+Added Pin To Net: NetName=5V Pin=Servo#2(Pitch)-2
+Added Pin To Net: NetName=SERVO_ROLL Pin=Servo#3(Roll)-1
+Added Pin To Net: NetName=5V Pin=Servo#3(Roll)-2
+Added Pin To Net: NetName=SERVO_COLLECTIVE Pin=Servo#4(Collective)-1
+Added Pin To Net: NetName=5V Pin=Servo#4(Collective)-2

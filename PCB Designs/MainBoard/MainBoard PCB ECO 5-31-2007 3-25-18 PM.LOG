@@ -1,0 +1,11 @@
+Added Component: Designator=asdf(HDR1X4)
+Added Pin To Net: NetName=GND Pin=asdf-3
+Added Pin To Net: NetName=GND Pin=asdf-4
+Added Pin To Net: NetName=Netasdf_1 Pin=asdf-1
+Added Pin To Net: NetName=Netasdf_1 Pin=Comp 1-2
+Added Pin To Net: NetName=Netasdf_1 Pin=R6-1
+Added Net: Name=Netasdf_1
+Added Pin To Net: NetName=Netasdf_2 Pin=asdf-2
+Added Pin To Net: NetName=Netasdf_2 Pin=R7-1
+Added Net: Name=Netasdf_2
+Added Member To Class: ClassName=MainBoard Member=Component asdf Header 4

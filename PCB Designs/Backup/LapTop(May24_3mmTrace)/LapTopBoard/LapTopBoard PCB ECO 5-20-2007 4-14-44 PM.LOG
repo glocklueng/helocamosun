@@ -1,0 +1,4 @@
+Added Component: Designator=logo 1(HeliCamosun)
+Added Component: Designator=logo 2(Carl Logo)
+Added Member To Class: ClassName=LapTopBoard Member=Component logo 1 logo
+Added Member To Class: ClassName=LapTopBoard Member=Component logo 2 logo

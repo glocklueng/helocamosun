@@ -1,0 +1,20 @@
+Added Component: Designator=AD Gyro(HDR1X5)
+Added Component: Designator=uC Unused(HDR1X3)
+Added Pin To Net: NetName=5V Pin=AD Gyro-1
+Added Pin To Net: NetName=GND Pin=AD Gyro-5
+Added Pin To Net: NetName=NetPIC18F4431_32 Pin=uC Unused-1
+Added Pin To Net: NetName=NetPIC18F4431_27 Pin=uC Unused-2
+Added Pin To Net: NetName=NetPIC18F4431_26 Pin=uC Unused-3
+Added Pin To Net: NetName=NetAD Gyro_2 Pin=AD Gyro-2
+Added Pin To Net: NetName=NetAD Gyro_2 Pin=PIC18F4431-25
+Added Net: Name=NetAD Gyro_2
+Added Pin To Net: NetName=NetAD Gyro_3 Pin=AD Gyro-3
+Added Pin To Net: NetName=NetAD Gyro_3 Pin=PIC18F4431-24
+Added Net: Name=NetAD Gyro_3
+Added Pin To Net: NetName=NetAD Gyro_4 Pin=AD Gyro-4
+Added Pin To Net: NetName=NetAD Gyro_4 Pin=PIC18F4431-23
+Added Net: Name=NetAD Gyro_4
+Added Pin To Net: NetName=UC REFERENCE Pin=PIC18F4431-22
+Added Net: Name=UC REFERENCE
+Added Member To Class: ClassName=MainBoard Member=Component AD Gyro Header 5
+Added Member To Class: ClassName=MainBoard Member=Component uC Unused Header 3

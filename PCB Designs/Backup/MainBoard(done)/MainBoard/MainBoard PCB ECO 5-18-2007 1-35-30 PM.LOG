@@ -1,0 +1,12 @@
+Added Component: Designator=SMD 1206 15(SMD 1206)
+Added Component: Designator=SMD 1206 16(SMD 1206)
+Added Component: Designator=SMD 1206 17(SMD 1206)
+Added Pin To Net: NetName=5V Pin=SMD 1206 15-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 15-2
+Added Pin To Net: NetName=5V Pin=SMD 1206 16-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 16-2
+Added Pin To Net: NetName=5V Pin=SMD 1206 17-1
+Added Pin To Net: NetName=GND Pin=SMD 1206 17-2
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 15 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 16 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 17 SMD 1206

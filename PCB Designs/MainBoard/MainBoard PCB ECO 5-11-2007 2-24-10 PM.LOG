@@ -1,0 +1,7 @@
+Added Component: Designator=2mmCap 3(2mmCap)
+Added Pin To Net: NetName=GND Pin=2mmCap 3-2
+Added Pin To Net: NetName=Net2mmCap 3_1 Pin=2mmCap 3-1
+Added Pin To Net: NetName=Net2mmCap 3_1 Pin=dsPIC3F3011-30
+Added Net: Name=Net2mmCap 3_1
+Added Member To Class: ClassName=MainBoard Member=Component 2mmCap 3 2mmCap
+Added Room: Name=MainBoard

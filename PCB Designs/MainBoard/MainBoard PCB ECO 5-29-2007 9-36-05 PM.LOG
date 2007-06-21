@@ -1,0 +1,9 @@
+Added Pin To Net: NetName=SIGNAL Pin=ER900TRS-1
+Added Pin To Net: NetName=GND Pin=ER900TRS-2
+Added Pin To Net: NetName=RSSI Pin=ER900TRS-3
+Added Pin To Net: NetName=BSY Pin=ER900TRS-4
+Added Pin To Net: NetName=ER_DOUT Pin=ER900TRS-5
+Added Pin To Net: NetName=ER_DIN Pin=ER900TRS-6
+Added Pin To Net: NetName=RDY Pin=ER900TRS-7
+Added Pin To Net: NetName=5V Pin=ER900TRS-8
+Added Pin To Net: NetName=GND Pin=ER900TRS-9

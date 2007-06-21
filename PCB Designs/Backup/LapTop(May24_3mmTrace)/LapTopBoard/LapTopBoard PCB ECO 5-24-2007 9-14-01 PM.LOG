@@ -1,0 +1,11 @@
+Change Component Designator: OldDesignator=Logo Carl  NewDesignator=Logo Carl
+Change Component Designator: OldDesignator=Logo HeliCamsoun  NewDesignator=Logo HeliCamsoun
+Added Component: Designator=Antenna Connector(Antenna Connector)
+Added Pin To Net: NetName=GND Pin=Antenna Connector-1
+Added Pin To Net: NetName=GND Pin=Antenna Connector-1
+Added Pin To Net: NetName=GND Pin=Antenna Connector-1
+Added Pin To Net: NetName=GND Pin=Antenna Connector-1
+Added Pin To Net: NetName=NetAntenna Connector_2 Pin=Antenna Connector-2
+Added Member To Class: ClassName=LapTopBoard Member=Component Antenna Connector
+Added Member To Class: ClassName=LapTopBoard Member=Component Logo Carl logo
+Added Member To Class: ClassName=LapTopBoard Member=Component Logo HeliCamsoun logo

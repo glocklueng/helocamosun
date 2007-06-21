@@ -1,0 +1,12 @@
+Added Component: Designator=Connector(HDR1X4)
+Added Component: Designator=J?(DSUB1.385-2H9)
+Added Pin To Net: NetName=5V Pin=Connector-1
+Added Net: Name=5V
+Added Pin To Net: NetName=GND Pin=Connector-4
+Added Net: Name=GND
+Added Pin To Net: NetName=RX Pin=Connector-3
+Added Net: Name=RX
+Added Pin To Net: NetName=TX Pin=Connector-2
+Added Net: Name=TX
+Added Class: Name=MAX232Breakout
+Added Room: Name=MAX232Breakout

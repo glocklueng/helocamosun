@@ -1,0 +1,24 @@
+---------------------------------------------------------------------------
+NCDrill File Report For: LapTopBoard.PcbDoc   5/31/2007  9:13:45 PM
+---------------------------------------------------------------------------
+
+
+
+Layer Pair : Top Layer to Bottom Layer
+ASCII File : NCDrillOutput.TXT
+EIA File   : NCDrillOutput.DRL
+
+Tool         Hole Size          Hole Count Plated       Tool Travel
+---------------------------------------------------------------------------
+T1        35.4mil (0.89916mm)      12               10.32 Inch (262.13 mm)
+T2        37.4mil (0.94996mm)      3                7.59 Inch (192.77 mm)
+T3        39.4mil (1.00076mm)      57               17.62 Inch (447.51 mm)
+T4        53.1mil (1.34874mm)      2                8.25 Inch (209.67 mm)
+T5        55.1mil (1.39954mm)      2                8.42 Inch (213.92 mm)
+T6        57.1mil (1.45034mm)      1                8.19 Inch (208.12 mm)
+T7        110.2mil (2.79908mm)     4                12.90 Inch (327.57 mm)
+T8        133.9mil (3.40106mm)     4                9.81 Inch (249.10 mm)
+---------------------------------------------------------------------------
+Totals                             85               83.10 Inch (2110.78 mm)
+
+Total Processing Time (hh:mm:ss) : 00:00:00

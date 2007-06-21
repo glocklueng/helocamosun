@@ -1,0 +1,9 @@
+Added Component: Designator=EEPROM(EEPROM)
+Added Pin To Net: NetName=SS EEPROM Pin=EEPROM-1
+Added Pin To Net: NetName=SDI Pin=EEPROM-2
+Added Pin To Net: NetName=GND Pin=EEPROM-4
+Added Pin To Net: NetName=SDO Pin=EEPROM-5
+Added Pin To Net: NetName=SCK Pin=EEPROM-6
+Added Pin To Net: NetName=5V Pin=EEPROM-8
+Added Member To Class: ClassName=MainBoard Member=Component EEPROM 25LC256 EEPROM
+Added Room: Name=MainBoard

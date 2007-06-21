@@ -1,0 +1,41 @@
+Added Component: Designator=dsPIC30F3011(QFP7x7-G32/N)
+Added Pin To Net: NetName=NetdsPIC30F3011_1 Pin=dsPIC30F3011-1
+Added Pin To Net: NetName=DSPIC TX Pin=dsPIC30F3011-2
+Added Pin To Net: NetName=DSPIC RX Pin=dsPIC30F3011-3
+Added Pin To Net: NetName=UNUSED 15 Pin=dsPIC30F3011-4
+Added Pin To Net: NetName=UNUSED 14 Pin=dsPIC30F3011-5
+Added Pin To Net: NetName=GND Pin=dsPIC30F3011-6
+Added Pin To Net: NetName=5V Pin=dsPIC30F3011-7
+Added Pin To Net: NetName=SS TEMPSENSOR Pin=dsPIC30F3011-8
+Added Pin To Net: NetName=SS EEPROM Pin=dsPIC30F3011-9
+Added Pin To Net: NetName=SS GYRO Pin=dsPIC30F3011-10
+Added Pin To Net: NetName=UC TX Pin=dsPIC30F3011-11
+Added Pin To Net: NetName=MOTOR Pin=dsPIC30F3011-14
+Added Pin To Net: NetName=GND Pin=dsPIC30F3011-16
+Added Pin To Net: NetName=5V Pin=dsPIC30F3011-17
+Added Pin To Net: NetName=DSPIC #MCLR Pin=dsPIC30F3011-18
+Added Pin To Net: NetName=UNUSED 13 Pin=dsPIC30F3011-19
+Added Pin To Net: NetName=UNUSED 12 Pin=dsPIC30F3011-20
+Added Pin To Net: NetName=UNUSED 11 Pin=dsPIC30F3011-21
+Added Pin To Net: NetName=UNUSED 10 Pin=dsPIC30F3011-22
+Added Pin To Net: NetName=NetdsPIC30F3011_23 Pin=dsPIC30F3011-23
+Added Pin To Net: NetName=NetdsPIC30F3011_24 Pin=dsPIC30F3011-24
+Added Pin To Net: NetName=NetdsPIC30F3011_25 Pin=dsPIC30F3011-25
+Added Pin To Net: NetName=NetdsPIC30F3011_26 Pin=dsPIC30F3011-26
+Added Pin To Net: NetName=NetdsPIC30F3011_27 Pin=dsPIC30F3011-27
+Added Pin To Net: NetName=5V Pin=dsPIC30F3011-28
+Added Pin To Net: NetName=GND Pin=dsPIC30F3011-29
+Added Pin To Net: NetName=NetdsPIC30F3011_30 Pin=dsPIC30F3011-30
+Added Pin To Net: NetName=NetdsPIC30F3011_31 Pin=dsPIC30F3011-31
+Added Pin To Net: NetName=NetdsPIC30F3011_33 Pin=dsPIC30F3011-33
+Added Pin To Net: NetName=NetdsPIC30F3011_35 Pin=dsPIC30F3011-35
+Added Pin To Net: NetName=NetdsPIC30F3011_36 Pin=dsPIC30F3011-36
+Added Pin To Net: NetName=NetdsPIC30F3011_37 Pin=dsPIC30F3011-37
+Added Pin To Net: NetName=NetdsPIC30F3011_38 Pin=dsPIC30F3011-38
+Added Pin To Net: NetName=GND Pin=dsPIC30F3011-39
+Added Pin To Net: NetName=5V Pin=dsPIC30F3011-40
+Added Pin To Net: NetName=UNUSED X Pin=dsPIC30F3011-41
+Added Pin To Net: NetName=UNUSED Y Pin=dsPIC30F3011-42
+Added Pin To Net: NetName=SCK Pin=dsPIC30F3011-43
+Added Pin To Net: NetName=NetdsPIC30F3011_44 Pin=dsPIC30F3011-44
+Added Member To Class: ClassName=MainBoard Member=Component dsPIC30F3011

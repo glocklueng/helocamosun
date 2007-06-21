@@ -1,0 +1,9 @@
+Added Component: Designator=HM55B(HM55B)
+Added Pin To Net: NetName=UC SDIO Pin=HM55B-1
+Added Pin To Net: NetName=NetHM55B_2 Pin=HM55B-2
+Added Pin To Net: NetName=GND Pin=HM55B-3
+Added Pin To Net: NetName=UC SCK Pin=HM55B-4
+Added Pin To Net: NetName=SS COMPASS Pin=HM55B-5
+Added Pin To Net: NetName=5V Pin=HM55B-6
+Added Member To Class: ClassName=MainBoard Member=Component HM55B HM55B Compass Module
+Added Room: Name=MainBoard

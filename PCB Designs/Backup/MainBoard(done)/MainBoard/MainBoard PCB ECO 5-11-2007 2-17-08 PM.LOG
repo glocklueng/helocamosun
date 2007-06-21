@@ -1,0 +1,7 @@
+Added Pin To Net: NetName=Net2mmCap 3_1 Pin=dsPIC3F3011-31
+Added Pin To Net: NetName=Net2mmCap 3_1 Pin=X-Tal 2-1
+Added Net: Name=Net2mmCap 3_1
+Added Pin To Net: NetName=Net2mmCap 4_1 Pin=dsPIC3F3011-30
+Added Pin To Net: NetName=Net2mmCap 4_1 Pin=X-Tal 2-2
+Added Net: Name=Net2mmCap 4_1
+Added Room: Name=MainBoard

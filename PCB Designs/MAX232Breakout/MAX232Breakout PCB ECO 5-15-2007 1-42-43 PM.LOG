@@ -1,0 +1,20 @@
+Change Component Designator: OldDesignator=Connector NewDesignator=Header
+Change Component Designator: OldDesignator=J? NewDesignator=J1
+Added Pin To Net: NetName=GND Pin=J1-5
+Added Pin To Net: NetName=NetJ1_1 Pin=J1-1
+Added Pin To Net: NetName=NetJ1_1 Pin=J1-4
+Added Pin To Net: NetName=NetJ1_1 Pin=J1-6
+Added Net: Name=NetJ1_1
+Added Pin To Net: NetName=NetJ1_7 Pin=J1-7
+Added Pin To Net: NetName=NetJ1_7 Pin=J1-8
+Added Net: Name=NetJ1_7
+Added Net: Name=NetMAX232 CWE 1_1
+Added Net: Name=NetMAX232 CWE 1_2
+Added Net: Name=NetMAX232 CWE 1_3
+Added Net: Name=NetMAX232 CWE 1_4
+Added Net: Name=NetMAX232 CWE 1_5
+Added Net: Name=NetMAX232 CWE 1_6
+Added Pin To Net: NetName=RS232IN Pin=J1-3
+Added Net: Name=RS232IN
+Added Pin To Net: NetName=RS232OUT Pin=J1-2
+Added Net: Name=RS232OUT

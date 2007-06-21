@@ -1,0 +1,27 @@
+Added Component: Designator=2mmCap 1(2mmCap)
+Added Component: Designator=2mmCap 2(2mmCap)
+Added Component: Designator=ER900TRS(ER900TRS)
+Added Component: Designator=X-Tal 1(X-Tal)
+Added Component: Designator=X-Tal 2(X-Tal)
+Added Pin To Net: NetName=GND Pin=2mmCap 1-2
+Added Pin To Net: NetName=GND Pin=2mmCap 2-2
+Added Pin To Net: NetName=Net2mmCap 1_1 Pin=2mmCap 1-1
+Added Pin To Net: NetName=Net2mmCap 1_1 Pin=PIC18F4431-31
+Added Pin To Net: NetName=Net2mmCap 1_1 Pin=X-Tal 1-1
+Added Net: Name=Net2mmCap 1_1
+Added Pin To Net: NetName=Net2mmCap 2_1 Pin=2mmCap 2-1
+Added Pin To Net: NetName=Net2mmCap 2_1 Pin=PIC18F4431-30
+Added Pin To Net: NetName=Net2mmCap 2_1 Pin=X-Tal 1-2
+Added Net: Name=Net2mmCap 2_1
+Added Pin To Net: NetName=NetdsPIC3F3011_30 Pin=dsPIC3F3011-30
+Added Pin To Net: NetName=NetdsPIC3F3011_30 Pin=X-Tal 2-2
+Added Net: Name=NetdsPIC3F3011_30
+Added Pin To Net: NetName=NetdsPIC3F3011_31 Pin=dsPIC3F3011-31
+Added Pin To Net: NetName=NetdsPIC3F3011_31 Pin=X-Tal 2-1
+Added Net: Name=NetdsPIC3F3011_31
+Added Member To Class: ClassName=MainBoard Member=Component 2mmCap 1 2mmCap
+Added Member To Class: ClassName=MainBoard Member=Component 2mmCap 2 2mmCap
+Added Member To Class: ClassName=MainBoard Member=Component ER900TRS Easy Radio 900MHz
+Added Member To Class: ClassName=MainBoard Member=Component X-Tal 1 X-Tal
+Added Member To Class: ClassName=MainBoard Member=Component X-Tal 2 X-Tal
+Added Room: Name=MainBoard

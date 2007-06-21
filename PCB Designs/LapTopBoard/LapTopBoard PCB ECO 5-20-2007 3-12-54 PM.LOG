@@ -1,0 +1,4 @@
+Change Component Designator: OldDesignator=3.3Vreg 1 NewDesignator=3.3Vreg 
+Change Component Designator: OldDesignator=Antenna Connector 1 NewDesignator=Antenna Connector
+Change Component Designator: OldDesignator=FTDI module 1 NewDesignator=FTDI module
+Change Net Name : Old Net Name=NetAntenna Connector 1_2 New Net Name=NetAntenna Connector_2

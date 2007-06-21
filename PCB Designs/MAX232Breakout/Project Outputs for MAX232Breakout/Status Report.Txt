@@ -1,0 +1,13 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : Project [MAX232Breakout.PrjPCB]
+   Generated File[MAX232Breakout.TXT]
+   Generated File[MAX232Breakout.DRL]
+   Generated File[MAX232Breakout.LDP]
+   Generated File[MAX232Breakout.DRR]
+
+
+Files Generated   : 4
+Documents Printed : 0
+
+Finished Output Generation At 9:11:31 PM On 5/31/2007

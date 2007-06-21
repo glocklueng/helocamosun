@@ -1,0 +1,10 @@
+Removed Member From Class: ClassName=MainBoard Member=uC unused 2
+Added Component: Designator=GPS Header(HDR1X4)
+Added Pin To Net: NetName=GND Pin=GPS Header-1
+Added Pin To Net: NetName=5V Pin=GPS Header-2
+Added Pin To Net: NetName=/RAW Pin=GPS Header-4
+Added Net: Name=/RAW
+Added Pin To Net: NetName=SIO Pin=GPS Header-3
+Added Net: Name=SIO
+Added Member To Class: ClassName=MainBoard Member=Component GPS Header
+Added Room: Name=MainBoard

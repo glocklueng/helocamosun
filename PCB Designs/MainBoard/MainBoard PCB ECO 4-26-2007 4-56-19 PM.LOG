@@ -1,0 +1,19 @@
+Added Component: Designator=dsPIC3F3011(QFP7x7-G32/N)
+Added Component: Designator=GyroHeader(HDR1X6)
+Added Component: Designator=JP?(HDR2X3_CEN)
+Added Component: Designator=PIC18F4431(QFP7x7-G32/N)
+Added Component: Designator=PowerHeader(HDR1X3)
+Added Pin To Net: NetName=3.3V Pin=PowerHeader-2
+Added Net: Name=3.3V
+Added Pin To Net: NetName=5V Pin=dsPIC3F3011-6
+Added Pin To Net: NetName=5V Pin=dsPIC3F3011-39
+Added Pin To Net: NetName=5V Pin=PIC18F4431-6
+Added Pin To Net: NetName=5V Pin=PowerHeader-1
+Added Net: Name=5V
+Added Pin To Net: NetName=GND Pin=dsPIC3F3011-7
+Added Pin To Net: NetName=GND Pin=dsPIC3F3011-40
+Added Pin To Net: NetName=GND Pin=PIC18F4431-7
+Added Pin To Net: NetName=GND Pin=PowerHeader-3
+Added Net: Name=GND
+Added Class: Name=MainBoard
+Added Room: Name=MainBoard

@@ -1,0 +1,72 @@
+Added Component: Designator=dsPIC unused 2(HDR1X4)
+Added Component: Designator=dsPIC unused(HDR1X5)
+Added Component: Designator=uC unused 2(HDR1X6)
+Added Component: Designator=uC unused(HDR1X6)
+Added Pin To Net: NetName=NetdsPIC3F3011_23 Pin=dsPIC3F3011-23
+Added Pin To Net: NetName=NetdsPIC3F3011_23 Pin=dsPIC unused-5
+Added Net: Name=NetdsPIC3F3011_23
+Added Pin To Net: NetName=NetdsPIC3F3011_24 Pin=dsPIC3F3011-24
+Added Pin To Net: NetName=NetdsPIC3F3011_24 Pin=dsPIC unused-4
+Added Net: Name=NetdsPIC3F3011_24
+Added Pin To Net: NetName=NetdsPIC3F3011_25 Pin=dsPIC3F3011-25
+Added Pin To Net: NetName=NetdsPIC3F3011_25 Pin=dsPIC unused-3
+Added Net: Name=NetdsPIC3F3011_25
+Added Pin To Net: NetName=NetdsPIC3F3011_26 Pin=dsPIC3F3011-26
+Added Pin To Net: NetName=NetdsPIC3F3011_26 Pin=dsPIC unused-2
+Added Net: Name=NetdsPIC3F3011_26
+Added Pin To Net: NetName=NetdsPIC3F3011_33 Pin=dsPIC3F3011-33
+Added Pin To Net: NetName=NetdsPIC3F3011_33 Pin=dsPIC unused-1
+Added Net: Name=NetdsPIC3F3011_33
+Added Pin To Net: NetName=NetdsPIC3F3011_35 Pin=dsPIC3F3011-35
+Added Pin To Net: NetName=NetdsPIC3F3011_35 Pin=dsPIC unused 2-4
+Added Net: Name=NetdsPIC3F3011_35
+Added Pin To Net: NetName=NetdsPIC3F3011_36 Pin=dsPIC3F3011-36
+Added Pin To Net: NetName=NetdsPIC3F3011_36 Pin=dsPIC unused 2-3
+Added Net: Name=NetdsPIC3F3011_36
+Added Pin To Net: NetName=NetdsPIC3F3011_37 Pin=dsPIC3F3011-37
+Added Pin To Net: NetName=NetdsPIC3F3011_37 Pin=dsPIC unused 2-2
+Added Net: Name=NetdsPIC3F3011_37
+Added Pin To Net: NetName=NetdsPIC3F3011_38 Pin=dsPIC3F3011-38
+Added Pin To Net: NetName=NetdsPIC3F3011_38 Pin=dsPIC unused 2-1
+Added Net: Name=NetdsPIC3F3011_38
+Added Pin To Net: NetName=NetPIC18F4431_23 Pin=PIC18F4431-23
+Added Pin To Net: NetName=NetPIC18F4431_23 Pin=uC unused-6
+Added Net: Name=NetPIC18F4431_23
+Added Pin To Net: NetName=NetPIC18F4431_24 Pin=PIC18F4431-24
+Added Pin To Net: NetName=NetPIC18F4431_24 Pin=uC unused-5
+Added Net: Name=NetPIC18F4431_24
+Added Pin To Net: NetName=NetPIC18F4431_25 Pin=PIC18F4431-25
+Added Pin To Net: NetName=NetPIC18F4431_25 Pin=uC unused-4
+Added Net: Name=NetPIC18F4431_25
+Added Pin To Net: NetName=NetPIC18F4431_26 Pin=PIC18F4431-26
+Added Pin To Net: NetName=NetPIC18F4431_26 Pin=uC unused-3
+Added Net: Name=NetPIC18F4431_26
+Added Pin To Net: NetName=NetPIC18F4431_27 Pin=PIC18F4431-27
+Added Pin To Net: NetName=NetPIC18F4431_27 Pin=uC unused-2
+Added Net: Name=NetPIC18F4431_27
+Added Pin To Net: NetName=NetPIC18F4431_32 Pin=PIC18F4431-32
+Added Pin To Net: NetName=NetPIC18F4431_32 Pin=uC unused-1
+Added Net: Name=NetPIC18F4431_32
+Added Pin To Net: NetName=NetPIC18F4431_35 Pin=PIC18F4431-35
+Added Pin To Net: NetName=NetPIC18F4431_35 Pin=uC unused 2-6
+Added Net: Name=NetPIC18F4431_35
+Added Pin To Net: NetName=NetPIC18F4431_36 Pin=PIC18F4431-36
+Added Pin To Net: NetName=NetPIC18F4431_36 Pin=uC unused 2-5
+Added Net: Name=NetPIC18F4431_36
+Added Pin To Net: NetName=NetPIC18F4431_37 Pin=PIC18F4431-37
+Added Pin To Net: NetName=NetPIC18F4431_37 Pin=uC unused 2-4
+Added Net: Name=NetPIC18F4431_37
+Added Pin To Net: NetName=NetPIC18F4431_38 Pin=PIC18F4431-38
+Added Pin To Net: NetName=NetPIC18F4431_38 Pin=uC unused 2-3
+Added Net: Name=NetPIC18F4431_38
+Added Pin To Net: NetName=NetPIC18F4431_42 Pin=PIC18F4431-42
+Added Pin To Net: NetName=NetPIC18F4431_42 Pin=uC unused 2-2
+Added Net: Name=NetPIC18F4431_42
+Added Pin To Net: NetName=NetPIC18F4431_43 Pin=PIC18F4431-43
+Added Pin To Net: NetName=NetPIC18F4431_43 Pin=uC unused 2-1
+Added Net: Name=NetPIC18F4431_43
+Added Member To Class: ClassName=MainBoard Member=Component dsPIC unused 2 Header 4
+Added Member To Class: ClassName=MainBoard Member=Component dsPIC unused Header 5
+Added Member To Class: ClassName=MainBoard Member=Component uC unused 2 Header 6
+Added Member To Class: ClassName=MainBoard Member=Component uC unused Header 6
+Added Room: Name=MainBoard

@@ -1,0 +1,7 @@
+Added Component: Designator=Antenna Connector 1(Antenna Connector)
+Added Pin To Net: NetName=GND Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=GND Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=GND Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=GND Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=SIGNAL Pin=Antenna Connector 1-2
+Added Member To Class: ClassName=MainBoard Member=Component Antenna Connector 1 Antenna Connector

@@ -1,0 +1,29 @@
+Added Component: Designator=SMD 1206 1(SMD 1206)
+Added Component: Designator=SMD 1206 2(SMD 1206)
+Added Component: Designator=SMD 1206 3(SMD 1206)
+Added Component: Designator=SMD 1206 4(SMD 1206)
+Added Pin To Net: NetName=GND Pin=SMD 1206 1-2
+Added Pin To Net: NetName=GND Pin=SMD 1206 2-2
+Added Pin To Net: NetName=GND Pin=SMD 1206 3-2
+Added Pin To Net: NetName=GND Pin=SMD 1206 4-2
+Added Pin To Net: NetName=NetdsPIC3F3011_30 Pin=dsPIC3F3011-30
+Added Pin To Net: NetName=NetdsPIC3F3011_30 Pin=SMD 1206 4-1
+Added Pin To Net: NetName=NetdsPIC3F3011_30 Pin=SMD X-Tal 2-2
+Added Net: Name=NetdsPIC3F3011_30
+Added Pin To Net: NetName=NetdsPIC3F3011_31 Pin=dsPIC3F3011-31
+Added Pin To Net: NetName=NetdsPIC3F3011_31 Pin=SMD 1206 3-1
+Added Pin To Net: NetName=NetdsPIC3F3011_31 Pin=SMD X-Tal 2-1
+Added Net: Name=NetdsPIC3F3011_31
+Added Pin To Net: NetName=NetPIC18F4431_30 Pin=PIC18F4431-30
+Added Pin To Net: NetName=NetPIC18F4431_30 Pin=SMD 1206 2-1
+Added Pin To Net: NetName=NetPIC18F4431_30 Pin=SMD X-Tal 1-2
+Added Net: Name=NetPIC18F4431_30
+Added Pin To Net: NetName=NetPIC18F4431_31 Pin=PIC18F4431-31
+Added Pin To Net: NetName=NetPIC18F4431_31 Pin=SMD 1206 1-1
+Added Pin To Net: NetName=NetPIC18F4431_31 Pin=SMD X-Tal 1-1
+Added Net: Name=NetPIC18F4431_31
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 1 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 2 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 3 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 4 SMD 1206
+Added Room: Name=MainBoard

@@ -1,0 +1,4 @@
+Change Component Designator: OldDesignator=Carl NewDesignator=Carl logo
+Change Component Designator: OldDesignator=HeliCam NewDesignator=HeliCam logo
+Added Component: Designator=GND logo(GND logo)
+Added Member To Class: ClassName=MainBoard Member=Component GND logo logo

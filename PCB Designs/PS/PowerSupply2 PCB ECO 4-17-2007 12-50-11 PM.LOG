@@ -1,0 +1,5 @@
+Change Component Footprint: Designator=C1 Old Footprint=RAD-0.3 New Footprint=CC3216-1206
+Change Component Footprint: Designator=C2 Old Footprint=RAD-0.3 New Footprint=CC3216-1206
+Change Component Comment : Designator=C2 Old Comment=Cap New Comment=Cap Semi
+Change Component Comment : Designator=C1 Old Comment=Cap New Comment=Cap Semi
+Added Room: Name=PowerSupply2

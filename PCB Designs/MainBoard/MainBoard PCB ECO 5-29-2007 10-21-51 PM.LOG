@@ -1,0 +1,7 @@
+Added Component: Designator=Range Finder(HDR1X3)
+Added Pin To Net: NetName=5V Pin=Range Finder-1
+Added Pin To Net: NetName=GND Pin=Range Finder-3
+Added Pin To Net: NetName=NetPIC18F4431_22 Pin=PIC18F4431-22
+Added Pin To Net: NetName=NetPIC18F4431_22 Pin=Range Finder-2
+Added Net: Name=NetPIC18F4431_22
+Added Member To Class: ClassName=MainBoard Member=Component Range Finder Header 3

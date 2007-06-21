@@ -1,0 +1,17 @@
+Added Component: Designator=2mmCap 3(2mmCap)
+Added Component: Designator=2mmCap 4(2mmCap)
+Added Component: Designator=X-Tal 2(X-Tal)
+Added Pin To Net: NetName=GND Pin=2mmCap 3-2
+Added Pin To Net: NetName=GND Pin=2mmCap 4-2
+Added Pin To Net: NetName=Net2mmCap 3_1 Pin=2mmCap 3-1
+Added Pin To Net: NetName=Net2mmCap 3_1 Pin=dsPIC3F3011-30
+Added Pin To Net: NetName=Net2mmCap 3_1 Pin=X-Tal 2-2
+Added Net: Name=Net2mmCap 3_1
+Added Pin To Net: NetName=Net2mmCap 4_1 Pin=2mmCap 4-1
+Added Pin To Net: NetName=Net2mmCap 4_1 Pin=dsPIC3F3011-31
+Added Pin To Net: NetName=Net2mmCap 4_1 Pin=X-Tal 2-1
+Added Net: Name=Net2mmCap 4_1
+Added Member To Class: ClassName=MainBoard Member=Component 2mmCap 3 2mmCap
+Added Member To Class: ClassName=MainBoard Member=Component 2mmCap 4 2mmCap
+Added Member To Class: ClassName=MainBoard Member=Component X-Tal 2 X-Tal
+Added Room: Name=MainBoard

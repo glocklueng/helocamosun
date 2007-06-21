@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=SDI Pin=EEPROM-2
+Removed Pin From Net: NetName=SDO Pin=EEPROM-5
+Added Pin To Net: NetName=SDO Pin=EEPROM-2
+Added Pin To Net: NetName=SDI Pin=EEPROM-5

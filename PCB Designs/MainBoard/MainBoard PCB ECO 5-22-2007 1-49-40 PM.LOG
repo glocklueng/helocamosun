@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=UC SDIO Pin=SPIBus/ICD-3
+Removed Pin From Net: NetName=UC SCK Pin=SPIBus/ICD-6
+Added Pin To Net: NetName=UC SCK Pin=SPIBus/ICD-3
+Added Pin To Net: NetName=UC SDIO Pin=SPIBus/ICD-6

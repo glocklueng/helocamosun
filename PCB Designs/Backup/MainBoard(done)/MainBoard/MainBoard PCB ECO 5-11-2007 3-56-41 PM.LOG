@@ -1,0 +1,28 @@
+Removed Pin From Net: NetName=DSPIC #MCLR Pin=ICD #MCLR-1
+Removed Pin From Net: NetName=UC #MCLR Pin=ICD #MCLR-3
+Removed Pin From Net: NetName=DSPIC ICD SDI Pin=ICD PGC-1
+Removed Pin From Net: NetName=NetICD Header_5 Pin=ICD PGC-2
+Removed Pin From Net: NetName=UC PGC Pin=ICD PGC-3
+Removed Pin From Net: NetName=DSPIC ICD SDO Pin=ICD PGD-1
+Removed Pin From Net: NetName=NetICD Header_4 Pin=ICD PGD-2
+Removed Pin From Net: NetName=UC PGD Pin=ICD PGD-3
+Removed Member From Class: ClassName=MainBoard Member=ICD #MCLR
+Removed Member From Class: ClassName=MainBoard Member=ICD #MCLR
+Removed Member From Class: ClassName=MainBoard Member=ICD PGC
+Removed Member From Class: ClassName=MainBoard Member=ICD PGC
+Removed Member From Class: ClassName=MainBoard Member=ICD PGD
+Removed Member From Class: ClassName=MainBoard Member=ICD PGD
+Added Component: Designator=uC/dsPIC ICD Header(HDR1X9)
+Added Pin To Net: NetName=DSPIC #MCLR Pin=uC/dsPIC ICD Header-1
+Added Pin To Net: NetName=UC #MCLR Pin=uC/dsPIC ICD Header-3
+Added Pin To Net: NetName=DSPIC ICD SDO Pin=uC/dsPIC ICD Header-4
+Added Pin To Net: NetName=NetICD Header_4 Pin=uC/dsPIC ICD Header-5
+Added Pin To Net: NetName=UC PGD Pin=uC/dsPIC ICD Header-6
+Added Pin To Net: NetName=DSPIC ICD SDI Pin=uC/dsPIC ICD Header-7
+Added Pin To Net: NetName=NetICD Header_5 Pin=uC/dsPIC ICD Header-8
+Added Pin To Net: NetName=UC PGC Pin=uC/dsPIC ICD Header-9
+Added Pin To Net: NetName=NetICD Header_1 Pin=ICD Header-1
+Added Pin To Net: NetName=NetICD Header_1 Pin=uC/dsPIC ICD Header-2
+Added Net: Name=NetICD Header_1
+Added Member To Class: ClassName=MainBoard Member=Component uC/dsPIC ICD Header Header 9
+Added Room: Name=MainBoard

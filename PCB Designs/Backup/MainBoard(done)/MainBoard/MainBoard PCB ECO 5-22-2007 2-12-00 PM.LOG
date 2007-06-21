@@ -1,0 +1,12 @@
+Removed Pin From Net: NetName=UC RX Pin=GPS Header-3
+Removed Pin From Net: NetName=GND Pin=GPS Header-4
+Added Pin To Net: NetName=SIO Pin=GPS Header-3
+Added Pin To Net: NetName=/RAW Pin=GPS Header-4
+Added Pin To Net: NetName=UNUSED 20 Pin=PIC18F4431-34
+Added Net: Name=UNUSED 20
+Added Pin To Net: NetName=UNUSED 21 Pin=PIC18F4431-35
+Added Net: Name=UNUSED 21
+Added Pin To Net: NetName=UNUSED 22 Pin=PIC18F4431-37
+Added Net: Name=UNUSED 22
+Added Pin To Net: NetName=UNUSED 23 Pin=PIC18F4431-38
+Added Net: Name=UNUSED 23
