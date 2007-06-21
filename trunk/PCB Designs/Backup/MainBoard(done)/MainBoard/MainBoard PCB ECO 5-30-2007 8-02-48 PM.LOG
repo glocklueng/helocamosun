@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=5V Pin=AD Gyro-1
+Removed Pin From Net: NetName=GND Pin=AD Gyro-5
+Added Pin To Net: NetName=GND Pin=AD Gyro-1
+Added Pin To Net: NetName=5V Pin=AD Gyro-5

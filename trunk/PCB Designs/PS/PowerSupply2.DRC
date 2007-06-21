@@ -1,0 +1,29 @@
+Protel Design System Design Rule Check
+PCB File : \Documents and Settings\Carl\Desktop\Heli Project\PCB Designs\PS\PowerSupply2.PCBDOC
+Date     : 4/17/2007
+Time     : 9:14:22 PM
+
+Processing Rule : Room PowerSupply2 (Bounding Region = (48.945mm, 90.402mm, 123.976mm, 115.937mm) (InComponentClass('PowerSupply2'))
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=0.0254mm) (Max=3.1mm) (All)
+Rule Violations :0
+
+Processing Rule : Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=0.254mm) (Max=0.4mm) (Preferred=0.254mm) (All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.254mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Broken-Net Constraint ( (All) )
+Rule Violations :0
+
+Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
+Rule Violations :0
+
+
+Violations Detected : 0
+Time Elapsed        : 00:00:00

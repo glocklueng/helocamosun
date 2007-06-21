@@ -1,0 +1,6 @@
+Added Component: Designator=5V logo(5V logo)
+Added Component: Designator=Carl(Carl Logo)
+Added Component: Designator=HeliCam(HeliCamosun)
+Added Member To Class: ClassName=MainBoard Member=Component 5V logo logo
+Added Member To Class: ClassName=MainBoard Member=Component Carl logo
+Added Member To Class: ClassName=MainBoard Member=Component HeliCam logo

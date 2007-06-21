@@ -1,0 +1,9 @@
+Added Component: Designator=SMD X-Tal 1(SMD X-Tal)
+Added Component: Designator=SMD X-Tal 2(SMD X-Tal)
+Added Pin To Net: NetName=Net2mmCap 1_1 Pin=SMD X-Tal 1-1
+Added Pin To Net: NetName=Net2mmCap 2_1 Pin=SMD X-Tal 1-2
+Added Pin To Net: NetName=Net2mmCap 4_1 Pin=SMD X-Tal 2-1
+Added Pin To Net: NetName=Net2mmCap 3_1 Pin=SMD X-Tal 2-2
+Added Member To Class: ClassName=MainBoard Member=Component SMD X-Tal 1 SMD X-Tal
+Added Member To Class: ClassName=MainBoard Member=Component SMD X-Tal 2 SMD X-Tal
+Added Room: Name=MainBoard

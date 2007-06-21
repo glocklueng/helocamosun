@@ -1,0 +1,4 @@
+Added Pin To Net: NetName=SDI Pin=EEPROM-2
+Added Pin To Net: NetName=SDO Pin=EEPROM-5
+Added Pin To Net: NetName=SS COMPASS Pin=HM55B-5
+Added Pin To Net: NetName=SS COMPASS Pin=HM55B-5

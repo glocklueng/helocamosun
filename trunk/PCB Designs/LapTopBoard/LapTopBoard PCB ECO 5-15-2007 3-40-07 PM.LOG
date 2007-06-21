@@ -1,0 +1,18 @@
+Added Component: Designator=Antenna Connector 1(Antenna Connector)
+Added Component: Designator=ER900TRS(ER900TRS)
+Added Component: Designator=FTDI module 1(FTDI module)
+Added Pin To Net: NetName=5V Pin=ER900TRS-8
+Added Net: Name=5V
+Added Pin To Net: NetName=GND Pin=ER900TRS-9
+Added Net: Name=GND
+Added Pin To Net: NetName=NetAntenna Connector 1_1 Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=NetAntenna Connector 1_1 Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=NetAntenna Connector 1_1 Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=NetAntenna Connector 1_1 Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=NetAntenna Connector 1_1 Pin=ER900TRS-2
+Added Net: Name=NetAntenna Connector 1_1
+Added Pin To Net: NetName=NetAntenna Connector 1_2 Pin=Antenna Connector 1-2
+Added Pin To Net: NetName=NetAntenna Connector 1_2 Pin=ER900TRS-1
+Added Net: Name=NetAntenna Connector 1_2
+Added Class: Name=LapTopBoard
+Added Room: Name=LapTopBoard

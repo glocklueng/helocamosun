@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=CE Pin=TempData-1
+Removed Pin From Net: NetName=SCK Pin=TempData-2
+Added Pin To Net: NetName=SCK Pin=TempData-1
+Added Pin To Net: NetName=CE Pin=TempData-2

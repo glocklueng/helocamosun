@@ -1,0 +1,17 @@
+Added Component: Designator=Radio Header(HDR1X3)
+Added Pin To Net: NetName=BSY Pin=ER900TRS-4
+Added Pin To Net: NetName=BSY Pin=Radio Header-2
+Added Net: Name=BSY
+Added Pin To Net: NetName=ER_DIN Pin=ER900TRS-6
+Added Pin To Net: NetName=ER_DIN Pin=Radio/DB9-1
+Added Net: Name=ER_DIN
+Added Pin To Net: NetName=ER_DOUT Pin=ER900TRS-5
+Added Pin To Net: NetName=ER_DOUT Pin=Radio/DB9-5
+Added Net: Name=ER_DOUT
+Added Pin To Net: NetName=RDY Pin=ER900TRS-7
+Added Pin To Net: NetName=RDY Pin=Radio Header-3
+Added Net: Name=RDY
+Added Pin To Net: NetName=RSSI Pin=ER900TRS-3
+Added Pin To Net: NetName=RSSI Pin=Radio Header-1
+Added Net: Name=RSSI
+Added Member To Class: ClassName=MainBoard Member=Component Radio Header Extra Radio Pins

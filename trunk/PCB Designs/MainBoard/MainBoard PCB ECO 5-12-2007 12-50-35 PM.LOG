@@ -1,0 +1,50 @@
+Removed Pin From Net: NetName=NetPIC18F4431_35 Pin=uC unused 2-6
+Change Component Footprint: Designator=uC unused 2 Old Footprint=HDR1X6 New Footprint=HDR1X5
+Change Component Comment : Designator=uC unused 2 Old Comment=Header 6 New Comment=Header 5
+Added Component: Designator=Comp 1(8-Pin DIP)
+Added Component: Designator=R6(CR1608-0603)
+Added Component: Designator=R7(CR1608-0603)
+Added Component: Designator=R8(CR1608-0603)
+Added Component: Designator=R9(CR1608-0603)
+Added Component: Designator=R10(CR1608-0603)
+Added Component: Designator=RMP Header(HDR2X2)
+Added Pin To Net: NetName=GND Pin=Comp 1-1
+Added Pin To Net: NetName=GND Pin=Comp 1-4
+Added Pin To Net: NetName=5V Pin=Comp 1-8
+Added Pin To Net: NetName=5V Pin=R6-2
+Added Pin To Net: NetName=5V Pin=R7-2
+Added Pin To Net: NetName=5V Pin=R8-2
+Added Pin To Net: NetName=GND Pin=R9-1
+Added Pin To Net: NetName=5V Pin=R10-2
+Added Pin To Net: NetName=GND Pin=RMP Header-3
+Added Pin To Net: NetName=GND Pin=RMP Header-4
+Added Pin To Net: NetName=NetPIC18F4431_35 Pin=uC unused 2-5
+Change Net Name : Old Net Name=NETLABEL120 New Net Name=UNUSED Y
+Change Net Name : Old Net Name=NETLABEL121 New Net Name=UNUSED X
+Added Pin To Net: NetName=NetComp 1_2 Pin=Comp 1-2
+Added Pin To Net: NetName=NetComp 1_2 Pin=R6-1
+Added Pin To Net: NetName=NetComp 1_2 Pin=RMP Header-1
+Added Net: Name=NetComp 1_2
+Added Pin To Net: NetName=NetComp 1_3 Pin=Comp 1-3
+Added Pin To Net: NetName=NetComp 1_3 Pin=R8-1
+Added Pin To Net: NetName=NetComp 1_3 Pin=R9-2
+Added Net: Name=NetComp 1_3
+Added Pin To Net: NetName=NetR7_1 Pin=R7-1
+Added Pin To Net: NetName=NetR7_1 Pin=RMP Header-2
+Added Net: Name=NetR7_1
+Added Pin To Net: NetName=RMP SENSOR Pin=Comp 1-7
+Added Pin To Net: NetName=RMP SENSOR Pin=PIC18F4431-36
+Added Pin To Net: NetName=RMP SENSOR Pin=R10-1
+Added Net: Name=RMP SENSOR
+Added Member To Class: ClassName=MainBoard Member=Component Comp 1 Comparator
+Added Member To Class: ClassName=MainBoard Member=Component R6 Res3
+Added Member To Class: ClassName=MainBoard Member=Component R7 Res3
+Added Member To Class: ClassName=MainBoard Member=Component R8 Res3
+Added Member To Class: ClassName=MainBoard Member=Component R9 Res3
+Added Member To Class: ClassName=MainBoard Member=Component R10 Res3
+Added Member To Class: ClassName=MainBoard Member=Component RMP Header Header 2X2
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 1 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 2 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 3 SMD 1206
+Added Member To Class: ClassName=MainBoard Member=Component SMD 1206 4 SMD 1206
+Added Room: Name=MainBoard

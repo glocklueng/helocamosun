@@ -1,0 +1,8 @@
+Change Component Designator: OldDesignator=3.3Vreg  NewDesignator=3.3Vreg
+Change Component Designator: OldDesignator=FTDI module NewDesignator=FTDI module 1
+Change Component Designator: OldDesignator=logo 1 NewDesignator=HeliCamsoun Logo
+Change Component Designator: OldDesignator=logo 2 NewDesignator=Carl Logo
+Added Net: Name=GND 2
+Added Net: Name=NetFTDI module 2_3
+Added Net: Name=NetFTDI module 2_23
+Added Member To Class: ClassName=LapTopBoard Member=Component 3.3Vreg

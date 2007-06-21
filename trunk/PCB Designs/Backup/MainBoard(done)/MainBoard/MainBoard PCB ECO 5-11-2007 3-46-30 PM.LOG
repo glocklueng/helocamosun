@@ -1,0 +1,19 @@
+Removed Pin From Net: NetName=DSPIC ICD SDI Pin=SPIBus/ICD SDI-1
+Removed Pin From Net: NetName=NetdsPIC3F3011_1 Pin=SPIBus/ICD SDI-2
+Removed Pin From Net: NetName=SDI Pin=SPIBus/ICD SDI-3
+Removed Pin From Net: NetName=DSPIC ICD SDO Pin=SPIBus/ICD SDO-1
+Removed Pin From Net: NetName=NetdsPIC3F3011_44 Pin=SPIBus/ICD SDO-2
+Removed Pin From Net: NetName=SDO Pin=SPIBus/ICD SDO-3
+Removed Member From Class: ClassName=MainBoard Member=SPIBus/ICD SDI
+Removed Member From Class: ClassName=MainBoard Member=SPIBus/ICD SDI
+Removed Member From Class: ClassName=MainBoard Member=SPIBus/ICD SDO
+Removed Member From Class: ClassName=MainBoard Member=SPIBus/ICD SDO
+Added Component: Designator=SPIBus/ICD dsPIC(HDR2X3_CEN)
+Added Pin To Net: NetName=DSPIC ICD SDI Pin=SPIBus/ICD dsPIC-1
+Added Pin To Net: NetName=NetdsPIC3F3011_44 Pin=SPIBus/ICD dsPIC-2
+Added Pin To Net: NetName=SDI Pin=SPIBus/ICD dsPIC-3
+Added Pin To Net: NetName=DSPIC ICD SDO Pin=SPIBus/ICD dsPIC-4
+Added Pin To Net: NetName=NetdsPIC3F3011_1 Pin=SPIBus/ICD dsPIC-5
+Added Pin To Net: NetName=SDO Pin=SPIBus/ICD dsPIC-6
+Added Member To Class: ClassName=MainBoard Member=Component SPIBus/ICD dsPIC Header 3X2A
+Added Room: Name=MainBoard

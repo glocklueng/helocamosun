@@ -1,0 +1,8 @@
+Added Component: Designator=P?(HDR1X4)
+Added Pin To Net: NetName=NetComp 1_2 Pin=P?-1
+Added Pin To Net: NetName=GND Pin=P?-3
+Added Pin To Net: NetName=GND Pin=P?-4
+Added Pin To Net: NetName=NetP?_2 Pin=P?-2
+Added Pin To Net: NetName=NetP?_2 Pin=R7-1
+Added Net: Name=NetP?_2
+Added Member To Class: ClassName=MainBoard Member=Component P? Header 4

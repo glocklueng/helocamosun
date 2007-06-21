@@ -1,0 +1,19 @@
+Added Component: Designator=AD7314(AD7314)
+Added Component: Designator=Power Header(HDR1X2)
+Added Component: Designator=TempData Header(HDR1X4)
+Added Pin To Net: NetName=5V Pin=AD7314-8
+Added Pin To Net: NetName=5V Pin=Power Header-1
+Added Net: Name=5V
+Added Pin To Net: NetName=CE Pin=AD7314-2
+Added Net: Name=CE
+Added Pin To Net: NetName=GND Pin=AD7314-4
+Added Pin To Net: NetName=GND Pin=Power Header-2
+Added Net: Name=GND
+Added Pin To Net: NetName=SCK Pin=AD7314-3
+Added Net: Name=SCK
+Added Pin To Net: NetName=SDI Pin=AD7314-6
+Added Net: Name=SDI
+Added Pin To Net: NetName=SDO Pin=AD7314-5
+Added Net: Name=SDO
+Added Class: Name=SPITEMP3
+Added Room: Name=SPITEMP3

@@ -1,0 +1,12 @@
+Added Component: Designator=ER900TRS(ER900TRS)
+Added Pin To Net: NetName=5V Pin=ER900TRS-1
+Added Pin To Net: NetName=5V Pin=ER900TRS-2
+Added Pin To Net: NetName=5V Pin=ER900TRS-3
+Added Pin To Net: NetName=5V Pin=ER900TRS-4
+Added Pin To Net: NetName=5V Pin=ER900TRS-5
+Added Pin To Net: NetName=5V Pin=ER900TRS-6
+Added Pin To Net: NetName=5V Pin=ER900TRS-7
+Added Pin To Net: NetName=5V Pin=ER900TRS-8
+Added Pin To Net: NetName=GND Pin=ER900TRS-9
+Added Member To Class: ClassName=MainBoard Member=Component ER900TRS Easy Radio 900MHz
+Added Room: Name=MainBoard

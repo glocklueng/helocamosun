@@ -1,0 +1,4 @@
+Added Pin To Net: NetName=MOTOR Pin=dsPIC3F3011-14
+Added Pin To Net: NetName=MOTOR Pin=Motor Control-2
+Added Net: Name=MOTOR
+Added Room: Name=MainBoard

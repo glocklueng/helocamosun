@@ -1,0 +1,7 @@
+Removed Pin From Net: NetName=GND Pin=ZD1-1
+Removed Pin From Net: NetName=UC REFERENCE Pin=ZD1-2
+Added Pin To Net: NetName=NetComp 1_2 Pin=Comp 1-2
+Added Pin To Net: NetName=NetComp 1_2 Pin=R6-1
+Added Pin To Net: NetName=NetR7_1 Pin=R7-1
+Added Pin To Net: NetName=UC REFERENCE Pin=ZD1-1
+Added Pin To Net: NetName=GND Pin=ZD1-2

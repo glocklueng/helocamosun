@@ -1,0 +1,5 @@
+Added Pin To Net: NetName=NetdsPIC3F3011_30 Pin=dsPIC3F3011-30
+Added Pin To Net: NetName=NetdsPIC3F3011_31 Pin=dsPIC3F3011-31
+Added Pin To Net: NetName=NetdsPIC3F3011_31 Pin=X-Tal 2-1
+Added Pin To Net: NetName=NetdsPIC3F3011_30 Pin=X-Tal 2-2
+Added Room: Name=MainBoard

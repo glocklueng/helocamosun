@@ -1,0 +1,4 @@
+Change Component Designator: OldDesignator=P? NewDesignator=ICD Header
+Change Net Name : Old Net Name=NetICD PGC_2 New Net Name=NetICD Header_5
+Change Net Name : Old Net Name=NetICD PGD_2 New Net Name=NetICD Header_4
+Added Room: Name=MainBoard

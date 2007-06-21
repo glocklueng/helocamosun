@@ -1,0 +1,5 @@
+Removed Pin From Net: NetName=SIGNAL Pin=OpAmp Header-2
+Removed Pin From Net: NetName=SIGNAL Pin=RAntenna-1
+Removed Member From Class: ClassName=MainBoard Member=OpAmp Header
+Removed Member From Class: ClassName=MainBoard Member=RAntenna
+Added Pin To Net: NetName=SIGNAL Pin=Antenna Connector 1-2

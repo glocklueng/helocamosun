@@ -1,0 +1,18 @@
+Change Component Designator: OldDesignator=Carl Logo NewDesignator=Logo Carl 
+Change Component Designator: OldDesignator=HeliCamsoun Logo NewDesignator=Logo HeliCamsoun 
+Added Component: Designator=FTDI module 2(FTDI module)
+Added Component: Designator=Paralax GPS(Paralax GPS)
+Added Pin To Net: NetName=GND 2 Pin=FTDI module 2-2
+Added Pin To Net: NetName=NetFTDI module 2_3 Pin=FTDI module 2-3
+Added Pin To Net: NetName=GND 2 Pin=FTDI module 2-5
+Added Pin To Net: NetName=GND 2 Pin=FTDI module 2-7
+Added Pin To Net: NetName=NetFTDI module 2_3 Pin=FTDI module 2-10
+Added Pin To Net: NetName=NetFTDI module 2_3 Pin=FTDI module 2-11
+Added Pin To Net: NetName=NetFTDI module 2_3 Pin=FTDI module 2-12
+Added Pin To Net: NetName=NetFTDI module 2_23 Pin=FTDI module 2-23
+Added Pin To Net: NetName=GND 2 Pin=Paralax GPS-1
+Added Pin To Net: NetName=NetFTDI module 2_23 Pin=Paralax GPS-2
+Added Pin To Net: NetName=NetFTDI module 2_3 Pin=Paralax GPS-3
+Added Pin To Net: NetName=GND 2 Pin=Paralax GPS-4
+Added Member To Class: ClassName=LapTopBoard Member=Component FTDI module 2 FTDI module
+Added Member To Class: ClassName=LapTopBoard Member=Component Paralax GPS

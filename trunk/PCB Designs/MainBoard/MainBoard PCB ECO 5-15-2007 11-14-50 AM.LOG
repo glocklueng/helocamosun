@@ -1,0 +1,24 @@
+Removed Pin From Net: NetName=5V Pin=ER900TRS-1
+Removed Pin From Net: NetName=5V Pin=ER900TRS-2
+Removed Pin From Net: NetName=5V Pin=ER900TRS-3
+Removed Pin From Net: NetName=5V Pin=ER900TRS-4
+Removed Pin From Net: NetName=5V Pin=ER900TRS-5
+Removed Pin From Net: NetName=5V Pin=ER900TRS-6
+Removed Pin From Net: NetName=5V Pin=ER900TRS-7
+Added Component: Designator=Antenna Connector 1(Antenna Connector)
+Added Pin To Net: NetName=NETLABEL20 Pin=ER900TRS-7
+Added Net: Name=NETLABEL20
+Added Pin To Net: NetName=NETLABEL21 Pin=ER900TRS-6
+Added Net: Name=NETLABEL21
+Added Pin To Net: NetName=NETLABEL22 Pin=ER900TRS-5
+Added Net: Name=NETLABEL22
+Added Pin To Net: NetName=RF_GND Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=RF_GND Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=RF_GND Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=RF_GND Pin=Antenna Connector 1-1
+Added Pin To Net: NetName=RF_GND Pin=ER900TRS-2
+Added Net: Name=RF_GND
+Added Pin To Net: NetName=SIGNAL Pin=Antenna Connector 1-2
+Added Pin To Net: NetName=SIGNAL Pin=ER900TRS-1
+Added Net: Name=SIGNAL
+Added Member To Class: ClassName=MainBoard Member=Component Antenna Connector 1 Antenna Connector

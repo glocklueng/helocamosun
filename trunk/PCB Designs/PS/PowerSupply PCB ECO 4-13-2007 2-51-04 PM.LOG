@@ -1,0 +1,29 @@
+Added Component: Designator=C1(RAD-0.3)
+Added Component: Designator=C2(RAD-0.3)
+Added Component: Designator=JP1(HDR1X2)
+Added Component: Designator=JP2(HDR1X2)
+Added Component: Designator=JP3(HDR1X2)
+Added Component: Designator=Reg1(TO220V)
+Added Component: Designator=Reg2(TO220V)
+Added Pin To Net: NetName=NetC1_1 Pin=C1-1
+Added Pin To Net: NetName=NetC1_1 Pin=C2-1
+Added Pin To Net: NetName=NetC1_1 Pin=JP1-1
+Added Pin To Net: NetName=NetC1_1 Pin=JP2-2
+Added Pin To Net: NetName=NetC1_1 Pin=JP3-2
+Added Pin To Net: NetName=NetC1_1 Pin=Reg1-3
+Added Pin To Net: NetName=NetC1_1 Pin=Reg2-3
+Added Net: Name=NetC1_1
+Added Pin To Net: NetName=NetC1_2 Pin=C1-2
+Added Pin To Net: NetName=NetC1_2 Pin=JP2-1
+Added Pin To Net: NetName=NetC1_2 Pin=Reg1-2
+Added Pin To Net: NetName=NetC1_2 Pin=Reg2-1
+Added Net: Name=NetC1_2
+Added Pin To Net: NetName=NetC2_2 Pin=C2-2
+Added Pin To Net: NetName=NetC2_2 Pin=JP3-1
+Added Pin To Net: NetName=NetC2_2 Pin=Reg2-2
+Added Net: Name=NetC2_2
+Added Pin To Net: NetName=NetJP1_2 Pin=JP1-2
+Added Pin To Net: NetName=NetJP1_2 Pin=Reg1-1
+Added Net: Name=NetJP1_2
+Added Class: Name=PowerSupply
+Added Room: Name=PowerSupply

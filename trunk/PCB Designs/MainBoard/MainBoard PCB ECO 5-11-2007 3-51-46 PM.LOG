@@ -1,0 +1,19 @@
+Removed Pin From Net: NetName=DSPIC RX Pin=Radio/DB9 Rx-2
+Removed Pin From Net: NetName=NetDB9 B.O.B. Header_3 Pin=Radio/DB9 Rx-3
+Removed Pin From Net: NetName=UC RX Pin=Radio/DB9 Rx-4
+Removed Pin From Net: NetName=DSPIC TX Pin=Radio/DB9 Tx-2
+Removed Pin From Net: NetName=NetDB9 B.O.B. Header_2 Pin=Radio/DB9 Tx-3
+Removed Pin From Net: NetName=UC TX Pin=Radio/DB9 Tx-4
+Removed Member From Class: ClassName=MainBoard Member=Radio/DB9 Rx
+Removed Member From Class: ClassName=MainBoard Member=Radio/DB9 Rx
+Removed Member From Class: ClassName=MainBoard Member=Radio/DB9 Tx
+Removed Member From Class: ClassName=MainBoard Member=Radio/DB9 Tx
+Added Component: Designator=Radio/DB9(HDR2X4_CEN)
+Added Pin To Net: NetName=DSPIC TX Pin=Radio/DB9-2
+Added Pin To Net: NetName=NetDB9 B.O.B. Header_2 Pin=Radio/DB9-3
+Added Pin To Net: NetName=UC TX Pin=Radio/DB9-4
+Added Pin To Net: NetName=DSPIC RX Pin=Radio/DB9-6
+Added Pin To Net: NetName=NetDB9 B.O.B. Header_3 Pin=Radio/DB9-7
+Added Pin To Net: NetName=UC RX Pin=Radio/DB9-8
+Added Member To Class: ClassName=MainBoard Member=Component Radio/DB9 Header 4X2A
+Added Room: Name=MainBoard

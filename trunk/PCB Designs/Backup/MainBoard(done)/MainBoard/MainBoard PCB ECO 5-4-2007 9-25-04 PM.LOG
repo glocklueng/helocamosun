@@ -1,0 +1,329 @@
+Added Component: Designator=C1(CC3216-1206)
+Added Component: Designator=C2(CC3216-1206)
+Added Component: Designator=C3(CC3216-1206)
+Added Component: Designator=C4(CC3216-1206)
+Added Component: Designator=C5(CC3216-1206)
+Added Component: Designator=C6(CC3216-1206)
+Added Component: Designator=C7(CC3216-1206)
+Added Component: Designator=C8(CC3216-1206)
+Added Component: Designator=C9(CC3216-1206)
+Added Component: Designator=C10(CC3216-1206)
+Added Component: Designator=DB9 B.O.B. Header(HDR1X4)
+Added Component: Designator=DS1(DSO-F2/D6.1)
+Added Component: Designator=DS2(DSO-F2/D6.1)
+Added Component: Designator=DS3(DSO-F2/D6.1)
+Added Component: Designator=dsPIC3F3011(QFP7x7-G32/N)
+Added Component: Designator=EEPROM(EEPROM)
+Added Component: Designator=Gyro Board(HDR1X7)
+Added Component: Designator=H48C(H48C)
+Added Component: Designator=HM55B(HM55B)
+Added Component: Designator=ICD #MCLR(HDR1X3)
+Added Component: Designator=ICD PGC(HDR1X3)
+Added Component: Designator=ICD PGD(HDR1X3)
+Added Component: Designator=Motor Control(HDR1X3)
+Added Component: Designator=P?(HDR1X6)
+Added Component: Designator=PIC18F4431(QFP7x7-G32/N)
+Added Component: Designator=PowerHeader(HDR1X3)
+Added Component: Designator=R1(CR1608-0603)
+Added Component: Designator=R2(CR1608-0603)
+Added Component: Designator=R3(CR1608-0603)
+Added Component: Designator=R4(CR1608-0603)
+Added Component: Designator=R5(CR1608-0603)
+Added Component: Designator=Radio/DB9 Rx(HDR1X4)
+Added Component: Designator=Radio/DB9 Tx(HDR1X4)
+Added Component: Designator=Servo#1(Yaw)(HDR1X3)
+Added Component: Designator=Servo#2(Pitch)(HDR1X3)
+Added Component: Designator=Servo#3(Roll)(HDR1X3)
+Added Component: Designator=Servo#4(Collective)(HDR1X3)
+Added Component: Designator=SPIBus/ICD SDI(HDR1X3)
+Added Component: Designator=SPIBus/ICD SDO(HDR1X3)
+Added Component: Designator=SPIBus/ICD uC PGC(HDR1X3)
+Added Component: Designator=SPIBus/ICD uC PGD(HDR1X3)
+Added Component: Designator=Temp Sensor Board(HDR1X6)
+Added Component: Designator=V/C Board(HDR1X4)
+Added Pin To Net: NetName=3.3V Pin=C7-2
+Added Pin To Net: NetName=3.3V Pin=C8-2
+Added Pin To Net: NetName=3.3V Pin=C9-2
+Added Pin To Net: NetName=3.3V Pin=C10-2
+Added Pin To Net: NetName=3.3V Pin=PowerHeader-2
+Added Net: Name=3.3V
+Added Pin To Net: NetName=5V Pin=C1-2
+Added Pin To Net: NetName=5V Pin=C2-2
+Added Pin To Net: NetName=5V Pin=C3-2
+Added Pin To Net: NetName=5V Pin=C4-2
+Added Pin To Net: NetName=5V Pin=C5-2
+Added Pin To Net: NetName=5V Pin=C6-2
+Added Pin To Net: NetName=5V Pin=DB9 B.O.B. Header-1
+Added Pin To Net: NetName=5V Pin=dsPIC3F3011-7
+Added Pin To Net: NetName=5V Pin=dsPIC3F3011-17
+Added Pin To Net: NetName=5V Pin=dsPIC3F3011-28
+Added Pin To Net: NetName=5V Pin=dsPIC3F3011-40
+Added Pin To Net: NetName=5V Pin=EEPROM-8
+Added Pin To Net: NetName=5V Pin=H48C-6
+Added Pin To Net: NetName=5V Pin=Motor Control-1
+Added Pin To Net: NetName=5V Pin=P?-2
+Added Pin To Net: NetName=5V Pin=PIC18F4431-7
+Added Pin To Net: NetName=5V Pin=PIC18F4431-28
+Added Pin To Net: NetName=5V Pin=PowerHeader-1
+Added Pin To Net: NetName=5V Pin=Servo#1(Yaw)-1
+Added Pin To Net: NetName=5V Pin=Servo#2(Pitch)-1
+Added Pin To Net: NetName=5V Pin=Servo#3(Roll)-1
+Added Pin To Net: NetName=5V Pin=Servo#4(Collective)-1
+Added Pin To Net: NetName=5V Pin=Temp Sensor Board-1
+Added Pin To Net: NetName=5V Pin=V/C Board-1
+Added Net: Name=5V
+Added Pin To Net: NetName=ANTICOLLISION LED Pin=PIC18F4431-3
+Added Pin To Net: NetName=ANTICOLLISION LED Pin=R5-2
+Added Net: Name=ANTICOLLISION LED
+Added Pin To Net: NetName=DSPIC #MCLR Pin=dsPIC3F3011-18
+Added Pin To Net: NetName=DSPIC #MCLR Pin=ICD #MCLR-1
+Added Net: Name=DSPIC #MCLR
+Added Pin To Net: NetName=DS PIC ICD SDI Pin=ICD PGC-1
+Added Net: Name=DS PIC ICD SDI
+Added Pin To Net: NetName=DSPIC ICD SDI Pin=SPIBus/ICD SDI-1
+Added Net: Name=DSPIC ICD SDI
+Added Pin To Net: NetName=DSPIC ICD SDO Pin=ICD PGD-1
+Added Pin To Net: NetName=DSPIC ICD SDO Pin=SPIBus/ICD SDO-1
+Added Net: Name=DSPIC ICD SDO
+Added Pin To Net: NetName=DSPIC RX Pin=dsPIC3F3011-3
+Added Pin To Net: NetName=DSPIC RX Pin=Radio/DB9 Rx-2
+Added Net: Name=DSPIC RX
+Added Pin To Net: NetName=DSPIC TX Pin=dsPIC3F3011-2
+Added Pin To Net: NetName=DSPIC TX Pin=Radio/DB9 Tx-2
+Added Net: Name=DSPIC TX
+Added Pin To Net: NetName=GND Pin=C1-1
+Added Pin To Net: NetName=GND Pin=C2-1
+Added Pin To Net: NetName=GND Pin=C3-1
+Added Pin To Net: NetName=GND Pin=C4-1
+Added Pin To Net: NetName=GND Pin=C5-1
+Added Pin To Net: NetName=GND Pin=C6-1
+Added Pin To Net: NetName=GND Pin=C7-1
+Added Pin To Net: NetName=GND Pin=C8-1
+Added Pin To Net: NetName=GND Pin=C9-1
+Added Pin To Net: NetName=GND Pin=C10-1
+Added Pin To Net: NetName=GND Pin=DB9 B.O.B. Header-4
+Added Pin To Net: NetName=GND Pin=DS1-2
+Added Pin To Net: NetName=GND Pin=DS2-2
+Added Pin To Net: NetName=GND Pin=DS3-2
+Added Pin To Net: NetName=GND Pin=dsPIC3F3011-6
+Added Pin To Net: NetName=GND Pin=dsPIC3F3011-16
+Added Pin To Net: NetName=GND Pin=dsPIC3F3011-29
+Added Pin To Net: NetName=GND Pin=dsPIC3F3011-39
+Added Pin To Net: NetName=GND Pin=EEPROM-4
+Added Pin To Net: NetName=GND Pin=Gyro Board-7
+Added Pin To Net: NetName=GND Pin=H48C-3
+Added Pin To Net: NetName=GND Pin=HM55B-3
+Added Pin To Net: NetName=GND Pin=Motor Control-3
+Added Pin To Net: NetName=GND Pin=P?-3
+Added Pin To Net: NetName=GND Pin=PIC18F4431-6
+Added Pin To Net: NetName=GND Pin=PIC18F4431-29
+Added Pin To Net: NetName=GND Pin=PowerHeader-3
+Added Pin To Net: NetName=GND Pin=Servo#1(Yaw)-3
+Added Pin To Net: NetName=GND Pin=Servo#2(Pitch)-3
+Added Pin To Net: NetName=GND Pin=Servo#3(Roll)-3
+Added Pin To Net: NetName=GND Pin=Servo#4(Collective)-3
+Added Pin To Net: NetName=GND Pin=Temp Sensor Board-4
+Added Pin To Net: NetName=GND Pin=V/C Board-4
+Added Net: Name=GND
+Added Pin To Net: NetName=GYRO ST1 Pin=Gyro Board-5
+Added Net: Name=GYRO ST1
+Added Pin To Net: NetName=GYRO ST2 Pin=Gyro Board-6
+Added Net: Name=GYRO ST2
+Added Pin To Net: NetName=NetDB9 B.O.B. Header_2 Pin=DB9 B.O.B. Header-2
+Added Pin To Net: NetName=NetDB9 B.O.B. Header_2 Pin=Radio/DB9 Tx-3
+Added Net: Name=NetDB9 B.O.B. Header_2
+Added Pin To Net: NetName=NetDB9 B.O.B. Header_3 Pin=DB9 B.O.B. Header-3
+Added Pin To Net: NetName=NetDB9 B.O.B. Header_3 Pin=Radio/DB9 Rx-3
+Added Net: Name=NetDB9 B.O.B. Header_3
+Added Pin To Net: NetName=NetDS1_1 Pin=DS1-1
+Added Pin To Net: NetName=NetDS1_1 Pin=R3-1
+Added Net: Name=NetDS1_1
+Added Pin To Net: NetName=NetDS2_1 Pin=DS2-1
+Added Pin To Net: NetName=NetDS2_1 Pin=R4-1
+Added Net: Name=NetDS2_1
+Added Pin To Net: NetName=NetDS3_1 Pin=DS3-1
+Added Pin To Net: NetName=NetDS3_1 Pin=R5-1
+Added Net: Name=NetDS3_1
+Added Pin To Net: NetName=NetdsPIC3F3011_1 Pin=dsPIC3F3011-1
+Added Pin To Net: NetName=NetdsPIC3F3011_1 Pin=SPIBus/ICD SDI-2
+Added Net: Name=NetdsPIC3F3011_1
+Added Pin To Net: NetName=NetdsPIC3F3011_27 Pin=dsPIC3F3011-27
+Added Pin To Net: NetName=NetdsPIC3F3011_27 Pin=R2-2
+Added Net: Name=NetdsPIC3F3011_27
+Added Pin To Net: NetName=NetdsPIC3F3011_44 Pin=dsPIC3F3011-44
+Added Pin To Net: NetName=NetdsPIC3F3011_44 Pin=SPIBus/ICD SDO-2
+Added Net: Name=NetdsPIC3F3011_44
+Added Pin To Net: NetName=NetHM55B_2 Pin=HM55B-2
+Added Pin To Net: NetName=NetHM55B_2 Pin=R1-1
+Added Net: Name=NetHM55B_2
+Added Pin To Net: NetName=NetICD #MCLR_2 Pin=ICD #MCLR-2
+Added Pin To Net: NetName=NetICD #MCLR_2 Pin=P?-1
+Added Net: Name=NetICD #MCLR_2
+Added Pin To Net: NetName=NetICD PGC_2 Pin=ICD PGC-2
+Added Pin To Net: NetName=NetICD PGC_2 Pin=P?-5
+Added Net: Name=NetICD PGC_2
+Added Pin To Net: NetName=NetICD PGD_2 Pin=ICD PGD-2
+Added Pin To Net: NetName=NetICD PGD_2 Pin=P?-4
+Added Net: Name=NetICD PGD_2
+Added Pin To Net: NetName=NETLABEL42 Pin=Motor Control-2
+Added Net: Name=NETLABEL42
+Added Net: Name=NETLABEL62
+Added Net: Name=NETLABEL63
+Added Net: Name=NETLABEL64
+Added Net: Name=NETLABEL65
+Added Net: Name=NETLABEL66
+Added Net: Name=NETLABEL67
+Added Net: Name=NETLABEL68
+Added Pin To Net: NetName=NETLABEL120 Pin=dsPIC3F3011-42
+Added Net: Name=NETLABEL120
+Added Pin To Net: NetName=NETLABEL121 Pin=dsPIC3F3011-41
+Added Net: Name=NETLABEL121
+Added Pin To Net: NetName=NetPIC18F4431_16 Pin=PIC18F4431-16
+Added Pin To Net: NetName=NetPIC18F4431_16 Pin=SPIBus/ICD uC PGC-2
+Added Net: Name=NetPIC18F4431_16
+Added Pin To Net: NetName=NetPIC18F4431_17 Pin=PIC18F4431-17
+Added Pin To Net: NetName=NetPIC18F4431_17 Pin=SPIBus/ICD uC PGD-2
+Added Net: Name=NetPIC18F4431_17
+Added Pin To Net: NetName=NetPIC18F4431_20 Pin=PIC18F4431-20
+Added Pin To Net: NetName=NetPIC18F4431_20 Pin=V/C Board-3
+Added Net: Name=NetPIC18F4431_20
+Added Pin To Net: NetName=NetPIC18F4431_21 Pin=PIC18F4431-21
+Added Pin To Net: NetName=NetPIC18F4431_21 Pin=V/C Board-2
+Added Net: Name=NetPIC18F4431_21
+Added Pin To Net: NetName=SCK Pin=dsPIC3F3011-43
+Added Pin To Net: NetName=SCK Pin=EEPROM-6
+Added Pin To Net: NetName=SCK Pin=Gyro Board-2
+Added Pin To Net: NetName=SCK Pin=PIC18F4431-41
+Added Pin To Net: NetName=SCK Pin=Temp Sensor Board-5
+Added Net: Name=SCK
+Added Pin To Net: NetName=SDI Pin=Gyro Board-3
+Added Pin To Net: NetName=SDI Pin=PIC18F4431-39
+Added Pin To Net: NetName=SDI Pin=SPIBus/ICD SDI-3
+Added Pin To Net: NetName=SDI Pin=Temp Sensor Board-3
+Added Net: Name=SDI
+Added Pin To Net: NetName=SDO Pin=Gyro Board-1
+Added Pin To Net: NetName=SDO Pin=PIC18F4431-40
+Added Pin To Net: NetName=SDO Pin=SPIBus/ICD SDO-3
+Added Pin To Net: NetName=SDO Pin=Temp Sensor Board-2
+Added Net: Name=SDO
+Added Pin To Net: NetName=SERVO_COLLECTIVE Pin=PIC18F4431-5
+Added Pin To Net: NetName=SERVO_COLLECTIVE Pin=Servo#4(Collective)-2
+Added Net: Name=SERVO_COLLECTIVE
+Added Pin To Net: NetName=SERVO_PITCH Pin=PIC18F4431-11
+Added Pin To Net: NetName=SERVO_PITCH Pin=Servo#2(Pitch)-2
+Added Net: Name=SERVO_PITCH
+Added Pin To Net: NetName=SERVO_ROLL Pin=PIC18F4431-14
+Added Pin To Net: NetName=SERVO_ROLL Pin=Servo#3(Roll)-2
+Added Net: Name=SERVO_ROLL
+Added Pin To Net: NetName=SERVO_YAW Pin=PIC18F4431-9
+Added Pin To Net: NetName=SERVO_YAW Pin=Servo#1(Yaw)-2
+Added Net: Name=SERVO_YAW
+Added Pin To Net: NetName=SS 4431 Pin=dsPIC3F3011-11
+Added Net: Name=SS 4431
+Added Pin To Net: NetName=SS COMPASS Pin=HM55B-5
+Added Pin To Net: NetName=SS COMPASS Pin=HM55B-5
+Added Pin To Net: NetName=SS COMPASS Pin=PIC18F4431-10
+Added Net: Name=SS COMPASS
+Added Pin To Net: NetName=SS EEPROM Pin=dsPIC3F3011-9
+Added Pin To Net: NetName=SS EEPROM Pin=EEPROM-1
+Added Net: Name=SS EEPROM
+Added Pin To Net: NetName=SS GYRO Pin=dsPIC3F3011-10
+Added Pin To Net: NetName=SS GYRO Pin=Gyro Board-4
+Added Net: Name=SS GYRO
+Added Pin To Net: NetName=SS TEMPSENSOR Pin=dsPIC3F3011-8
+Added Pin To Net: NetName=SS TEMPSENSOR Pin=Temp Sensor Board-6
+Added Net: Name=SS TEMPSENSOR
+Added Pin To Net: NetName=SS TRI_AXIS Pin=H48C-5
+Added Pin To Net: NetName=SS TRI_AXIS Pin=PIC18F4431-15
+Added Net: Name=SS TRI_AXIS
+Added Pin To Net: NetName=STATUS LED#1 Pin=PIC18F4431-2
+Added Pin To Net: NetName=STATUS LED#1 Pin=R3-2
+Added Net: Name=STATUS LED#1
+Added Pin To Net: NetName=STATUS LED#2 Pin=PIC18F4431-8
+Added Pin To Net: NetName=STATUS LED#2 Pin=R4-2
+Added Net: Name=STATUS LED#2
+Added Pin To Net: NetName=UC #MCLR Pin=ICD #MCLR-3
+Added Pin To Net: NetName=UC #MCLR Pin=PIC18F4431-18
+Added Pin To Net: NetName=UC #MCLR Pin=R2-1
+Added Net: Name=UC #MCLR
+Added Pin To Net: NetName=UC PGC Pin=ICD PGC-3
+Added Pin To Net: NetName=UC PGC Pin=SPIBus/ICD uC PGC-3
+Added Net: Name=UC PGC
+Added Pin To Net: NetName=UC PGD Pin=ICD PGD-3
+Added Pin To Net: NetName=UC PGD Pin=SPIBus/ICD uC PGD-3
+Added Net: Name=UC PGD
+Added Pin To Net: NetName=UC RX Pin=PIC18F4431-1
+Added Pin To Net: NetName=UC RX Pin=Radio/DB9 Rx-4
+Added Net: Name=UC RX
+Added Pin To Net: NetName=UC SCK Pin=H48C-1
+Added Pin To Net: NetName=UC SCK Pin=HM55B-4
+Added Pin To Net: NetName=UC SCK Pin=SPIBus/ICD uC PGD-1
+Added Net: Name=UC SCK
+Added Pin To Net: NetName=UC SDIO Pin=H48C-2
+Added Pin To Net: NetName=UC SDIO Pin=HM55B-1
+Added Pin To Net: NetName=UC SDIO Pin=R1-2
+Added Pin To Net: NetName=UC SDIO Pin=SPIBus/ICD uC PGC-1
+Added Net: Name=UC SDIO
+Added Pin To Net: NetName=UC TX Pin=PIC18F4431-44
+Added Pin To Net: NetName=UC TX Pin=Radio/DB9 Tx-4
+Added Net: Name=UC TX
+Added Pin To Net: NetName=UNUSED 1 Pin=dsPIC3F3011-38
+Added Net: Name=UNUSED 1
+Added Pin To Net: NetName=UNUSED 2 Pin=dsPIC3F3011-37
+Added Net: Name=UNUSED 2
+Added Pin To Net: NetName=UNUSED 3 Pin=dsPIC3F3011-36
+Added Net: Name=UNUSED 3
+Added Pin To Net: NetName=UNUSED 4 Pin=dsPIC3F3011-35
+Added Net: Name=UNUSED 4
+Added Pin To Net: NetName=UNUSED 5 Pin=dsPIC3F3011-32
+Added Net: Name=UNUSED 5
+Added Pin To Net: NetName=UNUSED 6 Pin=dsPIC3F3011-26
+Added Net: Name=UNUSED 6
+Added Pin To Net: NetName=UNUSED 7 Pin=dsPIC3F3011-25
+Added Net: Name=UNUSED 7
+Added Pin To Net: NetName=UNUSED 8 Pin=dsPIC3F3011-24
+Added Net: Name=UNUSED 8
+Added Pin To Net: NetName=UNUSED 9 Pin=dsPIC3F3011-23
+Added Net: Name=UNUSED 9
+Added Pin To Net: NetName=UNUSED 10 Pin=dsPIC3F3011-22
+Added Net: Name=UNUSED 10
+Added Pin To Net: NetName=UNUSED 11 Pin=dsPIC3F3011-21
+Added Net: Name=UNUSED 11
+Added Pin To Net: NetName=UNUSED 12 Pin=dsPIC3F3011-20
+Added Net: Name=UNUSED 12
+Added Pin To Net: NetName=UNUSED 13 Pin=dsPIC3F3011-19
+Added Net: Name=UNUSED 13
+Added Pin To Net: NetName=UNUSED 14 Pin=dsPIC3F3011-5
+Added Net: Name=UNUSED 14
+Added Pin To Net: NetName=UNUSED 15 Pin=dsPIC3F3011-4
+Added Net: Name=UNUSED 15
+Added Pin To Net: NetName=UNUSED 16 Pin=PIC18F4431-22
+Added Net: Name=UNUSED 16
+Added Pin To Net: NetName=UNUSED 17 Pin=PIC18F4431-4
+Added Net: Name=UNUSED 17
+Added Pin To Net: NetName=UNUSED 18 Pin=PIC18F4431-43
+Added Net: Name=UNUSED 18
+Added Pin To Net: NetName=UNUSED 19 Pin=PIC18F4431-42
+Added Net: Name=UNUSED 19
+Added Pin To Net: NetName=UNUSED 20 Pin=PIC18F4431-38
+Added Net: Name=UNUSED 20
+Added Pin To Net: NetName=UNUSED 21 Pin=PIC18F4431-37
+Added Net: Name=UNUSED 21
+Added Pin To Net: NetName=UNUSED 22 Pin=PIC18F4431-36
+Added Net: Name=UNUSED 22
+Added Pin To Net: NetName=UNUSED 23 Pin=PIC18F4431-35
+Added Net: Name=UNUSED 23
+Added Pin To Net: NetName=UNUSED 24 Pin=PIC18F4431-32
+Added Net: Name=UNUSED 24
+Added Pin To Net: NetName=UNUSED 25 Pin=PIC18F4431-27
+Added Net: Name=UNUSED 25
+Added Pin To Net: NetName=UNUSED 26 Pin=PIC18F4431-26
+Added Net: Name=UNUSED 26
+Added Pin To Net: NetName=UNUSED 27 Pin=PIC18F4431-25
+Added Net: Name=UNUSED 27
+Added Pin To Net: NetName=UNUSED 28 Pin=PIC18F4431-24
+Added Net: Name=UNUSED 28
+Added Pin To Net: NetName=UNUSED 29 Pin=PIC18F4431-23
+Added Net: Name=UNUSED 29
+Added Class: Name=MainBoard
+Added Room: Name=MainBoard

@@ -1,0 +1,6 @@
+Added Component: Designator=Paralax GPS(Paralax GPS)
+Added Pin To Net: NetName=GND 2 Pin=Paralax GPS-1
+Added Pin To Net: NetName=NetFTDI module 2_23 Pin=Paralax GPS-2
+Added Pin To Net: NetName=NetFTDI module 2_3 Pin=Paralax GPS-3
+Added Pin To Net: NetName=GND 2 Pin=Paralax GPS-4
+Added Member To Class: ClassName=LapTopBoard Member=Component Paralax GPS

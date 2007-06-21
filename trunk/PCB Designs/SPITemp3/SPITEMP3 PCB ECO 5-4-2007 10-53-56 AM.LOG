@@ -1,0 +1,4 @@
+Added Pin To Net: NetName=CE Pin=TempData-1
+Added Pin To Net: NetName=SCK Pin=TempData-2
+Added Pin To Net: NetName=SDI Pin=TempData-3
+Added Pin To Net: NetName=SDO Pin=TempData-4

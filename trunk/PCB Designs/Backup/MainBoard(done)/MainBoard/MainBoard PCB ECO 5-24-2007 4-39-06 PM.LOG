@@ -1,0 +1,22 @@
+Removed Pin From Net: NetName=SIGNAL Pin=Antenna Connector 1-2
+Change Component Designator: OldDesignator=dsPIC3F3011 NewDesignator=dsPIC30F3011
+Added Component: Designator=RAntenna(CR1608-0603)
+Added Pin To Net: NetName=SIGNAL Pin=RAntenna-1
+Change Net Name : Old Net Name=NetdsPIC3F3011_1 New Net Name=NetdsPIC30F3011_1
+Change Net Name : Old Net Name=NetdsPIC3F3011_23 New Net Name=NetdsPIC30F3011_23
+Change Net Name : Old Net Name=NetdsPIC3F3011_24 New Net Name=NetdsPIC30F3011_24
+Change Net Name : Old Net Name=NetdsPIC3F3011_25 New Net Name=NetdsPIC30F3011_25
+Change Net Name : Old Net Name=NetdsPIC3F3011_26 New Net Name=NetdsPIC30F3011_26
+Change Net Name : Old Net Name=NetdsPIC3F3011_27 New Net Name=NetdsPIC30F3011_27
+Change Net Name : Old Net Name=NetdsPIC3F3011_30 New Net Name=NetdsPIC30F3011_30
+Change Net Name : Old Net Name=NetdsPIC3F3011_31 New Net Name=NetdsPIC30F3011_31
+Change Net Name : Old Net Name=NetdsPIC3F3011_33 New Net Name=NetdsPIC30F3011_33
+Change Net Name : Old Net Name=NetdsPIC3F3011_35 New Net Name=NetdsPIC30F3011_35
+Change Net Name : Old Net Name=NetdsPIC3F3011_36 New Net Name=NetdsPIC30F3011_36
+Change Net Name : Old Net Name=NetdsPIC3F3011_37 New Net Name=NetdsPIC30F3011_37
+Change Net Name : Old Net Name=NetdsPIC3F3011_38 New Net Name=NetdsPIC30F3011_38
+Change Net Name : Old Net Name=NetdsPIC3F3011_44 New Net Name=NetdsPIC30F3011_44
+Added Pin To Net: NetName=NetAntenna Connector 1_2 Pin=Antenna Connector 1-2
+Added Pin To Net: NetName=NetAntenna Connector 1_2 Pin=RAntenna-2
+Added Net: Name=NetAntenna Connector 1_2
+Added Member To Class: ClassName=MainBoard Member=Component RAntenna Res3

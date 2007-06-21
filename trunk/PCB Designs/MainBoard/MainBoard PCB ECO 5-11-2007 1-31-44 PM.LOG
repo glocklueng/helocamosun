@@ -1,0 +1,14 @@
+Added Component: Designator=FC1(RB7.6-15)
+Added Component: Designator=X-Tal 1(X-Tal)
+Added Component: Designator=X-Tal 2(X-Tal)
+Added Pin To Net: NetName=GND Pin=FC1-2
+Added Pin To Net: NetName=NetFC1_1 Pin=FC1-1
+Added Pin To Net: NetName=NetFC1_1 Pin=PIC18F4431-30
+Added Pin To Net: NetName=NetFC1_1 Pin=X-Tal 1-2
+Added Net: Name=NetFC1_1
+Added Pin To Net: NetName=NetPIC18F4431_31 Pin=PIC18F4431-31
+Added Net: Name=NetPIC18F4431_31
+Added Member To Class: ClassName=MainBoard Member=Component FC1 Cap Pol1
+Added Member To Class: ClassName=MainBoard Member=Component X-Tal 1 X-Tal
+Added Member To Class: ClassName=MainBoard Member=Component X-Tal 2 X-Tal
+Added Room: Name=MainBoard

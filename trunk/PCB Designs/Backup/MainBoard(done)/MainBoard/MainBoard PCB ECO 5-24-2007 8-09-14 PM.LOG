@@ -1,0 +1,4 @@
+Added Component: Designator=Pin 1 Logo 1(Pin 1 Logo)
+Added Component: Designator=Pin 1 Logo 2(Pin 1 Logo)
+Added Member To Class: ClassName=MainBoard Member=Component Pin 1 Logo 1 logo
+Added Member To Class: ClassName=MainBoard Member=Component Pin 1 Logo 2 logo

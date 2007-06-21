@@ -1,0 +1,15 @@
+Component   : SMD 1206
+PCB Library : MyParts.PcbLib
+Date        : 5/24/2007
+Time        : 7:38:23 PM
+
+
+
+Dimension : 4.2164 x 2.54 mm
+
+ Layer(s)              Pads(s)  Tracks(s)  Fill(s)  Arc(s)  Text(s)
+--------------------------------------------------------------------
+ Top Layer                   2          0        0       0        0
+ Top Overlay                 0          1        0       0        0
+--------------------------------------------------------------------
+ Total                       2          1        0       0        0
