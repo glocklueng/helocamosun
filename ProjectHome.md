@@ -1,0 +1,1 @@
+This will be a battery powered autonomous helicopter. It will be electronically stabilized using feedback from sensors and using micro controllers.
